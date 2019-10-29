@@ -141,7 +141,7 @@
     height: 100%;
     width: 100%;
     opacity: 0;
-    display: none;
+    display: inline-block;
     visibility: hidden;
     transform: rotate(180deg);
 }
@@ -155,7 +155,6 @@
 }
 
 .life[status="show"] {
-    display: inline-block;
     opacity: 1;
     visibility: visible;
 }
