@@ -141,6 +141,7 @@
     opacity: 0;
     display: none;
     visibility: hidden;
+    transform: rotate(180deg);
 }
 
 .life > circle {
@@ -155,4 +156,14 @@
     display: inline-block;
     opacity: 1;
     visibility: visible;
+}
+
+#game_title #logo {
+    position: relative;
+    display: inline;
+}
+
+#play,
+#exit {
+    text-align: center;
 }
