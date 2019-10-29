@@ -83,6 +83,8 @@
     width: 100%;
     height: 100%;
     display: block;
+    opacity: 1;
+    animation: super_pellet_blink 0.4s infinite;
 }
 
 .super_pellet > svg > circle {
@@ -166,4 +168,13 @@
 #play,
 #exit {
     text-align: center;
+}
+
+@keyframes super_pellet_blink {
+    0%, 50.999% {
+        opacity: 1;
+    }
+    1.999%, 49% {
+        opacity: 0;
+    }
 }
