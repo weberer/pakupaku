@@ -83,6 +83,8 @@
     width: 100%;
     height: 100%;
     display: block;
+    opacity: 1;
+    animation: super_pellet_blink 0.4s infinite;
 }
 
 .super_pellet > svg > circle {
@@ -139,8 +141,9 @@
     height: 100%;
     width: 100%;
     opacity: 0;
-    display: none;
+    display: inline-block;
     visibility: hidden;
+    transform: rotate(180deg);
 }
 
 .life > circle {
@@ -152,7 +155,25 @@
 }
 
 .life[status="show"] {
-    display: inline-block;
     opacity: 1;
     visibility: visible;
+}
+
+#game_title #logo {
+    position: relative;
+    display: inline;
+}
+
+#play,
+#exit {
+    text-align: center;
+}
+
+@keyframes super_pellet_blink {
+    0%, 50.999% {
+        opacity: 1;
+    }
+    1.999%, 49% {
+        opacity: 0;
+    }
 }

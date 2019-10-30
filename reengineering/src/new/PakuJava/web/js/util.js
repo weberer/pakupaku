@@ -16,7 +16,7 @@ class Util {
         let height =window.innerHeight;
         let width = window.innerWidth;
         if(height > (width * this.aspectRatio.height / this.aspectRatio.width))
-            this.setPropertyValue("--screen_height", (width / this.aspectRatio.width * this.aspectRatio.height)+ "px");
+            this.setPropertyValue("global.css", ":root","--screen_height", (width / this.aspectRatio.width * this.aspectRatio.height)+ "px");
     };
 
     // Sets the value of a given CSS property/value. Throws an exception if no such property exists.
