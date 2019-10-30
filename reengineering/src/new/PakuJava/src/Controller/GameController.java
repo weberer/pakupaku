@@ -45,10 +45,12 @@ public class GameController {
     private Score score;
     private final double ghostSpeed = 10;
 
+    private Controls userInput;
+
 
     private int highScore;
     private List<Integer> scoreList;
-
+    private JSONObject dataToSend;
 
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
 
@@ -182,23 +184,31 @@ public class GameController {
         ghostlist.get(0).resetMultiplier();
         gamelevel = gamelevel++;
     }
+
+
+
     //Called every frame(or whenever timer ticks)
     public void update(){
-        Controls input = receivedUserInput();
+        Controls input = getUserInput();
         if(input != Controls.escape && input != Controls.O && input != Controls.enter)
         {
             pakuUpdate((input.castToDir(input)));
         }
+        dataToSend = gameData.getData();
     }
 
 
     //talks to frontend, return input enum
-    private Controls receivedUserInput() {
-
-        return null;//Controls.getControl(uiInput(keyBoardInput));
+    public void receivedUserInput(String userInput) {
+        this.userInput = Controls.getControl(userInput);
     }
 
-
+    private Controls getUserInput(){
+        if(this.userInput == null){
+            return Controls.none;
+        }
+        return this.userInput;
+    }
 
     /*
     This method receives the data from the UI in the form of a JSON object
@@ -356,7 +366,7 @@ public class GameController {
      */
     private void archiveScore()
     {
-        scoreList.add(currentScore);
+       // scoreList.add(currentScore);
     }
 
 
@@ -365,11 +375,15 @@ public class GameController {
      */
     private void determineHighScore()
     {
-        for(int i = 0; i < scorelist.size(); i++)
-        {
-            if(scorelist.get(i) > highScore)
-                highScore = scorelist.get(i);
-        }
+        //for(int i = 0; i < scorelist.size(); i++)
+        //{
+        //    if(scorelist.get(i) > highScore)
+        //        highScore = scorelist.get(i);
+        //}
+    }
+
+    public JSONObject getDataToSend() {
+        return dataToSend;
     }
 }
     

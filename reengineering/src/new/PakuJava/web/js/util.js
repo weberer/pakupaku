@@ -5,7 +5,7 @@ class Util {
     static frameNumber = 0;
     static frameInterval= 120; //Send a request every second
     static intervalId;
-    static requestURL = "http://localhost:8080/paku_war_exploded/servlet/PakuPakuServlet";
+    static requestURL = "http://localhost:8080/pakupaku/servlet/PakuPakuServlet";
     static aspectRatio = {
         height: 2, // 100
         width: 3.2 // 160
@@ -74,7 +74,9 @@ class Util {
         //console.log(JSON.parse(data));
 
         //Ghost.updateAllGhostStates("eaten");
-        paku.setY(++this.pakuY);
+       // paku.setY(++this.pakuY);
+        console.log("Response Data:");
+        console.log(data);
 
     };
 

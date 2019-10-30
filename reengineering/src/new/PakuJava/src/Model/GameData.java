@@ -39,8 +39,8 @@ public class GameData
             String gameStatusToSend = GameStatus.getStatusUI(this.gameStatus);
             dataToSend.put("game_state", gameStatusToSend);
 
-            int highScoreToSend = getHighScore();
-            dataToSend.put("score", highScoreToSend);
+            //int highScoreToSend = getHighScore();
+           // dataToSend.put("score", highScoreToSend);
 
             int scoreToSend = getScore().getCurrentScore();
             dataToSend.put("score", scoreToSend);
@@ -48,8 +48,8 @@ public class GameData
             dataToSend.put("sound", true);
 
 
-            Collection board = ;
-            dataToSend.put("board", board);
+            //Collection board = ;
+            //dataToSend.put("board", board);
 
             JSONObject locationToSend = new JSONObject();
             locationToSend.put("x", getPakuLoc().getxLoc());
@@ -57,25 +57,25 @@ public class GameData
 
             JSONObject pakuToSend = new JSONObject();
             pakuToSend.put("location", locationToSend);
-            pakuToSend.put("direction", pakuDir());
+            //pakuToSend.put("direction", pakuDir());
 
             dataToSend.put("paku", pakuToSend);
 
             JSONObject stinkyToSend = new JSONObject();
             stinkyToSend.put("location", getStinkyLoc());
-            stinkyToSend.put("state", getStinkyState());
+           // stinkyToSend.put("state", getStinkyState());
 
             JSONObject hinkyToSend = new JSONObject();
             hinkyToSend.put("location", getHinkyLoc());
-            hinkyToSend.put("state", getHinkyState());
+           // hinkyToSend.put("state", getHinkyState());
 
             JSONObject kinkyToSend = new JSONObject();
             kinkyToSend.put("location", getKinkyLoc());
-            kinkyToSend.put("state", getKinkyState());
+            //kinkyToSend.put("state", getKinkyState());
 
             JSONObject blaineToSend = new JSONObject();
             blaineToSend.put("location", getBlaineLoc());
-            blaineToSend.put("state", getBlaineState());
+            //blaineToSend.put("state", getBlaineState());
 
             JSONObject ghostsToSend = new JSONObject();
             ghostsToSend.put("stinky", stinkyToSend);
