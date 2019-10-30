@@ -50,4 +50,7 @@ public class Blaine extends Ghost
             calculateMove();
         }
     }
+    public void recordLocation() {
+        gameData.setBlaineLocation(loc);
+    }
 }

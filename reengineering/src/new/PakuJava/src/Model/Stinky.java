@@ -6,8 +6,6 @@ import java.util.Random;
 
 public class Stinky extends Ghost
 {
-
-    //private Location loc;  //already a location object in MovingGameObject --Evan
     private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change
     private final int STARTING_Y = 11;
     private final int SCATTER_X = FAR_RIGHT;
@@ -53,6 +51,9 @@ public class Stinky extends Ghost
             }
             this.calculateMove();
         }
+    }
+    public void recordLocation() {
+        gameData.setStinkyLocation(loc);
     }
 }
 

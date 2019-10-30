@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Hinky extends Ghost
 {
-    //private Location loc;  //already a location object in MovingGameObject --Evan
     private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change
     private final int STARTING_Y = 11;
     private final int SCATTER_X = 26;
@@ -66,5 +65,8 @@ public class Hinky extends Ghost
             }
             calculateMove();
         }
+    }
+    public void recordLocation() {
+        gameData.setHinkyLocation(loc);
     }
 }

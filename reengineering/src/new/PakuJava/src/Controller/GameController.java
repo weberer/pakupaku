@@ -49,7 +49,6 @@ public class GameController {
     private int highScore;
     private List<Integer> scoreList;
 
-
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
 
     private int frame;  //the number of the current frame
@@ -71,7 +70,6 @@ public class GameController {
         map = new ArrayList<ArrayList>();
         LoadMap();
         scoreList = new ArrayList<Integer>();
-      //  startGame();   //this method is already called from the Program class --Evan
     }
 
     private void LoadMap() {
@@ -239,7 +237,7 @@ public class GameController {
         pakuEatsDots(paku.getLoc());
         if(score.getCurrentScore() > (pointsPerLife * extraLives))
         {
-            extraLives = 2;
+            extraLives++;
             paku.addLife();
         }
         if(!map.contains(1) && !map.contains(3))
@@ -247,6 +245,8 @@ public class GameController {
              gameStatus = GameStatus.nextLevel;
              nextLevel();
           }
+        gameData.setScore(score);
+        gameData.setPakuLoc(paku.getLoc());
     }
 
     private void pakuEatsDots(Location location)
@@ -256,10 +256,12 @@ public class GameController {
         int tile = (int)column.get(location.getyLoc());
         if(tile == 1)
         {
-            //add score for pellet
+            score.addScore(10);
+
         }
         if(tile == 3)
         {
+            score.addScore(50);
             for(Ghost ghost : ghostlist)
             {
                 if(!ghost.getState().equals(GhostState.eaten))
@@ -267,7 +269,6 @@ public class GameController {
                     ghost.setState(GhostState.flee);
                 }
             }
-            //add score for super pellet.
         }
     }
 
@@ -309,6 +310,9 @@ public class GameController {
         }
         if(!fleeing)
             ghostlist.get(0).resetMultiplier();
+        for (Ghost ghost: ghostlist){
+
+        }
     }
     /**
      * checks whether paku collided with ghost
@@ -357,7 +361,7 @@ public class GameController {
      */
     private void archiveScore()
     {
-        scoreList.add(currentScore);
+        scoreList.add(score.getCurrentScore());
     }
 
 
@@ -366,10 +370,10 @@ public class GameController {
      */
     private void determineHighScore()
     {
-        for(int i = 0; i < scorelist.size(); i++)
+        for(int i = 0; i < scoreList.size(); i++)
         {
-            if(scorelist.get(i) > highScore)
-                highScore = scorelist.get(i);
+            if(scoreList.get(i) > highScore)
+                highScore = scoreList.get(i);
         }
     }
 }
