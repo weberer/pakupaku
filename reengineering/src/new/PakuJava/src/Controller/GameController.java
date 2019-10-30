@@ -45,9 +45,12 @@ public class GameController {
     private Score score;
     private final double ghostSpeed = 10;
 
+    private Controls userInput;
+
 
     private int highScore;
     private List<Integer> scoreList;
+    private JSONObject dataToSend;
 
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
 
@@ -70,6 +73,7 @@ public class GameController {
         map = new ArrayList<ArrayList>();
         LoadMap();
         scoreList = new ArrayList<Integer>();
+      //  startGame();   //this method is already called from the Program class --Evan
     }
 
     private void LoadMap() {
@@ -181,23 +185,31 @@ public class GameController {
         gamelevel = gamelevel++;
         LoadMap();
     }
+
+
+
     //Called every frame(or whenever timer ticks)
     public void update(){
-        Controls input = receivedUserInput();
+        Controls input = getUserInput();
         if(input != Controls.escape && input != Controls.O && input != Controls.enter)
         {
             pakuUpdate((input.castToDir(input)));
         }
+        dataToSend = gameData.getData();
     }
 
 
     //talks to frontend, return input enum
-    private Controls receivedUserInput() {
-
-        return null;//Controls.getControl(uiInput(keyBoardInput));
+    public void receivedUserInput(String userInput) {
+        this.userInput = Controls.getControl(userInput);
     }
 
-
+    private Controls getUserInput(){
+        if(this.userInput == null){
+            return Controls.none;
+        }
+        return this.userInput;
+    }
 
     /*
     This method receives the data from the UI in the form of a JSON object
@@ -237,7 +249,7 @@ public class GameController {
         pakuEatsDots(paku.getLoc());
         if(score.getCurrentScore() > (pointsPerLife * extraLives))
         {
-            extraLives++;
+            extraLives = 2;
             paku.addLife();
         }
         if(!map.contains(1) && !map.contains(3))
@@ -245,8 +257,6 @@ public class GameController {
              gameStatus = GameStatus.nextLevel;
              nextLevel();
           }
-        gameData.setScore(score);
-        gameData.setPakuLoc(paku.getLoc());
     }
 
     private void pakuEatsDots(Location location)
@@ -256,12 +266,10 @@ public class GameController {
         int tile = (int)column.get(location.getyLoc());
         if(tile == 1)
         {
-            score.addScore(10);
-
+            //add score for pellet
         }
         if(tile == 3)
         {
-            score.addScore(50);
             for(Ghost ghost : ghostlist)
             {
                 if(!ghost.getState().equals(GhostState.eaten))
@@ -269,6 +277,7 @@ public class GameController {
                     ghost.setState(GhostState.flee);
                 }
             }
+            //add score for super pellet.
         }
     }
 
@@ -310,9 +319,6 @@ public class GameController {
         }
         if(!fleeing)
             ghostlist.get(0).resetMultiplier();
-        for (Ghost ghost: ghostlist){
-
-        }
     }
     /**
      * checks whether paku collided with ghost
@@ -361,7 +367,7 @@ public class GameController {
      */
     private void archiveScore()
     {
-        scoreList.add(score.getCurrentScore());
+       // scoreList.add(currentScore);
     }
 
 
@@ -370,11 +376,15 @@ public class GameController {
      */
     private void determineHighScore()
     {
-        for(int i = 0; i < scoreList.size(); i++)
-        {
-            if(scoreList.get(i) > highScore)
-                highScore = scoreList.get(i);
-        }
+        //for(int i = 0; i < scorelist.size(); i++)
+        //{
+        //    if(scorelist.get(i) > highScore)
+        //        highScore = scorelist.get(i);
+        //}
+    }
+
+    public JSONObject getDataToSend() {
+        return dataToSend;
     }
 }
     

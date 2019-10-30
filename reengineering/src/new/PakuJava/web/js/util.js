@@ -5,7 +5,7 @@ class Util {
     static frameNumber = 0;
     static frameInterval= 120; //Send a request every second
     static intervalId;
-    static requestURL = "http://localhost:8080/paku_war_exploded/servlet/PakuPakuServlet";
+    static requestURL = "http://localhost:8080/pakupaku/servlet/PakuPakuServlet";
     static aspectRatio = {
         height: 2, // 100
         width: 3.2 // 160
@@ -16,7 +16,7 @@ class Util {
         let height =window.innerHeight;
         let width = window.innerWidth;
         if(height > (width * this.aspectRatio.height / this.aspectRatio.width))
-            this.setPropertyValue("--screen_height", (width / this.aspectRatio.width * this.aspectRatio.height)+ "px");
+            this.setPropertyValue("global.css", ":root","--screen_height", (width / this.aspectRatio.width * this.aspectRatio.height)+ "px");
     };
 
     // Sets the value of a given CSS property/value. Throws an exception if no such property exists.
@@ -74,7 +74,9 @@ class Util {
         //console.log(JSON.parse(data));
 
         //Ghost.updateAllGhostStates("eaten");
-        paku.setY(++this.pakuY);
+       // paku.setY(++this.pakuY);
+        console.log("Response Data:");
+        console.log(data);
 
     };
 
