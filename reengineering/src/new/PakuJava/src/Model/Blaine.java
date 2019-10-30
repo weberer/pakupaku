@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 import static java.lang.Math.sqrt;
 
 public class Blaine extends Ghost
@@ -10,9 +12,10 @@ public class Blaine extends Ghost
     private final int SCATTER_Y = 30;
 
 
-    public Blaine()
+    public Blaine(ArrayList<ArrayList> map)
     {
         loc = new Location(STARTING_X, STARTING_Y);
+        this.map = map;
     }
     @Override
     public void resetLocation()

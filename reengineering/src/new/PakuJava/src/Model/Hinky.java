@@ -1,6 +1,8 @@
 package Model;
 
 
+import java.util.ArrayList;
+
 public class Hinky extends Ghost
 {
     //private Location loc;  //already a location object in MovingGameObject --Evan
@@ -10,8 +12,9 @@ public class Hinky extends Ghost
     private final int SCATTER_Y = 30;
     private final int HINKY_VARIANCE = 2;
     private Ghost stinky;
-    public Hinky(Ghost stinky)
+    public Hinky(Ghost stinky, ArrayList<ArrayList> map)
     {
+        this.map = map;
         this.stinky = stinky;
         loc = new Location(STARTING_X, STARTING_Y);
     }

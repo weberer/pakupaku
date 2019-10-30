@@ -126,11 +126,11 @@ public class GameController {
 
     //creates the four ghosts for gameplay
     public void spawnGhosts() {
-        ghostlist.add(new Blaine()); //orange
-        ghostlist.add(new Kinky()); //blue
-        Stinky stinky = new Stinky();
+        ghostlist.add(new Blaine(map)); //orange
+        ghostlist.add(new Kinky(map)); //blue
+        Stinky stinky = new Stinky(map);
         ghostlist.add(stinky); //red
-        ghostlist.add(new Hinky(stinky)); //pink, Hinky needs Stinky's info to move. please do not modify
+        ghostlist.add(new Hinky(stinky, map)); //pink, Hinky needs Stinky's info to move. please do not modify
 
         setGhostGameDataReference();
 
@@ -181,6 +181,7 @@ public class GameController {
         }
         ghostlist.get(0).resetMultiplier();
         gamelevel = gamelevel++;
+        LoadMap();
     }
     //Called every frame(or whenever timer ticks)
     public void update(){
@@ -241,11 +242,11 @@ public class GameController {
             extraLives = 2;
             paku.addLife();
         }
-        /*if(//no dots)
+        if(!map.contains(1) && !map.contains(3))
           {
-             gameStatus = GameState.NextLevel;
+             gameStatus = GameStatus.nextLevel;
              nextLevel();
-          }*/
+          }
     }
 
     private void pakuEatsDots(Location location)

@@ -1,6 +1,7 @@
 package Model;
 
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Stinky extends Ghost
@@ -11,10 +12,11 @@ public class Stinky extends Ghost
     private final int STARTING_Y = 11;
     private final int SCATTER_X = FAR_RIGHT;
     private final int SCATTER_Y = 1;
-    public Stinky()
+    public Stinky(ArrayList<ArrayList> map)
     {
-
+        this.map =  map;
         loc = new Location(STARTING_X, STARTING_Y);
+
     }
 
     @Override
