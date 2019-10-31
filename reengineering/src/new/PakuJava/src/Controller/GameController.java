@@ -26,7 +26,7 @@ public class GameController
     private final int POINTS_PER_SUPER_DOT = 50;
     private Controls userInput;
     private JSONObject dataToSend;
-
+    private boolean fleeMove = false;
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
 
 
@@ -433,10 +433,19 @@ public class GameController
     {
         List<Ghost> ghostList = gameData.getGhostList();
         boolean fleeing = false;
+        fleeMove = !fleeMove;
         for (Ghost ghost: ghostList) {
-            ghost.move();
-            if(ghost.getState().equals(GhostState.flee) || ghost.getState().equals(GhostState.eaten))
+            if(ghost.getState().equals(GhostState.flee))
+            {
+                if(fleeMove)
+                    ghost.move();
                 fleeing = true;
+            }
+            else
+            {
+                ghost.move();
+            }
+
         }
         if(!fleeing)
             ghostList.get(0).resetMultiplier();

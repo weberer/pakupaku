@@ -58,6 +58,110 @@ public class GhostTest {
     }
 
     @Test
+    public void CheckTopLeftCorner()
+    {
+        //(1,1)
+        //Moving Left
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Stinky stinky = new Stinky(gameData.getMap());
+        stinky.setupTimers();
+        gameData.getGhostList().add(stinky);
+        gameData.getGhostList().get(0).getLoc().setxLoc(1);
+        gameData.getGhostList().get(0).getLoc().setyLoc(1);
+        gameData.getGhostList().get(0).setDirection(Direction.left);
+        gameData.getGhostList().get(0).move();
+        assertEquals(1, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(2, gameData.getGhostList().get(0).getLoc().getyLoc());
+
+        //Moving Up
+        gameData.getGhostList().get(0).getLoc().setxLoc(1);
+        gameData.getGhostList().get(0).getLoc().setyLoc(1);
+        gameData.getGhostList().get(0).setDirection(Direction.up);
+        gameData.getGhostList().get(0).move();
+        assertEquals(2, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(1, gameData.getGhostList().get(0).getLoc().getyLoc());
+        //(1,8)
+        //From Left
+        /*gameData.getGhostList().get(0).getLoc().setxLoc(1);
+        gameData.getGhostList().get(0).getLoc().setyLoc(8);
+        gameData.getGhostList().get(0).setDirection(Direction.left);
+        gameData.getGhostList().get(0).move();
+        assertEquals(1, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(7, gameData.getGhostList().get(0).getLoc().getyLoc());*/
+        //From Down
+        gameData.getGhostList().get(0).getLoc().setxLoc(1);
+        gameData.getGhostList().get(0).getLoc().setyLoc(8);
+        gameData.getGhostList().get(0).setDirection(Direction.down);
+        gameData.getGhostList().get(0).move();
+        assertEquals(2, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(8, gameData.getGhostList().get(0).getLoc().getyLoc());
+
+        //(12, 1)
+        //From Left
+        gameData.getGhostList().get(0).getLoc().setxLoc(12);
+        gameData.getGhostList().get(0).getLoc().setyLoc(1);
+        gameData.getGhostList().get(0).setDirection(Direction.right);
+        gameData.getGhostList().get(0).move();
+        assertEquals(12, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(2, gameData.getGhostList().get(0).getLoc().getyLoc());
+        //From Down
+        /*gameData.getGhostList().get(0).getLoc().setxLoc(12);
+        gameData.getGhostList().get(0).getLoc().setyLoc(2);
+        gameData.getGhostList().get(0).setDirection(Direction.up);
+        gameData.getGhostList().get(0).move();
+        assertEquals(11, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(1, gameData.getGhostList().get(0).getLoc().getyLoc());*/
+        //(9,8)
+        //From Right
+        gameData.getGhostList().get(0).getLoc().setxLoc(9);
+        gameData.getGhostList().get(0).getLoc().setyLoc(8);
+        gameData.getGhostList().get(0).setDirection(Direction.left);
+        gameData.getGhostList().get(0).move();
+        assertEquals(9, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(7, gameData.getGhostList().get(0).getLoc().getyLoc());
+        //From Top
+        gameData.getGhostList().get(0).getLoc().setxLoc(9);
+        gameData.getGhostList().get(0).getLoc().setyLoc(8);
+        gameData.getGhostList().get(0).setDirection(Direction.down);
+        gameData.getGhostList().get(0).move();
+        assertEquals(10, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(8, gameData.getGhostList().get(0).getLoc().getyLoc());
+        //(12, 8)
+        //From Left
+        gameData.getGhostList().get(0).getLoc().setxLoc(12);
+        gameData.getGhostList().get(0).getLoc().setyLoc(8);
+        gameData.getGhostList().get(0).setDirection(Direction.right);
+        gameData.getGhostList().get(0).move();
+        assertEquals(12, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(9, gameData.getGhostList().get(0).getLoc().getyLoc());
+        //From Down
+        gameData.getGhostList().get(0).getLoc().setxLoc(12);
+        gameData.getGhostList().get(0).getLoc().setyLoc(8);
+        gameData.getGhostList().get(0).setDirection(Direction.up);
+        gameData.getGhostList().get(0).move();
+        assertEquals(11, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(8, gameData.getGhostList().get(0).getLoc().getyLoc());
+        //(9, 11)
+        //From Right
+        gameData.getGhostList().get(0).getLoc().setxLoc(9);
+        gameData.getGhostList().get(0).getLoc().setyLoc(11);
+        gameData.getGhostList().get(0).setDirection(Direction.left);
+        gameData.getGhostList().get(0).move();
+        assertEquals(9, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(12, gameData.getGhostList().get(0).getLoc().getyLoc());
+        //From Down
+        gameData.getGhostList().get(0).getLoc().setxLoc(9);
+        gameData.getGhostList().get(0).getLoc().setyLoc(11);
+        gameData.getGhostList().get(0).setDirection(Direction.up);
+        gameData.getGhostList().get(0).move();
+        assertEquals(9, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(12, gameData.getGhostList().get(0).getLoc().getyLoc());
+
+    }
+
+
+    @Test
     public void  scatterMove() {
     }
 
