@@ -19,14 +19,19 @@ import org.json.JSONObject;
  *  This class controls the game logic
  * @author kruge
  */
+
 public class GameController
 {
     private final int POINTS_PER_DOT = 10;
-    private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
-    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";
 
     private Controls userInput;
     private JSONObject dataToSend;
+
+
+    private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
+    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";
+
+
 
 
     /**
@@ -191,8 +196,6 @@ public class GameController
     }
 
     //talks to frontend, return input enum
-
-
     public void receivedUserInput(String userInput) {
         this.userInput = Controls.getControl(userInput);
     }
@@ -398,10 +401,13 @@ public class GameController
         //    if(scorelist.get(i) > highScore)
         //        highScore = scorelist.get(i);
         //}
+
     }
 
     public JSONObject getDataToSend() {
         return dataToSend;
 
     }
+
+
 }
