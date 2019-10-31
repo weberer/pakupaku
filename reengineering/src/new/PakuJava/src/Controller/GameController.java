@@ -265,23 +265,26 @@ public class GameController
           }
     }
 
+    /**
+     * Handles scoring and map modificaiton for the eating of dots and fruit
+     * @param location
+     */
     private void pakuEatsDots(Location location)
     {
-        //map.get(location.getxLoc()).get(location.getyLoc());
         ArrayList<ArrayList> map = gameData.getMap();
-        
+
         ArrayList row = map.get(location.getyLoc());
 
         List<Ghost> ghostList = gameData.getGhostList();
         int tile = (int)row.get(location.getxLoc());
-        if(tile == 1)
+        if(tile == gameData.getDOT_CODE())  //regular dot
         {
             gameData.getScore().addScore(POINTS_PER_DOT); //add score for eating dot to current score
             row.set(location.getxLoc(), 2);
             map.set(location.getyLoc(), row);
             gameData.setMap(map);
         }
-        if(tile == 3)
+        if(tile == gameData.getLARGEDOT_CODE())  //super (large) dot
         {
             for(Ghost ghost : ghostList)
             {
@@ -295,7 +298,7 @@ public class GameController
             map.set(location.getyLoc(), row);
             gameData.setMap(map);
         }
-        if(tile == 5)
+        if(tile == gameData.getFRUIT_CODE())  //fruit
         {
             gameData.getScore().addScore(gameData.getFruit().eatFruit());
             row.set(location.getxLoc(), 2);

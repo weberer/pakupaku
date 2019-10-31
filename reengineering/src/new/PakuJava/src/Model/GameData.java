@@ -33,6 +33,7 @@ public class GameData
     private final int DOT_CODE = 1;
     private final int HALL_CODE = 2;
     private final int LARGEDOT_CODE = 3;
+    private final int FRUIT_CODE = 5;  // put a five to indicate location of a Fruit
 
     private Paku paku;
     private int gamelevel;
@@ -328,5 +329,8 @@ public class GameData
 
     public int getLARGEDOT_CODE() {
         return LARGEDOT_CODE;
+    }
+    public int getFRUIT_CODE() {
+        return FRUIT_CODE;
     }
 }
