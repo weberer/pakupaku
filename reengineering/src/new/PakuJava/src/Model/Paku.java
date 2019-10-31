@@ -31,7 +31,6 @@ public class Paku extends MovingGameObject{
     private Paku()
     {
         super(14, 24, null, Direction.left);
-        System.out.println("Paku has been constructed");
 
         remainingLife = STARTINGLIFES;
         //loc = new Location(STARTING_X, STARTING_Y);
@@ -155,5 +154,17 @@ public class Paku extends MovingGameObject{
 
     public void setMap(ArrayList<ArrayList> map) {
         this.map = map;
+    }
+
+    public int getSTARTINGLIFES() {
+        return STARTINGLIFES;
+    }
+
+    public int getSTARTING_X() {
+        return STARTING_X;
+    }
+
+    public int getSTARTING_Y() {
+        return STARTING_Y;
     }
 }
