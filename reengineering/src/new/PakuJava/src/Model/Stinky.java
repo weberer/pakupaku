@@ -10,8 +10,11 @@ public class Stinky extends Ghost
     private final int STARTING_Y = 11;
     private final int SCATTER_X = FAR_RIGHT;
     private final int SCATTER_Y = 1;
+
+
     public Stinky(ArrayList<ArrayList> map)
     {
+        super(14, 11, null, Direction.up);
         this.map =  map;
         loc = new Location(STARTING_X, STARTING_Y);
 

@@ -9,7 +9,7 @@ public abstract class MovingGameObject {
 	public enum States{
 
 	}
-	private ArrayList<Integer> position;
+
 	protected States state;
 	protected Direction facingDirection;
 	protected Location loc;
@@ -19,12 +19,9 @@ public abstract class MovingGameObject {
 	protected int modX, modY;
 
 	public MovingGameObject(int x, int y, States state, Direction dir){
-		position = new ArrayList<>();
-		position.add(x);
-		position.add(y);
+		loc = new Location(x, y);
 		this.state = state;
 		this.facingDirection = dir;
-
 	}
 
 	public MovingGameObject(){

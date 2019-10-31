@@ -2,8 +2,10 @@ package Model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -48,7 +50,7 @@ public class GameData
     // used for checking the score based extra lives.
     private int extraLives;
 
-
+    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";
     private static GameData data = new GameData();  //to make this class a Singleton
 
     private Location pakuLoc; //x, y location of the paku
@@ -94,12 +96,17 @@ public class GameData
 
             dataToSend.put("sound", true);
 
+            JSONArray mapJS = new JSONArray();
+            map.forEach((eachrowAL) -> {
+                mapJS.put(new JSONArray(Arrays.asList(eachrowAL)));
+            });
+
 //TODO: (Board is the map) mao is a 2d arraylist, put the 2d arraylist into 2D Json Array
             //todo this, convert arraylist to 2D collection, put collection into 2dJson Aray
 
             
             //Collection board = ;
-            dataToSend.put("board", board);
+            dataToSend.put("board", mapJS);
 
 
             JSONObject locationToSend = new JSONObject();
@@ -134,7 +141,7 @@ public class GameData
             ghostsToSend.put("kinky", kinkyToSend);
             ghostsToSend.put("blaine", blaineToSend);
 
-
+            dataToSend.put("ghosts", ghostsToSend);
         }
 
         catch (JSONException ex)
@@ -146,7 +153,7 @@ public class GameData
 
     public JSONObject getData()
     {
-
+        createObject();
         return dataToSend;
     }
 
@@ -188,23 +195,23 @@ public class GameData
     }
 
     public Location getPakuLoc() {
-        return pakuLoc;
+        return paku.getLoc();
     }
 
     public Location getBlaineLoc() {
-        return blaineLoc;
+        return ghostList.get(0).getLoc();
     }
 
     public Location getStinkyLoc() {
-        return stinkyLoc;
+        return ghostList.get(2).getLoc();
     }
 
     public Location getHinkyLoc() {
-        return hinkyLoc;
+        return ghostList.get(1).getLoc();
     }
 
     public Location getKinkyLoc() {
-        return kinkyLoc;
+        return ghostList.get(3).getLoc();
     }
 
     public int getCurrentScore() {

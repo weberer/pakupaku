@@ -29,7 +29,7 @@ public class GameController
 
 
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
-    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";
+
 
 
 
@@ -55,7 +55,7 @@ public class GameController
 
         //why are parentheses used here instead of braces??? --Evan 10/30
         try (
-                Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_FILE_PATH));
+                Reader reader = Files.newBufferedReader(Paths.get(gameData.getSAMPLE_CSV_FILE_PATH()));
                 CSVReader csvReader = new CSVReader(reader);
         )
         {
@@ -90,6 +90,7 @@ public class GameController
         spawnGhosts();
        // score = new Score();  //new score object created each game UPDATE 10/29 no longer creating new score object each game --Evan
         gameData.setGameStatus(GameStatus.staring);  //update gameStatus
+        update();
     }
 
     /*
@@ -180,6 +181,7 @@ public class GameController
         gameLevel = gameLevel++;
         LoadMap();
         gameData.setGamelevel(gameLevel);
+        update();
     }
 
 
@@ -188,6 +190,7 @@ public class GameController
     public void update(){
 
         Controls input = getUserInput();
+        dataToSend = gameData.getData();
         if(input != Controls.escape && input != Controls.O && input != Controls.enter)
         {
             pakuUpdate((input.castToDir(input)));
