@@ -13,6 +13,7 @@
 
     <!-- Import JS Files -->
     <script type="application/javascript" src="js/util.js"></script>
+    <script type="application/javascript" src="js/game.js"></script>
     <script type="application/javascript" src="js/board.js"></script>
     <script type="application/javascript" src="js/movingEntity.js"></script>
     <script type="application/javascript" src="js/paku.js"></script>
@@ -465,13 +466,13 @@
             </div>
             <div id="bottom_row">
                 <div id="lives" class="container">
-                    <svg id="life_1" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
+                    <svg id="life_0" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
                         <circle cx="50%" cy="50%" r="25%" ></circle>
                     </svg>
                     <svg id="life_1" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
                         <circle cx="50%" cy="50%" r="25%" ></circle>
                     </svg>
-                    <svg id="life_3" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
+                    <svg id="life_2" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
                         <circle cx="50%" cy="50%" r="25%" ></circle>
                     </svg>
                 </div>
@@ -559,10 +560,6 @@
                 <span class="flashing_green reverse">ESC</span>
                 <span> TO EXIT</span>
             </div>
-
-
-
-
             <div id="ghost_display_box">
                 <div class="left"></div>
                 <div class="center">
@@ -594,11 +591,7 @@
                     <div class="bottom"></div>
                 </div>
                 <div class="right"></div>
-
             </div>
-
-
-
             <div id="pellet_description" class="description">
                 <span class="pellet"></span>
                 <span> 10 POINTS</span>
@@ -623,26 +616,15 @@
         // Main Method
 
         // Initializes the game window
-        Util.getRootCssElement();
-        Util.heightAdjust();
-
-        let stinky = new Ghost('stinky');
-        let kinky = new Ghost('kinky');
-        let hinky = new Ghost('hinky');
-        let blaine = new Ghost('blaine');
-        let paku = new Paku();
-
-        Ghost.addGhost(stinky);
-        Ghost.addGhost(kinky);
-        Ghost.addGhost(hinky);
-        Ghost.addGhost(blaine);
-
-        let keyListener = document.addEventListener("keypress", (e) => Util.handleKeypress(e.code));
         //Util.startInterval();
+        //paku.setX(10);
 
-        paku.setX(10);
 
-
+        // execute after document fires onReady event;
+        $(() => {
+            Game.init();
+            let keyListener = document.addEventListener("keypress", (e) => Util.handleKeypress(e.code));
+        });
     </script>
 </body>
 </html>

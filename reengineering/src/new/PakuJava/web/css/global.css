@@ -14,7 +14,7 @@
     --stinky_bright: #FF5555;
     --kinky: #FF56FF;
     --kinky_dark: #AA00A9;
-    --hinky: #55FFFF;
+    --hinky: #00ABAB;
     --hinky_bright: #55FFFF;
     --blaine: #AA5600;
     --blaine_bright: #FFFF54;
@@ -158,10 +158,11 @@ body {
     text-align: center;
 }
 
+/*
 .dialog[state="show"] {
     visibility: visible;
     opacity: 1;
-}
+}*/
 
 #new_high_score.dialog > #title {
     margin-top: var(--dialog_margin);

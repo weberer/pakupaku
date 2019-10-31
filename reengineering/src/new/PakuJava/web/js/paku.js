@@ -15,4 +15,9 @@ class Paku extends MovingEntity {
 
     // updates 'status' of pauk
     changeStatus = status => this.setAttr(this.constructor.attrNames.status, status);
+
+    // call in init method
+    static createPaku = () => {
+        document.paku = new Paku();
+    }
 }
