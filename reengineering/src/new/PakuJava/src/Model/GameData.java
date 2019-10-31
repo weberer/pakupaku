@@ -61,6 +61,7 @@ public class GameData
 
     ///DO NOT DO NOT DO NOT MODIFY
     private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";///DO NOT DO NOT DO NOT MODIFY
+    //private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";
     ///DO NOT DO NOT DO NOT MODIFY
 
 
@@ -456,5 +457,15 @@ public class GameData
 
     public void setFruitArray(int[] fruitArray) {
         this.fruitArray = fruitArray;
+    }
+
+    public boolean checkForDot() {
+        ArrayList<Integer> eachrow = new ArrayList<Integer>();
+        return eachrow.contains(1);
+    }
+
+    public boolean checkForSuperDot() {
+        ArrayList<Integer> eachrow = new ArrayList<Integer>();
+        return eachrow.contains(3);
     }
 }

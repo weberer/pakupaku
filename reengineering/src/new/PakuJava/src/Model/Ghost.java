@@ -63,13 +63,6 @@ public abstract class Ghost extends MovingGameObject {
         random = new Random();
         state = GhostState.chase;
         facingDirection = Direction.up;
-
-        frightTimers = new ArrayList<Integer>();
-        blinkTimers = new ArrayList<Integer>();
-        level1behaviors = new ArrayList<Integer>();
-        level2to5Behaviors = new ArrayList<Integer>();
-        level5PlusBehaviors = new ArrayList<Integer>();
-        levelStates = new ArrayList<GhostState>();
     }
 
     public boolean inJail() {
