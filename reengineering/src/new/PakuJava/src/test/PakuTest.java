@@ -44,11 +44,22 @@ public class PakuTest
     }
 
     @Test
-    public void addLife() {
+    public void addLife()
+    {
+        Paku paku = Paku.getInstance();
+        int lives = paku.getRemainingLife();
+        paku.addLife();
+        int newLives = paku.getRemainingLife();
+        Assert.assertEquals(lives + 1, newLives);
     }
 
     @Test
-    public void resetPaku() {
+    public void resetPaku()
+    {
+        Paku paku = Paku.getInstance();
+        paku.move();
+        paku.resetPaku();
+        paku.getLoc().getxLoc(), paku.get
     }
 
     @Test
