@@ -6,6 +6,8 @@ package test;
 //import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 //import org.jboss.shrinkwrap.api.spec.JavaArchive;
 //import org.hamcrest.CoreMatchers;
+import Controller.GameController;
+import Model.GameData;
 import Model.Paku;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -14,6 +16,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Assert;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -30,6 +34,10 @@ public class PakuTest
     @Test
     public void move()
     {
+        GameData gameData = GameData.getInstance();
+       // ArrayList row = map.get(loc.getyLoc());
+        Paku paku = Paku.getInstance();
+        paku.move();
 
     }
 
@@ -57,9 +65,14 @@ public class PakuTest
     public void resetPaku()
     {
         Paku paku = Paku.getInstance();
+        GameData gameData = GameData.getInstance();
+        new GameController();
+        paku.setGameData(gameData);
+        paku.setMap(gameData.getMap());
         paku.move();
         paku.resetPaku();
-        paku.getLoc().getxLoc(), paku.get
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X());
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y());
     }
 
     @Test
