@@ -19,10 +19,10 @@ public abstract class Ghost extends MovingGameObject {
 
     //constants from original code
     protected final int FAR_RIGHT = 26;
-    private final int JAIL_BOTTOM = 17;
-    private final int JAIL_TOP = 11;
-    private final int JAIL_LEFT = 10;
-    private final int JAIL_RIGHT = 17;
+    private final int JAIL_BOTTOM = 16;
+    private final int JAIL_TOP = 12;
+    private final int JAIL_LEFT = 11;
+    private final int JAIL_RIGHT = 16;
     private final int JAIL_DOOR = 14;
     private final int WARP_LEVEL = 14;
     private final int EATEN_Y = 10;
@@ -331,4 +331,13 @@ public abstract class Ghost extends MovingGameObject {
     }
     public abstract void resetLocation();
 
+    //These methods are used for testing.
+    public void setDirection(Direction dir)
+    {
+        facingDirection = dir;
+    }
+    public int getMultiplier()
+    {
+        return multiplier;
+    }
 }

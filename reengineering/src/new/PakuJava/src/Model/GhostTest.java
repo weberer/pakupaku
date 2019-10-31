@@ -1,42 +1,69 @@
-package Model;
+package Test;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import Controller.GameController;
+import Model.*;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(Arquillian.class)
 public class GhostTest {
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(Ghost.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+
+    @Test
+    public void  inJail() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+
+        Stinky stinky = new Stinky(gameData.getMap());
+        gameData.getGhostList().add(stinky);
+        gameData.getGhostList().add(new Kinky(gameData.getMap()));
+        gameData.getGhostList().add(new Hinky(stinky, gameData.getMap()));
+        gameData.getGhostList().add(new Blaine(gameData.getMap()));
+
+        assertEquals(false, gameData.getGhostList().get(0).inJail());
+        assertEquals(true, gameData.getGhostList().get(1).inJail());
+        assertEquals(true, gameData.getGhostList().get(2).inJail());
+        assertEquals(true, gameData.getGhostList().get(3).inJail());
     }
 
     @Test
-    public void inJail() {
+    public void  jailMove() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        gameData.getGhostList().add(new Kinky(gameData.getMap()));
+        gameData.getGhostList().get(0).getLoc().setxLoc(11);
+        gameData.getGhostList().get(0).getLoc().setyLoc(15);
+        gameData.getGhostList().get(0).move();
+        System.out.println(gameData.getGhostList().get(0).getLoc().getxLoc());
+        System.out.println(gameData.getGhostList().get(0).getLoc().getyLoc());
+
     }
 
     @Test
-    public void jailMove() {
+    public void  checkWarp() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Stinky stinky = new Stinky(gameData.getMap());
+        gameData.getGhostList().add(stinky);
+        gameData.getGhostList().get(0).getLoc().setxLoc(26);
+        gameData.getGhostList().get(0).getLoc().setyLoc(14);
+        gameData.getGhostList().get(0).setDirection(Direction.right);
+        gameData.getGhostList().get(0).move();
+        assertEquals(2, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(14, gameData.getGhostList().get(0).getLoc().getyLoc());
+
+        gameData.getGhostList().get(0).getLoc().setxLoc(1);
+        gameData.getGhostList().get(0).setDirection(Direction.left);
+        gameData.getGhostList().get(0).move();
+        assertEquals(25, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(14, gameData.getGhostList().get(0).getLoc().getyLoc());
     }
 
     @Test
-    public void checkWarp() {
+    public void  scatterMove() {
     }
 
     @Test
-    public void scatterMove() {
-    }
-
-    @Test
-    public void fleeMove() {
+    public void  fleeMove() {
     }
 
     @Test
@@ -44,22 +71,32 @@ public class GhostTest {
     }
 
     @Test
-    public void calculateMove() {
+    public void  calculateMove() {
     }
 
     @Test
-    public void addScore() {
+    public void  setState() {
     }
 
     @Test
-    public void resetMultiplier() {
+    public void  getState() {
+    }
+
+    @Test
+    public void  addScore() {
+    }
+
+    @Test
+    public void  resetMultiplier() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Stinky stinky = new Stinky(gameData.getMap());
+        stinky.resetMultiplier();
+        assertEquals(1, stinky.getMultiplier());
     }
 
     @Test
     public void resetLocation() {
-    }
 
-    @Test
-    public void recordLocation() {
     }
 }

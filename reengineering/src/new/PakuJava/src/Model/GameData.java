@@ -57,7 +57,7 @@ public class GameData
     // used for checking the score based extra lives.
     private int extraLives;
 
-    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";
+    private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";
 
     private static GameData data = new GameData();  //to make this class a Singleton
 
@@ -300,6 +300,10 @@ public class GameData
 
     public ArrayList<Integer> getEachRow() {
         return eachRow;
+    }
+    public void  resetEachRow()
+    {
+        eachRow = new ArrayList<>();
     }
 
     public void setEachRow(ArrayList<Integer> eachRow) {

@@ -69,6 +69,7 @@ public class GameController
                     gameData.getEachRow().add(temp);
                 }
                 gameData.getMap().add(gameData.getEachRow());
+                gameData.resetEachRow();
                 //map.add(eachrow);
             }
         } catch (IOException e) {
