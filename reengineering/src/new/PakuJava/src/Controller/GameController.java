@@ -27,11 +27,7 @@ public class GameController
     private Controls userInput;
     private JSONObject dataToSend;
 
-
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
-
-
-
 
 
     /**
