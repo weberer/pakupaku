@@ -1,6 +1,8 @@
 package Model;
 
 
+import java.util.ArrayList;
+
 public class Kinky extends Ghost
 {
 
@@ -11,10 +13,12 @@ public class Kinky extends Ghost
     private final int SCATTER_Y = 1;
 
 
-    public Kinky()
+    public Kinky(ArrayList<ArrayList> map)
     {
 
         loc = new Location(STARTING_X, STARTING_Y);
+        this.map = map;
+
     }
     @Override
     public void resetLocation() {

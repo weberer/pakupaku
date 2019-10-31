@@ -8,6 +8,7 @@ import Model.movingGameObject;
 import org.json.simple.JSONObject;
 import Controller.Controls;*/
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -38,9 +39,8 @@ public abstract class Ghost extends MovingGameObject {
     protected int howFar;
     protected int fleeTotal;
     protected static int multiplier = 1;
-    protected int[][] map;
     GhostState state;
-
+    protected ArrayList<ArrayList> map;
     public Ghost() {
         random = new Random();
     }
@@ -124,6 +124,9 @@ public abstract class Ghost extends MovingGameObject {
 
     protected void calculateMove() {
         int randomInt = random.nextInt(10);
+        ArrayList row = map.get(loc.getyLoc());
+        ArrayList rowUp = map.get(loc.getyLoc() - 1);
+        ArrayList rowDown = map.get(loc.getyLoc() + 1);
         if (!jailSkip) {
 
             absoluteX = Math.abs(changeX);
@@ -149,7 +152,7 @@ public abstract class Ghost extends MovingGameObject {
 
                 if (absoluteX > absoluteY || changeY > 0) {
                     turnUpDown();
-                } else if (map[loc.getxLoc()][loc.getyLoc() + testAmount] == 0 || allowTurn) {
+                } else if ((int)map.get(loc.getyLoc() + testAmount).get(loc.getxLoc()) == 0 || allowTurn) {
                     turnUpDown();
                 } else if (randomInt > 8) {
                     turnUpDown();
@@ -169,7 +172,7 @@ public abstract class Ghost extends MovingGameObject {
                 if (absoluteX > absoluteY || changeY > 0) {
                     turnLeftRight();
                 }
-                if (map[loc.getxLoc() + testAmount][loc.getyLoc()] == 0 || randomInt > 8) {
+                if ((int)map.get(loc.getyLoc()).get(loc.getxLoc() + testAmount) == 0 || randomInt > 8) {
                     turnLeftRight();
                 }
             }
@@ -180,23 +183,24 @@ public abstract class Ghost extends MovingGameObject {
             if (!(loc.getyLoc() == 14))
                 if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))
                     if (!alternate) {
+
                         if (facingDirection.equals(Direction.up)) {
-                            if (map[loc.getxLoc()][loc.getyLoc() - 1] > 0)
+                            if ((int)rowUp.get(loc.getxLoc())> 0)
                                 loc.setyLoc(loc.getyLoc() - howFar);
                             else
                                 loc.setyLoc(loc.getyLoc() - 1);
                         } else if (facingDirection.equals(Direction.right)) {
-                            if (map[loc.getxLoc() + 1][loc.getyLoc()] > 0)
+                            if ((int)row.get(loc.getxLoc() + 1) > 0)
                                 loc.setxLoc(loc.getxLoc() + howFar);
                             else
                                 loc.setxLoc(loc.getxLoc() + 1);
                         } else if (facingDirection.equals(Direction.down)) {
-                            if (map[loc.getxLoc()][loc.getyLoc() + 1] > 0 || jailSkip)
+                            if ((int)rowDown.get(loc.getxLoc()) > 0 || jailSkip)
                                 loc.setyLoc(loc.getyLoc() + howFar);
                             else
                                 loc.setyLoc(loc.getyLoc() + 1);
                         } else if (facingDirection.equals(Direction.left)) {
-                            if (map[loc.getxLoc() - 1][loc.getyLoc()] > 0)
+                            if ((int)row.get(loc.getxLoc() - 1) > 0)
                                 loc.setxLoc(loc.getxLoc() - howFar);
                             else
                                 loc.setxLoc(loc.getxLoc() - 1);
@@ -208,20 +212,20 @@ public abstract class Ghost extends MovingGameObject {
     }
     private void turnUpDown() {
         if (changeX > 0) {
-            if (map[loc.getxLoc() + 1][loc.getyLoc()] > 0) {
+            if ((int)map.get(loc.getyLoc()).get(loc.getxLoc() + 1) > 0) {
                 facingDirection = Direction.right;
-            } else if (map[loc.getxLoc() - 1][loc.getyLoc()] > 0) {
-                if (map[loc.getxLoc()][loc.getyLoc() + testAmount] == 0) {
+            } else if ((int)map.get(loc.getyLoc()).get(loc.getxLoc() - 1) > 0) {
+                if ((int)map.get(loc.getyLoc() - testAmount).get(loc.getxLoc()) == 0) {
                     facingDirection = Direction.left;
                 } else if (allowTurn && loc.getxLoc() == 7) {
                     facingDirection = Direction.left;
                 }
             }
         } else {
-            if (map[loc.getxLoc() - 1][loc.getyLoc()] > 0) {
+            if ((int)map.get(loc.getyLoc()).get(loc.getxLoc() - 1) > 0) {
                 facingDirection = Direction.left;
-            } else if (map[loc.getxLoc() + 1][loc.getyLoc()] > 0) {
-                if (map[loc.getxLoc()][loc.getyLoc() + testAmount] == 0) {
+            } else if ((int)map.get(loc.getyLoc()).get(loc.getxLoc() + 1) > 0) {
+                if ((int)map.get(loc.getyLoc() + testAmount).get(loc.getxLoc()) == 0) {
                     facingDirection = Direction.right;
                 } else if (allowTurn && loc.getxLoc() == 7) {
                     facingDirection = Direction.right;
@@ -233,13 +237,13 @@ public abstract class Ghost extends MovingGameObject {
     private void turnLeftRight() {
         if(changeY > 0)
         {
-            if(map[loc.getxLoc()][loc.getyLoc() + 1] > 0)
+            if((int)map.get(loc.getyLoc() + 1).get(loc.getxLoc()) > 0)
             {
                 facingDirection = Direction.down;
             }
-            else if(map[loc.getxLoc()][loc.getyLoc() + 1] > 0)
+            else if((int)map.get(loc.getyLoc() - 1).get(loc.getxLoc()) > 0)
             {
-                if(allowTurn && map[loc.getxLoc() + 1][loc.getyLoc()] == 0)
+                if(allowTurn && (int)map.get(loc.getyLoc()).get(loc.getxLoc() + 1) == 0)
                 {
                     facingDirection = Direction.up;
                 }
@@ -247,11 +251,12 @@ public abstract class Ghost extends MovingGameObject {
         }
         else
         {
-            if(map[loc.getxLoc()][loc.getyLoc() - 1] > 0 && allowTurn)
+            if((int)map.get(loc.getyLoc() - 1).get(loc.getxLoc()) > 0 && allowTurn)
             {
                 facingDirection = Direction.up;
             }
-            else if(map[loc.getxLoc()][loc.getyLoc() + 1] == 0 && map[loc.getxLoc() + testAmount][loc.getyLoc()] == 0)
+            else if((int)map.get(loc.getyLoc() + 1).get(loc.getxLoc()) == 0 &&
+                    (int)map.get(loc.getyLoc()).get(loc.getxLoc() + testAmount) == 0)
             {
                 facingDirection = Direction.down;
             }
