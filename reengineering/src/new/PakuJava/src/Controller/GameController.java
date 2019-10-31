@@ -343,7 +343,7 @@ public class GameController
             gameData.setExtraLives(2);
             paku.addLife();
         }
-        if(!gameData.getMap().contains(1) && !gameData.getMap().contains(3))
+        if(gameData.checkForDot() && gameData.checkForSuperDot())
           {
               gameData.setGameStatus(GameStatus.nextLevel); //update gameStatus to next level
               nextLevel();
