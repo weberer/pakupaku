@@ -41,8 +41,7 @@ public abstract class Ghost extends MovingGameObject {
     protected int howFarIncrement = 0;
     protected int fleeTotal;
     protected static int multiplier = 1;
-    protected boolean fleeing = false;
-    protected GhostState state = GhostState.scatter;
+    protected GhostState state;
     protected GhostState storedState;
     protected int fleeTimer;
 
@@ -104,11 +103,13 @@ public abstract class Ghost extends MovingGameObject {
             }
 
         } else {
-            if (exitCounter <= 0) {
-                if (loc.getyLoc() == JAIL_TOP) {
+            if (exitCounter > 0) {
+                if (loc.getyLoc() == JAIL_TOP  ) {
                     facingDirection = Direction.down;
-                } else if (loc.getyLoc() == JAIL_BOTTOM) {
+                    loc.setyLoc(loc.getyLoc() + 1);
+                } else if (loc.getyLoc() == JAIL_BOTTOM ) {
                     facingDirection = Direction.up;
+                    loc.setyLoc(loc.getyLoc() - 1);
                 }
             } else {
                 if(loc.getxLoc() >= JAIL_LEFT && loc.getxLoc() <= 13)
@@ -127,10 +128,10 @@ public abstract class Ghost extends MovingGameObject {
             }
             switch (facingDirection) {
                 case up:
-                    loc.setyLoc(loc.getyLoc() + 1);
+                    loc.setyLoc(loc.getyLoc() - 1);
                     break;
                 case down:
-                    loc.setyLoc(loc.getyLoc() - 1);
+                    loc.setyLoc(loc.getyLoc() + 1);
                     break;
                 case left:
                     loc.setxLoc(loc.getxLoc() - 1);
@@ -215,16 +216,16 @@ public abstract class Ghost extends MovingGameObject {
                 }
             } else if (facingDirection.equals(Direction.left) || facingDirection.equals(Direction.right)) {
                 if (randomInt > 1) {
-                    if (loc.getxLoc() > 9 && loc.getxLoc() < 18)
-                        if (loc.getyLoc() > 9 || loc.getyLoc() < 22)
-                            allowTurn = true;
-                        else
+                    if ((loc.getxLoc() > 9) && (loc.getxLoc() < 18))
+                        if ((loc.getyLoc() > 9) || (loc.getyLoc() < 22))
                             allowTurn = false;
+                        else
+                            allowTurn = true;
                     else
-                        allowTurn = false;
+                        allowTurn = true;
 
                 } else
-                    allowTurn = false;
+                    allowTurn = true;
                 if (absoluteX > absoluteY || changeY > 0) {
                     turnLeftRight();
                 }
@@ -249,14 +250,14 @@ public abstract class Ghost extends MovingGameObject {
         if(timer <= 0 && !state.equals(GhostState.flee))
         {
             if(!state.equals(GhostState.eaten)) {
-                if (gameData.getGamelevel() == 0) {
+                if (GameData.getInstance().getGamelevel() == 0) {
                     if (timerIndex == 6)
                         timerIndex = 0;
                     else
                         timerIndex++;
                     timer = level1behaviors.get(timerIndex);
                     state = levelStates.get(timerIndex);
-                } else if (gameData.getGamelevel() >= 1 && gameData.getGamelevel() < 4) {
+                } else if (GameData.getInstance().getGamelevel() >= 1 && GameData.getInstance().getGamelevel() < 4) {
                     if (timerIndex == 6)
                         timerIndex = 0;
                     else
@@ -321,7 +322,7 @@ public abstract class Ghost extends MovingGameObject {
             if ((int)map.get(loc.getyLoc()).get(loc.getxLoc() + 1) > 0) {
                 facingDirection = Direction.right;
             } else if ((int)map.get(loc.getyLoc()).get(loc.getxLoc() - 1) > 0) {
-                if ((int)map.get(loc.getyLoc() - testAmount).get(loc.getxLoc()) == 0) {
+                if ((int)map.get(loc.getyLoc() + testAmount).get(loc.getxLoc()) == 0) {
                     facingDirection = Direction.left;
                 } else if (allowTurn && loc.getxLoc() == 7) {
                     facingDirection = Direction.left;
@@ -349,7 +350,7 @@ public abstract class Ghost extends MovingGameObject {
             }
             else if((int)map.get(loc.getyLoc() - 1).get(loc.getxLoc()) > 0)
             {
-                if(allowTurn && (int)map.get(loc.getyLoc()).get(loc.getxLoc() + 1) == 0)
+                if(allowTurn || (int)map.get(loc.getyLoc()).get(loc.getxLoc() + 1) == 0)
                 {
                     facingDirection = Direction.up;
                 }
@@ -396,8 +397,8 @@ public abstract class Ghost extends MovingGameObject {
     public void makeFlee()
     {
         if(state != GhostState.flee) {
-            if (gameData.getGamelevel() <= 20) {
-                fleeTotal = frightTimers.get(gameData.getGamelevel());
+            if (GameData.getInstance().getGamelevel() <= 20) {
+                fleeTotal = frightTimers.get(GameData.getInstance().getGamelevel());
                 storedState = state;
                 state = GhostState.flee;
             } else {
@@ -416,8 +417,8 @@ public abstract class Ghost extends MovingGameObject {
         }
         else
         {
-            if (gameData.getGamelevel() <= 20) {
-                fleeTotal = frightTimers.get(gameData.getGamelevel());
+            if (GameData.getInstance().getGamelevel() <= 20) {
+                fleeTotal = frightTimers.get(GameData.getInstance().getGamelevel());
             } else {
                 fleeTotal = frightTimers.get(20);
             }
@@ -428,6 +429,13 @@ public abstract class Ghost extends MovingGameObject {
 
     public void setupTimers()
     {
+        level1behaviors = new ArrayList<>();
+        level2to5Behaviors = new ArrayList<>();
+        level5PlusBehaviors = new ArrayList<>();
+        levelStates = new ArrayList<>();
+        frightTimers = new ArrayList<>();
+        blinkTimers = new ArrayList<>();
+
         level1behaviors.add(7);
         level1behaviors.add(20);
         level1behaviors.add(7);
@@ -513,7 +521,13 @@ public abstract class Ghost extends MovingGameObject {
 
         blinkTimers.add(0);
     }
+    public void startTimer()
+    {
+        timerIndex = 0;
+        timer = level1behaviors.get(timerIndex);
+        state = levelStates.get(timerIndex);
 
+    }
     public abstract void isBlinking();
     //These methods are used for testing.
     public void setDirection(Direction dir)

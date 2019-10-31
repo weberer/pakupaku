@@ -26,7 +26,7 @@ public class GameController
     private final int POINTS_PER_SUPER_DOT = 50;
     private Controls userInput;
     private JSONObject dataToSend;
-
+    private boolean fleeMove = false;
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
 
 
@@ -113,9 +113,14 @@ public class GameController
         gameData.setGhostList(ghostList);
         gameData.getGhostList().get(0).setupTimers();
         setGhostGameDataReference();  //probably isn't needed --Evan 10/29
-        int[] fruits = new int[7];
-        fruits[6] = 1;
+        int[] fruits = new int[8];
+        fruits[7] = 1;
         gameData.setFruitArray(fruits);
+        for(Ghost ghost : ghostList)
+        {
+            ghost.startTimer();
+        }
+
     }
 
 
@@ -140,6 +145,7 @@ public class GameController
         paku.resetLocation();
         for(Ghost ghost : ghostList){
             ghost.resetLocation();
+            ghost.startTimer();
         }
         ghostList.get(0).resetMultiplier();
     }
@@ -176,6 +182,7 @@ public class GameController
         paku.resetLocation();
         for(Ghost ghost : ghostList){
             ghost.resetLocation();
+            ghost.startTimer();
         }
         ghostList.get(0).resetMultiplier();
         int gameLevel = gameData.getGamelevel();
@@ -428,10 +435,19 @@ public class GameController
     {
         List<Ghost> ghostList = gameData.getGhostList();
         boolean fleeing = false;
+        fleeMove = !fleeMove;
         for (Ghost ghost: ghostList) {
-            ghost.move();
-            if(ghost.getState().equals(GhostState.flee) || ghost.getState().equals(GhostState.eaten))
+            if(ghost.getState().equals(GhostState.flee))
+            {
+                if(fleeMove)
+                    ghost.move();
                 fleeing = true;
+            }
+            else
+            {
+                ghost.move();
+            }
+
         }
         if(!fleeing)
             ghostList.get(0).resetMultiplier();
