@@ -86,6 +86,8 @@ public class GameController
      */
     public void startGame() {
         Paku paku = gameData.getPaku(); //retrieve singleton Paku Object
+
+        paku.setGameData(gameData);
         paku.setGameData(gameData); //giving Paku a reference to gameData
         spawnGhosts();
 
@@ -268,6 +270,8 @@ public class GameController
         //map.get(location.getxLoc()).get(location.getyLoc());
         ArrayList<ArrayList> map = gameData.getMap();
         ArrayList column = map.get(location.getxLoc());
+
+
         List<Ghost> ghostList = gameData.getGhostList();
         int tile = (int)column.get(location.getyLoc());
         if(tile == 1)
@@ -288,7 +292,7 @@ public class GameController
     }
 
     /**
-     * TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     *
      */
     private void collideWithGhostProtocol() {
         boolean death = false;

@@ -21,7 +21,7 @@ public class Paku extends MovingGameObject{
     private static Paku paku = new Paku();  //to make this class a Singleton
     private int remainingLife;
     private final int STARTINGLIFES = 3;
-    private Location loc;
+    //private Location loc;
     private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change
     private final int STARTING_Y = 24;
 
@@ -29,14 +29,13 @@ public class Paku extends MovingGameObject{
 
     private Paku()
     {
-        System.out.println("Paku has been constructed");
         remainingLife = STARTINGLIFES;
         loc = new Location(STARTING_X, STARTING_Y);
     }
 
 
-    /*
-    returns the single Paku instance
+    /**
+     * returns the single Paku instance
      */
     public static Paku getInstance()
     {
@@ -44,27 +43,41 @@ public class Paku extends MovingGameObject{
     }
 
 
-    //JSONObject jo = new JSONObject();
+    /**
+     * Moves Paku a single unit in the direction it is facing unless it is facng a wall, in which case it does not move
+     */
     @Override
-    public void move()
-    {
-        //jo.put(dir.toString());
-
-        switch(this.facingDirection)
-        {
+    public void move() {
+        switch(this.facingDirection) {
             case left:   //move Paku left a unit
-                loc.setxLoc(loc.getxLoc() - MOVE_DIST_PER_TICK);
-            case right: //move Paku right a unit
-                loc.setxLoc(loc.getxLoc() + MOVE_DIST_PER_TICK);
-            case up:  //move Paku up a unit
-                loc.setyLoc(loc.getyLoc() + MOVE_DIST_PER_TICK);
-            case down:  //move Paku down a unit
-                loc.setyLoc(loc.getyLoc() - MOVE_DIST_PER_TICK);
-
+                if(!checkWall(loc.getxLoc() - MOVE_DIST_PER_TICK, loc.getyLoc()))
+                    loc.setxLoc(loc.getxLoc() - MOVE_DIST_PER_TICK); //move left if not running into wall
+            case right: //move Paku right a unit unless there's a wall there
+                if(!checkWall(loc.getxLoc() + MOVE_DIST_PER_TICK, loc.getyLoc()))
+                    loc.setxLoc(loc.getxLoc() + MOVE_DIST_PER_TICK);
+            case up:  //move Paku up a unit unless theres a wall there
+                if(!checkWall(loc.getxLoc(), loc.getyLoc() + MOVE_DIST_PER_TICK))
+                    loc.setyLoc(loc.getyLoc() + MOVE_DIST_PER_TICK);
+            case down:  //move Paku down a unit unless there's a wall
+                if(!checkWall(loc.getxLoc(), loc.getyLoc() - MOVE_DIST_PER_TICK))
+                    loc.setyLoc(loc.getyLoc() - MOVE_DIST_PER_TICK);
         }
-
     }
 
+    /**
+     * Returns true if Paku has run into a wall, false otherwise
+     * @param xLoc
+     * @param yLoc
+     * @return
+     */
+    private boolean checkWall(int xLoc, int yLoc)
+    {
+        ArrayList row = map.get(loc.getyLoc());
+        int tile = (int)row.get(loc.getxLoc()); //get tile that Paku is trying to get to
+        if(tile == gameData.getWALL_CODE())
+            return true;
+        return false;
+    }
 
     /**
      * decrements paku life number
