@@ -27,6 +27,7 @@ public class Paku extends MovingGameObject{
 
     private final int MOVE_DIST_PER_TICK = 1;
 
+
     private Paku()
     {
         super(14, 24, null, Direction.left);
@@ -146,6 +147,10 @@ public class Paku extends MovingGameObject{
     {
         super.loc.setyLoc(STARTING_Y);
         super.loc.setxLoc(STARTING_X);
+    }
+
+    public Direction getFacingDirection() {
+        return super.facingDirection;
     }
 
     public void setMap(ArrayList<ArrayList> map) {

@@ -57,6 +57,7 @@ public class GameData
     private int extraLives;
 
     private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";
+
     private static GameData data = new GameData();  //to make this class a Singleton
 
     private Location pakuLoc; //x, y location of the paku
@@ -117,12 +118,14 @@ public class GameData
 
 
 
-            JSONObject locationToSend = new JSONObject();
-            locationToSend.put("x", getPakuLoc().getxLoc());
-            locationToSend.put("y", getPakuLoc().getyLoc());
+            JSONObject pakuLocationToSend = new JSONObject();
+            pakuLocationToSend.put("x", getPakuLoc().getxLoc());
+            pakuLocationToSend.put("y", getPakuLoc().getyLoc());
+            pakuLocationToSend.put("direction", paku.getFacingDirection().toString());
+
 
             JSONObject pakuToSend = new JSONObject();
-            pakuToSend.put("location", locationToSend);
+            pakuToSend.put("location", pakuLocationToSend);
             //pakuToSend.put("direction", pakuDir());
 
             dataToSend.put("paku", pakuToSend);
@@ -337,5 +340,9 @@ public class GameData
 
     public int getLARGEDOT_CODE() {
         return LARGEDOT_CODE;
+    }
+
+    public String getSAMPLE_CSV_FILE_PATH() {
+        return SAMPLE_CSV_FILE_PATH;
     }
 }
