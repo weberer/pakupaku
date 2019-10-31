@@ -9,11 +9,6 @@ import static org.junit.Assert.assertEquals;
 
 public class StinkyTest {
 
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(Stinky.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
 
     @Test
     public void resetLocation() {
