@@ -283,7 +283,7 @@ public class GameController
             {
                 if(!ghost.getState().equals(GhostState.eaten))
                 {
-                    ghost.setState(GhostState.flee);
+                    ghost.makeFlee( 50);
                 }
             }
             gameData.getScore().addScore(POINTS_PER_SUPER_DOT);

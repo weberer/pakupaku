@@ -5,17 +5,20 @@ import java.util.ArrayList;
 
 public class Hinky extends Ghost
 {
-    private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change
-    private final int STARTING_Y = 11;
+    private final int STARTING_X = 11;  //starting x and y coordinates of Paku; subject to change
+    private final int STARTING_Y = 13;
     private final int SCATTER_X = 26;
     private final int SCATTER_Y = 30;
     private final int HINKY_VARIANCE = 2;
+    private final int EXITCOUNTER = 0;
     private Ghost stinky;
     public Hinky(Ghost stinky, ArrayList<ArrayList> map)
     {
         this.map = map;
         this.stinky = stinky;
         loc = new Location(STARTING_X, STARTING_Y);
+        facingDirection = Direction.down;
+        exitCounter = EXITCOUNTER;
     }
     @Override
     public void resetLocation() {
@@ -27,10 +30,9 @@ public class Hinky extends Ghost
         Location paku = Paku.getInstance().getLoc();
         Direction pakuDir = Paku.getInstance().getFacingDirection();
         alternate = !alternate;
-        modX = loc.getxLoc() % 3;
-        modY = (loc.getyLoc() + 1) % 3;
         if (inJail()) {
             jailMove();
+            exitCounter--;
         } else {
             checkWarp();
             if (state.equals(GhostState.scatter)) {
@@ -65,6 +67,7 @@ public class Hinky extends Ghost
             }
             calculateMove();
         }
+
     }
     public void recordLocation() {
         gameData.setHinkyLocation(loc);

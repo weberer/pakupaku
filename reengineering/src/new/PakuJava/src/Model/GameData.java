@@ -99,7 +99,7 @@ public class GameData
 
 
             //Collection board = ;
-            dataToSend.put("board", board);
+            //dataToSend.put("board", board);
 
 
             JSONObject locationToSend = new JSONObject();
@@ -287,9 +287,9 @@ public class GameData
         this.eachRow = eachRow;
     }
 
-    public String getSAMPLE_CSV_FILE_PATH() {
+    /*public String getSAMPLE_CSV_FILE_PATH() {
         return SAMPLE_CSV_FILE_PATH;
-    }
+    }*/
 
     public List<Ghost> getGhostList() {
         return ghostList;

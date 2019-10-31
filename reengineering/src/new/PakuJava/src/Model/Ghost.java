@@ -20,10 +20,10 @@ public abstract class Ghost extends MovingGameObject {
 
     protected final int FAR_RIGHT = 26;
     private final int JAIL_BOTTOM = 17;
-    private final int JAIL_TOP = 12;
+    private final int JAIL_TOP = 11;
     private final int JAIL_LEFT = 10;
     private final int JAIL_RIGHT = 17;
-    private final int JAIL_DOOR = 13;
+    private final int JAIL_DOOR = 14;
     private final int WARP_LEVEL = 14;
     private final int EATEN_Y = 10;
     private final int EATEN_X = 13;
@@ -36,18 +36,21 @@ public abstract class Ghost extends MovingGameObject {
     protected Random random;
     protected int testAmount;
     protected int exitCounter;
-    protected int howFar;
+    protected int howFar = 1;
+    protected int howFarIncrement = 0;
     protected int fleeTotal;
     protected static int multiplier = 1;
-    GhostState state;
+    protected boolean fleeing = false;
+    protected GhostState state = GhostState.scatter;
+    protected GhostState storedState;
 
     public Ghost() {
         random = new Random();
     }
 
-    protected boolean inJail() {
+    public boolean inJail() {
         if (loc.getxLoc() >= JAIL_LEFT && loc.getxLoc() <= JAIL_RIGHT) {
-            if (loc.getyLoc() <= JAIL_BOTTOM && loc.getyLoc() >= JAIL_TOP)
+            if (loc.getyLoc() < JAIL_BOTTOM && loc.getyLoc() > JAIL_TOP)
                 return true;
             else
                 return false;
@@ -62,7 +65,7 @@ public abstract class Ghost extends MovingGameObject {
                 state = GhostState.scatter;
 
         } else {
-            if (exitCounter < 0) {
+            if (exitCounter <= 0) {
                 if (loc.getyLoc() == JAIL_TOP) {
                     facingDirection = Direction.down;
                 } else if (loc.getyLoc() == JAIL_BOTTOM) {
@@ -123,22 +126,24 @@ public abstract class Ghost extends MovingGameObject {
     }
 
     protected void eatenMove() {
-        if (loc.getyLoc() == JAIL_DOOR) {
-            if (loc.getyLoc() >= (JAIL_BOTTOM + 4) && loc.getyLoc() > JAIL_BOTTOM) {
+        if (loc.getxLoc() == JAIL_DOOR) {
+            if (loc.getyLoc() == (JAIL_TOP) && loc.getyLoc() < JAIL_BOTTOM) {
                 facingDirection = Direction.down;
                 jailSkip = true;
             }
         } else {
             changeX = EATEN_X - loc.getxLoc();
             changeY = EATEN_Y - loc.getyLoc();
+            if(howFarIncrement == 3)
+            {
+                howFar++;
+                howFarIncrement = 1;
+            }
         }
     }
 
     protected void calculateMove() {
         int randomInt = random.nextInt(10);
-        ArrayList row = map.get(loc.getyLoc());
-        ArrayList rowUp = map.get(loc.getyLoc() - 1);
-        ArrayList rowDown = map.get(loc.getyLoc() + 1);
         if (!jailSkip) {
 
             absoluteX = Math.abs(changeX);
@@ -192,36 +197,42 @@ public abstract class Ghost extends MovingGameObject {
             // jailskip check
         }
         if (!state.equals(GhostState.flee)) {
-            if (!(loc.getyLoc() == 14))
+            moveNotTurn();
+        }
+            else if (!(loc.getyLoc() == 14))
                 if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))
                     if (!alternate) {
-
-                        if (facingDirection.equals(Direction.up)) {
-                            if ((int)rowUp.get(loc.getxLoc())> 0)
-                                loc.setyLoc(loc.getyLoc() - 1);
-                            else
-                                loc.setyLoc(loc.getyLoc() - 1);
-                        } else if (facingDirection.equals(Direction.right)) {
-                            if ((int)row.get(loc.getxLoc() + 1) > 0)
-                                loc.setxLoc(loc.getxLoc() + 1);
-                            else
-                                loc.setxLoc(loc.getxLoc() + 1);
-                        } else if (facingDirection.equals(Direction.down)) {
-                            if ((int)rowDown.get(loc.getxLoc()) > 0 || jailSkip)
-                                loc.setyLoc(loc.getyLoc() + 1);
-                            else
-                                loc.setyLoc(loc.getyLoc() + 1);
-                        } else if (facingDirection.equals(Direction.left)) {
-                            if ((int)row.get(loc.getxLoc() - 1) > 0)
-                                loc.setxLoc(loc.getxLoc() - 1);
-                            else
-                                loc.setxLoc(loc.getxLoc() - 1);
-                        }
+                        moveNotTurn();
                     }
+    }
+
+
+    private void moveNotTurn()
+    {
+        ArrayList row = map.get(loc.getyLoc());
+        ArrayList rowUp = map.get(loc.getyLoc() - 1);
+        ArrayList rowDown = map.get(loc.getyLoc() + 1);
+        if (facingDirection.equals(Direction.up)) {
+            if ((int)rowUp.get(loc.getxLoc())> 0)
+                loc.setyLoc(loc.getyLoc() - howFar);
+            else
+                loc.setyLoc(loc.getyLoc() - 1);
+        } else if (facingDirection.equals(Direction.right)) {
+            if ((int)row.get(loc.getxLoc() + 1) > 0)
+                loc.setxLoc(loc.getxLoc() + howFar);
+            else
+                loc.setxLoc(loc.getxLoc() + 1);
+        } else if (facingDirection.equals(Direction.down)) {
+            if ((int)rowDown.get(loc.getxLoc()) > 0 || jailSkip)
+                loc.setyLoc(loc.getyLoc() + howFar);
+            else
+                loc.setyLoc(loc.getyLoc() + 1);
+        } else if (facingDirection.equals(Direction.left)) {
+            if ((int)row.get(loc.getxLoc() - 1) > 0)
+                loc.setxLoc(loc.getxLoc() - howFar);
+            else
+                loc.setxLoc(loc.getxLoc() - 1);
         }
-
-
-
     }
     private void turnUpDown() {
         if (changeX > 0) {
@@ -298,8 +309,19 @@ public abstract class Ghost extends MovingGameObject {
         multiplier = 1;
     }
 
+    public void makeFlee(int fleeTotal)
+    {
+        this.fleeTotal = fleeTotal;
+        if(facingDirection.equals(Direction.left))
+            facingDirection = Direction.right;
+        else if(facingDirection.equals(Direction.right))
+            facingDirection = Direction.left;
+        else if(facingDirection.equals(Direction.up))
+            facingDirection = Direction.down;
+        else if(facingDirection.equals(Direction.down))
+            facingDirection = Direction.up;
 
+    }
     public abstract void resetLocation();
-    public abstract void recordLocation();
 
 }
