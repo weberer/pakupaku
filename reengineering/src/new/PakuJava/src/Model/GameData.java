@@ -160,25 +160,46 @@ public class GameData
 
             dataToSend.put("paku", pakuToSend);
 
+
+
+
+            JSONObject stinkyLocationToSend = new JSONObject();
+            stinkyLocationToSend.put("x", getStinky().getLoc().getxLoc());
+            stinkyLocationToSend.put("y", getStinky().getLoc().getyLoc());
+            stinkyLocationToSend.put("direction", getStinky().getFacingDirection().toString());
+
+
             JSONObject stinkyToSend = new JSONObject();
             stinkyToSend.put("location", getStinkyLoc());
-           // stinkyToSend.put("state", getStinkyState());
-            stinkyToSend.put("blink", isStinkyBlink());
+            stinkyToSend.put("ghost_state", GhostState.castState(getStinky().getState()));
+
+            JSONObject hinkyLocationToSend = new JSONObject();
+            hinkyLocationToSend.put("x", getHinky().getLoc().getxLoc());
+            hinkyLocationToSend.put("y", getHinky().getLoc().getyLoc());
+            hinkyLocationToSend.put("direction", getHinky().getFacingDirection().toString());
 
             JSONObject hinkyToSend = new JSONObject();
             hinkyToSend.put("location", getHinkyLoc());
-           // hinkyToSend.put("state", getHinkyState());
-            hinkyToSend.put("blink", isHinkyBlink());
+            hinkyToSend.put("ghost_state", GhostState.castState(getHinky().getState()));
+
+            JSONObject kinkyLocationToSend = new JSONObject();
+            kinkyLocationToSend.put("x", getKinky().getLoc().getxLoc());
+            kinkyLocationToSend.put("y", getKinky().getLoc().getyLoc());
+            kinkyLocationToSend.put("direction", getKinky().getFacingDirection().toString());
 
             JSONObject kinkyToSend = new JSONObject();
             kinkyToSend.put("location", getKinkyLoc());
-            //kinkyToSend.put("state", getKinkyState());
-            kinkyToSend.put("blink", isKinkyBlink());
+            kinkyToSend.put("ghost_state", GhostState.castState(getKinky().getState()));
+
+
+            JSONObject blaineLocationToSend = new JSONObject();
+            blaineLocationToSend.put("x", getBlaine().getLoc().getxLoc());
+            blaineLocationToSend.put("y", getBlaine().getLoc().getyLoc());
+            blaineLocationToSend.put("direction", getBlaine().getFacingDirection().toString());
 
             JSONObject blaineToSend = new JSONObject();
-            blaineToSend.put("location", getBlaineLoc());
-            //blaineToSend.put("state", getBlaineState());
-            blaineToSend.put("blink", isBlaineBlink());
+            blaineToSend.put("location", blaineLocationToSend);
+            blaineToSend.put("ghost_state", GhostState.castState(getBlaine().getState()));
 
             JSONObject ghostsToSend = new JSONObject();
             ghostsToSend.put("stinky", stinkyToSend);
@@ -257,6 +278,22 @@ public class GameData
 
     public Location getKinkyLoc() {
         return ghostList.get(3).getLoc();
+    }
+
+    public Ghost getBlaine() {
+        return ghostList.get(0);
+    }
+
+    public Ghost getStinky() {
+        return ghostList.get(2);
+    }
+
+    public Ghost getHinky() {
+        return ghostList.get(1);
+    }
+
+    public Ghost getKinky() {
+        return ghostList.get(3);
     }
 
     public int getCurrentScore() {
