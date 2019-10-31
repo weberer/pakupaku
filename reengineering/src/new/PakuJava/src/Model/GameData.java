@@ -342,4 +342,8 @@ public class GameData
     public int getFRUIT_CODE() {
         return FRUIT_CODE;
     }
+
+    public String getSAMPLE_CSV_FILE_PATH() {
+        return SAMPLE_CSV_FILE_PATH;
+    }
 }
