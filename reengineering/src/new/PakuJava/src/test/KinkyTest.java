@@ -1,6 +1,8 @@
-package Model;
+package test;
 
 import Controller.GameController;
+import Model.GameData;
+import Model.Kinky;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

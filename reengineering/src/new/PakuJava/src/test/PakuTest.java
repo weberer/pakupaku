@@ -1,4 +1,4 @@
-package Model;
+package test;
 
 //import org.jboss.arquillian.container.test.api.Deployment;
 //import org.jboss.arquillian.junit.Arquillian;
@@ -6,6 +6,7 @@ package Model;
 //import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 //import org.jboss.shrinkwrap.api.spec.JavaArchive;
 //import org.hamcrest.CoreMatchers;
+import Model.Paku;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;

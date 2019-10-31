@@ -1,20 +1,14 @@
-package Model;
+package test;
 
 import Controller.GameController;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import Model.GameData;
+import Model.Stinky;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-@RunWith(Arquillian.class)
 public class StinkyTest {
-    @Deployment
+
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addClass(Stinky.class)

@@ -1,6 +1,7 @@
-package Model;
+package test;
 
 import Controller.GameController;
+import Model.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
