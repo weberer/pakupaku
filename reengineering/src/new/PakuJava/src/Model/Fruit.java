@@ -84,11 +84,8 @@ public class Fruit
         }
     }
 
-    public int eatFruit() {
-        int ret = score;
-        score = 0;
-        fruit = Fruits.none;
-        return ret;
+    public int getScore() {
+        return score;
     }
 
 

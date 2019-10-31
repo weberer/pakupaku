@@ -116,7 +116,11 @@ public class GameController
         ghostList.add(new Hinky(stinky, gameData.getMap())); //pink, Hinky needs Stinky's info to move. please do not modify
 
         gameData.setGhostList(ghostList);
+        gameData.getGhostList().get(0).setupTimers();
         setGhostGameDataReference();  //probably isn't needed --Evan 10/29
+        int[] fruits = new int[7];
+        fruits[6] = 1;
+        gameData.setFruitArray(fruits);
     }
 
 
@@ -183,6 +187,85 @@ public class GameController
         gameLevel = gameLevel++;
         LoadMap();
         gameData.setGamelevel(gameLevel);
+        int[] fruitArray = new int[8];
+        if(gameLevel < 3)
+        {
+            int test = gameLevel + 1;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+        else if(gameLevel < 4)
+        {
+            int test = gameLevel;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+        else if(gameLevel < 6)
+        {
+            int test = 4;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+        else if(gameLevel < 8)
+        {
+            int test = 5;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+        else if(gameLevel < 10)
+        {
+            int test = 6;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+
+        else if(gameLevel < 12)
+        {
+            int test = 7;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+        else
+        {
+            int test = 8;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
         update();
     }
 
@@ -290,7 +373,7 @@ public class GameController
             {
                 if(!ghost.getState().equals(GhostState.eaten))
                 {
-                    ghost.makeFlee( 50);
+                    ghost.makeFlee();
                 }
             }
             gameData.getScore().addScore(POINTS_PER_SUPER_DOT);
@@ -300,7 +383,8 @@ public class GameController
         }
         if(tile == gameData.getFRUIT_CODE())  //fruit
         {
-            gameData.getScore().addScore(gameData.getFruit().eatFruit());
+            gameData.getScore().addScore(gameData.getFruit().getScore());
+            gameData.setBonus(gameData.getFruit().getScore());
             row.set(location.getxLoc(), 2);
             map.set(location.getyLoc(), row);
             gameData.setMap(map);
@@ -326,7 +410,8 @@ public class GameController
                 }
             }
             if(ghost.getState().equals(GhostState.flee)) {
-                ghost.addScore(score);
+                gameData.setBonus(ghost.addScore(score));
+
             }
         }
         if(paku.isGameOver()){

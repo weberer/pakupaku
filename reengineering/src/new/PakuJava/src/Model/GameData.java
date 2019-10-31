@@ -48,7 +48,8 @@ public class GameData
     private int frame;  //the number of the current frame
     private Direction inputDirection;
     private Fruit fruit = null;
-
+    private int bonus;
+    private int[] fruitArray;
     //private JSONObject jo = new JSONObject();  //rethinking this, replacing it with GameData object class --Evan
 
     private ArrayList<ArrayList> map;
@@ -69,7 +70,10 @@ public class GameData
     private Location hinkyLoc;
     private Location kinkyLoc;
 
-
+    private boolean blaineBlink;
+    private boolean stinkyBlink;
+    private boolean hinkyBlink;
+    private boolean kinkyBlink;
 
     JSONObject dataToSend;
 
@@ -90,6 +94,22 @@ public class GameData
 
     }
 
+    public boolean isBlaineBlink() {
+        return blaineBlink;
+    }
+
+    public boolean isStinkyBlink() {
+        return stinkyBlink;
+    }
+
+    public boolean isHinkyBlink() {
+        return hinkyBlink;
+    }
+
+    public boolean isKinkyBlink() {
+        return kinkyBlink;
+    }
+
     public void createObject()
     {
         try {
@@ -104,6 +124,7 @@ public class GameData
 
             dataToSend.put("sound", true);
 
+
             JSONArray mapJS = new JSONArray();
             map.forEach((eachrowAL) -> {
                 mapJS.put(new JSONArray(Arrays.asList(eachrowAL)));
@@ -117,7 +138,15 @@ public class GameData
 
             dataToSend.put("board", mapJS);
 
+            JSONArray fruitJS = new JSONArray();
+            for(int i : fruitArray)
+            {
+                fruitJS.put(i);
+            }
+            dataToSend.put("fruitList", fruitJS);
 
+            dataToSend.put("bonus", bonus);
+            bonus = 0;
 
             JSONObject pakuLocationToSend = new JSONObject();
             pakuLocationToSend.put("x", getPakuLoc().getxLoc());
@@ -134,18 +163,22 @@ public class GameData
             JSONObject stinkyToSend = new JSONObject();
             stinkyToSend.put("location", getStinkyLoc());
            // stinkyToSend.put("state", getStinkyState());
+            stinkyToSend.put("blink", isStinkyBlink());
 
             JSONObject hinkyToSend = new JSONObject();
             hinkyToSend.put("location", getHinkyLoc());
            // hinkyToSend.put("state", getHinkyState());
+            hinkyToSend.put("blink", isHinkyBlink());
 
             JSONObject kinkyToSend = new JSONObject();
             kinkyToSend.put("location", getKinkyLoc());
             //kinkyToSend.put("state", getKinkyState());
+            kinkyToSend.put("blink", isKinkyBlink());
 
             JSONObject blaineToSend = new JSONObject();
             blaineToSend.put("location", getBlaineLoc());
             //blaineToSend.put("state", getBlaineState());
+            blaineToSend.put("blink", isBlaineBlink());
 
             JSONObject ghostsToSend = new JSONObject();
             ghostsToSend.put("stinky", stinkyToSend);
@@ -354,5 +387,32 @@ public class GameData
 
     public String getSAMPLE_CSV_FILE_PATH() {
         return SAMPLE_CSV_FILE_PATH;
+    }
+
+    public void setBlaineBlink(boolean blaineBlink) {
+        this.blaineBlink = blaineBlink;
+    }
+
+    public void setStinkyBlink(boolean stinkyBlink) {
+        this.stinkyBlink = stinkyBlink;
+    }
+
+    public void setHinkyBlink(boolean hinkyBlink) {
+        this.hinkyBlink = hinkyBlink;
+    }
+
+    public void setKinkyBlink(boolean kinkyBlink) {
+        this.kinkyBlink = kinkyBlink;
+    }
+
+    public void setBonus(int bonus) {
+        this.bonus = bonus;
+    }
+    public int[] getFruitArray() {
+        return fruitArray;
+    }
+
+    public void setFruitArray(int[] fruitArray) {
+        this.fruitArray = fruitArray;
     }
 }

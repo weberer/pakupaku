@@ -44,7 +44,19 @@ public class Kinky extends Ghost {
             calculateMove();
         }
     }
-
+    public void isBlinking()
+    {
+        if(gameData.getGamelevel() < 21)
+        {
+            if(fleeTimer <= blinkTimers.get(gameData.getGamelevel()))
+            {
+                gameData.setKinkyBlink(!gameData.isKinkyBlink());
+            }
+            else
+                gameData.setKinkyBlink(false);
+        }
+        gameData.setKinkyBlink(false);
+    }
     public void recordLocation() {
         gameData.setKinkyLocation(loc);
 

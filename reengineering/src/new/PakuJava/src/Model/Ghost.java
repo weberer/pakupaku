@@ -44,6 +44,17 @@ public abstract class Ghost extends MovingGameObject {
     protected boolean fleeing = false;
     protected GhostState state = GhostState.scatter;
     protected GhostState storedState;
+    protected int fleeTimer;
+
+    protected static ArrayList<Integer> frightTimers;
+    protected static ArrayList<Integer> blinkTimers;
+    protected static ArrayList<Integer> level1behaviors;
+    protected static ArrayList<Integer> level2to5Behaviors;
+    protected static ArrayList<Integer> level5PlusBehaviors;
+    protected static ArrayList<GhostState> levelStates;
+
+    protected int timer;
+    protected int timerIndex = 0;
 
     protected ArrayList<ArrayList> map;
 
@@ -68,8 +79,22 @@ public abstract class Ghost extends MovingGameObject {
     protected void jailMove() {
         if (state.equals(GhostState.eaten) && loc.getyLoc() < JAIL_TOP) {
             loc.setyLoc(loc.getyLoc() + 1);
-            if (loc.getyLoc() == JAIL_BOTTOM)
+            if (loc.getyLoc() == JAIL_BOTTOM) {
                 state = GhostState.scatter;
+                timerIndex = 0;
+                if(GameData.getInstance().getGamelevel() == 1)
+                {
+                    timer = level1behaviors.get(timerIndex);
+                }
+                else if(GameData.getInstance().getGamelevel() >= 2 && GameData.getInstance().getGamelevel() < 5)
+                {
+                    timer = level2to5Behaviors.get(timerIndex);
+                }
+                else
+                {
+                    timer = level5PlusBehaviors.get(timerIndex);
+                }
+            }
 
         } else {
             if (exitCounter <= 0) {
@@ -176,7 +201,7 @@ public abstract class Ghost extends MovingGameObject {
 
                 if (absoluteX > absoluteY || changeY > 0) {
                     turnUpDown();
-                } else if ((int)map.get(loc.getyLoc() + testAmount).get(loc.getxLoc()) == 0 || allowTurn) {
+                } else if ((int) map.get(loc.getyLoc() + testAmount).get(loc.getxLoc()) == 0 || allowTurn) {
                     turnUpDown();
                 } else if (randomInt > 8) {
                     turnUpDown();
@@ -196,7 +221,7 @@ public abstract class Ghost extends MovingGameObject {
                 if (absoluteX > absoluteY || changeY > 0) {
                     turnLeftRight();
                 }
-                if ((int)map.get(loc.getyLoc()).get(loc.getxLoc() + testAmount) == 0 || randomInt > 8) {
+                if ((int) map.get(loc.getyLoc()).get(loc.getxLoc() + testAmount) == 0 || randomInt > 8) {
                     turnLeftRight();
                 }
             }
@@ -205,12 +230,55 @@ public abstract class Ghost extends MovingGameObject {
         }
         if (!state.equals(GhostState.flee)) {
             moveNotTurn();
+        } else if (!(loc.getyLoc() == 14))
+            if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))
+                if (!alternate) {
+                    moveNotTurn();
+                }
+        if(!state.equals(GhostState.flee) && !state.equals(GhostState.eaten))
+        {
+            timer--;
         }
-            else if (!(loc.getyLoc() == 14))
-                if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))
-                    if (!alternate) {
-                        moveNotTurn();
-                    }
+        if(timer <= 0 && !state.equals(GhostState.flee))
+        {
+            if(!state.equals(GhostState.eaten)) {
+                if (gameData.getGamelevel() == 0) {
+                    if (timerIndex == 6)
+                        timerIndex = 0;
+                    else
+                        timerIndex++;
+                    timer = level1behaviors.get(timerIndex);
+                    state = levelStates.get(timerIndex);
+                } else if (gameData.getGamelevel() >= 1 && gameData.getGamelevel() < 4) {
+                    if (timerIndex == 6)
+                        timerIndex = 0;
+                    else
+                        timerIndex++;
+                    timer = level2to5Behaviors.get(timerIndex);
+                    state = levelStates.get(timerIndex);
+                } else {
+                    if (timerIndex == 5)
+                        timerIndex = 0;
+                    else
+                        timerIndex++;
+                    timer = level5PlusBehaviors.get(timerIndex);
+                    state = levelStates.get(timerIndex);
+                }
+            }
+        }
+        if(state.equals(GhostState.flee))
+        {
+            if(fleeTotal <= 0)
+            {
+                state = storedState;
+                storedState = null;
+            }
+            else
+            {
+                fleeTotal--;
+            }
+        }
+
     }
 
 
@@ -304,33 +372,142 @@ public abstract class Ghost extends MovingGameObject {
     {
         return this.state;
     }
-    public void addScore(Score score)
+    public int addScore(Score score)
     {
         score.addScore(SCORE * multiplier);
+        int ret = SCORE * multiplier;
         if(multiplier != 32 )
             multiplier = multiplier * 2;
         this.setState(GhostState.eaten);
+        return ret;
     }
     public void resetMultiplier()
     {
         multiplier = 1;
     }
 
-    public void makeFlee(int fleeTotal)
+    public void makeFlee()
     {
-        this.fleeTotal = fleeTotal;
-        if(facingDirection.equals(Direction.left))
-            facingDirection = Direction.right;
-        else if(facingDirection.equals(Direction.right))
-            facingDirection = Direction.left;
-        else if(facingDirection.equals(Direction.up))
-            facingDirection = Direction.down;
-        else if(facingDirection.equals(Direction.down))
-            facingDirection = Direction.up;
+        if(state != GhostState.flee) {
+            if (gameData.getGamelevel() <= 20) {
+                fleeTotal = frightTimers.get(gameData.getGamelevel());
+                storedState = state;
+                state = GhostState.flee;
+            } else {
+                fleeTotal = frightTimers.get(20);
+                storedState = state;
+                state = GhostState.flee;
+            }
+            if (facingDirection.equals(Direction.left))
+                facingDirection = Direction.right;
+            else if (facingDirection.equals(Direction.right))
+                facingDirection = Direction.left;
+            else if (facingDirection.equals(Direction.up))
+                facingDirection = Direction.down;
+            else if (facingDirection.equals(Direction.down))
+                facingDirection = Direction.up;
+        }
+        else
+        {
+            if (gameData.getGamelevel() <= 20) {
+                fleeTotal = frightTimers.get(gameData.getGamelevel());
+            } else {
+                fleeTotal = frightTimers.get(20);
+            }
+        }
 
     }
     public abstract void resetLocation();
 
+    public void setupTimers()
+    {
+        level1behaviors.add(7);
+        level1behaviors.add(20);
+        level1behaviors.add(7);
+        level1behaviors.add(20);
+        level1behaviors.add(5);
+        level1behaviors.add(20);
+        level1behaviors.add(5);
+
+        level2to5Behaviors.add(7);
+        level2to5Behaviors.add(20);
+        level2to5Behaviors.add(7);
+        level2to5Behaviors.add(20);
+        level2to5Behaviors.add(5);
+        level2to5Behaviors.add(1092);
+        level2to5Behaviors.add(7);
+
+        level5PlusBehaviors.add(5);
+        level5PlusBehaviors.add(20);
+        level5PlusBehaviors.add(5);
+        level5PlusBehaviors.add(20);
+        level5PlusBehaviors.add(5);
+        level5PlusBehaviors.add(1092);
+
+        levelStates.add(GhostState.scatter);
+        levelStates.add(GhostState.chase);
+        levelStates.add(GhostState.scatter);
+        levelStates.add(GhostState.chase);
+        levelStates.add(GhostState.scatter);
+        levelStates.add(GhostState.chase);
+        levelStates.add(GhostState.scatter);
+
+        frightTimers.add(22);
+        frightTimers.add(20);
+        frightTimers.add(18);
+        frightTimers.add(16);
+
+        frightTimers.add(14);
+        frightTimers.add(22);
+        frightTimers.add(14);
+        frightTimers.add(14);
+
+        frightTimers.add(8);
+        frightTimers.add(20);
+        frightTimers.add(14);
+        frightTimers.add(8);
+
+        frightTimers.add(8);
+        frightTimers.add(16);
+        frightTimers.add(8);
+        frightTimers.add(8);
+
+        frightTimers.add(0);
+        frightTimers.add(8);
+        frightTimers.add(0);
+        frightTimers.add(0);
+
+        frightTimers.add(0);
+
+        blinkTimers.add(10);
+        blinkTimers.add(10);
+        blinkTimers.add(10);
+        blinkTimers.add(10);
+
+        blinkTimers.add(10);
+        blinkTimers.add(10);
+        blinkTimers.add(10);
+        blinkTimers.add(10);
+
+        blinkTimers.add(6);
+        blinkTimers.add(10);
+        blinkTimers.add(10);
+        blinkTimers.add(6);
+
+        blinkTimers.add(6);
+        blinkTimers.add(10);
+        blinkTimers.add(6);
+        blinkTimers.add(6);
+
+        blinkTimers.add(0);
+        blinkTimers.add(6);
+        blinkTimers.add(0);
+        blinkTimers.add(0);
+
+        blinkTimers.add(0);
+    }
+
+    public abstract void isBlinking();
     //These methods are used for testing.
     public void setDirection(Direction dir)
     {

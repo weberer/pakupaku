@@ -55,6 +55,19 @@ public class Stinky extends Ghost
             this.calculateMove();
         }
     }
+    public void isBlinking()
+    {
+        if(gameData.getGamelevel() < 21)
+        {
+            if(fleeTimer <= blinkTimers.get(gameData.getGamelevel()))
+            {
+                gameData.setStinkyBlink(!gameData.isStinkyBlink());
+            }
+            else
+                gameData.setStinkyBlink(false);
+        }
+        gameData.setStinkyBlink(false);
+    }
     public void recordLocation() {
         gameData.setStinkyLocation(loc);
     }

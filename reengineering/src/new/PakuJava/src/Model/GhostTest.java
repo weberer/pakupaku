@@ -1,7 +1,6 @@
-package Test;
+package Model;
 
 import Controller.GameController;
-import Model.*;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
