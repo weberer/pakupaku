@@ -8,8 +8,8 @@ class MovingEntity {
            throw "Invalid Moving Entity Id: " + this.id;
    }
 
-   static stylesheet;
-   static cssElementName;
+   static stylesheet = null;
+   static cssElementName = null;
    static xPropName = '--x_coord';
    static yPropName = '--y_coord';
    static directions = {

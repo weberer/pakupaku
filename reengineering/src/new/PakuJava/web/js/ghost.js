@@ -29,4 +29,17 @@ class Ghost extends MovingEntity {
             ghost.changeState(state);
         })
     };
+
+    // call in init();
+    static createGhosts() {
+        let stinky = new Ghost('stinky');
+        let kinky = new Ghost('kinky');
+        let hinky = new Ghost('hinky');
+        let blaine = new Ghost('blaine');
+
+        Ghost.addGhost(stinky);
+        Ghost.addGhost(kinky);
+        Ghost.addGhost(hinky);
+        Ghost.addGhost(blaine);
+    }
 }

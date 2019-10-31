@@ -62,6 +62,16 @@ class Util {
             case "KeyA":
                 paku.changeDirection(Paku.directions.left);
                 break;
+            case "KeyO":
+                Game.toggleSound();
+                break;
+            case "Enter":
+                Game.handleEnterKey();
+                break;
+            case "Escape":
+                Game.handleEscapeKey();
+                break;
+
         }
 
         Util.lastKeyPressed = keycode;
@@ -74,7 +84,7 @@ class Util {
         //console.log(JSON.parse(data));
 
         //Ghost.updateAllGhostStates("eaten");
-        paku.setY(++this.pakuY);
+        document.paku.setY(++this.pakuY);
 
     };
 
@@ -91,6 +101,7 @@ class Util {
         let data = {
             frameId: this.frameNumber++
         };
+
         if(this.lastKeyPressed) {
             data["keycode"] = Util.lastKeyPressed;
             this.lastKeyPressed = null;
