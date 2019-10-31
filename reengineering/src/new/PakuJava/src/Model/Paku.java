@@ -119,9 +119,18 @@ public class Paku extends MovingGameObject{
     }
 
 
+    /**
+     * Sets Paku's location (in x y format)
+     * @param loc
+     */
     public void setLoc(Location loc) {
         super.loc = loc;
     }
+
+    /**
+     * Sets the direction which Paku is facing
+     * @param dir
+     */
     public void setDir(Direction dir)
     {
         super.facingDirection = dir;
