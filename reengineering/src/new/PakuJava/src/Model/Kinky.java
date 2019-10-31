@@ -12,11 +12,12 @@ public class Kinky extends Ghost {
     private final int EXITCOUNTER = 0;
 
     public Kinky(ArrayList<ArrayList> map) {
-        super(14, 11, null, Direction.up);
+        super(null, Direction.up);
         loc = new Location(STARTING_X, STARTING_Y);
         this.map = map;
         facingDirection = Direction.up;
         exitCounter = EXITCOUNTER;
+        resetExitCounter = EXITCOUNTER;
     }
 
     @Override

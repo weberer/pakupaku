@@ -14,10 +14,11 @@ public class Stinky extends Ghost
 
     public Stinky(ArrayList<ArrayList> map)
     {
-        super(14, 11, null, Direction.up);
+        super( null, Direction.up);
         this.map =  map;
         loc = new Location(STARTING_X, STARTING_Y);
-
+        exitCounter = 0;
+        resetExitCounter = 0;
     }
 
     @Override
@@ -41,7 +42,6 @@ public class Stinky extends Ghost
             checkWarp();
                 jailSkip = false;
                 howFar = 1;
-           // int randomInt = random.nextInt(10);
             if (state.equals(GhostState.scatter)) {
                 scatterMove(SCATTER_X, SCATTER_Y);
             } else if (state.equals(GhostState.chase)) {

@@ -36,6 +36,7 @@ public abstract class Ghost extends MovingGameObject {
     protected int absoluteX, absoluteY;
     protected Random random;
     protected int testAmount;
+    protected int resetExitCounter;
     protected int exitCounter;
     protected int howFar = 1;
     protected int howFarIncrement = 0;
@@ -79,6 +80,7 @@ public abstract class Ghost extends MovingGameObject {
         if (state.equals(GhostState.eaten) && loc.getyLoc() < JAIL_TOP) {
             loc.setyLoc(loc.getyLoc() + 1);
             if (loc.getyLoc() == JAIL_BOTTOM) {
+                exitCounter = resetExitCounter;
                 state = GhostState.scatter;
                 timerIndex = 0;
                 if(GameData.getInstance().getGamelevel() == 1)
@@ -355,7 +357,7 @@ public abstract class Ghost extends MovingGameObject {
             {
                 facingDirection = Direction.up;
             }
-            else if((int)map.get(loc.getyLoc() + 1).get(loc.getxLoc()) == 0 &&
+            else if((int)map.get(loc.getyLoc() + 1).get(loc.getxLoc()) > 0 &&
                     (int)map.get(loc.getyLoc()).get(loc.getxLoc() + testAmount) == 0)
             {
                 facingDirection = Direction.down;
