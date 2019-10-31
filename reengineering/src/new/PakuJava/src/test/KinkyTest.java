@@ -1,11 +1,12 @@
-package Model;
+package test;
 
 import Controller.GameController;
+import Model.GameData;
+import Model.Kinky;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 public class KinkyTest {
 
 

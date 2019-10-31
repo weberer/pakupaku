@@ -1,9 +1,13 @@
-package Model;
+package test;
 
 import Controller.GameController;
+import Model.*;
 import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
 
 public class GhostTest {
 
@@ -18,10 +22,10 @@ public class GhostTest {
         gameData.getGhostList().add(new Hinky(stinky, gameData.getMap()));
         gameData.getGhostList().add(new Blaine(gameData.getMap()));
 
-        assertEquals(false, gameData.getGhostList().get(0).inJail());
-        assertEquals(true, gameData.getGhostList().get(1).inJail());
-        assertEquals(true, gameData.getGhostList().get(2).inJail());
-        assertEquals(true, gameData.getGhostList().get(3).inJail());
+        assertFalse(gameData.getGhostList().get(0).inJail());
+        assertTrue(gameData.getGhostList().get(1).inJail());
+        assertTrue(gameData.getGhostList().get(2).inJail());
+        assertTrue(gameData.getGhostList().get(3).inJail());
     }
 
     @Test

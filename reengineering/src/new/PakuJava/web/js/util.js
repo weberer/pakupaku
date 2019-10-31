@@ -62,22 +62,23 @@ class Util {
             case "KeyA":
                 paku.changeDirection(Paku.directions.left);
                 break;
+            case "KeyO":
+                Game.toggleSound();
+                break;
+            case "Enter":
+                Game.handleEnterKey();
+                break;
+            case "Escape":
+                Game.handleEscapeKey();
+                break;
+
         }
 
         Util.lastKeyPressed = keycode;
     };
 
-    static pakuY = 0;
-    // Parses data received from server
     static handleAjaxSuccess = (data) => {
-        //console.log("Returned Data:");
-        //console.log(JSON.parse(data));
-
-        //Ghost.updateAllGhostStates("eaten");
-       // paku.setY(++this.pakuY);
-        console.log("Response Data:");
         console.log(data);
-
     };
 
     // handles error responses from the server
@@ -93,6 +94,7 @@ class Util {
         let data = {
             frameId: this.frameNumber++
         };
+
         if(this.lastKeyPressed) {
             data["keycode"] = Util.lastKeyPressed;
             this.lastKeyPressed = null;

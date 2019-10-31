@@ -43,7 +43,7 @@ public class GameController
     /**
      * Loads the PakuPaku map, in csv format
      */
-    private void LoadMap()
+    public void LoadMap()
     {
         // For showing the dictionary. do not remove.
         File file = new File(".");
