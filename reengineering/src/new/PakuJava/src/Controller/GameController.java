@@ -118,9 +118,14 @@ public class GameController
         gameData.setGhostList(ghostList);
         gameData.getGhostList().get(0).setupTimers();
         setGhostGameDataReference();  //probably isn't needed --Evan 10/29
-        int[] fruits = new int[7];
-        fruits[6] = 1;
+        int[] fruits = new int[8];
+        fruits[7] = 1;
         gameData.setFruitArray(fruits);
+        for(Ghost ghost : ghostList)
+        {
+            ghost.startTimer();
+        }
+
     }
 
 
@@ -145,6 +150,7 @@ public class GameController
         paku.resetLocation();
         for(Ghost ghost : ghostList){
             ghost.resetLocation();
+            ghost.startTimer();
         }
         ghostList.get(0).resetMultiplier();
     }
@@ -181,6 +187,7 @@ public class GameController
         paku.resetLocation();
         for(Ghost ghost : ghostList){
             ghost.resetLocation();
+            ghost.startTimer();
         }
         ghostList.get(0).resetMultiplier();
         int gameLevel = gameData.getGamelevel();

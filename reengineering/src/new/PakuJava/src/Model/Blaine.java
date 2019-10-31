@@ -6,8 +6,8 @@ import static java.lang.Math.sqrt;
 
 public class Blaine extends Ghost
 {
-    private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change
-    private final int STARTING_Y = 16;
+    private final int STARTING_X = 15;  //starting x and y coordinates of Paku; subject to change
+    private final int STARTING_Y = 14;
     private final int SCATTER_X = 1;
     private final int SCATTER_Y = 30;
     private final int EXITCOUNTER = 0;

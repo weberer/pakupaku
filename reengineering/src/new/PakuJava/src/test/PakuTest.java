@@ -44,7 +44,7 @@ public class PakuTest
         Paku paku = Paku.getInstance();
         paku.move();
         paku.resetPaku();
-        paku.getLoc().getxLoc(), paku.get
+        //paku.getLoc().getxLoc(), paku.get
     }
 
     @Test
