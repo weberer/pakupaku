@@ -23,7 +23,7 @@ import org.json.JSONObject;
 public class GameController
 {
     private final int POINTS_PER_DOT = 10;
-
+    private final int POINTS_PER_SUPER_DOT = 50;
     private Controls userInput;
     private JSONObject dataToSend;
 
@@ -269,14 +269,17 @@ public class GameController
     {
         //map.get(location.getxLoc()).get(location.getyLoc());
         ArrayList<ArrayList> map = gameData.getMap();
-        ArrayList column = map.get(location.getxLoc());
-
+        
+        ArrayList row = map.get(location.getyLoc());
 
         List<Ghost> ghostList = gameData.getGhostList();
-        int tile = (int)column.get(location.getyLoc());
+        int tile = (int)row.get(location.getxLoc());
         if(tile == 1)
         {
             gameData.getScore().addScore(POINTS_PER_DOT); //add score for eating dot to current score
+            row.set(location.getxLoc(), 2);
+            map.set(location.getyLoc(), row);
+            gameData.setMap(map);
         }
         if(tile == 3)
         {
@@ -287,7 +290,18 @@ public class GameController
                     ghost.setState(GhostState.flee);
                 }
             }
-            //TODO add score for super pellet.
+            gameData.getScore().addScore(POINTS_PER_SUPER_DOT);
+            row.set(location.getxLoc(), 2);
+            map.set(location.getyLoc(), row);
+            gameData.setMap(map);
+        }
+        if(tile == 5)
+        {
+            gameData.getScore().addScore(gameData.getFruit().eatFruit());
+            row.set(location.getxLoc(), 2);
+            map.set(location.getyLoc(), row);
+            gameData.setMap(map);
+            gameData.setFruit(null);
         }
     }
 
@@ -303,8 +317,10 @@ public class GameController
         for(Ghost ghost : ghostList){
 
             if(!ghost.getState().equals(GhostState.flee) || !ghost.getState().equals(GhostState.eaten)) {
-                paku.substractLife();
-                death = true;
+                if(paku.getLoc().getxLoc() == ghost.getLoc().getxLoc() && paku.getLoc().getyLoc() == ghost.getLoc().getyLoc()) {
+                    paku.substractLife();
+                    death = true;
+                }
             }
             if(ghost.getState().equals(GhostState.flee)) {
                 ghost.addScore(score);
@@ -380,10 +396,10 @@ public class GameController
         if(fruit == null)
         {
             fruit = new Fruit(gamelevel);
-            ArrayList column = map.get(14);
-            column.set(24, 4); //todo: Find a number for fruit on the map
-            map.set(14, column);
-
+            ArrayList row = map.get(24);
+            row.set(14, 5);
+            map.set(24, row);
+            gameData.setFruit(fruit);
             gameData.setMap(map); //to update the map in gameData ?? --Evan
         }
     }

@@ -28,6 +28,7 @@ public class Fruit
     private final int BELL_SCORE = 3000;
     private final int KEY_SCORE = 5000;
     enum Fruits{
+        none,
         cherry,
         strawberry,
         orange,
@@ -83,11 +84,12 @@ public class Fruit
         }
     }
 
-    public void addScore(Score score)
-    {
-        score.addScore(this.score);
+    public int eatFruit() {
+        int ret = score;
+        score = 0;
+        fruit = Fruits.none;
+        return ret;
     }
-
 
 
 }
