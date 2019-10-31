@@ -30,6 +30,12 @@ public class GameData
     private final int superElroy = 10;
     private final int dotPoint = 10;
 
+    //map tile numbers
+    private final int WALL_CODE = 0;
+    private final int DOT_CODE = 1;
+    private final int HALL_CODE = 2;
+    private final int LARGEDOT_CODE = 3;
+
     private Paku paku;
     private int gamelevel;
     private GameStatus gameStatus;
@@ -104,9 +110,11 @@ public class GameData
 //TODO: (Board is the map) mao is a 2d arraylist, put the 2d arraylist into 2D Json Array
             //todo this, convert arraylist to 2D collection, put collection into 2dJson Aray
 
-            
+
             //Collection board = ;
+
             dataToSend.put("board", mapJS);
+
 
 
             JSONObject locationToSend = new JSONObject();
@@ -294,9 +302,6 @@ public class GameData
         this.eachRow = eachRow;
     }
 
-    public String getSAMPLE_CSV_FILE_PATH() {
-        return SAMPLE_CSV_FILE_PATH;
-    }
 
     public List<Ghost> getGhostList() {
         return ghostList;
@@ -316,5 +321,21 @@ public class GameData
 
     public void setExtraLives(int extraLives) {
         this.extraLives = extraLives;
+    }
+
+    public int getWALL_CODE() {
+        return WALL_CODE;
+    }
+
+    public int getDOT_CODE() {
+        return DOT_CODE;
+    }
+
+    public int getHALL_CODE() {
+        return HALL_CODE;
+    }
+
+    public int getLARGEDOT_CODE() {
+        return LARGEDOT_CODE;
     }
 }

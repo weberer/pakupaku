@@ -14,6 +14,8 @@ public abstract class MovingGameObject {
 	protected Direction facingDirection;
 	protected Location loc;
 
+	protected ArrayList<ArrayList> map; //moved this declaration from Ghost to MovingGameObject so that it can be used by Paku -- Evan 10/30
+
 	protected GameData gameData;  //used to centralize the locations of all MovingGameObjects
 
 	protected int modX, modY;

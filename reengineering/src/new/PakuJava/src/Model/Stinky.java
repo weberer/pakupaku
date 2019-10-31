@@ -41,7 +41,7 @@ public class Stinky extends Ghost
             checkWarp();
                 jailSkip = false;
                 howFar = 1;
-            int randomInt = random.nextInt(10);
+           // int randomInt = random.nextInt(10);
             if (state.equals(GhostState.scatter)) {
                 scatterMove(SCATTER_X, SCATTER_Y);
             } else if (state.equals(GhostState.chase)) {

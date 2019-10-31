@@ -15,9 +15,9 @@ import java.util.Random;
  * @author kruge
  */
 
-
 public abstract class Ghost extends MovingGameObject {
 
+    //constants from original code
     protected final int FAR_RIGHT = 26;
     private final int JAIL_BOTTOM = 17;
     private final int JAIL_TOP = 12;
@@ -27,6 +27,7 @@ public abstract class Ghost extends MovingGameObject {
     private final int WARP_LEVEL = 14;
     private final int EATEN_Y = 10;
     private final int EATEN_X = 13;
+
     protected final static int SCORE = 200;
     protected boolean jailSkip;
     protected boolean allowTurn = false;
@@ -40,10 +41,12 @@ public abstract class Ghost extends MovingGameObject {
     protected int fleeTotal;
     protected static int multiplier = 1;
     GhostState state;
+
     protected ArrayList<ArrayList> map;
 
     public Ghost(int x, int y, States ss, Direction dir) {
         super(x, y, null, Direction.up);
+
         random = new Random();
         state = GhostState.chase;
         facingDirection = Direction.up;
@@ -300,7 +303,6 @@ public abstract class Ghost extends MovingGameObject {
     public void resetMultiplier()
     {
         multiplier = 1;
-
     }
 
 
