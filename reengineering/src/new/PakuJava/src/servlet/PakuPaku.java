@@ -24,6 +24,7 @@ public class PakuPaku extends HttpServlet {
 
             control.receivedUserInput(request.getParameter("keycode"));
             JSONObject dataToSend = null;
+            control.update();
             if(control != null)
             {
                 dataToSend = control.getDataToSend();

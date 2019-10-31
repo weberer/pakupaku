@@ -46,8 +46,8 @@ public class GameController
     public void LoadMap()
     {
         // For showing the dictionary. do not remove.
-        File file = new File(".");
-        for(String fileNames : file.list()) System.out.println(fileNames);
+        //File file = new File(".");
+        //for(String fileNames : file.list()) System.out.println(fileNames);
 
         //why are parentheses used here instead of braces??? --Evan 10/30
         try (
@@ -95,11 +95,6 @@ public class GameController
         update();
     }
 
-    /*
-    public int increaseGhostSpeed(int ghostSpeed) {
-        return (int) Math.pow(gamelevel, ghostSpeedToThePower);
-    }
-    */
 
 
     /**
