@@ -69,7 +69,19 @@ public abstract class Ghost extends MovingGameObject {
                     facingDirection = Direction.up;
                 }
             } else {
+                if(loc.getxLoc() >= JAIL_LEFT && loc.getxLoc() <= 13)
+                {
+                    facingDirection = Direction.right;
+                }
+                else if(loc.getxLoc() >= 15 && loc.getxLoc() <= JAIL_RIGHT)
+                {
+                    facingDirection = Direction.left;
 
+                }
+                else if(loc.getxLoc() == 14)
+                {
+                    facingDirection = Direction.up;
+                }
             }
             switch (facingDirection) {
                 case up:
@@ -186,27 +198,28 @@ public abstract class Ghost extends MovingGameObject {
 
                         if (facingDirection.equals(Direction.up)) {
                             if ((int)rowUp.get(loc.getxLoc())> 0)
-                                loc.setyLoc(loc.getyLoc() - howFar);
+                                loc.setyLoc(loc.getyLoc() - 1);
                             else
                                 loc.setyLoc(loc.getyLoc() - 1);
                         } else if (facingDirection.equals(Direction.right)) {
                             if ((int)row.get(loc.getxLoc() + 1) > 0)
-                                loc.setxLoc(loc.getxLoc() + howFar);
+                                loc.setxLoc(loc.getxLoc() + 1);
                             else
                                 loc.setxLoc(loc.getxLoc() + 1);
                         } else if (facingDirection.equals(Direction.down)) {
                             if ((int)rowDown.get(loc.getxLoc()) > 0 || jailSkip)
-                                loc.setyLoc(loc.getyLoc() + howFar);
+                                loc.setyLoc(loc.getyLoc() + 1);
                             else
                                 loc.setyLoc(loc.getyLoc() + 1);
                         } else if (facingDirection.equals(Direction.left)) {
                             if ((int)row.get(loc.getxLoc() - 1) > 0)
-                                loc.setxLoc(loc.getxLoc() - howFar);
+                                loc.setxLoc(loc.getxLoc() - 1);
                             else
                                 loc.setxLoc(loc.getxLoc() - 1);
                         }
                     }
         }
+
 
 
     }
@@ -288,6 +301,6 @@ public abstract class Ghost extends MovingGameObject {
 
 
     public abstract void resetLocation();
-
+    public abstract void recordLocation();
 
 }

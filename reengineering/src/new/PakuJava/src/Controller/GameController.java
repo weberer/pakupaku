@@ -21,10 +21,12 @@ import org.json.JSONObject;
  */
 public class GameController
 {
-
     private final int POINTS_PER_DOT = 10;
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
     private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";
+
+    private Controls userInput;
+    private JSONObject dataToSend;
 
 
     /**
@@ -174,17 +176,32 @@ public class GameController
         LoadMap();
         gameData.setGamelevel(gameLevel);
     }
+
+
+
     //Called every frame(or whenever timer ticks)
     public void update(){
-        Controls input = receivedUserInput();
-        if(input != Controls.escape && input != Controls.O && input != Controls.enter) {
+
+        Controls input = getUserInput();
+        if(input != Controls.escape && input != Controls.O && input != Controls.enter)
+        {
             pakuUpdate((input.castToDir(input)));
         }
+        dataToSend = gameData.getData();
     }
 
     //talks to frontend, return input enum
-    private Controls receivedUserInput() {
-        return null;//Controls.getControl(uiInput(keyBoardInput));
+
+
+    public void receivedUserInput(String userInput) {
+        this.userInput = Controls.getControl(userInput);
+    }
+
+    private Controls getUserInput(){
+        if(this.userInput == null){
+            return Controls.none;
+        }
+        return this.userInput;
     }
 
 
@@ -359,5 +376,32 @@ public class GameController
 
             gameData.setMap(map); //to update the map in gameData ?? --Evan
         }
+    }
+
+
+    /**
+     * Adds currentScore to the list of scores (used to keep track of high scores)
+     */
+    private void archiveScore()
+    {
+       // scoreList.add(currentScore);
+    }
+
+
+    /**
+     * Finds the highest currentScore in the list and updates highSore
+     */
+    private void determineHighScore()
+    {
+        //for(int i = 0; i < scorelist.size(); i++)
+        //{
+        //    if(scorelist.get(i) > highScore)
+        //        highScore = scorelist.get(i);
+        //}
+    }
+
+    public JSONObject getDataToSend() {
+        return dataToSend;
+
     }
 }

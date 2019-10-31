@@ -1,6 +1,7 @@
 package servlet;
 
 import Controller.GameController;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,6 +10,7 @@ import javax.servlet.http.*;
 public class PakuPaku extends HttpServlet {
 
     private static int lastFrameId = -1;
+    private GameController control;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int requestFrameId = Integer.parseInt(request.getParameter("frameId"));
@@ -20,13 +22,22 @@ public class PakuPaku extends HttpServlet {
             if (request.getParameter("keycode") != null)
                 System.out.println("Keycode: " + request.getParameter("keycode"));
 
+            JSONObject dataToSend = null;
+            if(control != null)
+            {
+                dataToSend = control.getDataToSend();
+            }
 
             response.setStatus(HttpServletResponse.SC_OK);
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
 
             out.print("{\"responseData\": \"Success! This is the Response From a Servlet!!!\"}");
+            if(dataToSend != null)
+                out.print(dataToSend.toString());
             out.flush();
+            out.close();
+
         //}
     }
 
@@ -37,7 +48,7 @@ public class PakuPaku extends HttpServlet {
 
     public void init() {
         System.out.println("Server is Starting...");
-        GameController control = new GameController();
+        control = new GameController();
         control.startGame();
     }
 }
