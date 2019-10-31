@@ -97,7 +97,7 @@ public class GameData
 //TODO: (Board is the map) mao is a 2d arraylist, put the 2d arraylist into 2D Json Array
             //todo this, convert arraylist to 2D collection, put collection into 2dJson Aray
 
-            
+
             //Collection board = ;
             dataToSend.put("board", board);
 

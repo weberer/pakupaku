@@ -88,6 +88,9 @@ public class GameController
         Paku paku = gameData.getPaku(); //retrieve singleton Paku Object
         paku.setGameData(gameData); //giving Paku a reference to gameData
         spawnGhosts();
+
+        paku.setMap(gameData.getMap());  //give Paku a reference to the game map --Evan 10/30
+
        // score = new Score();  //new score object created each game UPDATE 10/29 no longer creating new score object each game --Evan
         gameData.setGameStatus(GameStatus.staring);  //update gameStatus
     }
@@ -353,15 +356,15 @@ public class GameController
      */
     private void pakuMove(Direction input)
     {
-        Direction inputDirection = gameData.getInputDirection();
-        Paku paku = gameData.getPaku();
+        Direction inputDirection = gameData.getInputDirection(); //get latest direction inputted from keyboard
+        Paku paku = gameData.getPaku();  //get singleton Paku reference
         if(!input.equals(Direction.stay))
             if(!inputDirection.equals(input) || !inputDirection.equals(Direction.stay)) {
-                paku.setDir(input);
+                paku.setDir(input); //change paku's facingDirection if the given input is different than Paku's current facing direction
                 gameData.setInputDirection(input);
                 //inputDirection = input;
             }
-        paku.move();
+        paku.move(); //tell paku to move in the given direction
 
     }
     private void spawnFruit()

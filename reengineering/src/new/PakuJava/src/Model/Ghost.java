@@ -40,7 +40,7 @@ public abstract class Ghost extends MovingGameObject {
     protected int fleeTotal;
     protected static int multiplier = 1;
     GhostState state;
-    protected ArrayList<ArrayList> map;
+
     public Ghost() {
         random = new Random();
     }

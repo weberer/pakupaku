@@ -8,6 +8,10 @@ import Model.MovingGameObject;
 import org.json.simple.JSONObject;
 import Controller.Controls;*/
 
+import Controller.Controls;
+
+import java.util.ArrayList;
+
 /**
  *
  * @author kruge
@@ -20,6 +24,8 @@ public class Paku extends MovingGameObject{
     private Location loc;
     private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change
     private final int STARTING_Y = 24;
+
+    private final int MOVE_DIST_PER_TICK = 1;
 
     private Paku()
     {
@@ -43,6 +49,19 @@ public class Paku extends MovingGameObject{
     public void move()
     {
         //jo.put(dir.toString());
+
+        switch(this.facingDirection)
+        {
+            case left:   //move Paku left a unit
+                loc.setxLoc(loc.getxLoc() - MOVE_DIST_PER_TICK);
+            case right: //move Paku right a unit
+                loc.setxLoc(loc.getxLoc() + MOVE_DIST_PER_TICK);
+            case up:  //move Paku up a unit
+                loc.setyLoc(loc.getyLoc() + MOVE_DIST_PER_TICK);
+            case down:  //move Paku down a unit
+                loc.setyLoc(loc.getyLoc() - MOVE_DIST_PER_TICK);
+
+        }
 
     }
 
@@ -112,4 +131,7 @@ public class Paku extends MovingGameObject{
         loc.setxLoc(STARTING_X);
     }
 
+    public void setMap(ArrayList<ArrayList> map) {
+        this.map = map;
+    }
 }
