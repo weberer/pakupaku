@@ -19,10 +19,34 @@ public class PakuTest
     @Test
     public void move()
     {
-        GameData gameData = GameData.getInstance();
-        // ArrayList row = map.get(loc.getyLoc());
         Paku paku = Paku.getInstance();
-        paku.move();
+        GameData gameData = GameData.getInstance();
+        new GameController();  //calls the loadMap() method
+        paku.setGameData(gameData);
+        paku.setMap(gameData.getMap());
+
+        paku.move(); //move unit in default left direction
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X() - 1);
+        paku.resetLocation();
+
+        paku.setDir(Direction.right);
+        paku.move(); //moves paku one unit in the right direction
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X() + 1);
+
+        /**
+        paku.setDir(Direction.up);
+        paku.move(); //moves paku one unit in the up direction
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y() + 1);
+
+        paku.setDir(Direction.down);
+        paku.move(); //moves paku one unit in the down direction
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y() - 1);
+
+        paku.setDir(Direction.right);
+        paku.move(); //moves paku one unit in the right direction
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X() + 1);
+         */
+
     }
 
     @Test
@@ -101,11 +125,66 @@ public class PakuTest
         paku.resetPaku();
         Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X());
         Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y());
+
+        Assert.assertEquals(paku.getRemainingLife(), paku.getSTARTINGLIFES());
     }
 
     @Test
     public void resetLocation()
     {
+        Paku paku = Paku.getInstance();
+        GameData gameData = GameData.getInstance();
+        new GameController();  //calls the loadMap() method
+        paku.setGameData(gameData);
+        paku.setMap(gameData.getMap());
+        paku.move();  //moves paku one unit in the default left direction
+        paku.resetPaku();  //reset
+
+        //test whether Paku has returned to starting Location
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X());
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y());
+        paku.move();
+        paku.move();
+        paku.move();
+        paku.resetPaku();
+        //test whether Paku has returned to starting Location after starting moves
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X());
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y());
+
+        paku.setDir(Direction.up);
+        paku.move(); //moves paku one unit in the up direction
+        paku.resetPaku();
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X());
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y());
+        paku.move();
+        paku.move();
+        paku.move();
+        paku.resetPaku();
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X());
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y());
+
+        paku.setDir(Direction.down);
+        paku.move(); //moves paku one unit in the down direction
+        paku.resetPaku();
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X());
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y());
+        paku.move();
+        paku.move();
+        paku.resetPaku();
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X());
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y());
+
+
+        paku.setDir(Direction.right);
+        paku.move(); //moves paku one unit in the right direction
+        paku.resetPaku();
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X());
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y());
+        paku.move();
+        paku.move();
+        paku.resetPaku();
+        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X());
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y());
 
     }
 }

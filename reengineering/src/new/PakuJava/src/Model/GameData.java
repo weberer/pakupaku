@@ -62,7 +62,7 @@ public class GameData
     ///DO NOT DO NOT DO NOT MODIFY
     //private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";///DO NOT DO NOT DO NOT MODIFY
     private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";///DO NOT DO NOT DO NOT MODIFY
-    
+
 
     private static GameData data = new GameData();  //to make this class a Singleton
 

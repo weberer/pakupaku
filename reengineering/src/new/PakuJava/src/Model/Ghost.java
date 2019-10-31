@@ -57,8 +57,8 @@ public abstract class Ghost extends MovingGameObject {
 
     protected ArrayList<ArrayList> map;
 
-    public Ghost(int x, int y, States ss, Direction dir) {
-        super(x, y, null, Direction.up);
+    public Ghost(States ss, Direction dir) {
+        super(null, Direction.up);
 
         random = new Random();
         state = GhostState.chase;

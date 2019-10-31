@@ -22,19 +22,19 @@ public class Paku extends MovingGameObject{
     private int remainingLife;
     private final int STARTINGLIFES = 3;
     //private Location loc;
-    private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change
-    private final int STARTING_Y = 24;
+    private final int STARTING_X = 13;  //starting x and y coordinates of Paku; subject to change
+    private final int STARTING_Y = 23;
 
     private final int MOVE_DIST_PER_TICK = 1;
 
 
     private Paku()
     {
-        super(14, 24, null, Direction.left);
+        super(null, Direction.left);
 
+        resetLocation();
         remainingLife = STARTINGLIFES;
         //loc = new Location(STARTING_X, STARTING_Y);
-
     }
 
 
@@ -54,6 +54,7 @@ public class Paku extends MovingGameObject{
     public void move() {
         switch(this.facingDirection) {
             case left:   //move Paku left a unit
+                int currentX = loc.getxLoc();
                 if(!checkWall(loc.getxLoc() - MOVE_DIST_PER_TICK, loc.getyLoc()))
                     loc.setxLoc(loc.getxLoc() - MOVE_DIST_PER_TICK); //move left if not running into wall
             case right: //move Paku right a unit unless there's a wall there
@@ -76,8 +77,8 @@ public class Paku extends MovingGameObject{
      */
     private boolean checkWall(int xLoc, int yLoc)
     {
-        ArrayList row = map.get(loc.getyLoc());
-        int tile = (int)row.get(loc.getxLoc()); //get tile that Paku is trying to get to
+        ArrayList row = map.get(yLoc);
+        int tile = (int)row.get(xLoc); //get tile that Paku is trying to get to
         if(tile == gameData.getWALL_CODE())
             return true;
         return false;
