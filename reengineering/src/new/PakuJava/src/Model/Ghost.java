@@ -42,8 +42,14 @@ public abstract class Ghost extends MovingGameObject {
     protected static int multiplier = 1;
     GhostState state;
 
-    public Ghost() {
+    protected ArrayList<ArrayList> map;
+
+    public Ghost(int x, int y, States ss, Direction dir) {
+        super(x, y, null, Direction.up);
+
         random = new Random();
+        state = GhostState.chase;
+        facingDirection = Direction.up;
     }
 
     protected boolean inJail() {

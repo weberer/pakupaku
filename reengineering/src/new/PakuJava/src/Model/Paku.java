@@ -29,8 +29,12 @@ public class Paku extends MovingGameObject{
 
     private Paku()
     {
+        super(14, 24, null, Direction.left);
+        System.out.println("Paku has been constructed");
+
         remainingLife = STARTINGLIFES;
-        loc = new Location(STARTING_X, STARTING_Y);
+        //loc = new Location(STARTING_X, STARTING_Y);
+
     }
 
 
@@ -111,16 +115,16 @@ public class Paku extends MovingGameObject{
 
     @Override
     public Location getLoc() {
-        return loc;
+        return super.loc;
     }
 
 
     public void setLoc(Location loc) {
-        this.loc = loc;
+        super.loc = loc;
     }
     public void setDir(Direction dir)
     {
-        this.facingDirection = dir;
+        super.facingDirection = dir;
     }
 
 
@@ -129,8 +133,8 @@ public class Paku extends MovingGameObject{
      */
     public void resetPaku()
     {
-        loc.setyLoc(STARTING_Y);
-        loc.setxLoc(STARTING_X);
+        super.loc.setyLoc(STARTING_Y);
+        super.loc.setxLoc(STARTING_X);
         remainingLife = STARTINGLIFES;
     }
 
@@ -140,8 +144,8 @@ public class Paku extends MovingGameObject{
      */
     public void resetLocation()
     {
-        loc.setyLoc(STARTING_Y);
-        loc.setxLoc(STARTING_X);
+        super.loc.setyLoc(STARTING_Y);
+        super.loc.setxLoc(STARTING_X);
     }
 
     public void setMap(ArrayList<ArrayList> map) {

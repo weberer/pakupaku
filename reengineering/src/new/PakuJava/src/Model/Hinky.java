@@ -13,6 +13,7 @@ public class Hinky extends Ghost
     private Ghost stinky;
     public Hinky(Ghost stinky, ArrayList<ArrayList> map)
     {
+        super(14, 11, null, Direction.up);
         this.map = map;
         this.stinky = stinky;
         loc = new Location(STARTING_X, STARTING_Y);

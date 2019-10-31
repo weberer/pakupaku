@@ -14,6 +14,7 @@ public class Blaine extends Ghost
 
     public Blaine(ArrayList<ArrayList> map)
     {
+        super(14, 11, null, Direction.up);
         loc = new Location(STARTING_X, STARTING_Y);
         this.map = map;
     }
