@@ -10,13 +10,14 @@ public class Stinky extends Ghost
     private final int STARTING_Y = 11;
     private final int SCATTER_X = FAR_RIGHT;
     private final int SCATTER_Y = 1;
-    private final int EXITCOUNTER = 0;
+
+
     public Stinky(ArrayList<ArrayList> map)
     {
+        super(14, 11, null, Direction.up);
         this.map =  map;
         loc = new Location(STARTING_X, STARTING_Y);
-        facingDirection = Direction.left;
-        exitCounter = EXITCOUNTER;
+
     }
 
     @Override
@@ -30,6 +31,8 @@ public class Stinky extends Ghost
         Location paku = Paku.getInstance().getLoc();
 
         alternate = !alternate;
+        modX = loc.getxLoc() % 3;
+        modY = (loc.getyLoc() + 1) % 3;
         if(inJail())
         {
             jailMove();
@@ -38,7 +41,7 @@ public class Stinky extends Ghost
             checkWarp();
                 jailSkip = false;
                 howFar = 1;
-            int randomInt = random.nextInt(10);
+           // int randomInt = random.nextInt(10);
             if (state.equals(GhostState.scatter)) {
                 scatterMove(SCATTER_X, SCATTER_Y);
             } else if (state.equals(GhostState.chase)) {

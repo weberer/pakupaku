@@ -27,11 +27,7 @@ public class GameController
     private Controls userInput;
     private JSONObject dataToSend;
 
-
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
-    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";
-
-
 
 
     /**
@@ -55,7 +51,7 @@ public class GameController
 
         //why are parentheses used here instead of braces??? --Evan 10/30
         try (
-                Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_FILE_PATH));
+                Reader reader = Files.newBufferedReader(Paths.get(gameData.getSAMPLE_CSV_FILE_PATH()));
                 CSVReader csvReader = new CSVReader(reader);
         )
         {
@@ -86,6 +82,8 @@ public class GameController
      */
     public void startGame() {
         Paku paku = gameData.getPaku(); //retrieve singleton Paku Object
+
+        paku.setGameData(gameData);
         paku.setGameData(gameData); //giving Paku a reference to gameData
         spawnGhosts();
 
@@ -93,6 +91,7 @@ public class GameController
 
        // score = new Score();  //new score object created each game UPDATE 10/29 no longer creating new score object each game --Evan
         gameData.setGameStatus(GameStatus.staring);  //update gameStatus
+        update();
     }
 
     /*
@@ -183,6 +182,7 @@ public class GameController
         gameLevel = gameLevel++;
         LoadMap();
         gameData.setGamelevel(gameLevel);
+        update();
     }
 
 
@@ -191,6 +191,7 @@ public class GameController
     public void update(){
 
         Controls input = getUserInput();
+        dataToSend = gameData.getData();
         if(input != Controls.escape && input != Controls.O && input != Controls.enter)
         {
             pakuUpdate((input.castToDir(input)));
@@ -263,21 +264,26 @@ public class GameController
           }
     }
 
+    /**
+     * Handles scoring and map modificaiton for the eating of dots and fruit
+     * @param location
+     */
     private void pakuEatsDots(Location location)
     {
-        //map.get(location.getxLoc()).get(location.getyLoc());
         ArrayList<ArrayList> map = gameData.getMap();
+
         ArrayList row = map.get(location.getyLoc());
+
         List<Ghost> ghostList = gameData.getGhostList();
         int tile = (int)row.get(location.getxLoc());
-        if(tile == 1)
+        if(tile == gameData.getDOT_CODE())  //regular dot
         {
             gameData.getScore().addScore(POINTS_PER_DOT); //add score for eating dot to current score
             row.set(location.getxLoc(), 2);
             map.set(location.getyLoc(), row);
             gameData.setMap(map);
         }
-        if(tile == 3)
+        if(tile == gameData.getLARGEDOT_CODE())  //super (large) dot
         {
             for(Ghost ghost : ghostList)
             {
@@ -291,7 +297,7 @@ public class GameController
             map.set(location.getyLoc(), row);
             gameData.setMap(map);
         }
-        if(tile == 5)
+        if(tile == gameData.getFRUIT_CODE())  //fruit
         {
             gameData.getScore().addScore(gameData.getFruit().eatFruit());
             row.set(location.getxLoc(), 2);
@@ -302,7 +308,7 @@ public class GameController
     }
 
     /**
-     * TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     *
      */
     private void collideWithGhostProtocol() {
         boolean death = false;

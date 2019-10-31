@@ -2,8 +2,10 @@ package Model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -28,6 +30,13 @@ public class GameData
     private final int superElroy = 10;
     private final int dotPoint = 10;
 
+    //map tile numbers
+    private final int WALL_CODE = 0;
+    private final int DOT_CODE = 1;
+    private final int HALL_CODE = 2;
+    private final int LARGEDOT_CODE = 3;
+    private final int FRUIT_CODE = 5;  // put a five to indicate location of a Fruit
+
     private Paku paku;
     private int gamelevel;
     private GameStatus gameStatus;
@@ -48,6 +57,7 @@ public class GameData
     // used for checking the score based extra lives.
     private int extraLives;
 
+    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";
 
     private static GameData data = new GameData();  //to make this class a Singleton
 
@@ -94,20 +104,29 @@ public class GameData
 
             dataToSend.put("sound", true);
 
+            JSONArray mapJS = new JSONArray();
+            map.forEach((eachrowAL) -> {
+                mapJS.put(new JSONArray(Arrays.asList(eachrowAL)));
+            });
+
 //TODO: (Board is the map) mao is a 2d arraylist, put the 2d arraylist into 2D Json Array
             //todo this, convert arraylist to 2D collection, put collection into 2dJson Aray
 
 
             //Collection board = ;
-            //dataToSend.put("board", board);
+
+            dataToSend.put("board", mapJS);
 
 
-            JSONObject locationToSend = new JSONObject();
-            locationToSend.put("x", getPakuLoc().getxLoc());
-            locationToSend.put("y", getPakuLoc().getyLoc());
+
+            JSONObject pakuLocationToSend = new JSONObject();
+            pakuLocationToSend.put("x", getPakuLoc().getxLoc());
+            pakuLocationToSend.put("y", getPakuLoc().getyLoc());
+            pakuLocationToSend.put("direction", paku.getFacingDirection().toString());
+
 
             JSONObject pakuToSend = new JSONObject();
-            pakuToSend.put("location", locationToSend);
+            pakuToSend.put("location", pakuLocationToSend);
             //pakuToSend.put("direction", pakuDir());
 
             dataToSend.put("paku", pakuToSend);
@@ -134,7 +153,7 @@ public class GameData
             ghostsToSend.put("kinky", kinkyToSend);
             ghostsToSend.put("blaine", blaineToSend);
 
-
+            dataToSend.put("ghosts", ghostsToSend);
         }
 
         catch (JSONException ex)
@@ -146,7 +165,7 @@ public class GameData
 
     public JSONObject getData()
     {
-
+        createObject();
         return dataToSend;
     }
 
@@ -188,23 +207,23 @@ public class GameData
     }
 
     public Location getPakuLoc() {
-        return pakuLoc;
+        return paku.getLoc();
     }
 
     public Location getBlaineLoc() {
-        return blaineLoc;
+        return ghostList.get(0).getLoc();
     }
 
     public Location getStinkyLoc() {
-        return stinkyLoc;
+        return ghostList.get(2).getLoc();
     }
 
     public Location getHinkyLoc() {
-        return hinkyLoc;
+        return ghostList.get(1).getLoc();
     }
 
     public Location getKinkyLoc() {
-        return kinkyLoc;
+        return ghostList.get(3).getLoc();
     }
 
     public int getCurrentScore() {
@@ -287,9 +306,6 @@ public class GameData
         this.eachRow = eachRow;
     }
 
-    /*public String getSAMPLE_CSV_FILE_PATH() {
-        return SAMPLE_CSV_FILE_PATH;
-    }*/
 
     public List<Ghost> getGhostList() {
         return ghostList;
@@ -309,5 +325,30 @@ public class GameData
 
     public void setExtraLives(int extraLives) {
         this.extraLives = extraLives;
+    }
+
+    public int getWALL_CODE() {
+        return WALL_CODE;
+    }
+
+    public int getDOT_CODE() {
+        return DOT_CODE;
+    }
+
+    public int getHALL_CODE() {
+        return HALL_CODE;
+    }
+
+    public int getLARGEDOT_CODE() {
+        return LARGEDOT_CODE;
+    }
+
+    public int getFRUIT_CODE() {
+        return FRUIT_CODE;
+    }
+
+
+    public String getSAMPLE_CSV_FILE_PATH() {
+        return SAMPLE_CSV_FILE_PATH;
     }
 }
