@@ -215,7 +215,7 @@ public class GameController
     /**
      * Handles setting up the game for the next level
      */
-    private void nextLevel() {
+    public void nextLevel() {
         List<Ghost> ghostList = gameData.getGhostList();
         Paku paku = gameData.getPaku();
         paku.resetLocation();
@@ -232,7 +232,8 @@ public class GameController
         if(gameLevel < 3)
         {
             int test = gameLevel + 1;
-            int i = fruitArray.length;
+            //int i = fruitArray.length;
+            int i = fruitArray.length - 1;
             while (test != 0)
             {
                 fruitArray[i] = test;
