@@ -3,6 +3,10 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * Hinky is the blue ghost that moves in the general direction of Paku like Kinky,
+ * but can get thrown off depending on how far Stinky is from Paku.
+ */
 public class Hinky extends Ghost
 {
     private final int STARTING_X = 11;  //starting x and y coordinates of Paku; subject to change

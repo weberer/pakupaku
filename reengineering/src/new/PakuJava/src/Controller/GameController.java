@@ -199,6 +199,7 @@ public class GameController
         gameData.getPaku().resetPaku();
         for(Ghost ghost : ghostList){
             ghost.resetLocation();
+            ghost.startTimer();
         }
         ghostList.get(0).resetMultiplier();
         int gamelevel = 0;

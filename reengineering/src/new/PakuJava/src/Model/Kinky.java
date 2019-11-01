@@ -3,6 +3,9 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * Kinky is the pink ghost who will follow where paku is about to move to based on its direction.
+ */
 public class Kinky extends Ghost {
 
     private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change

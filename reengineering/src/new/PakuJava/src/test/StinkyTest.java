@@ -62,8 +62,5 @@ public class StinkyTest {
         stinky.getLoc().setxLoc(12);
         stinky.move();
         assertEquals(22, stinky.getLoc().getyLoc());
-
     }
-
-
 }

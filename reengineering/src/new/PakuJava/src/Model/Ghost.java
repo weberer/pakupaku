@@ -422,6 +422,7 @@ public abstract class Ghost extends MovingGameObject {
     }
     public abstract void resetLocation();
 
+    //Used to populate level based timers.
     public void setupTimers()
     {
         level1behaviors = new ArrayList<>();
@@ -516,13 +517,30 @@ public abstract class Ghost extends MovingGameObject {
 
         blinkTimers.add(0);
     }
+    //Starts the state time on each ghost based on the level.
     public void startTimer()
     {
-        timerIndex = 0;
-        timer = level1behaviors.get(timerIndex);
-        state = levelStates.get(timerIndex);
+        if(gameData.getGamelevel() == 0)
+        {
+            timerIndex = 0;
+            timer = level1behaviors.get(timerIndex);
+            state = levelStates.get(timerIndex);
+        }
+        else if(gameData.getGamelevel() >= 1 && gameData.getGamelevel() < 4)
+        {
+            timerIndex = 0;
+            timer = level2to5Behaviors.get(timerIndex);
+            state = levelStates.get(timerIndex);
+        }
+        else
+        {
+            timerIndex = 0;
+            timer = level5PlusBehaviors.get(timerIndex);
+            state = levelStates.get(timerIndex);
+        }
 
     }
+    //implement as true if fleeTotal is less than the level's blinkTimer.
     public abstract void isBlinking();
     //These methods are used for testing.
     public void setDirection(Direction dir)

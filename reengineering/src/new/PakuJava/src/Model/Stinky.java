@@ -4,6 +4,9 @@ package Model;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Stinky is the red ghost who moves in the direction of paku's current location.
+ */
 public class Stinky extends Ghost
 {
     private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change

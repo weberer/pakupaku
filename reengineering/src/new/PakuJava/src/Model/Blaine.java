@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import static java.lang.Math.sqrt;
 
+/**
+ * Blaine is the brown ghost, he moves erratically and will ususally veer off course
+ * if Paku is too far away.
+ */
 public class Blaine extends Ghost
 {
     private final int STARTING_X = 15;  //starting x and y coordinates of Paku; subject to change
