@@ -57,15 +57,19 @@ public class Paku extends MovingGameObject{
                 int currentX = loc.getxLoc();
                 if(!checkWall(loc.getxLoc() - MOVE_DIST_PER_TICK, loc.getyLoc()))
                     loc.setxLoc(loc.getxLoc() - MOVE_DIST_PER_TICK); //move left if not running into wall
+                break;
             case right: //move Paku right a unit unless there's a wall there
                 if(!checkWall(loc.getxLoc() + MOVE_DIST_PER_TICK, loc.getyLoc()))
                     loc.setxLoc(loc.getxLoc() + MOVE_DIST_PER_TICK);
+                break;
             case up:  //move Paku up a unit unless theres a wall there
-                if(!checkWall(loc.getxLoc(), loc.getyLoc() + MOVE_DIST_PER_TICK))
-                    loc.setyLoc(loc.getyLoc() + MOVE_DIST_PER_TICK);
-            case down:  //move Paku down a unit unless there's a wall
                 if(!checkWall(loc.getxLoc(), loc.getyLoc() - MOVE_DIST_PER_TICK))
                     loc.setyLoc(loc.getyLoc() - MOVE_DIST_PER_TICK);
+                break;
+            case down:  //move Paku down a unit unless there's a wall
+                if(!checkWall(loc.getxLoc(), loc.getyLoc() + MOVE_DIST_PER_TICK))
+                    loc.setyLoc(loc.getyLoc() + MOVE_DIST_PER_TICK);
+                break;
         }
     }
 
@@ -114,16 +118,19 @@ public class Paku extends MovingGameObject{
         return remainingLife;
     }
 
+
     @Override
     public Location getLoc() {
         return super.loc;
     }
 
 
+
     /**
      * Sets Paku's location (in x y format)
      * @param loc
      */
+    @Override
     public void setLoc(Location loc) {
         super.loc = loc;
     }

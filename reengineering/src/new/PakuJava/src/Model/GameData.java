@@ -40,6 +40,7 @@ public class GameData
     private Paku paku;
     private int gamelevel;
     private GameStatus gameStatus;
+    private int currentFrame;
 
     private final double ghostSpeed = 10;
 
@@ -60,8 +61,8 @@ public class GameData
 
 
     ///DO NOT DO NOT DO NOT MODIFY
-    //private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";///DO NOT DO NOT DO NOT MODIFY
-    private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";///DO NOT DO NOT DO NOT MODIFY
+    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";///DO NOT DO NOT DO NOT MODIFY
+    //private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";///DO NOT DO NOT DO NOT MODIFY
 
 
     private static GameData data = new GameData();  //to make this class a Singleton
@@ -89,7 +90,7 @@ public class GameData
         map = new ArrayList<ArrayList>();
         eachRow = new ArrayList<Integer>();
 
-
+        currentFrame = -1;
     }
 
     public boolean isBlaineBlink() {
@@ -233,7 +234,7 @@ public class GameData
     public void setPakuLoc(Location pakuLoc) {
         this.pakuLoc = pakuLoc;
     }
-    
+
 
     public GameStatus getGameStatus() {
         return gameStatus;
@@ -440,5 +441,13 @@ public class GameData
     public boolean checkForSuperDot() {
         ArrayList<Integer> eachrow = new ArrayList<Integer>();
         return eachrow.contains(3);
+    }
+
+    public int getCurrentFrame() {
+        return currentFrame;
+    }
+
+    public void setCurrentFrame(int currentFrame) {
+        this.currentFrame = currentFrame;
     }
 }
