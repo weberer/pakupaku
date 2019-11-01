@@ -66,7 +66,5 @@ public class Blaine extends Ghost
         }
         gameData.setBlaineBlink(false);
     }
-    public void recordLocation() {
-        gameData.setBlaineLocation(loc);
-    }
+
 }

@@ -21,7 +21,7 @@ public abstract class MovingGameObject {
 	protected int modX, modY;
 
 	public MovingGameObject(States state, Direction dir){
-		loc = new Location(x, y);
+		//loc = new Location(x, y);
 		this.state = state;
 		this.facingDirection = dir;
 	}

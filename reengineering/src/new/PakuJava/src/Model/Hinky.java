@@ -84,7 +84,5 @@ public class Hinky extends Ghost
         }
         gameData.setHinkyBlink(false);
     }
-    public void recordLocation() {
-        gameData.setHinkyLocation(loc);
-    }
+
 }
