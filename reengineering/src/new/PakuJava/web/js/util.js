@@ -1,11 +1,7 @@
 class Util {
     // Class variables
-    static rootStyle;
-    static lastKeyPressed;
-    static frameNumber = 0;
-    static frameInterval= 120; //Send a request every second
-    static intervalId;
-    static requestURL = "http://localhost:8080/pakupaku/servlet/PakuPakuServlet";
+    static rootStyle = null;
+    static lastKeyPressed = null;
     static aspectRatio = {
         height: 2, // 100
         width: 3.2 // 160
@@ -18,6 +14,8 @@ class Util {
         if(height > (width * this.aspectRatio.height / this.aspectRatio.width))
             this.setPropertyValue("global.css", ":root","--screen_height", (width / this.aspectRatio.width * this.aspectRatio.height)+ "px");
     };
+
+    static currentlyPlayingAudio = null;
 
     // Sets the value of a given CSS property/value. Throws an exception if no such property exists.
     static setPropertyValue = (sheetName, elementName, propertyName, newValue) => {
@@ -48,19 +46,32 @@ class Util {
 
     // Since requests are sent on a cycle, not reactionary, update the 'last key pressed' variable in Util.
     // when the next request is sent, this value will be used.
-    static handleKeypress = keycode => {
+    static handleKeypress = event => {
+        let keycode = event.code;
         switch(keycode) {
             case "KeyW":
-                paku.changeDirection(Paku.directions.up);
+                ///paku.changeDirection(Paku.directions.up);
                 break;
             case "KeyD":
-                paku.changeDirection(Paku.directions.right);
+                //paku.changeDirection(Paku.directions.right);
                 break;
             case "KeyS":
-                paku.changeDirection(Paku.directions.down);
+               //paku.changeDirection(Paku.directions.down);
                 break;
             case "KeyA":
-                paku.changeDirection(Paku.directions.left);
+                //paku.changeDirection(Paku.directions.left);
+                break;
+            case "ArrowUp":
+                ///paku.changeDirection(Paku.directions.up);
+                break;
+            case "ArrowRight":
+                //paku.changeDirection(Paku.directions.right);
+                break;
+            case "ArrowDown":
+                //paku.changeDirection(Paku.directions.down);
+                break;
+            case "ArrowLeft":
+                //paku.changeDirection(Paku.directions.left);
                 break;
             case "KeyO":
                 Game.toggleSound();
@@ -69,47 +80,16 @@ class Util {
                 Game.handleEnterKey();
                 break;
             case "Escape":
-                Game.handleEscapeKey();
+                Game.handleEscKey();
                 break;
-
         }
 
         Util.lastKeyPressed = keycode;
-		//zzUtil.sendFrameData()
+		//Util.sendFrameData()
     };
 
     static handleAjaxSuccess = (data) => {
         console.log(data);
-    };
-
-    // handles error responses from the server
-    static handleAjaxError = (jqXHR, status, error) => {
-        console.log("Request Error:");
-        console.log(jqXHR);
-        console.log("Error Data:");
-        console.log(error);
-    };
-
-    // sends a request to the server for a new frame
-    static sendFrameData = () => {
-        let data = {
-            frameId: this.frameNumber++
-        };
-
-        if(this.lastKeyPressed) {
-            data["keycode"] = Util.lastKeyPressed;
-            this.lastKeyPressed = null;
-        }
-
-        $.ajax({
-            url: Util.requestURL,
-            data: data,
-            type: "POST",
-            crossDomain: true,
-            success: this.handleAjaxSuccess,
-            timeout: 400,
-            error: this.handleAjaxError
-        });
     };
 
     // begins sending Ajax requests to the server at regular intervals
@@ -130,5 +110,39 @@ class Util {
             clearInterval(this.intervalId);
         else
             throw "No interval to stop";
+    };
+
+    // plays a sound file associated with an html element. returns the duration of the sound file in ms
+    static playAudio = (name) => {
+        if(Game.isSoundOn)
+        {
+            let audio = document.getElementById('audio_' + name);
+            if(!audio)
+                throw "Error: An <audio> element with id audio_" + name + " does not exist.";
+            let duration = audio.duration * 1000; // convert returned s into ms
+            this.currentlyPlayingAudio = audio;
+            audio.play();
+            setTimeout(this.stopAudio, duration);
+            return duration
+        }
+    };
+
+    static stopAudio = () => {
+        if(this.currentlyPlayingAudio)
+        {
+            this.currentlyPlayingAudio.pause();
+            this.currentlyPlayingAudio = null;
+        }
+    };
+
+    // pads a string or integer out to length 8 with '0''s
+    static padScore(score)
+    {
+        let scoreLength = 8; //number of digits in a score string
+
+        if(Number.isInteger(score))
+            score = score.toString();
+        return score.padStart(scoreLength, '0');
     }
+
 }

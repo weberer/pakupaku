@@ -385,6 +385,10 @@ body {
     overflow: hidden;
     position: relative;
     flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 
 #ghost_display > div {
@@ -392,6 +396,7 @@ body {
     flex-direction: row;
     z-index: 10;
     position: relative;
+    flex: 1;
 }
 
 #ghost_display .description,

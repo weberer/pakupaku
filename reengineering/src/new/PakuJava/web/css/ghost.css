@@ -148,6 +148,7 @@
     background-image: url("../resources/svg/ghosts/hinky.svg#right_2");
 }
 
+
 #blaine {
     --x_coord: 0;
     --y_coord: 0;
@@ -207,6 +208,7 @@
 .ghost[state="eaten"][direction="right"]::after {
     background-image: url("../resources/svg/ghosts/eaten.svg#right");
 }
+
 
 
 /*TODO: Add Support for 'Scared' state (SVG assets need to be updated)

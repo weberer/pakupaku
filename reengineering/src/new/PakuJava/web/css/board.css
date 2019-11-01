@@ -47,7 +47,7 @@
     flex: 4;
 }
 
-#powerups {
+#fruit {
     flex: 8;
     padding-right: 2%;
 }
@@ -98,42 +98,43 @@
     fill: var(--pellet);
 }
 
-.powerup {
+.fruit {
     background-repeat: no-repeat;
     background-size: contain;
     height: 100%;
-    width: 100%
+    width: 100%;
+    background-image: none;
 }
 
-.powerup[type="apple"]{
+.fruit[type="apple"]{
     background-image: url(../resources/svg/powerups/apple.svg);
 }
 
-.powerup[type="bell"]{
+.fruit[type="bell"]{
     background-image: url(../resources/svg/powerups/bell.svg);
 }
 
-.powerup[type="cherry"]{
+.fruit[type="cherry"]{
     background-image: url(../resources/svg/powerups/cherry.svg);
 }
 
-.powerup[type="grape"]{
+.fruit[type="grape"]{
     background-image: url(../resources/svg/powerups/grape.svg);
 }
 
-.powerup[type="key"]{
+.fruit[type="key"]{
     background-image: url(../resources/svg/powerups/key.svg);
 }
 
-.powerup[type="peach"]{
+.fruit[type="peach"]{
     background-image: url(../resources/svg/powerups/peach.svg);
 }
 
-.powerup[type="ship"]{
+.fruit[type="ship"]{
     background-image: url(../resources/svg/powerups/ship.svg);
 }
 
-.powerup[type="strawberry"]{
+.fruit[type="strawberry"]{
     background-image: url(../resources/svg/powerups/strawberry.svg);
 }
 
@@ -154,7 +155,7 @@
     stroke-dashoffset: -15;
 }
 
-.life[status="show"] {
+.life[state="show"] {
     opacity: 1;
     visibility: visible;
 }

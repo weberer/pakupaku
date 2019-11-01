@@ -13,6 +13,7 @@
 
     <!-- Import JS Files -->
     <script type="application/javascript" src="js/util.js"></script>
+    <script type="application/javascript" src="js/networking.js"></script>
     <script type="application/javascript" src="js/game.js"></script>
     <script type="application/javascript" src="js/board.js"></script>
     <script type="application/javascript" src="js/movingEntity.js"></script>
@@ -35,6 +36,7 @@
             <stop offset="100%" stop-color="var(--background)" />
         </radialGradient>
     </svg>
+    <audio id = "audio_ready" src="resources/audio/ready.wav" type="audio/wav"></audio>
     <div id="display" class="container" state="game">
         <div id="left_container" class="container">
             <div id="game_board" state="ready" >
@@ -466,26 +468,26 @@
             </div>
             <div id="bottom_row">
                 <div id="lives" class="container">
-                    <svg id="life_0" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
+                    <svg id="life_0" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" state="show">
                         <circle cx="50%" cy="50%" r="25%" ></circle>
                     </svg>
-                    <svg id="life_1" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
+                    <svg id="life_1" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" state="show">
                         <circle cx="50%" cy="50%" r="25%" ></circle>
                     </svg>
-                    <svg id="life_2" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
+                    <svg id="life_2" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" state="show">
                         <circle cx="50%" cy="50%" r="25%" ></circle>
                     </svg>
                 </div>
                 <div id="bottom_row_spacing"></div>
-                <div id="powerups" class="container">
-                    <div id="powerup_7" class="powerup" type="cherry"></div>
-                    <div id="powerup_6" class="powerup" type="strawberry"></div>
-                    <div id="powerup_5" class="powerup" type="peach"></div>
-                    <div id="powerup_4" class="powerup" type="bell"></div>
-                    <div id="powerup_3" class="powerup" type="apple"></div>
-                    <div id="powerup_2" class="powerup" type="grape"></div>
-                    <div id="powerup_1" class="powerup" type="ship"></div>
-                    <div id="powerup_0" class="powerup" type="key"></div>
+                <div id="fruit" class="container">
+                    <div id="fruit_7" class="fruit" type="cherry"></div>
+                    <div id="fruit_6" class="fruit" type="strawberry"></div>
+                    <div id="fruit_5" class="fruit" type="peach"></div>
+                    <div id="fruit_4" class="fruit" type="bell"></div>
+                    <div id="fruit_3" class="fruit" type="apple"></div>
+                    <div id="fruit_2" class="fruit" type="grape"></div>
+                    <div id="fruit_1" class="fruit" type="ship"></div>
+                    <div id="fruit_0" class="fruit" type="key"></div>
                 </div>
             </div>
             <div id="new_high_score" class="dialog" state="hidden">
@@ -504,24 +506,24 @@
                 <table id="highscore_table">
                     <tbody>
                         <tr>
-                            <td class="score">00000000</td>
-                            <td class="initial">PAL</td>
+                            <td id = "highscore_score_0" class="score">00000000</td>
+                            <td id = "highscore_init_0" class="initial">PAL</td>
                         </tr>
                         <tr>
-                            <td class="score">00000000</td>
-                            <td class="initial">PAL</td>
+                            <td id = "highscore_score_1" class="score">00000000</td>
+                            <td id = "highscore_init_1" class="initial">PAL</td>
                         </tr>
                         <tr>
-                            <td class="score">00000000</td>
-                            <td class="initial">PAL</td>
+                            <td id = "highscore_score_2" class="score">00000000</td>
+                            <td id = "highscore_init_2" class="initial">PAL</td>
                         </tr>
                         <tr>
-                            <td class="score">00000000</td>
-                            <td class="initial">PAL</td>
+                            <td id = "highscore_score_3" class="score">00000000</td>
+                            <td id = "highscore_init_3" class="initial">PAL</td>
                         </tr>
                         <tr>
-                            <td class="score">00000000</td>
-                            <td class="initial">PAL</td>
+                            <td id = "highscore_score_4" class="score">00000000</td>
+                            <td id = "highscore_init_4" class="initial">PAL</td>
                         </tr>
                     </tbody>
                 </table>
@@ -547,7 +549,7 @@
         <div id="right_menu_container" class="container">
             <div id="game_title">
                 <span>PAKU</span>
-                <svg class="life logo" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
+                <svg class="life logo" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" state="show">
                 <circle cx="50%" cy="50%" r="25%" ></circle>
             </svg>
                 <span>PAKU</span>
@@ -616,7 +618,8 @@
         // Main Method, execute after document fires onReady event;
         $(() => {
             Game.init();
-            let keyListener = document.addEventListener("keypress", (e) => Util.handleKeypress(e.code));
+            //let keyListener = document.addEventListener("keypress", (e) => Util.handleKeypress(e)); //keypress event doesn't handle the escape key
+            let keyListener = document.addEventListener("keyup", (e) => Util.handleKeypress(e));
         });
     </script>
 </body>
