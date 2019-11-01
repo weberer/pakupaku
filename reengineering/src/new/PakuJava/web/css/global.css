@@ -89,7 +89,7 @@ body {
     opacity: 0;
 }
 
-#display[state="game"] > #right_container,
+#display:not([state="menu"]) > #right_container,
 #display[state="menu"] > #right_menu_container{
     visibility: visible;
     opacity: 1;
@@ -158,16 +158,15 @@ body {
     text-align: center;
 }
 
-/*
-.dialog[state="show"] {
-    visibility: visible;
-    opacity: 1;
-}*/
-
 #new_high_score.dialog > #title {
     margin-top: var(--dialog_margin);
     margin-bottom: var(--dialog_margin);
     color: var(--paku);
+}
+
+#display[state="new_high_score"] #new_high_score.dialog {
+    visibility: visible;
+    opacity: 1;
 }
 
 #new_high_score.dialog > #subtitle {
