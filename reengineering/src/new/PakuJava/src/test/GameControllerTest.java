@@ -34,6 +34,8 @@ public class GameControllerTest {
     public void respawn()
     {
         GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        gc.respawn();
 
     }
 
@@ -74,11 +76,12 @@ public class GameControllerTest {
 
     @Test
     public void receivedUserInput() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        String keyW = gc.receiveUserInput("KeyW")
+        assert("keyW", keyW);
     }
 
-    @Test
-    public void uiInput() {
-    }
 
     @Test
     public void getDataToSend() {
