@@ -34,7 +34,6 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Arquillian JUnit:Release" level="project" />
     <orderEntry type="module-library">
       <library name="JUnit5.2">
         <CLASSES>
