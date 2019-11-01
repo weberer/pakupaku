@@ -5,8 +5,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+@WebServlet("/PakuPaku")
 public class PakuPaku extends HttpServlet {
 
     private static int lastFrameId = -1;

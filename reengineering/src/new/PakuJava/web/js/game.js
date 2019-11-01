@@ -1,12 +1,12 @@
 class Game {
 
-    static gameState = {
+    static gameStates = {
         menu: "menu",
         play: "play",
         newHighScore: "new_high_score"
     };
 
-    static boardState = {
+    static boardStates = {
         play: "play",
         ready: "ready",
         gameOver: "game_over"
@@ -30,23 +30,23 @@ class Game {
 
     static setBoardState(state) {
         if(!(state in this.boardState))
-            throw "Error: " + state + " is not a valid state for " this.gameEl.id;
+            throw "Error: " + state + " is not a valid state for " + this.gameEl.id;
         Util.setAttributeValue(this.boardEl, this.htmlAttrName, state);
         this.boardState = state;
     }
 
-    static openMenu = () => { this.setGameState(this.gameState.menu); }; //TODO: TESTED
+    static openMenu = () => { this.setGameState(this.gameStates.menu); }; //TODO: TESTED
 
     static startGameReady = () => { //TODO: TESTED
-        this.setGameState(this.gameState.play);
-        this.setBoardState(this.boardState.ready);
+        this.setGameState(this.gameStates.play);
+        this.setBoardState(this.boardStates.ready);
     };
 
-    static startGame = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardState.play); }; //TODO: Element Switch Tested
+    static startGame = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardStates.play); }; //TODO: Element Switch Tested
 
-    static gameOver = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardState.gameOver); }; //TODO: Tested
+    static gameOver = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardStates.gameOver); }; //TODO: Tested
 
-    static newHighscore = () => { Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameState.newHighScore); }; //TODO: Element Switch tested. Will need to alter the Input Check routine in some way to check for enter key down to submit
+    static newHighscore = () => { Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameStates.newHighScore); }; //TODO: Element Switch tested. Will need to alter the Input Check routine in some way to check for enter key down to submit
 
     // state should be a boolean value
     static setSound = (state) => {
