@@ -3,6 +3,7 @@ package test;
 import Controller.GameController;
 import Model.Direction;
 import Model.GameData;
+import Model.GhostState;
 import Model.Kinky;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ public class KinkyTest {
         kinky.getLoc().setyLoc(1);
         kinky.resetLocation();
         assertEquals(14, kinky.getLoc().getxLoc());
-        assertEquals(11, kinky.getLoc().getyLoc());
+        assertEquals(14, kinky.getLoc().getyLoc());
     }
     @Test
     public void  scatterMove() {
@@ -47,6 +48,12 @@ public class KinkyTest {
         assertEquals(1, kinky.getLoc().getyLoc());
     }
     @Test
-    public void recordLocation() {
+    public void chaseMove() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Kinky kinky = new Kinky(gameData.getMap());
+        kinky.setupTimers();
+        kinky.startTimer();
+        kinky.setState(GhostState.chase);
     }
 }

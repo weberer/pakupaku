@@ -44,7 +44,6 @@ public abstract class Ghost extends MovingGameObject {
     protected static int multiplier = 1;
     protected GhostState state;
     protected GhostState storedState;
-    protected int fleeTimer;
 
     protected static ArrayList<Integer> frightTimers;
     protected static ArrayList<Integer> blinkTimers;
@@ -237,7 +236,10 @@ public abstract class Ghost extends MovingGameObject {
             if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))
                 if (!alternate) {
                     moveNotTurn();
+                    alternate = true;
                 }
+                else
+                    alternate = false;
         if(!state.equals(GhostState.flee) && !state.equals(GhostState.eaten))
         {
             timer--;
@@ -274,7 +276,7 @@ public abstract class Ghost extends MovingGameObject {
             if(fleeTotal <= 0)
             {
                 state = storedState;
-                storedState = null;
+
             }
             else
             {
@@ -532,5 +534,9 @@ public abstract class Ghost extends MovingGameObject {
     public int getMultiplier()
     {
         return multiplier;
+    }
+    public void setFleeTimer(int i)
+    {
+        fleeTotal = i;
     }
 }

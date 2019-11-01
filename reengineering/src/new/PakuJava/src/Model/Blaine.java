@@ -57,7 +57,7 @@ public class Blaine extends Ghost
     {
         if(gameData.getGamelevel() < 21)
         {
-            if(fleeTimer <= blinkTimers.get(gameData.getGamelevel()))
+            if(fleeTotal <= blinkTimers.get(gameData.getGamelevel()))
             {
                 gameData.setBlaineBlink(!gameData.isBlaineBlink());
             }
@@ -65,8 +65,5 @@ public class Blaine extends Ghost
                 gameData.setBlaineBlink(false);
         }
         gameData.setBlaineBlink(false);
-    }
-    public void recordLocation() {
-        gameData.setBlaineLocation(loc);
     }
 }
