@@ -83,7 +83,7 @@ public class GameController
 
     }
 
-   /* public void init() {
+   /*public void init() {
         while(true){
             Controls input = getUserInput();
             switch (gameData.getGameStatus()){
@@ -101,13 +101,18 @@ public class GameController
                         update();
                     }
                     default:
+
             }
         }
 
     }*/
 
-
-    public void receivedFrame(int frameNumber) {
+    /**
+     * TODO: Utilize
+     * @param frameNumber
+     * @return
+     */
+   public void receivedFrame(int frameNumber) {
         gameData.setCurrentFrame(frameNumber);
     }
 
@@ -116,6 +121,19 @@ public class GameController
 
     /**
      * Responsible for setting up the game
+     * TODO: The method for calling update: there is a frame variable in gameData that needs to be updated; the
+     *
+     * TODO: we need a way so that every time frame is updated, update is called, but we cannot use a while loop
+     *
+     * TODO: event listener, so that every time frame changes (the one in game controller), we are going to call update()
+     * frame in gameData needs to be updated (AKA it needs to match the frame value in gameController)
+     *
+     * ToDO:
+     *
+     *
+     * once game has started, keep calling
+     *
+     * TODO:
      */
     public void startGame() {
         Paku paku = gameData.getPaku(); //retrieve singleton Paku Object
@@ -321,7 +339,8 @@ public class GameController
 
         Controls input = getUserInput();
         dataToSend = gameData.getData();
-        if(input != Controls.escape && input != Controls.O && input != Controls.enter && !gameData.getGameStatus().equals(GameStatus.mainMenu))
+        if(input != Controls.escape && input != Controls.O && input
+                != Controls.enter && !gameData.getGameStatus().equals(GameStatus.mainMenu))
         {
             pakuUpdate((input.castToDir(input)));
         }

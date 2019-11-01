@@ -14,6 +14,7 @@ import java.util.Random;
  * @author kruge
  */
 
+//Todo: Every frame sent is on 40 milliseconds, use this information to set up the internal timers
 public abstract class Ghost extends MovingGameObject {
 
     //constants from original code
