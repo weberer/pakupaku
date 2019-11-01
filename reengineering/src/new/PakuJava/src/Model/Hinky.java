@@ -75,7 +75,7 @@ public class Hinky extends Ghost
     {
         if(gameData.getGamelevel() < 21)
         {
-            if(fleeTimer <= blinkTimers.get(gameData.getGamelevel()))
+            if(fleeTotal <= blinkTimers.get(gameData.getGamelevel()))
             {
                 gameData.setHinkyBlink(!gameData.isHinkyBlink());
             }
@@ -84,5 +84,4 @@ public class Hinky extends Ghost
         }
         gameData.setHinkyBlink(false);
     }
-
 }

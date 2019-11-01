@@ -234,7 +234,7 @@ public class GameData
     public void setPakuLoc(Location pakuLoc) {
         this.pakuLoc = pakuLoc;
     }
-    
+
 
     public GameStatus getGameStatus() {
         return gameStatus;

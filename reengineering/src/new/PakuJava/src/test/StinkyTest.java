@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class StinkyTest {
@@ -49,7 +49,7 @@ public class StinkyTest {
         assertEquals(1, stinky.getLoc().getyLoc());
     }
     @Test
-    public void move() {
+    public void chaseMove() {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
