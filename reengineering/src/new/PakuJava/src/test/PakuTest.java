@@ -1,6 +1,5 @@
 package test;
 
-
 import Model.Direction;
 import Model.GameData;
 import Controller.GameController;
@@ -10,9 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Assert;
 import java.util.ArrayList;
-
 import static org.junit.Assert.*;
-
 
 public class PakuTest
 {

@@ -1,6 +1,7 @@
 package test;
 
 
+import Controller.Controls;
 import Controller.GameController;
 import Model.GameData;
 import Model.Paku;
@@ -72,6 +73,8 @@ public class GameControllerTest {
     {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
+        gc.update();
+        Assert.assertNotEquals(null, gc.getUserInput());
 
     }
 
@@ -79,17 +82,15 @@ public class GameControllerTest {
     public void receivedUserInput() {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
-       // gc.receiveUserInput("KeyW");
+        gc.receivedUserInput("KeyW");
 
-        //String keyW = gameData.getUserInput();
-        //Assert.assertEquals("keyW", keyW);
+        Controls keyW = gc.getUserInput();
+        Assert.assertEquals("keyW", keyW.toString());
 
     }
 
 
-    @Test
-    public void getDataToSend() {
-    }
+
 
 
 }
