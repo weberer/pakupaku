@@ -18,18 +18,14 @@ public enum Direction
             case down :
                 return "down";
 
-
             case left :
                 return "left";
-
 
             case right :
                 return "right";
 
-
             case stay :
                 return "stay";
-
 
         }
         return "";

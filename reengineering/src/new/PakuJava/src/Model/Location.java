@@ -1,12 +1,11 @@
 package Model;
 
+/**
+ * This class is responsible for holding the (x, y) coordinates for a MovingGameObject
+ */
 public class Location
 {
-
     private int xLoc, yLoc;
-
-
-
     public Location(int xLoc, int yLoc)
     {
         this.xLoc = xLoc;
@@ -29,6 +28,5 @@ public class Location
     {
         yLoc = y;
     }
-
 
 }

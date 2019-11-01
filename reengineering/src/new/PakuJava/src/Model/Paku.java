@@ -13,7 +13,7 @@ import Controller.Controls;
 import java.util.ArrayList;
 
 /**
- *
+ * This class provides the data and functionality associated with the Paku moving game object
  * @author kruge
  */
 public class Paku extends MovingGameObject{
@@ -24,9 +24,7 @@ public class Paku extends MovingGameObject{
     //private Location loc;
     private final int STARTING_X = 13;  //starting x and y coordinates of Paku; subject to change
     private final int STARTING_Y = 23;
-
     private final int MOVE_DIST_PER_TICK = 1;
-
 
     private Paku()
     {
@@ -36,7 +34,6 @@ public class Paku extends MovingGameObject{
         remainingLife = STARTINGLIFES;
         //loc = new Location(STARTING_X, STARTING_Y);
     }
-
 
     /**
      * returns the single Paku instance
@@ -87,7 +84,6 @@ public class Paku extends MovingGameObject{
             return true;
         return false;
     }
-
     /**
      * decrements paku life number
      */
@@ -124,8 +120,6 @@ public class Paku extends MovingGameObject{
         return super.loc;
     }
 
-
-
     /**
      * Sets Paku's location (in x y format)
      * @param loc
@@ -148,13 +142,11 @@ public class Paku extends MovingGameObject{
     /**
      * This resets the game; Puts Paku back in its initial position and resets its number of lives
      */
-    public void resetPaku()
-    {
+    public void resetPaku() {
         super.loc.setyLoc(STARTING_Y);
         super.loc.setxLoc(STARTING_X);
         remainingLife = STARTINGLIFES;
     }
-
 
     /**
      * This resets a round; Paku gets put back to its original position
@@ -168,19 +160,15 @@ public class Paku extends MovingGameObject{
     public Direction getFacingDirection() {
         return super.facingDirection;
     }
-
     public void setMap(ArrayList<ArrayList> map) {
         this.map = map;
     }
-
     public int getSTARTINGLIFES() {
         return STARTINGLIFES;
     }
-
     public int getSTARTING_X() {
         return STARTING_X;
     }
-
     public int getSTARTING_Y() {
         return STARTING_Y;
     }

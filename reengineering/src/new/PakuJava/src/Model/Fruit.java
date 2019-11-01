@@ -88,5 +88,4 @@ public class Fruit
         return score;
     }
 
-
 }

@@ -47,6 +47,11 @@ public enum Controls {
         return null;
     }
 
+    /**
+     * Converts a control enum value to a Direction enum value
+     * @param control
+     * @return
+     */
     public static Direction castToDir(Controls control)
     {
         if(control == null)
@@ -70,7 +75,5 @@ public enum Controls {
         else
             return Direction.stay;
     }
-
-
 
 }
