@@ -74,7 +74,7 @@ public class GameControllerTest {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         gc.update();
-        Assert.assertNotEquals(null, gc.getUserInput());
+        Assert.assertNotNull(gc.getUserInput());
 
     }
 
