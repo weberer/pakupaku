@@ -19,12 +19,27 @@ class Game {
     static soundElList = null;
 
     static isSoundPlaying = true; // sound defaults to 'ON'
+    static gameState = null; // tracks the state of gameEl in real time
 
-    static openMenu = () => { Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameState.menu); }; //TODO: TESTED
+    static setGameState(state) {
+        if(!(state in this.gameState))
+            throw "Error: " + state + " is not a valid state for " + this.gameEl.id;
+        Util.setAttributeValue(this.gameEl, this.htmlAttrName, state);
+        this.gameState = state;
+    }
+
+    static setBoardState(state) {
+        if(!(state in this.boardState))
+            throw "Error: " + state + " is not a valid state for " this.gameEl.id;
+        Util.setAttributeValue(this.boardEl, this.htmlAttrName, state);
+        this.boardState = state;
+    }
+
+    static openMenu = () => { this.setGameState(this.gameState.menu); }; //TODO: TESTED
 
     static startGameReady = () => { //TODO: TESTED
-        Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameState.play);
-        Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardState.ready);
+        this.setGameState(this.gameState.play);
+        this.setBoardState(this.boardState.ready);
     };
 
     static startGame = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardState.play); }; //TODO: Element Switch Tested
@@ -42,6 +57,10 @@ class Game {
     };
 
     static toggleSound = () => { this.setSound(!this.isSoundPlaying); };
+
+    static handleEnterKey = () => { if()};
+
+    static handleEscKey = () => { this.openMenu(); };
 
     static init() {
         Board.createLives();
