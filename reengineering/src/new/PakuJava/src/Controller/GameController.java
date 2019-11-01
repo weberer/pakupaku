@@ -11,6 +11,8 @@ import com.opencsv.CSVReader;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -81,7 +83,7 @@ public class GameController
 
     }
 
-    public void init() {
+   /* public void init() {
         while(true){
             Controls input = getUserInput();
             switch (gameData.getGameStatus()){
@@ -102,7 +104,7 @@ public class GameController
             }
         }
 
-    }
+    }*/
 
 
     public void receivedFrame(int frameNumber) {
@@ -331,8 +333,8 @@ public class GameController
         this.userInput = Controls.getControl(userInput);
     }
 
-    public Controls getUserInput(){
-        if(this.userInput == null){
+    public Controls getUserInput() {
+        if(this.userInput == null) {
             return Controls.none;
         }
         return this.userInput;
@@ -538,6 +540,25 @@ public class GameController
     public JSONObject getDataToSend() {
         return dataToSend;
 
+    }
+
+    public JSONObject getHighScore() throws Exception {
+        int score = gameData.getHighScore();
+        JSONObject obj = new JSONObject();
+        obj.put("highscore", score);
+        return obj;
+    }
+
+    public JSONObject getHighScoreList() throws Exception {
+        JSONObject obj = new JSONObject();
+        JSONArray arr = new JSONArray();
+        List<Integer> list = gameData.getScoreList();
+
+        for(Integer i : list)
+            arr.put(i);
+        obj.put("highscore_list", arr);
+
+        return obj;
     }
 
 }

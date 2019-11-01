@@ -8,8 +8,8 @@ class MovingEntity {
            throw "Invalid Moving Entity Id: " + this.id;
    }
 
-   static stylesheet = null;
-   static cssElementName = null;
+   stylesheet = null;
+   cssElementName = null;
    static xPropName = '--x_coord';
    static yPropName = '--y_coord';
    static directions = {
@@ -33,6 +33,6 @@ class MovingEntity {
    setAttr = (attrName, value) => Util.setAttributeValue(this.element, attrName, value);
 
    // update CSS custom property of current entity
-   setProperty = (property, value) => Util.setPropertyValue(this.constructor.stylesheet, this.constructor.cssElementName, property, value);
+   setProperty = (property, value) => Util.setPropertyValue(this.stylesheet, this.cssElementName, property, value);
 
 }

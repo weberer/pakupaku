@@ -56,12 +56,16 @@ class Game {
     };
 
     static startGameReady = () => {
-       this.setGameState(this.gameStates.play);
-       this.setBoardState(this.boardStates.ready);
-       let audioDuration = Util.playAudio("ready");
-        setTimeout(this.startGame, audioDuration);
-
-        Networking.sendStartGameRequest();
+        document.paku.moveToStartingPos();
+        Ghost.moveToStartingLocations();
+        // timeout gives entities time to move to their starting positions
+        setTimeout(() => {
+            this.setGameState(this.gameStates.play);
+            this.setBoardState(this.boardStates.ready);
+            let audioDuration = Util.playAudio("ready");
+            setTimeout(this.startGame, audioDuration);
+            Networking.sendStartGameRequest();
+        }, 1000);
     };
 
     static startGame = () => { this.setBoardState(this.boardStates.play) }; //TODO: Element Switch Tested
