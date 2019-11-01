@@ -5,6 +5,7 @@ import Controller.GameController;
 import Model.GameData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.Assert;
 
 import static org.junit.Assert.*;
 
@@ -29,12 +30,20 @@ public class GameControllerTest {
     }
 
     @Test
-    public void respawn() {
+    public void respawn()
+    {
+        GameData gameData = GameData.getInstance();
+
     }
 
     @Test
     public void resetGame()
     {
+        GameData gameData = GameData.getInstance();
+        
+        Assert.assertEquals(gameData.getGamelevel(), 1);
+
+
 
     }
 

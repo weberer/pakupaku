@@ -138,6 +138,9 @@ public class GameController
         }
     }
 
+    /**
+     * Puts Paku and ghosts back in their starting positions after Paku has been eaten
+     */
     public void respawn()
     {
         List<Ghost> ghostList = gameData.getGhostList();
