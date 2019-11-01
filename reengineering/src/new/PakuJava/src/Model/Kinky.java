@@ -58,8 +58,5 @@ public class Kinky extends Ghost {
         }
         gameData.setKinkyBlink(false);
     }
-    public void recordLocation() {
-        gameData.setKinkyLocation(loc);
 
-    }
 }

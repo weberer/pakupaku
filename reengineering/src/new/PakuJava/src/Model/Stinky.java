@@ -68,8 +68,6 @@ public class Stinky extends Ghost
         }
         gameData.setStinkyBlink(false);
     }
-    public void recordLocation() {
-        gameData.setStinkyLocation(loc);
-    }
+
 }
 

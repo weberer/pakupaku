@@ -68,12 +68,6 @@ public class GameData
 
     private Location pakuLoc; //x, y location of the paku
 
-    // The ghost locations
-    private Location blaineLoc;
-    private Location stinkyLoc;
-    private Location hinkyLoc;
-    private Location kinkyLoc;
-
     private boolean blaineBlink;
     private boolean stinkyBlink;
     private boolean hinkyBlink;
@@ -239,26 +233,7 @@ public class GameData
     public void setPakuLoc(Location pakuLoc) {
         this.pakuLoc = pakuLoc;
     }
-
-    public void setHinkyLocation(Location loc)
-    {
-        this.hinkyLoc = loc;
-    }
-
-    public void setStinkyLocation(Location loc)
-    {
-        this.stinkyLoc = loc;
-    }
-
-    public void setKinkyLocation(Location loc)
-    {
-        this.kinkyLoc = loc;
-    }
-
-    public void setBlaineLocation(Location loc)
-    {
-        this.blaineLoc = loc;
-    }
+    
 
     public GameStatus getGameStatus() {
         return gameStatus;

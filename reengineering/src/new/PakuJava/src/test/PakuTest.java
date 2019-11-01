@@ -19,9 +19,9 @@ public class PakuTest
     @Test
     public void move()
     {
-        Paku paku = Paku.getInstance();
         GameData gameData = GameData.getInstance();
         new GameController();  //calls the loadMap() method
+        Paku paku = Paku.getInstance();
         paku.setGameData(gameData);
         paku.setMap(gameData.getMap());
 

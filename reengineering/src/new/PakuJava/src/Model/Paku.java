@@ -31,8 +31,8 @@ public class Paku extends MovingGameObject{
     private Paku()
     {
         super(null, Direction.left);
+        this.loc = new Location(STARTING_X, STARTING_Y);
 
-        resetLocation();
         remainingLife = STARTINGLIFES;
         //loc = new Location(STARTING_X, STARTING_Y);
     }
