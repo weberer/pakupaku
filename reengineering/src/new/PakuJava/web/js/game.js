@@ -1,47 +1,47 @@
 class Game {
 
-    static gameStatus = {
+    static gameState = {
         menu: "menu",
-        play: "play"
-    };
-
-    static boardStatus = {
         play: "play",
-        ready: "ready",
-        gameOver: "game_over",
         newHighScore: "new_high_score"
     };
 
-    static htmlAttrName = "status";
-
-    static gameEl = document.getElementById("display");
-    static boardEl = document.getElementById("game_board");
-
-    static isSoundPlaying = false;
-
-    static openMenu = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.gameStatus.menu); };
-
-    static startGameReady = () => {
-        Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameStatus.play);
-        Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardStatus.ready);
+    static boardState = {
+        play: "play",
+        ready: "ready",
+        gameOver: "game_over"
     };
 
-    static startGame = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardStatus.play); };
+    static htmlAttrName = "state";
 
-    static gameOver = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardStatus.gameOver); };
+    static gameEl = null;
+    static boardEl = null;
+    static soundElList = null;
 
-    static newHighscore = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardStatus.newHighScore); };
+    static isSoundPlaying = true; // sound defaults to 'ON'
 
-    static toggleSound = () => {
+    static openMenu = () => { Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameState.menu); }; //TODO: TESTED
 
-        let playSound = () => {};
-        let stopSound = () => {};
-
-        if(this.isSoundPlaying)
-            stopSound();
-        else
-            playSound();
+    static startGameReady = () => { //TODO: TESTED
+        Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameState.play);
+        Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardState.ready);
     };
+
+    static startGame = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardState.play); }; //TODO: Element Switch Tested
+
+    static gameOver = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardState.gameOver); }; //TODO: Tested
+
+    static newHighscore = () => { Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameState.newHighScore); }; //TODO: Element Switch tested. Will need to alter the Input Check routine in some way to check for enter key down to submit
+
+    // state should be a boolean value
+    static setSound = (state) => {
+        for(let el of this.soundElList)
+            Util.setAttributeValue(el, this.htmlAttrName, state);
+
+        this.isSoundPlaying = state; // update JS sound State.
+    };
+
+    static toggleSound = () => { this.setSound(!this.isSoundPlaying); };
 
     static init() {
         Board.createLives();
@@ -50,6 +50,15 @@ class Game {
         Ghost.createGhosts();
         Paku.createPaku();
         Board.createLives();
+
+        //Get Elements for Game Class
+        this.gameEl = document.getElementById("display");
+        this.boardEl = document.getElementById("game_board");
+        this.soundElList = document.getElementsByClassName("sound_display");
+
+        // Set initial Game States
+        this.openMenu();
+        this.setSound(true);
     };
 
 }

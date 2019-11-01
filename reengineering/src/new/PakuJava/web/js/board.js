@@ -4,7 +4,7 @@ class Board {
     static maxLifeCount = 3;
     static lifeElements = [];
 
-    static lifeStatuses = {
+    static liveStatuses = {
         alive: "show",
         dead: "hide"
     };
@@ -23,11 +23,11 @@ class Board {
             throw "Error: " + numLives + " lives were specified. Paku can only have between 0 and " + this.maxLifeCount + " lives";
         else {
             for(let life = 0; life < this.maxLifeCount; life++) {
-                let lifeStatus = this.lifeStatuses.dead;
+                let lifeState = this.liveStatuses.dead;
                 if (life < numLives)
-                    lifeStatus = this.lifeStatuses.alive;
+                    lifeState = this.liveStatuses.alive;
 
-                Util.setAttributeValue(this.lifeElements[life], Game.htmlAttrName, lifeStatus);
+                Util.setAttributeValue(this.lifeElements[life], Game.htmlAttrName, lifeState);
             }
         }
     }
