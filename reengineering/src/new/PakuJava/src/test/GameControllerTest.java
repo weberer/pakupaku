@@ -33,7 +33,9 @@ public class GameControllerTest {
     }
 
     @Test
-    public void resetGame() {
+    public void resetGame()
+    {
+
     }
 
     @Test
