@@ -14,7 +14,7 @@ public class Blaine extends Ghost
     private final int STARTING_Y = 14;
     private final int SCATTER_X = 1;
     private final int SCATTER_Y = 30;
-    private final int EXITCOUNTER = 0;
+    private final int EXITCOUNTER = 90;
 
     public Blaine(ArrayList<ArrayList> map)
     {
