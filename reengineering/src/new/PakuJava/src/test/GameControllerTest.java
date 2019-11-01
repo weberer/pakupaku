@@ -34,6 +34,8 @@ public class GameControllerTest {
     public void respawn()
     {
         GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        gc.respawn();
 
     }
 
