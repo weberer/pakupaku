@@ -188,7 +188,6 @@ public class GameController
 
 
 
-    //TODO: need method to retrieve data at game startup
 
     /**
      * Resets game
@@ -213,6 +212,9 @@ public class GameController
 
     }
 
+    /**
+     * Handles setting up the game for the next level
+     */
     private void nextLevel() {
         List<Ghost> ghostList = gameData.getGhostList();
         Paku paku = gameData.getPaku();
@@ -309,8 +311,9 @@ public class GameController
     }
 
 
-
-    //Called every frame(or whenever timer ticks)
+    /**
+     * Called every frame(or whenever timer ticks)
+     */
     public void update(){
 
         Controls input = getUserInput();
@@ -327,27 +330,17 @@ public class GameController
         this.userInput = Controls.getControl(userInput);
     }
 
-    private Controls getUserInput(){
+    public Controls getUserInput(){
         if(this.userInput == null){
             return Controls.none;
         }
         return this.userInput;
     }
 
-
-    /*
-    This method receives the data from the UI in the form of a JSON object
+    /**
+     * Updates Paku: checks if it has collided with a ghost, if not, Paku moves
+     * @param input
      */
-    public void uiInput(JSONObject keyBoardInput) throws JSONException {
-        //frame = input.frame;
-
-        //Controls inputDir = input.input;
-        //Direction dr = inputDir.castToDir();
-        //pakuUpdate(dr);      //the idea here is to get Paku diretional input from UI to be processed by the game logic
-
-        //String input = (String) keyBoardInput.get("input")[0];
-    }
-
     private void pakuUpdate(Direction input)
     {
         Paku paku = gameData.getPaku();
