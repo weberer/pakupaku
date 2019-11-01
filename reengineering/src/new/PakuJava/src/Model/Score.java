@@ -22,6 +22,7 @@ public class Score
 
     public Score()
     {
+        scoreList = new ArrayList<>();
         currentScore = 0;
     }
 
@@ -73,6 +74,8 @@ public class Score
         determineHighScore();
         return highScore;
     }
+
+
 
     public List<Integer> getScoreList() {
         return scoreList;

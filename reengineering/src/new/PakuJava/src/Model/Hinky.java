@@ -1,19 +1,30 @@
 package Model;
 
 
+import java.util.ArrayList;
+
+/**
+ * Hinky is the blue ghost that moves in the general direction of Paku like Kinky,
+ * but can get thrown off depending on how far Stinky is from Paku.
+ */
 public class Hinky extends Ghost
 {
-    //private Location loc;  //already a location object in MovingGameObject --Evan
-    private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change
-    private final int STARTING_Y = 11;
+    private final int STARTING_X = 11;  //starting x and y coordinates of Paku; subject to change
+    private final int STARTING_Y = 14;
     private final int SCATTER_X = 26;
     private final int SCATTER_Y = 30;
     private final int HINKY_VARIANCE = 2;
+    private final int EXITCOUNTER = 0;
     private Ghost stinky;
-    public Hinky(Ghost stinky)
+    public Hinky(Ghost stinky, ArrayList<ArrayList> map)
     {
+        super( null, Direction.up);
+        this.map = map;
         this.stinky = stinky;
         loc = new Location(STARTING_X, STARTING_Y);
+        facingDirection = Direction.down;
+        resetExitCounter = EXITCOUNTER;
+        exitCounter = EXITCOUNTER;
     }
     @Override
     public void resetLocation() {
@@ -25,10 +36,9 @@ public class Hinky extends Ghost
         Location paku = Paku.getInstance().getLoc();
         Direction pakuDir = Paku.getInstance().getFacingDirection();
         alternate = !alternate;
-        modX = loc.getxLoc() % 3;
-        modY = (loc.getyLoc() + 1) % 3;
         if (inJail()) {
             jailMove();
+            exitCounter--;
         } else {
             checkWarp();
             if (state.equals(GhostState.scatter)) {
@@ -63,5 +73,19 @@ public class Hinky extends Ghost
             }
             calculateMove();
         }
+
+    }
+    public void isBlinking()
+    {
+        if(gameData.getGamelevel() < 21)
+        {
+            if(fleeTotal <= blinkTimers.get(gameData.getGamelevel()))
+            {
+                gameData.setHinkyBlink(!gameData.isHinkyBlink());
+            }
+            else
+                gameData.setHinkyBlink(false);
+        }
+        gameData.setHinkyBlink(false);
     }
 }

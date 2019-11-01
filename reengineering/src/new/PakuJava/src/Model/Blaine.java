@@ -1,18 +1,29 @@
 package Model;
 
+import java.util.ArrayList;
+
 import static java.lang.Math.sqrt;
 
+/**
+ * Blaine is the brown ghost, he moves erratically and will ususally veer off course
+ * if Paku is too far away.
+ */
 public class Blaine extends Ghost
 {
-    private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change
-    private final int STARTING_Y = 11;
+    private final int STARTING_X = 15;  //starting x and y coordinates of Paku; subject to change
+    private final int STARTING_Y = 14;
     private final int SCATTER_X = 1;
     private final int SCATTER_Y = 30;
+    private final int EXITCOUNTER = 0;
 
-
-    public Blaine()
+    public Blaine(ArrayList<ArrayList> map)
     {
+        super(null, Direction.up);
         loc = new Location(STARTING_X, STARTING_Y);
+        this.map = map;
+        facingDirection = Direction.up;
+        exitCounter = EXITCOUNTER;
+        resetExitCounter = EXITCOUNTER;
     }
     @Override
     public void resetLocation()
@@ -24,10 +35,9 @@ public class Blaine extends Ghost
     public void move() {
         Location paku = Paku.getInstance().getLoc();
         alternate = !alternate;
-        modX = loc.getxLoc() % 3;
-        modY = (loc.getyLoc() + 1) % 3;
         if (inJail()) {
             jailMove();
+            exitCounter--;
         } else {
             checkWarp();
             if (state.equals(GhostState.scatter)) {
@@ -46,5 +56,18 @@ public class Blaine extends Ghost
             }
             calculateMove();
         }
+    }
+    public void isBlinking()
+    {
+        if(gameData.getGamelevel() < 21)
+        {
+            if(fleeTotal <= blinkTimers.get(gameData.getGamelevel()))
+            {
+                gameData.setBlaineBlink(!gameData.isBlaineBlink());
+            }
+            else
+                gameData.setBlaineBlink(false);
+        }
+        gameData.setBlaineBlink(false);
     }
 }

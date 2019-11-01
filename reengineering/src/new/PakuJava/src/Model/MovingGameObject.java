@@ -9,22 +9,21 @@ public abstract class MovingGameObject {
 	public enum States{
 
 	}
-	private ArrayList<Integer> position;
+
 	protected States state;
 	protected Direction facingDirection;
 	protected Location loc;
+
+	protected ArrayList<ArrayList> map; //moved this declaration from Ghost to MovingGameObject so that it can be used by Paku -- Evan 10/30
 
 	protected GameData gameData;  //used to centralize the locations of all MovingGameObjects
 
 	protected int modX, modY;
 
-	public MovingGameObject(int x, int y, States state, Direction dir){
-		position = new ArrayList<>();
-		position.add(x);
-		position.add(y);
+	public MovingGameObject(States state, Direction dir){
+		//loc = new Location(x, y);
 		this.state = state;
 		this.facingDirection = dir;
-
 	}
 
 	public MovingGameObject(){
@@ -43,6 +42,9 @@ public abstract class MovingGameObject {
 	}
 	public Location getLoc() {
 		return loc;
+	}
+	public void setLoc(Location loc) {
+		this.loc = loc;
 	}
 
 }

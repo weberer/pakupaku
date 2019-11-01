@@ -1,20 +1,27 @@
 package Model;
 
 
+import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Stinky is the red ghost who moves in the direction of paku's current location.
+ */
 public class Stinky extends Ghost
 {
-
-    //private Location loc;  //already a location object in MovingGameObject --Evan
     private final int STARTING_X = 14;  //starting x and y coordinates of Paku; subject to change
     private final int STARTING_Y = 11;
     private final int SCATTER_X = FAR_RIGHT;
     private final int SCATTER_Y = 1;
-    public Stinky()
-    {
 
+
+    public Stinky(ArrayList<ArrayList> map)
+    {
+        super( null, Direction.up);
+        this.map =  map;
         loc = new Location(STARTING_X, STARTING_Y);
+        exitCounter = 0;
+        resetExitCounter = 0;
     }
 
     @Override
@@ -38,7 +45,6 @@ public class Stinky extends Ghost
             checkWarp();
                 jailSkip = false;
                 howFar = 1;
-            int randomInt = random.nextInt(10);
             if (state.equals(GhostState.scatter)) {
                 scatterMove(SCATTER_X, SCATTER_Y);
             } else if (state.equals(GhostState.chase)) {
@@ -51,6 +57,19 @@ public class Stinky extends Ghost
             }
             this.calculateMove();
         }
+    }
+    public void isBlinking()
+    {
+        if(gameData.getGamelevel() < 21)
+        {
+            if(fleeTotal <= blinkTimers.get(gameData.getGamelevel()))
+            {
+                gameData.setStinkyBlink(!gameData.isStinkyBlink());
+            }
+            else
+                gameData.setStinkyBlink(false);
+        }
+        gameData.setStinkyBlink(false);
     }
 }
 

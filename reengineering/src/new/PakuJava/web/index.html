@@ -13,6 +13,7 @@
 
     <!-- Import JS Files -->
     <script type="application/javascript" src="js/util.js"></script>
+    <script type="application/javascript" src="js/game.js"></script>
     <script type="application/javascript" src="js/board.js"></script>
     <script type="application/javascript" src="js/movingEntity.js"></script>
     <script type="application/javascript" src="js/paku.js"></script>
@@ -34,9 +35,9 @@
             <stop offset="100%" stop-color="var(--background)" />
         </radialGradient>
     </svg>
-    <div id="display" class="container">
+    <div id="display" class="container" state="game">
         <div id="left_container" class="container">
-            <div id="game_board" state="game_over" >
+            <div id="game_board" state="ready" >
                 <div id="row_0" class="game_board_row">
                     <div id="p0_0" class="pellet"></div>
                     <div id="p0_1" class="pellet"></div>
@@ -461,31 +462,72 @@
                 <div id="stinky" class="ghost" direction="right" state="normal"></div>
                 <div id="kinky" class="ghost" direction="down" state="normal"></div>
                 <div id="hinky" class="ghost" direction="up" state="normal"></div>
-                <div id="blaine" class="ghost" direction="left" state="normal"></div>
+                <div id="blaine" class="ghost" direction="right" state="normal"></div>
             </div>
             <div id="bottom_row">
                 <div id="lives" class="container">
-                    <svg id="life_1" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
+                    <svg id="life_0" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
                         <circle cx="50%" cy="50%" r="25%" ></circle>
                     </svg>
                     <svg id="life_1" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
                         <circle cx="50%" cy="50%" r="25%" ></circle>
                     </svg>
-                    <svg id="life_3" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
+                    <svg id="life_2" class="life" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
                         <circle cx="50%" cy="50%" r="25%" ></circle>
                     </svg>
                 </div>
                 <div id="bottom_row_spacing"></div>
                 <div id="powerups" class="container">
-                    <div id="powerup_7" class="powerup" type="apple"></div>
-                    <div id="powerup_6" class="powerup" type="bell"></div>
-                    <div id="powerup_5" class="powerup" type="cherry"></div>
-                    <div id="powerup_4" class="powerup" type="grape"></div>
-                    <div id="powerup_3" class="powerup" type="key"></div>
-                    <div id="powerup_2" class="powerup" type="peach"></div>
+                    <div id="powerup_7" class="powerup" type="cherry"></div>
+                    <div id="powerup_6" class="powerup" type="strawberry"></div>
+                    <div id="powerup_5" class="powerup" type="peach"></div>
+                    <div id="powerup_4" class="powerup" type="bell"></div>
+                    <div id="powerup_3" class="powerup" type="apple"></div>
+                    <div id="powerup_2" class="powerup" type="grape"></div>
                     <div id="powerup_1" class="powerup" type="ship"></div>
-                    <div id="powerup_0" class="powerup" type="strawberry"></div>
+                    <div id="powerup_0" class="powerup" type="key"></div>
                 </div>
+            </div>
+            <div id="new_high_score" class="dialog" state="hidden">
+                <div id="title">
+                    <span>EXCELLENT<i>!</i></span>
+                </div>
+                <div id="subtitle">YOU HAVE THE
+                    <br>HIGH SCORE<i>!</i></div>
+                <div id="text">ENTER YOUR
+                    <br>INITIALS
+                </div>
+                <input type="text" autofocus minlength="1" maxlength="3" spellcheck="false" size="3" required pattern="[a-z][A-Z]"/>
+            </div>
+            <div id="menu_highscore" class="dialog">
+                <div id="highscore_title">HIGH SCORES</div>
+                <table id="highscore_table">
+                    <tbody>
+                        <tr>
+                            <td class="score">00000000</td>
+                            <td class="initial">PAL</td>
+                        </tr>
+                        <tr>
+                            <td class="score">00000000</td>
+                            <td class="initial">PAL</td>
+                        </tr>
+                        <tr>
+                            <td class="score">00000000</td>
+                            <td class="initial">PAL</td>
+                        </tr>
+                        <tr>
+                            <td class="score">00000000</td>
+                            <td class="initial">PAL</td>
+                        </tr>
+                        <tr>
+                            <td class="score">00000000</td>
+                            <td class="initial">PAL</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="last_score_title">LAST SCORE</div>
+                <div id="last_score">00000000</div>
+
             </div>
         </div>
         <div id="right_container" class="container">
@@ -495,7 +537,74 @@
                 <div id="your_score_lbl">your score</div>
                 <div id="your_score" class="score">00136210</div>
             </div>
-            <div id="sound_display" sound="on">
+            <div id="sound_display" class="sound_display" state="true">
+                <span class="sound_text">S</span>
+                <span class="sound_hotkey">O</span>
+                <span class="sound_text">UND</span>
+                <span class="sound_status"></span>
+            </div>
+        </div>
+        <div id="right_menu_container" class="container">
+            <div id="game_title">
+                <span>PAKU</span>
+                <svg class="life logo" preserveAspectRatio="xMidYMid" viewbox="0 0 100 100" status="show">
+                <circle cx="50%" cy="50%" r="25%" ></circle>
+            </svg>
+                <span>PAKU</span>
+            </div>
+            <div id="play">
+                <span class="flashing_green">ENTER</span>
+                <span> TO PLAY</span>
+            </div>
+            <div id="exit">
+                <span class="flashing_green reverse">ESC</span>
+                <span> TO EXIT</span>
+            </div>
+            <div id="ghost_display_box">
+                <div class="left"></div>
+                <div class="center">
+                    <div class="top"></div>
+                    <div id="content">
+                        <div id="ghost_display">
+                            <div id="stinky_row">
+                                <div class="ghost_img"></div>
+                                <div class="name">STINKY</div>
+                                <div class="description">HOUND</div>
+                            </div>
+                            <div id="kinky_row">
+                                <div class="ghost_img"></div>
+                                <div class="name">KINKY</div>
+                                <div class="description">HUNTER</div>
+                            </div>
+                            <div id="hinky_row">
+                                <div class="ghost_img"></div>
+                                <div class="name">HINKY</div>
+                                <div class="description">SCHIZO</div>
+                            </div>
+                            <div id="blaine_row">
+                                <div class="ghost_img"></div>
+                                <div class="name">BLAINE</div>
+                                <div class="description">ELUSIVE</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom"></div>
+                </div>
+                <div class="right"></div>
+            </div>
+            <div id="pellet_description" class="description">
+                <span class="pellet"></span>
+                <span> 10 POINTS</span>
+            </div>
+            <div id="super_pellet_description" class="description">
+                <span class="pellet super_pellet">
+                    <svg preserveAspectRatio="xMidYMid" viewBox="0 0 10 10">
+                        <circle cx="60%" cy="60%" r="40%"></circle>
+                    </svg>
+                </span>
+                <span> 50 POINTS</span>
+            </div>
+            <div id="menu_sound" class="sound_display" state="true">
                 <span class="sound_text">S</span>
                 <span class="sound_hotkey">O</span>
                 <span class="sound_text">UND</span>
@@ -504,29 +613,11 @@
         </div>
     </div>
     <script type="application/javascript">
-        // Main Method
-
-        // Initializes the game window
-        Util.getRootCssElement();
-        Util.heightAdjust();
-
-        let stinky = new Ghost('stinky');
-        let kinky = new Ghost('kinky');
-        let hinky = new Ghost('hinky');
-        let blaine = new Ghost('blaine');
-        let paku = new Paku();
-
-        Ghost.addGhost(stinky);
-        Ghost.addGhost(kinky);
-        Ghost.addGhost(hinky);
-        Ghost.addGhost(blaine);
-
-        let keyListener = document.addEventListener("keypress", (e) => Util.handleKeypress(e.code));
-        //Util.startInterval();
-
-        paku.setX(10);
-
-
+        // Main Method, execute after document fires onReady event;
+        $(() => {
+            Game.init();
+            let keyListener = document.addEventListener("keypress", (e) => Util.handleKeypress(e.code));
+        });
     </script>
 </body>
 </html>

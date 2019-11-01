@@ -30,17 +30,18 @@ public enum Controls {
         if(input == null)
             return none;
         switch(input){
-            case "arrow_up": return arrow_up;
-            case "arrow_down": return arrow_down;
-            case "arrow_left": return arrow_left;
-            case "arrow_right": return arrow_right;
-            case "W": return W;
-            case "A": return A;
-            case "S": return S;
-            case "D": return D;
-            case "escape": return escape;
-            case "O": return O;
-            case "enter": return enter;
+            case "ArrowUp": return arrow_up;
+            case "ArrowDown": return arrow_down;
+            case "ArrowLeft": return arrow_left;
+            case "ArrowRight": return arrow_right;
+            case "KeyW": return W;
+            case "KeyA": return A;
+            case "KeyS": return S;
+            case "KeyD": return D;
+            case "Escape": return escape;
+            case "KeyO": return O;
+            case "Enter": return enter;
+            case "NumpadEnter": return enter;
             case "none": return none;
         }
         return null;

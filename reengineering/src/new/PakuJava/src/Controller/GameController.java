@@ -1,70 +1,78 @@
 package Controller;
-
 import Model.Ghost;
 import Model.Paku;
 import Model.GameStatus;
 import Model.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import java.io.IOException;
-
-import com.opencsv.CSVReader;
-
-import java.io.Reader;
 import java.io.File;
+import java.io.IOException;
+import com.opencsv.CSVReader;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
 /**
- *
+ *  This class controls the game logic
  * @author kruge
  */
-public class GameController {
 
+public class GameController
+{
     private final int POINTS_PER_DOT = 10;
+    private final int POINTS_PER_SUPER_DOT = 50;
+    private Controls userInput;
+    private JSONObject dataToSend;
+    private boolean fleeMove = false;
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
-
-    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";
-
+    private int currentFrame;
 
 
+    /**
+     * GameController constructor
+     */
     public GameController()
     {
         gameData = GameData.getInstance();  //INSTANTIATION OF GAMEDATA OBJECT
         LoadMap();
-
+        gameData.setGameStatus(GameStatus.mainMenu);
       //  startGame();   //this method is already called from the Program class --Evan
+        currentFrame = -1;
     }
 
-    private void LoadMap() {
+    /**
+     * Loads the PakuPaku map, in csv format
+     */
+    public void LoadMap()
+    {
         // For showing the dictionary. do not remove.
-        File file = new File(".");
-        for(String fileNames : file.list()) System.out.println(fileNames);
+        //File file = new File(".");
+        //for(String fileNames : file.list()) System.out.println(fileNames);
+
+        //why are parentheses used here instead of braces??? --Evan 10/30
         try (
-                Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_FILE_PATH));
+                Reader reader = Files.newBufferedReader(Paths.get(gameData.getSAMPLE_CSV_FILE_PATH()));
                 CSVReader csvReader = new CSVReader(reader);
-        ) {
+        )
+        {
             // Reading Records One by One in a String array
             String[] nextRecord;
             while ((nextRecord = csvReader.readNext()) != null)
             {
-
-
               //  eachrow = new ArrayList<Integer>();
 
                 for(String number: nextRecord){
-                    System.out.println(number);
+                    //System.out.println(number);
 
                     number = number.replaceAll("\\uFEFF", "");
                     int temp = Integer.parseInt(number);
                     gameData.getEachRow().add(temp);
                 }
                 gameData.getMap().add(gameData.getEachRow());
+                gameData.resetEachRow();
                 //map.add(eachrow);
             }
         } catch (IOException e) {
@@ -73,39 +81,78 @@ public class GameController {
 
     }
 
-    //Responsible for setting up the game
-    public void startGame()
-    {
+    public void init() {
+        while(true){
+            Controls input = getUserInput();
+            switch (gameData.getGameStatus()){
+                case mainMenu:
+                    if(input.equals(Controls.enter))
+                    {
+                        gameData.setGameStatus(GameStatus.play);
+                        startGame();
+                    }
+                case play:
+                    int frameNumber = gameData.getCurrentFrame();
+                    if(frameNumber>currentFrame)
+                    {
+                        currentFrame = frameNumber;
+                        update();
+                    }
+                    default:
+            }
+        }
 
-        Paku paku = gameData.getPaku();
+    }
 
+
+    public void receivedFrame(int frameNumber) {
+        gameData.setCurrentFrame(frameNumber);
+    }
+
+
+
+
+    /**
+     * Responsible for setting up the game
+     */
+    public void startGame() {
+        Paku paku = gameData.getPaku(); //retrieve singleton Paku Object
 
         paku.setGameData(gameData); //giving Paku a reference to gameData
         spawnGhosts();
+
+        paku.setMap(gameData.getMap());  //give Paku a reference to the game map --Evan 10/30
+
        // score = new Score();  //new score object created each game UPDATE 10/29 no longer creating new score object each game --Evan
-
         gameData.setGameStatus(GameStatus.staring);  //update gameStatus
+        update();
     }
 
-    /*
-    public int increaseGhostSpeed(int ghostSpeed) {
-        return (int) Math.pow(gamelevel, ghostSpeedToThePower);
-    }
-    */
 
-    //creates the four ghosts for gameplay
+
+    /**
+     * creates the four ghosts for gameplay
+     */
     public void spawnGhosts()
     {
         List<Ghost> ghostList = gameData.getGhostList();
-        ghostList.add(new Blaine()); //orange
-        ghostList.add(new Kinky()); //blue
-        Stinky stinky = new Stinky();
+
+        ghostList.add(new Blaine(gameData.getMap())); //orange
+        ghostList.add(new Kinky(gameData.getMap())); //blue
+        Stinky stinky = new Stinky(gameData.getMap());
         ghostList.add(stinky); //red
-        ghostList.add(new Hinky(stinky)); //pink, Hinky needs Stinky's info to move. please do not modify
+        ghostList.add(new Hinky(stinky, gameData.getMap())); //pink, Hinky needs Stinky's info to move. please do not modify
 
         gameData.setGhostList(ghostList);
-
+        gameData.getGhostList().get(0).setupTimers();
         setGhostGameDataReference();  //probably isn't needed --Evan 10/29
+        int[] fruits = new int[8];
+        fruits[7] = 1;
+        gameData.setFruitArray(fruits);
+        for(Ghost ghost : ghostList)
+        {
+            ghost.startTimer();
+        }
 
     }
 
@@ -124,6 +171,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Puts Paku and ghosts back in their starting positions after Paku has been eaten
+     */
     public void respawn()
     {
         List<Ghost> ghostList = gameData.getGhostList();
@@ -131,6 +181,7 @@ public class GameController {
         paku.resetLocation();
         for(Ghost ghost : ghostList){
             ghost.resetLocation();
+            ghost.startTimer();
         }
         ghostList.get(0).resetMultiplier();
     }
@@ -148,9 +199,10 @@ public class GameController {
         gameData.getPaku().resetPaku();
         for(Ghost ghost : ghostList){
             ghost.resetLocation();
+            ghost.startTimer();
         }
         ghostList.get(0).resetMultiplier();
-        int gamelevel = 1;
+        int gamelevel = 0;
         gameData.setGamelevel(gamelevel);
 
         int extraLives = 1;
@@ -161,35 +213,126 @@ public class GameController {
 
     }
 
-    private void nextLevel()
-    {
+    private void nextLevel() {
         List<Ghost> ghostList = gameData.getGhostList();
         Paku paku = gameData.getPaku();
         paku.resetLocation();
         for(Ghost ghost : ghostList){
             ghost.resetLocation();
+            ghost.startTimer();
         }
         ghostList.get(0).resetMultiplier();
         int gameLevel = gameData.getGamelevel();
         gameLevel = gameLevel++;
+        LoadMap();
         gameData.setGamelevel(gameLevel);
+        int[] fruitArray = new int[8];
+        if(gameLevel < 3)
+        {
+            int test = gameLevel + 1;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+        else if(gameLevel < 4)
+        {
+            int test = gameLevel;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+        else if(gameLevel < 6)
+        {
+            int test = 4;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+        else if(gameLevel < 8)
+        {
+            int test = 5;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+        else if(gameLevel < 10)
+        {
+            int test = 6;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+
+        else if(gameLevel < 12)
+        {
+            int test = 7;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+        else
+        {
+            int test = 8;
+            int i = fruitArray.length;
+            while (test != 0)
+            {
+                fruitArray[i] = test;
+                test--;
+                i--;
+            }
+        }
+        update();
     }
+
+
+
     //Called every frame(or whenever timer ticks)
     public void update(){
-        Controls input = receivedUserInput();
-        if(input != Controls.escape && input != Controls.O && input != Controls.enter)
+
+        Controls input = getUserInput();
+        dataToSend = gameData.getData();
+        if(input != Controls.escape && input != Controls.O && input != Controls.enter && !gameData.getGameStatus().equals(GameStatus.mainMenu))
         {
             pakuUpdate((input.castToDir(input)));
         }
+        dataToSend = gameData.getData();
     }
-
 
     //talks to frontend, return input enum
-    private Controls receivedUserInput() {
-
-        return null;//Controls.getControl(uiInput(keyBoardInput));
+    public void receivedUserInput(String userInput) {
+        this.userInput = Controls.getControl(userInput);
     }
 
+    private Controls getUserInput(){
+        if(this.userInput == null){
+            return Controls.none;
+        }
+        return this.userInput;
+    }
 
 
     /*
@@ -237,37 +380,60 @@ public class GameController {
             gameData.setExtraLives(2);
             paku.addLife();
         }
-        /*if(//no dots)
+        if(gameData.checkForDot() && gameData.checkForSuperDot())
           {
-             gameStatus = GameState.NextLevel;
-             nextLevel();
-          }*/
+              gameData.setGameStatus(GameStatus.nextLevel); //update gameStatus to next level
+              nextLevel();
+          }
     }
 
+    /**
+     * Handles scoring and map modificaiton for the eating of dots and fruit
+     * @param location
+     */
     private void pakuEatsDots(Location location)
     {
-        //map.get(location.getxLoc()).get(location.getyLoc());
         ArrayList<ArrayList> map = gameData.getMap();
-        ArrayList column = map.get(location.getxLoc());
+
+        ArrayList row = map.get(location.getyLoc());
+
         List<Ghost> ghostList = gameData.getGhostList();
-        int tile = (int)column.get(location.getyLoc());
-        if(tile == 1)
+        int tile = (int)row.get(location.getxLoc());
+        if(tile == gameData.getDOT_CODE())  //regular dot
         {
             gameData.getScore().addScore(POINTS_PER_DOT); //add score for eating dot to current score
+            row.set(location.getxLoc(), 2);
+            map.set(location.getyLoc(), row);
+            gameData.setMap(map);
         }
-        if(tile == 3)
+        if(tile == gameData.getLARGEDOT_CODE())  //super (large) dot
         {
             for(Ghost ghost : ghostList)
             {
                 if(!ghost.getState().equals(GhostState.eaten))
                 {
-                    ghost.setState(GhostState.flee);
+                    ghost.makeFlee();
                 }
             }
-            //add score for super pellet.
+            gameData.getScore().addScore(POINTS_PER_SUPER_DOT);
+            row.set(location.getxLoc(), 2);
+            map.set(location.getyLoc(), row);
+            gameData.setMap(map);
+        }
+        if(tile == gameData.getFRUIT_CODE())  //fruit
+        {
+            gameData.getScore().addScore(gameData.getFruit().getScore());
+            gameData.setBonus(gameData.getFruit().getScore());
+            row.set(location.getxLoc(), 2);
+            map.set(location.getyLoc(), row);
+            gameData.setMap(map);
+            gameData.setFruit(null);
         }
     }
 
+    /**
+     *
+     */
     private void collideWithGhostProtocol() {
         boolean death = false;
         List<Ghost> ghostList = gameData.getGhostList();
@@ -276,14 +442,15 @@ public class GameController {
         GameStatus gameStatus = gameData.getGameStatus();
         for(Ghost ghost : ghostList){
 
-            if(!ghost.getState().equals(GhostState.flee) || !ghost.getState().equals(GhostState.eaten))
-            {
-                paku.substractLife();
-                death = true;
+            if(!ghost.getState().equals(GhostState.flee) || !ghost.getState().equals(GhostState.eaten)) {
+                if(paku.getLoc().getxLoc() == ghost.getLoc().getxLoc() && paku.getLoc().getyLoc() == ghost.getLoc().getyLoc()) {
+                    paku.substractLife();
+                    death = true;
+                }
             }
-            if(ghost.getState().equals(GhostState.flee))
-            {
-                ghost.addScore(score);
+            if(ghost.getState().equals(GhostState.flee)) {
+                gameData.setBonus(ghost.addScore(score));
+
             }
         }
         if(paku.isGameOver()){
@@ -305,10 +472,19 @@ public class GameController {
     {
         List<Ghost> ghostList = gameData.getGhostList();
         boolean fleeing = false;
+        fleeMove = !fleeMove;
         for (Ghost ghost: ghostList) {
-            ghost.move();
-            if(ghost.getState().equals(GhostState.flee) || ghost.getState().equals(GhostState.eaten))
+            if(ghost.getState().equals(GhostState.flee))
+            {
+                if(fleeMove)
+                    ghost.move();
                 fleeing = true;
+            }
+            else
+            {
+                ghost.move();
+            }
+
         }
         if(!fleeing)
             ghostList.get(0).resetMultiplier();
@@ -321,10 +497,8 @@ public class GameController {
     {
         Paku paku = gameData.getPaku();
         List<Ghost> ghostList = gameData.getGhostList();
-
         for(Ghost ghost : ghostList){
-           if(!ghost.getState().equals(GhostState.eaten))
-           {
+           if(!ghost.getState().equals(GhostState.eaten)) {
                 if(paku.getLoc().getxLoc() == ghost.getLoc().getxLoc())
                     if(paku.getLoc().getyLoc() == ghost.getLoc().getyLoc())
                         return true;
@@ -338,15 +512,15 @@ public class GameController {
      */
     private void pakuMove(Direction input)
     {
-        Direction inputDirection = gameData.getInputDirection();
-        Paku paku = gameData.getPaku();
+        Direction inputDirection = gameData.getInputDirection(); //get latest direction inputted from keyboard
+        Paku paku = gameData.getPaku();  //get singleton Paku reference
         if(!input.equals(Direction.stay))
             if(!inputDirection.equals(input) || !inputDirection.equals(Direction.stay)) {
-                paku.setDir(input);
+                paku.setDir(input); //change paku's facingDirection if the given input is different than Paku's current facing direction
                 gameData.setInputDirection(input);
                 //inputDirection = input;
             }
-        paku.move();
+        paku.move(); //tell paku to move in the given direction
 
     }
     private void spawnFruit()
@@ -358,17 +532,21 @@ public class GameController {
         if(fruit == null)
         {
             fruit = new Fruit(gamelevel);
-            ArrayList column = map.get(14);
-            column.set(24, 4); //todo: Find a number for fruit on the map
-            map.set(14, column);
-
+            ArrayList row = map.get(24);
+            row.set(14, 5);
+            map.set(24, row);
+            gameData.setFruit(fruit);
             gameData.setMap(map); //to update the map in gameData ?? --Evan
-
         }
     }
 
 
 
-}
-    
+    public JSONObject getDataToSend() {
+        return dataToSend;
 
+    }
+
+
+
+}

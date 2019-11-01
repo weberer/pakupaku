@@ -14,29 +14,31 @@ public class PakuPaku extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int requestFrameId = Integer.parseInt(request.getParameter("frameId"));
-
+        control.receivedFrame(requestFrameId);
         //if(requestFrameId != ++lastFrameId)
         //    response.sendError(HttpServletResponse.SC_CONFLICT); // Frame was missing, indicating that the game has entered an invalid state
         //else {
-            System.out.println("Frame " + requestFrameId);
-            if (request.getParameter("keycode") != null)
-                System.out.println("Keycode: " + request.getParameter("keycode"));
+        System.out.println("Frame " + requestFrameId);
+        if (request.getParameter("keycode") != null)
+            System.out.println("Keycode: " + request.getParameter("keycode"));
 
-            JSONObject dataToSend = null;
-            if(control != null)
-            {
-                dataToSend = control.getDataToSend();
-            }
+        control.receivedUserInput(request.getParameter("keycode"));
+        JSONObject dataToSend = null;
+        control.update();
+        if(control != null)
+        {
+            dataToSend = control.getDataToSend();
+        }
 
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter out = response.getWriter();
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
 
-            out.print("{\"responseData\": \"Success! This is the Response From a Servlet!!!\"}");
-            if(dataToSend != null)
-                out.print(dataToSend.toString());
-            out.flush();
-            out.close();
+        out.print("{\"responseData\": \"Success! This is the Response From a Servlet!!!\"}");
+        if(dataToSend != null)
+            out.print(dataToSend.toString());
+        out.flush();
+        out.close();
 
         //}
     }
@@ -49,6 +51,7 @@ public class PakuPaku extends HttpServlet {
     public void init() {
         System.out.println("Server is Starting...");
         control = new GameController();
-        control.startGame();
+        //control.startGame();
+        control.init();
     }
 }

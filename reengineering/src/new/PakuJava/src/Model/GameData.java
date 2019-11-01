@@ -2,8 +2,10 @@ package Model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -28,9 +30,17 @@ public class GameData
     private final int superElroy = 10;
     private final int dotPoint = 10;
 
+    //map tile numbers
+    private final int WALL_CODE = 0;
+    private final int DOT_CODE = 1;
+    private final int HALL_CODE = 2;
+    private final int LARGEDOT_CODE = 3;
+    private final int FRUIT_CODE = 5;  // put a five to indicate location of a Fruit
+
     private Paku paku;
     private int gamelevel;
     private GameStatus gameStatus;
+    private int currentFrame;
 
     private final double ghostSpeed = 10;
 
@@ -39,7 +49,8 @@ public class GameData
     private int frame;  //the number of the current frame
     private Direction inputDirection;
     private Fruit fruit = null;
-
+    private int bonus;
+    private int[] fruitArray;
     //private JSONObject jo = new JSONObject();  //rethinking this, replacing it with GameData object class --Evan
 
     private ArrayList<ArrayList> map;
@@ -49,17 +60,19 @@ public class GameData
     private int extraLives;
 
 
+    ///DO NOT DO NOT DO NOT MODIFY
+    //private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";///DO NOT DO NOT DO NOT MODIFY
+    private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";///DO NOT DO NOT DO NOT MODIFY
+
+
     private static GameData data = new GameData();  //to make this class a Singleton
 
     private Location pakuLoc; //x, y location of the paku
 
-    // The ghost locations
-    private Location blaineLoc;
-    private Location stinkyLoc;
-    private Location hinkyLoc;
-    private Location kinkyLoc;
-
-
+    private boolean blaineBlink;
+    private boolean stinkyBlink;
+    private boolean hinkyBlink;
+    private boolean kinkyBlink;
 
     JSONObject dataToSend;
 
@@ -77,7 +90,23 @@ public class GameData
         map = new ArrayList<ArrayList>();
         eachRow = new ArrayList<Integer>();
 
+        currentFrame = -1;
+    }
 
+    public boolean isBlaineBlink() {
+        return blaineBlink;
+    }
+
+    public boolean isStinkyBlink() {
+        return stinkyBlink;
+    }
+
+    public boolean isHinkyBlink() {
+        return hinkyBlink;
+    }
+
+    public boolean isKinkyBlink() {
+        return kinkyBlink;
     }
 
     public void createObject()
@@ -86,8 +115,8 @@ public class GameData
             String gameStatusToSend = GameStatus.getStatusUI(this.gameStatus);
             dataToSend.put("game_state", gameStatusToSend);
 
-            int highScoreToSend = getHighScore();
-            dataToSend.put("score", highScoreToSend);
+            //int highScoreToSend = getHighScore();
+           // dataToSend.put("score", highScoreToSend);
 
             int scoreToSend = getCurrentScore();
             dataToSend.put("score", scoreToSend);
@@ -95,34 +124,81 @@ public class GameData
             dataToSend.put("sound", true);
 
 
-            //Collection board = ;
-            dataToSend.put("board", board);
+            JSONArray mapJS = new JSONArray();
+            map.forEach((eachrowAL) -> {
+                mapJS.put(new JSONArray(Arrays.asList(eachrowAL)));
+            });
 
-            JSONObject locationToSend = new JSONObject();
-            locationToSend.put("x", getPakuLoc().getxLoc());
-            locationToSend.put("y", getPakuLoc().getyLoc());
+//TODO: (Board is the map) mao is a 2d arraylist, put the 2d arraylist into 2D Json Array
+            //todo this, convert arraylist to 2D collection, put collection into 2dJson Aray
+
+
+            //Collection board = ;
+
+            dataToSend.put("board", mapJS);
+
+            JSONArray fruitJS = new JSONArray();
+            for(int i : fruitArray)
+            {
+                fruitJS.put(i);
+            }
+            dataToSend.put("fruitList", fruitJS);
+
+            dataToSend.put("bonus", bonus);
+            bonus = 0;
+
+            JSONObject pakuLocationToSend = new JSONObject();
+            pakuLocationToSend.put("x", getPakuLoc().getxLoc());
+            pakuLocationToSend.put("y", getPakuLoc().getyLoc());
+            pakuLocationToSend.put("direction", paku.getFacingDirection().toString());
+
 
             JSONObject pakuToSend = new JSONObject();
-            pakuToSend.put("location", locationToSend);
-            pakuToSend.put("direction", pakuDir());
+            pakuToSend.put("location", pakuLocationToSend);
+            //pakuToSend.put("direction", pakuDir());
 
             dataToSend.put("paku", pakuToSend);
 
+
+
+
+            JSONObject stinkyLocationToSend = new JSONObject();
+            stinkyLocationToSend.put("x", getStinky().getLoc().getxLoc());
+            stinkyLocationToSend.put("y", getStinky().getLoc().getyLoc());
+            stinkyLocationToSend.put("direction", getStinky().getFacingDirection().toString());
+
+
             JSONObject stinkyToSend = new JSONObject();
             stinkyToSend.put("location", getStinkyLoc());
-            stinkyToSend.put("state", getStinkyState());
+            stinkyToSend.put("ghost_state", GhostState.castState(getStinky().getState()));
+
+            JSONObject hinkyLocationToSend = new JSONObject();
+            hinkyLocationToSend.put("x", getHinky().getLoc().getxLoc());
+            hinkyLocationToSend.put("y", getHinky().getLoc().getyLoc());
+            hinkyLocationToSend.put("direction", getHinky().getFacingDirection().toString());
 
             JSONObject hinkyToSend = new JSONObject();
             hinkyToSend.put("location", getHinkyLoc());
-            hinkyToSend.put("state", getHinkyState());
+            hinkyToSend.put("ghost_state", GhostState.castState(getHinky().getState()));
+
+            JSONObject kinkyLocationToSend = new JSONObject();
+            kinkyLocationToSend.put("x", getKinky().getLoc().getxLoc());
+            kinkyLocationToSend.put("y", getKinky().getLoc().getyLoc());
+            kinkyLocationToSend.put("direction", getKinky().getFacingDirection().toString());
 
             JSONObject kinkyToSend = new JSONObject();
             kinkyToSend.put("location", getKinkyLoc());
-            kinkyToSend.put("state", getKinkyState());
+            kinkyToSend.put("ghost_state", GhostState.castState(getKinky().getState()));
+
+
+            JSONObject blaineLocationToSend = new JSONObject();
+            blaineLocationToSend.put("x", getBlaine().getLoc().getxLoc());
+            blaineLocationToSend.put("y", getBlaine().getLoc().getyLoc());
+            blaineLocationToSend.put("direction", getBlaine().getFacingDirection().toString());
 
             JSONObject blaineToSend = new JSONObject();
-            blaineToSend.put("location", getBlaineLoc());
-            blaineToSend.put("state", getBlaineState());
+            blaineToSend.put("location", blaineLocationToSend);
+            blaineToSend.put("ghost_state", GhostState.castState(getBlaine().getState()));
 
             JSONObject ghostsToSend = new JSONObject();
             ghostsToSend.put("stinky", stinkyToSend);
@@ -130,7 +206,7 @@ public class GameData
             ghostsToSend.put("kinky", kinkyToSend);
             ghostsToSend.put("blaine", blaineToSend);
 
-
+            dataToSend.put("ghosts", ghostsToSend);
         }
 
         catch (JSONException ex)
@@ -142,7 +218,7 @@ public class GameData
 
     public JSONObject getData()
     {
-
+        createObject();
         return dataToSend;
     }
 
@@ -159,48 +235,45 @@ public class GameData
         this.pakuLoc = pakuLoc;
     }
 
-    public void setHinkyLocation(Location loc)
-    {
-        this.hinkyLoc = loc;
-    }
-
-    public void setStinkyLocation(Location loc)
-    {
-        this.stinkyLoc = loc;
-    }
-
-    public void setKinkyLocation(Location loc)
-    {
-        this.kinkyLoc = loc;
-    }
-
-    public void setBlaineLocation(Location loc)
-    {
-        this.blaineLoc = loc;
-    }
 
     public GameStatus getGameStatus() {
         return gameStatus;
     }
 
     public Location getPakuLoc() {
-        return pakuLoc;
+        return paku.getLoc();
     }
 
     public Location getBlaineLoc() {
-        return blaineLoc;
+        return ghostList.get(0).getLoc();
     }
 
     public Location getStinkyLoc() {
-        return stinkyLoc;
+        return ghostList.get(2).getLoc();
     }
 
     public Location getHinkyLoc() {
-        return hinkyLoc;
+        return ghostList.get(1).getLoc();
     }
 
     public Location getKinkyLoc() {
-        return kinkyLoc;
+        return ghostList.get(3).getLoc();
+    }
+
+    public Ghost getBlaine() {
+        return ghostList.get(0);
+    }
+
+    public Ghost getStinky() {
+        return ghostList.get(2);
+    }
+
+    public Ghost getHinky() {
+        return ghostList.get(1);
+    }
+
+    public Ghost getKinky() {
+        return ghostList.get(3);
     }
 
     public int getCurrentScore() {
@@ -278,14 +351,15 @@ public class GameData
     public ArrayList<Integer> getEachRow() {
         return eachRow;
     }
+    public void  resetEachRow()
+    {
+        eachRow = new ArrayList<>();
+    }
 
     public void setEachRow(ArrayList<Integer> eachRow) {
         this.eachRow = eachRow;
     }
 
-    public String getSAMPLE_CSV_FILE_PATH() {
-        return SAMPLE_CSV_FILE_PATH;
-    }
 
     public List<Ghost> getGhostList() {
         return ghostList;
@@ -305,5 +379,75 @@ public class GameData
 
     public void setExtraLives(int extraLives) {
         this.extraLives = extraLives;
+    }
+
+    public int getWALL_CODE() {
+        return WALL_CODE;
+    }
+
+    public int getDOT_CODE() {
+        return DOT_CODE;
+    }
+
+    public int getHALL_CODE() {
+        return HALL_CODE;
+    }
+
+    public int getLARGEDOT_CODE() {
+        return LARGEDOT_CODE;
+    }
+
+    public int getFRUIT_CODE() {
+        return FRUIT_CODE;
+    }
+
+
+    public String getSAMPLE_CSV_FILE_PATH() {
+        return SAMPLE_CSV_FILE_PATH;
+    }
+
+    public void setBlaineBlink(boolean blaineBlink) {
+        this.blaineBlink = blaineBlink;
+    }
+
+    public void setStinkyBlink(boolean stinkyBlink) {
+        this.stinkyBlink = stinkyBlink;
+    }
+
+    public void setHinkyBlink(boolean hinkyBlink) {
+        this.hinkyBlink = hinkyBlink;
+    }
+
+    public void setKinkyBlink(boolean kinkyBlink) {
+        this.kinkyBlink = kinkyBlink;
+    }
+
+    public void setBonus(int bonus) {
+        this.bonus = bonus;
+    }
+    public int[] getFruitArray() {
+        return fruitArray;
+    }
+
+    public void setFruitArray(int[] fruitArray) {
+        this.fruitArray = fruitArray;
+    }
+
+    public boolean checkForDot() {
+        ArrayList<Integer> eachrow = new ArrayList<Integer>();
+        return eachrow.contains(1);
+    }
+
+    public boolean checkForSuperDot() {
+        ArrayList<Integer> eachrow = new ArrayList<Integer>();
+        return eachrow.contains(3);
+    }
+
+    public int getCurrentFrame() {
+        return currentFrame;
+    }
+
+    public void setCurrentFrame(int currentFrame) {
+        this.currentFrame = currentFrame;
     }
 }
