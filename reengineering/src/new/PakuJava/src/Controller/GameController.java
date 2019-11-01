@@ -118,7 +118,6 @@ public class GameController
     public void startGame() {
         Paku paku = gameData.getPaku(); //retrieve singleton Paku Object
 
-        paku.setGameData(gameData);
         paku.setGameData(gameData); //giving Paku a reference to gameData
         spawnGhosts();
 
@@ -172,6 +171,9 @@ public class GameController
         }
     }
 
+    /**
+     * Puts Paku and ghosts back in their starting positions after Paku has been eaten
+     */
     public void respawn()
     {
         List<Ghost> ghostList = gameData.getGhostList();
@@ -199,7 +201,7 @@ public class GameController
             ghost.resetLocation();
         }
         ghostList.get(0).resetMultiplier();
-        int gamelevel = 1;
+        int gamelevel = 0;
         gameData.setGamelevel(gamelevel);
 
         int extraLives = 1;
@@ -538,27 +540,6 @@ public class GameController
     }
 
 
-    /**
-     * Adds currentScore to the list of scores (used to keep track of high scores)
-     */
-    private void archiveScore()
-    {
-       // scoreList.add(currentScore);
-    }
-
-
-    /**
-     * Finds the highest currentScore in the list and updates highSore
-     */
-    private void determineHighScore()
-    {
-        //for(int i = 0; i < scorelist.size(); i++)
-        //{
-        //    if(scorelist.get(i) > highScore)
-        //        highScore = scorelist.get(i);
-        //}
-
-    }
 
     public JSONObject getDataToSend() {
         return dataToSend;

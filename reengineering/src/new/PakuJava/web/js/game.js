@@ -1,41 +1,40 @@
 class Game {
 
-    static gameStatus = {
+    static gameState = {
         menu: "menu",
-        play: "play"
-    };
-
-    static boardStatus = {
         play: "play",
-        ready: "ready",
-        gameOver: "game_over",
         newHighScore: "new_high_score"
     };
 
-    static htmlAttrName = "status";
+    static boardState = {
+        play: "play",
+        ready: "ready",
+        gameOver: "game_over"
+    };
 
-    static gameEl = document.getElementById("display");
-    static boardEl = document.getElementById("game_board");
+    static htmlAttrName = "state";
+
+    static gameEl = null;
+    static boardEl = null;
 
     static isSoundPlaying = false;
 
-    static openMenu = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.gameStatus.menu); };
+    static openMenu = () => { Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameState.menu); }; //TODO: TESTED
 
-    static startGameReady = () => {
-        Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameStatus.play);
-        Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardStatus.ready);
+    static startGameReady = () => { //TODO: TESTED
+        Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameState.play);
+        Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardState.ready);
     };
 
-    static startGame = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardStatus.play); };
+    static startGame = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardState.play); }; //TODO: Element Switch Tested
 
-    static gameOver = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardStatus.gameOver); };
+    static gameOver = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardState.gameOver); }; //TODO: Tested
 
-    static newHighscore = () => { Util.setAttributeValue(this.boardEl, this.htmlAttrName, this.boardStatus.newHighScore); };
+    static newHighscore = () => { Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameState.newHighScore); }; //TODO: Element Switch tested. Will need to alter the Input Check routine in some way to check for enter key down to submit
 
     static toggleSound = () => {
 
-        let playSound = () => {};
-        let stopSound = () => {};
+        let soundState = 
 
         if(this.isSoundPlaying)
             stopSound();
@@ -50,6 +49,9 @@ class Game {
         Ghost.createGhosts();
         Paku.createPaku();
         Board.createLives();
+        this.gameEl = document.getElementById("display");
+        this.boardEl = document.getElementById("game_board");
+        this.openMenu();
     };
 
 }
