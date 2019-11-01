@@ -40,7 +40,7 @@ public class GameControllerTest {
     public void resetGame()
     {
         GameData gameData = GameData.getInstance();
-        
+
         Assert.assertEquals(gameData.getGamelevel(), 1);
 
 

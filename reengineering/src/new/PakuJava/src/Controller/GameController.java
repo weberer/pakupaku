@@ -28,6 +28,7 @@ public class GameController
     private JSONObject dataToSend;
     private boolean fleeMove = false;
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
+    private int currentFrame;
 
 
     /**
@@ -37,7 +38,9 @@ public class GameController
     {
         gameData = GameData.getInstance();  //INSTANTIATION OF GAMEDATA OBJECT
         LoadMap();
+        gameData.setGameStatus(GameStatus.mainMenu);
       //  startGame();   //this method is already called from the Program class --Evan
+        currentFrame = -1;
     }
 
     /**
@@ -77,6 +80,37 @@ public class GameController
         }
 
     }
+
+    public void init() {
+        while(true){
+            Controls input = getUserInput();
+            switch (gameData.getGameStatus()){
+                case mainMenu:
+                    if(input.equals(Controls.enter))
+                    {
+                        gameData.setGameStatus(GameStatus.play);
+                        startGame();
+                    }
+                case play:
+                    int frameNumber = gameData.getCurrentFrame();
+                    if(frameNumber>currentFrame)
+                    {
+                        currentFrame = frameNumber;
+                        update();
+                    }
+                    default:
+            }
+        }
+
+    }
+
+
+    public void receivedFrame(int frameNumber) {
+        gameData.setCurrentFrame(frameNumber);
+    }
+
+
+
 
     /**
      * Responsible for setting up the game
@@ -281,7 +315,7 @@ public class GameController
 
         Controls input = getUserInput();
         dataToSend = gameData.getData();
-        if(input != Controls.escape && input != Controls.O && input != Controls.enter)
+        if(input != Controls.escape && input != Controls.O && input != Controls.enter && !gameData.getGameStatus().equals(GameStatus.mainMenu))
         {
             pakuUpdate((input.castToDir(input)));
         }
@@ -533,6 +567,7 @@ public class GameController
         return dataToSend;
 
     }
+
 
 
 }
