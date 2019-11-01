@@ -16,8 +16,9 @@ class Game {
 
     static gameEl = null;
     static boardEl = null;
+    static soundElList = null;
 
-    static isSoundPlaying = false;
+    static isSoundPlaying = true; // sound defaults to 'ON'
 
     static openMenu = () => { Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameState.menu); }; //TODO: TESTED
 
@@ -32,15 +33,15 @@ class Game {
 
     static newHighscore = () => { Util.setAttributeValue(this.gameEl, this.htmlAttrName, this.gameState.newHighScore); }; //TODO: Element Switch tested. Will need to alter the Input Check routine in some way to check for enter key down to submit
 
-    static toggleSound = () => {
+    // state should be a boolean value
+    static setSound = (state) => {
+        for(let el of this.soundElList)
+            Util.setAttributeValue(el, this.htmlAttrName, state);
 
-        let soundState = 
-
-        if(this.isSoundPlaying)
-            stopSound();
-        else
-            playSound();
+        this.isSoundPlaying = state; // update JS sound State.
     };
+
+    static toggleSound = () => { this.setSound(!this.isSoundPlaying); };
 
     static init() {
         Board.createLives();
@@ -49,9 +50,15 @@ class Game {
         Ghost.createGhosts();
         Paku.createPaku();
         Board.createLives();
+
+        //Get Elements for Game Class
         this.gameEl = document.getElementById("display");
         this.boardEl = document.getElementById("game_board");
+        this.soundElList = document.getElementsByClassName("sound_display");
+
+        // Set initial Game States
         this.openMenu();
+        this.setSound(true);
     };
 
 }
