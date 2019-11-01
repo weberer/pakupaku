@@ -76,7 +76,7 @@ public abstract class Ghost extends MovingGameObject {
     }
 
     protected void jailMove() {
-        if (state.equals(GhostState.eaten) && loc.getyLoc() < JAIL_TOP) {
+        if (state.equals(GhostState.eaten) && loc.getyLoc() > JAIL_TOP) {
             loc.setyLoc(loc.getyLoc() + 1);
             if (loc.getyLoc() == JAIL_BOTTOM) {
                 exitCounter = resetExitCounter;
@@ -161,7 +161,7 @@ public abstract class Ghost extends MovingGameObject {
 
     protected void eatenMove() {
         if (loc.getxLoc() == JAIL_DOOR) {
-            if (loc.getyLoc() == (JAIL_TOP) && loc.getyLoc() < JAIL_BOTTOM) {
+            if (loc.getyLoc() == (JAIL_TOP - 1) && loc.getyLoc() < JAIL_BOTTOM) {
                 facingDirection = Direction.down;
                 jailSkip = true;
             }
@@ -236,10 +236,8 @@ public abstract class Ghost extends MovingGameObject {
             if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))
                 if (!alternate) {
                     moveNotTurn();
-                    alternate = true;
                 }
-                else
-                    alternate = false;
+
         if(!state.equals(GhostState.flee) && !state.equals(GhostState.eaten))
         {
             timer--;

@@ -36,6 +36,7 @@ public class HinkyTest {
         stinky.setupTimers();
         hinky.startTimer();
         hinky.setState(GhostState.chase);
+
     }
 
 

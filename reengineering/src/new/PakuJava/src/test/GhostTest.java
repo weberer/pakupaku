@@ -567,9 +567,12 @@ public class GhostTest {
         stinky.setFleeTimer(1000000);
         stinky.move();
         stinky.move();
-        assertEquals(14, stinky.getLoc().getxLoc());
+        assertEquals(16, stinky.getLoc().getxLoc());
     }
 
+    /**
+     * Tests that the eaten ghost can go into the jail and reset its mode to scatter mode.
+     */
     @Test
     public void eatenMove() {
         GameData gameData = GameData.getInstance();
@@ -577,6 +580,15 @@ public class GhostTest {
         Stinky stinky = new Stinky(gameData.getMap());
         stinky.setupTimers();
         stinky.setState(GhostState.eaten);
+        stinky.move();
+        assertEquals(12, stinky.getLoc().getyLoc());
+        assertEquals(14, stinky.getLoc().getxLoc());
+        stinky.move();
+        stinky.move();
+        stinky.move();
+        stinky.move();
+        stinky.move();
+        assertEquals(GhostState.scatter, stinky.getState());
     }
 
     @Test

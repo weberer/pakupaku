@@ -1,10 +1,7 @@
 package test;
 
 import Controller.GameController;
-import Model.Direction;
-import Model.GameData;
-import Model.GhostState;
-import Model.Kinky;
+import Model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -47,6 +44,10 @@ public class KinkyTest {
         assertEquals(5, kinky.getLoc().getxLoc());
         assertEquals(1, kinky.getLoc().getyLoc());
     }
+
+    /**
+     * Tests that Kinky's behaviors are functioning properly: to turn chase paku to the tile he is pointing to.
+     */
     @Test
     public void chaseMove() {
         GameData gameData = GameData.getInstance();
@@ -55,5 +56,42 @@ public class KinkyTest {
         kinky.setupTimers();
         kinky.startTimer();
         kinky.setState(GhostState.chase);
+        Paku p = gameData.getPaku();
+        p.setDir(Direction.up);
+        p.getLoc().setxLoc(6);
+        p.getLoc().setyLoc(5);
+        kinky.getLoc().setxLoc(6);
+        kinky.getLoc().setyLoc(8);
+        kinky.setDirection(Direction.right);
+        kinky.move();
+        assertEquals(7, kinky.getLoc().getyLoc());
+
+        p.setDir(Direction.left);
+        p.getLoc().setxLoc(6);
+        p.getLoc().setyLoc(8);
+        kinky.getLoc().setxLoc(6);
+        kinky.getLoc().setyLoc(5);
+        kinky.setDirection(Direction.down);
+        kinky.move();
+        assertEquals(5, kinky.getLoc().getxLoc());
+
+        p.setDir(Direction.right);
+        p.getLoc().setxLoc(6);
+        p.getLoc().setyLoc(5);
+        kinky.getLoc().setxLoc(6);
+        kinky.getLoc().setyLoc(1);
+        kinky.setDirection(Direction.up);
+        kinky.move();
+        assertEquals(7, kinky.getLoc().getxLoc());
+
+        p.setDir(Direction.down);
+        p.getLoc().setxLoc(6);
+        p.getLoc().setyLoc(14);
+        kinky.getLoc().setxLoc(6);
+        kinky.getLoc().setyLoc(1);
+        kinky.setDirection(Direction.left);
+        kinky.move();
+        assertEquals(2, kinky.getLoc().getyLoc());
+
     }
 }

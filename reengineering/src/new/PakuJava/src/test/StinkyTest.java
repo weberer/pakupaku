@@ -56,6 +56,13 @@ public class StinkyTest {
         stinky.setupTimers();
         stinky.startTimer();
         stinky.setState(GhostState.chase);
+        gameData.getPaku().getLoc().setxLoc(12);
+        gameData.getPaku().getLoc().setyLoc(20);
+        stinky.getLoc().setyLoc(23);
+        stinky.getLoc().setxLoc(12);
+        stinky.move();
+        assertEquals(22, stinky.getLoc().getyLoc());
+
     }
 
 
