@@ -2,14 +2,12 @@ package test;
 
 
 import Controller.GameController;
-import Model.Direction;
-import Model.GameData;
-import Model.Hinky;
-import Model.Stinky;
+import Model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class HinkyTest {
@@ -17,15 +15,31 @@ public class HinkyTest {
 
     @Test
     public void resetLocation() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Stinky stinky = new Stinky(gameData.getMap());
+        Hinky hinky = new Hinky(stinky, gameData.getMap());
+        stinky.setupTimers();
+        stinky.startTimer();
+        hinky.getLoc().setxLoc(1);
+        hinky.getLoc().setyLoc(1);
+        hinky.resetLocation();
+        assertEquals(11, hinky.getLoc().getxLoc());
+        assertEquals(14, hinky.getLoc().getyLoc());
     }
 
     @Test
-    public void move() {
+    public void chaseMove() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Stinky stinky = new Stinky(gameData.getMap());
+        Hinky hinky = new Hinky(stinky, gameData.getMap());
+        stinky.setupTimers();
+        hinky.startTimer();
+        hinky.setState(GhostState.chase);
     }
 
-    @Test
-    public void recordLocation() {
-    }
+
     @Test
     public void  scatterMove() {
         GameData gameData = GameData.getInstance();

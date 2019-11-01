@@ -16,6 +16,16 @@ public class BlaineTest {
 
     @Test
     public void resetLocation() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Blaine blaine = new Blaine(gameData.getMap());
+        blaine.setupTimers();
+        blaine.startTimer();
+        blaine.getLoc().setxLoc(1);
+        blaine.getLoc().setyLoc(1);
+        blaine.resetLocation();
+        assertEquals(15, blaine.getLoc().getxLoc());
+        assertEquals(14, blaine.getLoc().getyLoc());
     }
 
     @Test
