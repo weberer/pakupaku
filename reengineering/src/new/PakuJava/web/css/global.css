@@ -135,7 +135,7 @@ body {
     color: var(--green);
 }
 
-.sound_display[sound="off"] > .sound_status::before {
+.sound_display[state="false"] > .sound_status::before {
     content: "OFF";
     color: var(--red);
 }

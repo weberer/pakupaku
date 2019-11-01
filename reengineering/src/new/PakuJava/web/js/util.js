@@ -75,7 +75,7 @@ class Util {
         }
 
         Util.lastKeyPressed = keycode;
-		Util.sendFrameData()
+		//Util.sendFrameData()
     };
 
     static handleAjaxSuccess = (data) => {
