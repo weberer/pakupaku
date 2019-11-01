@@ -43,5 +43,8 @@ public abstract class MovingGameObject {
 	public Location getLoc() {
 		return loc;
 	}
+	public void setLoc(Location loc) {
+		this.loc = loc;
+	}
 
 }

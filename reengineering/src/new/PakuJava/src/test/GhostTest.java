@@ -8,7 +8,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
-
+/**
+ * JUnitTesting for the main Ghost methods is performed here. One thing to note is to NOT perform all tests at once, as
+ * they will usually give two errors on perfectly good tests for some reason.
+ */
 public class GhostTest {
 
     @Test
@@ -478,11 +481,11 @@ public class GhostTest {
         assertEquals(21, gameData.getGhostList().get(0).getLoc().getxLoc());
         assertEquals(25, gameData.getGhostList().get(0).getLoc().getyLoc());
         //Moving Down
-        gameData.getGhostList().get(0).getLoc().setxLoc(27);
+        gameData.getGhostList().get(0).getLoc().setxLoc(26);
         gameData.getGhostList().get(0).getLoc().setyLoc(26);
         gameData.getGhostList().get(0).setDirection(Direction.down);
         gameData.getGhostList().get(0).move();
-        assertEquals(27, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(25, gameData.getGhostList().get(0).getLoc().getxLoc());
         assertEquals(26, gameData.getGhostList().get(0).getLoc().getyLoc());
         //(18, 26)
         //Moving Right
@@ -552,14 +555,28 @@ public class GhostTest {
 
     @Test
     public void  fleeMove() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Stinky stinky = new Stinky(gameData.getMap());
+        stinky.setupTimers();
+        stinky.setState(GhostState.flee);
+        gameData.setPakuLoc(new Location(26, 29));
+        stinky.getLoc().setyLoc(29);
+        stinky.getLoc().setxLoc(15);
+        stinky.setDirection(Direction.down);
+        stinky.setFleeTimer(1000000);
+        stinky.move();
+        stinky.move();
+        assertEquals(14, stinky.getLoc().getxLoc());
     }
 
     @Test
     public void eatenMove() {
-    }
-
-    @Test
-    public void  calculateMove() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Stinky stinky = new Stinky(gameData.getMap());
+        stinky.setupTimers();
+        stinky.setState(GhostState.eaten);
     }
 
     @Test
@@ -655,10 +672,5 @@ public class GhostTest {
         test = stinky.addScore(new Score());
         stinky.resetMultiplier();
         assertEquals(1, stinky.getMultiplier());
-    }
-
-    @Test
-    public void resetLocation() {
-
     }
 }

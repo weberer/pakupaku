@@ -49,7 +49,7 @@ public class StinkyTest {
         assertEquals(1, stinky.getLoc().getyLoc());
     }
     @Test
-    public void move() {
+    public void chaseMove() {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
