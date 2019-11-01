@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;/*
-import Model.movingGameObject;
-import org.json.simple.JSONObject;
-import Controller.Controls;*/
+package Model;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
+ * Ghost handles the shared functions of the ghost subclasses, holding the main move method, shared movement calculations,
+ * and jail procedures. Also stores the timers used to change state for each ghost.
  * @author kruge
  */
 
@@ -65,6 +64,10 @@ public abstract class Ghost extends MovingGameObject {
         facingDirection = Direction.up;
     }
 
+    /**
+     * Tests if the ghost is in the jail area
+     * @return true if it is, otherwise false;
+     */
     public boolean inJail() {
         if (loc.getxLoc() >= JAIL_LEFT && loc.getxLoc() <= JAIL_RIGHT) {
             if (loc.getyLoc() < JAIL_BOTTOM && loc.getyLoc() > JAIL_TOP)
@@ -75,6 +78,10 @@ public abstract class Ghost extends MovingGameObject {
             return false;
     }
 
+    /**
+     * Logic on how the ghost moves in jail. The ghost is forced out when exitCounter is 0, otherwise they move
+     * in the jail.
+     */
     protected void jailMove() {
         if (state.equals(GhostState.eaten) && loc.getyLoc() > JAIL_TOP) {
             loc.setyLoc(loc.getyLoc() + 1);
@@ -137,6 +144,9 @@ public abstract class Ghost extends MovingGameObject {
         }
     }
 
+    /**
+     * Checks to see is the ghost is about to warp to the other side of the map, and if it is, move it there.
+     */
     protected void checkWarp() {
         if (facingDirection.equals(Direction.right)) {
             if (loc.getxLoc() == FAR_RIGHT && loc.getyLoc() == WARP_LEVEL) {
@@ -149,16 +159,27 @@ public abstract class Ghost extends MovingGameObject {
         }
     }
 
+    /**
+     * The basic movement style besides the chase movement. Each ghost will move to a corner
+     * @param scatterX the corner's x position.
+     * @param scatterY the corner's y position.
+     */
     protected void scatterMove(int scatterX, int scatterY) {
         changeX = scatterX - loc.getxLoc();
         changeY = scatterY - loc.getyLoc();
     }
 
+    /**
+     * How ghost moves in the flee state, will avoid the current Paku location, if possible.
+     */
     protected void fleeMove() {
         changeX = loc.getxLoc() - Paku.getInstance().getLoc().getxLoc();
         changeY = loc.getyLoc() - Paku.getInstance().getLoc().getyLoc();
     }
 
+    /**
+     * How a ghost moves when eaten. will try to get to the jail door as soon as possible
+     */
     protected void eatenMove() {
         if (loc.getxLoc() == JAIL_DOOR) {
             if (loc.getyLoc() == (JAIL_TOP - 1) && loc.getyLoc() < JAIL_BOTTOM) {
@@ -166,8 +187,8 @@ public abstract class Ghost extends MovingGameObject {
                 jailSkip = true;
             }
         } else {
-            changeX = EATEN_X - loc.getxLoc();
-            changeY = EATEN_Y - loc.getyLoc();
+            changeX = JAIL_DOOR - loc.getxLoc();
+            changeY = JAIL_TOP - loc.getyLoc();
             if(howFarIncrement == 3)
             {
                 howFar++;
@@ -176,6 +197,9 @@ public abstract class Ghost extends MovingGameObject {
         }
     }
 
+    /**
+     * Main logic of movement for ghosts outside of jail. Will move the ghost, and maybe turn them based on logic.
+     */
     protected void calculateMove() {
         int randomInt = random.nextInt(10);
         if (!jailSkip) {
@@ -284,7 +308,9 @@ public abstract class Ghost extends MovingGameObject {
 
     }
 
-
+    /**
+     * Used after all the turning is completed, the ghosts move in their corresponding facingDirection.
+     */
     private void moveNotTurn()
     {
         ArrayList row = map.get(loc.getyLoc());
@@ -312,6 +338,10 @@ public abstract class Ghost extends MovingGameObject {
                 loc.setxLoc(loc.getxLoc() - 1);
         }
     }
+
+    /**
+     * Used when a ghost moving up or down needs to turn.
+     */
     private void turnUpDown() {
         if (changeX > 0) {
             if ((int)map.get(loc.getyLoc()).get(loc.getxLoc() + 1) > 0) {
@@ -336,6 +366,9 @@ public abstract class Ghost extends MovingGameObject {
         }
     }
 
+    /**
+     * Used when a ghost moving left or right needs to turn up or down.
+     */
     private void turnLeftRight() {
         if(changeY > 0)
         {
@@ -375,6 +408,12 @@ public abstract class Ghost extends MovingGameObject {
     {
         return this.state;
     }
+
+    /**
+     * Scores the ghost and sets it's state to eaten.
+     * @param score score to add to
+     * @return score added for gameData
+     */
     public int addScore(Score score)
     {
         score.addScore(SCORE * multiplier);
@@ -389,6 +428,9 @@ public abstract class Ghost extends MovingGameObject {
         multiplier = 1;
     }
 
+    /**
+     * Method to set the ghost to a fleeing state. will set the fright timers to the corresponding level's timer.
+     */
     public void makeFlee()
     {
         if(state != GhostState.flee) {

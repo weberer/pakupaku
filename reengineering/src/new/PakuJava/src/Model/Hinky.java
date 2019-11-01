@@ -14,7 +14,7 @@ public class Hinky extends Ghost
     private final int SCATTER_X = 26;
     private final int SCATTER_Y = 30;
     private final int HINKY_VARIANCE = 2;
-    private final int EXITCOUNTER = 0;
+    private final int EXITCOUNTER = 60;
     private Ghost stinky;
     public Hinky(Ghost stinky, ArrayList<ArrayList> map)
     {
