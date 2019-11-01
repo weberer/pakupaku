@@ -27,6 +27,9 @@ public class HinkyTest {
         assertEquals(14, hinky.getLoc().getyLoc());
     }
 
+    /**
+     * Hinky's chase is a bit more random than the other ones, so It may not always test the way you want it to.
+     */
     @Test
     public void chaseMove() {
         GameData gameData = GameData.getInstance();
@@ -37,6 +40,39 @@ public class HinkyTest {
         hinky.startTimer();
         hinky.setState(GhostState.chase);
 
+        // setting stinky far away to confuse hinky
+        stinky.getLoc().setxLoc(1);
+        stinky.getLoc().setyLoc(1);
+        hinky.getLoc().setxLoc(21);
+        hinky.getLoc().setyLoc(20);
+        hinky.setDirection(Direction.right);
+        Paku p = gameData.getPaku();
+        p.setDir(Direction.down);
+        p.getLoc().setxLoc(21);
+        p.getLoc().setyLoc(5);
+        hinky.move();
+        assertNotSame(19, hinky.getLoc().getyLoc());
+
+        hinky.getLoc().setxLoc(15);
+        hinky.getLoc().setyLoc(6);
+        hinky.setDirection(Direction.down);
+        p.setDir(Direction.right);
+        hinky.move();
+        assertNotSame(16, hinky.getLoc().getxLoc());
+
+        hinky.getLoc().setxLoc(21);
+        hinky.getLoc().setyLoc(15);
+        hinky.setDirection(Direction.left);
+        p.setDir(Direction.up);
+        hinky.move();
+        assertNotSame(16, hinky.getLoc().getxLoc());
+
+        hinky.getLoc().setxLoc(21);
+        hinky.getLoc().setyLoc(20);
+        hinky.setDirection(Direction.left);
+        p.setDir(Direction.right);
+        hinky.move();
+        assertNotSame(19, hinky.getLoc().getxLoc());
     }
 
 
