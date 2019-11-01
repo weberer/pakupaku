@@ -541,12 +541,9 @@ public class GameController
     }
 
 
-
     public JSONObject getDataToSend() {
         return dataToSend;
 
     }
-
-
 
 }

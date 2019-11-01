@@ -7,7 +7,6 @@ public enum GhostState
     flee,
     eaten;
 
-
     public static String castState(GhostState state){
         if(state.equals(scatter) || state.equals(chase)){
             return "normal";

@@ -3,9 +3,11 @@ import java.util.ArrayList;
 //import org.json.simple.JSONArray;
 //import org.json.simple.JSONObject;
 
-
+/**
+ * This abstract class provides generic data and functionality for a moving game object, which includes the Paku and the
+ * ghosts
+ */
 public abstract class MovingGameObject {
-
 	public enum States{
 
 	}
