@@ -4,6 +4,7 @@ package test;
 import Model.Direction;
 import Model.GameData;
 import Controller.GameController;
+import Model.Location;
 import Model.Paku;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,26 +27,25 @@ public class PakuTest
         paku.setMap(gameData.getMap());
 
         paku.move(); //move unit in default left direction
-        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X() - 1);
+        int currentX = paku.getLoc().getxLoc();
+        Assert.assertEquals(currentX, paku.getSTARTING_X() - 1);
         paku.resetLocation();
 
         paku.setDir(Direction.right);
         paku.move(); //moves paku one unit in the right direction
         Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X() + 1);
+        paku.resetLocation();
 
-        /**
+        Location newLoc = new Location(15, 23);
+        paku.setLoc(newLoc);
+
         paku.setDir(Direction.up);
         paku.move(); //moves paku one unit in the up direction
-        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y() + 1);
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y() - 1);
 
         paku.setDir(Direction.down);
         paku.move(); //moves paku one unit in the down direction
-        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y() - 1);
-
-        paku.setDir(Direction.right);
-        paku.move(); //moves paku one unit in the right direction
-        Assert.assertEquals(paku.getLoc().getxLoc(), paku.getSTARTING_X() + 1);
-         */
+        Assert.assertEquals(paku.getLoc().getyLoc(), paku.getSTARTING_Y());
 
     }
 
