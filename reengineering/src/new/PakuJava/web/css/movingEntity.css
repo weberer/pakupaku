@@ -1,7 +1,7 @@
 #paku,
 .ghost {
     --entity_offset_x: -0.5%; /* entity_offset accounts for the board's background svg not being perfectly to scale */
-    --entity_offset_y: -0.3%;
+    --entity_offset_y: 0.1%;
     --movement_x_amt: calc(0.486 * var(--display_width) / 26); /* --display_width * --left_width_flex / (--left_width_flex + --right_width_flex) * (1 - (2 * game_border_width)) / 26. 26 = num pellet cols.  */
     --movement_y_amt: calc(0.8556 * var(--screen_height) / 29); /* --display_width * (1 - 2 * game_border_width) * 93 / 100 / 29. (93 / 100) = ratio of game vertically to left container height. 29 = num pellet rows */
     --entity_height: calc(var(--screen_height) / 22);

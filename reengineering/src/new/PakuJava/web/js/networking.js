@@ -17,8 +17,10 @@ class Networking {
     };
 
     static _sendRequest = (data, callback) => {
-        let url = window.location.href + this.vars.requestUrl;
+        let url = window.location.href + "servlet/PakuPaku";
+
         $.ajax({
+            //url: "http://localhost:8080/paku_war_exploded/servlet/PakuPaku",
             url: url,
             data: data,
             type: "POST",
@@ -43,11 +45,16 @@ class Networking {
     };
 
     static sendMenuRequest = () => {
+        console.log("Sending Menu Request");
         let data = {
             type: "menu"
         };
 
-        this._sendRequest(data, this.success);
+        this._sendRequest(data, (rawData) => {
+            let data = JSON.parse(rawData).data;
+            let highscoreList = data.highscore_list;
+            //Game.updateHighScoreList(highscoreList); // Backend returns array, not object as is needed to update the list
+        });
     };
 
     static sendStartGameRequest = () => {
