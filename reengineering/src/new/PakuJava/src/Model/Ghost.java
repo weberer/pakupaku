@@ -10,7 +10,8 @@ import java.util.Random;
 
 /**
  * Ghost handles the shared functions of the ghost subclasses, holding the main move method, shared movement calculations,
- * and jail procedures. Also stores the timers used to change state for each ghost.
+ * and jail procedures. Also stores the timers used to change state for each ghost. The movement patterns shared
+ * by each ghost is scatterMove, fleeMove, eatenMove, and jailMove.
  * @author kruge
  */
 
@@ -40,7 +41,7 @@ public abstract class Ghost extends MovingGameObject {
     protected int exitCounter;
     protected int howFar = 1;
     protected int howFarIncrement = 0;
-    protected int fleeTotal;
+    protected int fleeTimer;
     protected static int multiplier = 1;
     protected GhostState state;
     protected GhostState storedState;
@@ -81,7 +82,9 @@ public abstract class Ghost extends MovingGameObject {
 
     /**
      * Logic on how the ghost moves in jail. The ghost is forced out when exitCounter is 0, otherwise they move
-     * in the jail.
+     * in the jail and decrement the exit counter.
+     * When a ghost enters the jail for the first time after being eaten, the state variable is set to Scatter, the exitCounter
+     * is set to the defaut of each ghost, andthe timers for scatter are set to the corresponding level's first behavior.
      */
     protected void jailMove() {
         if (state.equals(GhostState.eaten) && loc.getyLoc() > JAIL_TOP) {
@@ -146,7 +149,8 @@ public abstract class Ghost extends MovingGameObject {
     }
 
     /**
-     * Checks to see is the ghost is about to warp to the other side of the map, and if it is, move it there.
+     * Checks to see is the ghost is about to warp to the other side of the map from either (1,14) or (26,14),
+     * and if it is, set the ghost's location to the oppisite coordinates.
      */
     protected void checkWarp() {
         if (facingDirection.equals(Direction.right)) {
@@ -161,7 +165,11 @@ public abstract class Ghost extends MovingGameObject {
     }
 
     /**
-     * The basic movement style besides the chase movement. Each ghost will move to a corner
+     * The basic movement style besides the chase movement. Each ghost will move towards a different corner.
+     * Stinky will go to the top right (1,26)
+     * Kinky will go to the top left (1,1)
+     * Hinky will go to the bottom right (26,30)
+     * Blaine will go to the bottom left (1,30)
      * @param scatterX the corner's x position.
      * @param scatterY the corner's y position.
      */
@@ -171,7 +179,7 @@ public abstract class Ghost extends MovingGameObject {
     }
 
     /**
-     * How ghost moves in the flee state, will avoid the current Paku location, if possible.
+     * Ghosts in the flee state move away from paku's current distance, but may not always succeed with that movement.
      */
     protected void fleeMove() {
         changeX = loc.getxLoc() - Paku.getInstance().getLoc().getxLoc();
@@ -179,7 +187,8 @@ public abstract class Ghost extends MovingGameObject {
     }
 
     /**
-     * How a ghost moves when eaten. will try to get to the jail door as soon as possible
+     * How a ghost moves when eaten. will try to get to the jail door (14,11). The ghost will speed up every three
+     * times this method is called to assist in this process.
      */
     protected void eatenMove() {
         if (loc.getxLoc() == JAIL_DOOR) {
@@ -200,18 +209,21 @@ public abstract class Ghost extends MovingGameObject {
 
     /**
      * Main logic of movement for ghosts outside of jail. Will move the ghost, and maybe turn them based on logic.
+     * See comments in the method for more details.
      */
     protected void calculateMove() {
         int randomInt = random.nextInt(10);
-        if (!jailSkip) {
+        if (!jailSkip) {//jailSkip is a value only true when a ghost is entering or leaving the jail.
 
             absoluteX = Math.abs(changeX);
             absoluteY = Math.abs(changeY);
+            //testAmount is used as an offset for testing the turns
             if (facingDirection.equals(Direction.up) || facingDirection.equals(Direction.left)) {
                 testAmount = -1;
             } else {
                 testAmount = 1;
             }
+            // Up and Down movement testing for turns
             if (facingDirection.equals(Direction.up) || facingDirection.equals(Direction.down)) {
                 if (randomInt > 1) {
                     if (loc.getxLoc() == 9 || loc.getxLoc() == 18)
@@ -230,10 +242,15 @@ public abstract class Ghost extends MovingGameObject {
                     turnUpDown();
                 } else if ((int) map.get(loc.getyLoc() + testAmount).get(loc.getxLoc()) == 0 || allowTurn) {
                     turnUpDown();
-                } else if (randomInt > 8) {
+                }
+                //This is one of the original author's things he added. It's a random chance for the ghosts
+                //to turn where they don't in the Pacman game.
+                else if (randomInt > 8) {
                     turnUpDown();
                 }
-            } else if (facingDirection.equals(Direction.left) || facingDirection.equals(Direction.right)) {
+            }
+            // Left and Right movement testing for turns
+            else if (facingDirection.equals(Direction.left) || facingDirection.equals(Direction.right)) {
                 if (randomInt > 1) {
                     if ((loc.getxLoc() > 9) && (loc.getxLoc() < 18))
                         if ((loc.getyLoc() > 9) || (loc.getyLoc() < 22))
@@ -252,17 +269,18 @@ public abstract class Ghost extends MovingGameObject {
                     turnLeftRight();
                 }
             }
-            // left/right check
-            // jailskip check
+
         }
         if (!state.equals(GhostState.flee)) {
             moveNotTurn();
-        } else if (!(loc.getyLoc() == 14))
+        }
+        //Fleeing ghosts can only move every other movement call
+        else if (!(loc.getyLoc() == 14))
             if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))
                 if (!alternate) {
                     moveNotTurn();
                 }
-
+//todo: remake into it's own method.
         if(!state.equals(GhostState.flee) && !state.equals(GhostState.eaten))
         {
             timer--;
@@ -296,17 +314,16 @@ public abstract class Ghost extends MovingGameObject {
         }
         if(state.equals(GhostState.flee))
         {
-            if(fleeTotal <= 0)
+            if(fleeTimer <= 0)
             {
                 state = storedState;
 
             }
             else
             {
-                fleeTotal--;
+                fleeTimer--;
             }
         }
-
     }
 
     /**
@@ -412,8 +429,8 @@ public abstract class Ghost extends MovingGameObject {
 
     /**
      * Scores the ghost and sets it's state to eaten.
-     * @param score score to add to
-     * @return score added for gameData
+     * @param score the score to be incremented.
+     * @return score added for gameData's bonus value
      */
     public int addScore(Score score)
     {
@@ -431,16 +448,19 @@ public abstract class Ghost extends MovingGameObject {
 
     /**
      * Method to set the ghost to a fleeing state. will set the fright timers to the corresponding level's timer.
+     * When the level is above 21, the check will default to the 21st level's timers. Afterards the ghosts have their
+     * direction flipped. If the ghost is already fleeing nothing will happen.
+     * Todo: Rework flee timer.
      */
     public void makeFlee()
     {
         if(state != GhostState.flee) {
             if (GameData.getInstance().getGamelevel() <= 20) {
-                fleeTotal = frightTimers.get(GameData.getInstance().getGamelevel());
+                fleeTimer = frightTimers.get(GameData.getInstance().getGamelevel());
                 storedState = state;
                 state = GhostState.flee;
             } else {
-                fleeTotal = frightTimers.get(20);
+                fleeTimer = frightTimers.get(20);
                 storedState = state;
                 state = GhostState.flee;
             }
@@ -456,9 +476,9 @@ public abstract class Ghost extends MovingGameObject {
         else
         {
             if (GameData.getInstance().getGamelevel() <= 20) {
-                fleeTotal = frightTimers.get(GameData.getInstance().getGamelevel());
+                fleeTimer = frightTimers.get(GameData.getInstance().getGamelevel());
             } else {
-                fleeTotal = frightTimers.get(20);
+                fleeTimer = frightTimers.get(20);
             }
         }
 
@@ -596,6 +616,6 @@ public abstract class Ghost extends MovingGameObject {
     }
     public void setFleeTimer(int i)
     {
-        fleeTotal = i;
+        fleeTimer = i;
     }
 }

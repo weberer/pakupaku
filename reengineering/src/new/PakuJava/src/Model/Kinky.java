@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 /**
  * Kinky is the pink ghost who will follow where paku is about to move to based on its direction.
+ * The unique chase function of kinky is to predict where paku is going by targeting a tile in front of where Paku is
+ * facing.
+ * Kinky's Scatter moves it to the top left corner of the map.
+ * Kinky is the first ghost to leave the jail
  */
 public class Kinky extends Ghost {
 
@@ -29,6 +33,13 @@ public class Kinky extends Ghost {
         loc.setyLoc(STARTING_Y);
     }
 
+    /**
+     * Kinky's Scatter location is to the top left corner of the map.
+     * Kinky's unique chase targets the tile four tiles away from where paku is currently facing. The exception to this
+     * is when Paku is facing up, Kinky will target the tile that is four tiles up and four to the left. This number can
+     * be negative. Then Kinky's current position is subtracted from that result to get the difference in position. This number
+     * can also be negative.
+     */
     @Override
     public void move() {
         Location paku = Paku.getInstance().getLoc();
@@ -69,9 +80,16 @@ public class Kinky extends Ghost {
             calculateMove();
         }
     }
+
+    /**
+     * Compares the fleeTimer variables to the level's blinkTimer values, if the fleeTimer is less than or equal to the
+     * blinkTimer ArrayList's value for the level, it will alternate the current blink boolean in gameData for Kinky.
+     * If the fleeTimer is greater than the blinkTimers value, or the current level is after 21 (20 due to how gameData
+     * stores it), it will set the boolean to false.
+     */
     public void isBlinking() {
         if (gameData.getGamelevel() < 21) {
-            if (fleeTotal <= blinkTimers.get(gameData.getGamelevel())) {
+            if (fleeTimer <= blinkTimers.get(gameData.getGamelevel())) {
                 gameData.setKinkyBlink(!gameData.isKinkyBlink());
             } else
                 gameData.setKinkyBlink(false);

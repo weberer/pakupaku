@@ -7,6 +7,9 @@ import static java.lang.Math.sqrt;
 /**
  * Blaine is the brown ghost, he moves erratically and will ususally veer off course
  * if Paku is too far away.
+ * Blaine's Scatter is to the bottom left corner of the map
+ * Blaine's Chase is similar to Stinky's but less accurate.
+ * Blaine is the last ghost to leave the jail.
  */
 public class Blaine extends Ghost
 {
@@ -31,6 +34,13 @@ public class Blaine extends Ghost
         loc.setxLoc(STARTING_X);
         loc.setyLoc(STARTING_Y);
     }
+
+    /**
+     * Blaine's Scatter move is to move to the bottom right corner of the map.
+     * Blaine's Chase movement functions similar to Stinky's, and afterwards the distance is used to calculate a qualifier.
+     * This is calculated by the square root of (xDistance^2 + yDistance^2). if that qualifier is less than seven,
+     * Blaine follows his Scatter move instead. Blaine is more effective at a distance rather than up close.
+     */
     @Override
     public void move() {
         Location paku = Paku.getInstance().getLoc();
@@ -57,6 +67,12 @@ public class Blaine extends Ghost
             calculateMove();
         }
     }
+    /**
+     * Compares the fleeTimer variables to the level's blinkTimer values, if the fleeTimer is less than or equal to the
+     * blinkTimer ArrayList's value for the level, it will alternate the current blink boolean in gameData for Blaine.
+     * If the fleeTimer is greater than the blinkTimers value, or the current level is after 21 (20 due to how gameData
+     * stores it), it will set the boolean to false.
+     */
     public void isBlinking()
     {
         if(gameData.getGamelevel() < 21)

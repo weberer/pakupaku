@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Stinky is the red ghost who moves in the direction of paku's current location.
+ * Stinky is the red ghost on the playfield. Its unique chase function is to chase after the current location of Paku.
+ * Stinky's scatter location is the top right corner of the map (See ScatterMove in Ghost for more information on this)
+ * Stinky is the only ghost who starts outside of the jail in the center, and starts facing left.
  */
 public class Stinky extends Ghost
 {
@@ -15,7 +17,7 @@ public class Stinky extends Ghost
 
     public Stinky(ArrayList<ArrayList> map)
     {
-        super( null, Direction.up);
+        super( null, Direction.left);
         this.map =  map;
         loc = new Location(STARTING_X, STARTING_Y);
         exitCounter = 0;
@@ -28,6 +30,11 @@ public class Stinky extends Ghost
         loc.setyLoc(STARTING_Y);
     }
 
+    /**
+     * Stinky's unique Scatter movement is to go to the top right corner.
+     * Stinky has the simplist Chase movement, which takes the current location of paku and subtract's Stinky's location
+     * to detemine distance. This value can be negative.
+     */
     @ Override
     public void move()   {
         Location paku = Paku.getInstance().getLoc();
@@ -56,6 +63,12 @@ public class Stinky extends Ghost
             this.calculateMove();
         }
     }
+    /**
+     * Compares the fleeTimer variables to the level's blinkTimer values, if the fleeTimer is less than or equal to the
+     * blinkTimer ArrayList's value for the level, it will alternate the current blink boolean in gameData for Stinky.
+     * If the fleeTimer is greater than the blinkTimers value, or the current level is after 21 (20 due to how gameData
+     * stores it), it will set the boolean to false.
+     */
     public void isBlinking()
     {
         if(gameData.getGamelevel() < 21)

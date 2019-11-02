@@ -4,8 +4,11 @@ package Model;
 import java.util.ArrayList;
 
 /**
- * Hinky is the blue ghost that moves in the general direction of Paku like Kinky,
- * but can get thrown off depending on how far Stinky is from Paku.
+ * Hinky is the blue ghost on the playfield. It spwans in the jail with Kinky and Blaine. Hinky's unique chase function
+ * is to target a tile on the map based off of the direction Paku is facing like Kinky, but two tiles away instead of four.
+ * The catch to this isthat before the directional values are generated, the location of Stinky compared to Paku is
+ * calculated, and the values are derived from this. Hinky's Scatter direction is the bottom right orner of the map. Hinky is the second ghost
+ * to leave the jail. Due to how Hinky's Chase works, an instance of Stinky is required for this class to function.
  */
 public class Hinky extends Ghost
 {
@@ -31,6 +34,15 @@ public class Hinky extends Ghost
         loc.setxLoc(STARTING_X);
         loc.setyLoc(STARTING_Y);
     }
+
+    /**
+     * Hinky's unique Scatter function is to move to the lower left corner of the map.
+     * Hinky calculates his distance calcuations based on the tile that is two away from paku's current location,
+     * based off of the direction Paku faces. Up is unique as it points to the tile two tiles up and two to the left.
+     * This number can be negative. Afterwards, Stinky's location is added to these values, and then is divided by two.
+     * This can cause Hinky to go off course when Stinky is far away. Then the current location of Hinky is subtracted
+     * from the dividend. This value can be negative.
+     */
     @ Override
     public void move()   {
         Location paku = Paku.getInstance().getLoc();
@@ -75,6 +87,12 @@ public class Hinky extends Ghost
         }
 
     }
+    /**
+     * Compares the fleeTimer variables to the level's blinkTimer values, if the fleeTimer is less than or equal to the
+     * blinkTimer ArrayList's value for the level, it will alternate the current blink boolean in gameData for Hinky.
+     * If the fleeTimer is greater than the blinkTimers value, or the current level is after 21 (20 due to how gameData
+     * stores it), it will set the boolean to false.
+     */
     public void isBlinking()
     {
         if(gameData.getGamelevel() < 21)
