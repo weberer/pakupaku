@@ -1,6 +1,7 @@
 package servlet;
 
 import Controller.GameController;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -8,6 +9,12 @@ import java.io.PrintWriter;
 import javax.servlet.http.*;
 
 public class PakuPaku extends HttpServlet {
+
+    private static JSONObject getEmptyJSON() throws JSONException {
+        JSONObject obj = new JSONObject();
+        obj.put("empty", "empty");
+        return obj;
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // setup response writer
@@ -17,7 +24,6 @@ public class PakuPaku extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         try {
-
             GameController controller;
             HttpSession session = request.getSession();
             if (session.isNew()) {
@@ -27,10 +33,9 @@ public class PakuPaku extends HttpServlet {
             } else
                controller = (GameController) session.getAttribute("controller");
 
-
             String requestType = request.getParameter("type");
             System.out.println("Received request of type: " + requestType);
-            JSONObject obj;
+            JSONObject obj = getEmptyJSON();
 
             switch (requestType) {
                 case "menu":
@@ -41,14 +46,19 @@ public class PakuPaku extends HttpServlet {
                     break;
                 case "start_game":
                     controller.startGame();
-                    obj = new JSONObject(); // no data to return here.
-                    obj.put("empty", "empty"); // there needs to be something in it, otherwise the parser throws a fit.
+                    break;
+                case "input":
+                    String inputData = request.getParameter("input");
+                    controller.receivedUserInput(inputData);
+                    break;
+                case "send_frame": //TODO: Finish implementation
+                    controller.update();
                     break;
                 default:
-                    obj = new JSONObject().put("default", "response2");
+                    obj = new JSONObject().put("default", "response");
             }
 
-            System.out.println("New Game Status:" + controller.getGameStatus());
+            // attach and send data
             out.print("{\"data\":" + obj.toString() + "}");
         }
         catch(Exception e) {
@@ -57,6 +67,7 @@ public class PakuPaku extends HttpServlet {
         }
         finally
         {
+            // properly close output stream
             out.flush();
             out.close();
         }

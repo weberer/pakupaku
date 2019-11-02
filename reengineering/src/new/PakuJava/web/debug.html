@@ -83,10 +83,10 @@
                 url: url,
                 data: data,
                 type: "POST",
-                crossDomain: true,
                 success: success,
                 timeout: 400,
-                error: error
+                error: error,
+                converters: {"text json": parseRawData}
             });
         }
         catch(exception) {
@@ -95,12 +95,22 @@
     };
 
     let success = (data) => {
-        responseEl.value = JSON.stringify(JSON.parse(data), null, 2); // 'pretifies' the JSON output
+        responseEl.value = JSON.stringify(data, null, 2); // 'pretifies' the JSON output
     };
 
     let error = (data) => {
-        errorEl.value = JSON.stringify(JSON.parse(data), null, 2); // 'pretifies' the JSON output
+        errorEl.value = JSON.stringify(data, null, 2); // 'pretifies' the JSON output
     };
+
+    let parseRawData = rawData => {
+        console.log(rawData);
+        try {
+            return JSON.parse(rawData).data;
+        }
+        catch(exception) {
+            errorEl.value = "Exception: " + exception.toString();
+        }
+    }
 </script>
 </body>
 </html>

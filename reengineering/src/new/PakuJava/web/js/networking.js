@@ -40,7 +40,6 @@ class Networking {
         let data = {
             type: "menu"
         };
-
         this._sendRequest(data, callback);
     };
 
@@ -48,7 +47,6 @@ class Networking {
         let data = {
             type: "game_ready"
         };
-
         this._sendRequest(data, callback);
     };
 
@@ -57,6 +55,21 @@ class Networking {
             type: "start_game"
         };
         this._sendRequest(data, () => {}); // no data returned = no callback.
+    };
+
+    static sendGetFrameRequest = (callback) => {
+      let data = {
+          type: "send_frame"
+      };
+      this._sendRequest(data, callback);
+    };
+
+    static sendInput = keycode => {
+        let data = {
+            type:   "input",
+            input:  keycode
+        };
+        this._sendRequest(data, ()=>{}); //no data returned = no callback
     };
 
     static parseRawData = rawData => { return JSON.parse(rawData).data; };

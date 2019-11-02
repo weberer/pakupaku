@@ -1,7 +1,6 @@
 class Util {
     // Class variables
     static rootStyle = null;
-    static lastKeyPressed = null;
     static aspectRatio = {
         height: 2, // 100
         width: 3.2 // 160
@@ -44,48 +43,28 @@ class Util {
 
     static setAttributeValue = (element, attrName, value) => element.setAttribute(attrName, value);
 
+    static directionKeyCodes = ["KeyW", "KeyD", "KeyS", "KeyA", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"];
+
     // Since requests are sent on a cycle, not reactionary, update the 'last key pressed' variable in Util.
     // when the next request is sent, this value will be used.
     static handleKeypress = event => {
         let keycode = event.code;
-        switch(keycode) {
-            case "KeyW":
-                ///paku.changeDirection(Paku.directions.up);
-                break;
-            case "KeyD":
-                //paku.changeDirection(Paku.directions.right);
-                break;
-            case "KeyS":
-               //paku.changeDirection(Paku.directions.down);
-                break;
-            case "KeyA":
-                //paku.changeDirection(Paku.directions.left);
-                break;
-            case "ArrowUp":
-                ///paku.changeDirection(Paku.directions.up);
-                break;
-            case "ArrowRight":
-                //paku.changeDirection(Paku.directions.right);
-                break;
-            case "ArrowDown":
-                //paku.changeDirection(Paku.directions.down);
-                break;
-            case "ArrowLeft":
-                //paku.changeDirection(Paku.directions.left);
-                break;
-            case "KeyO":
-                Game.toggleSound();
-                break;
-            case "Enter":
-                Game.handleEnterKey();
-                break;
-            case "Escape":
-                Game.handleEscKey();
-                break;
-        }
 
-        Util.lastKeyPressed = keycode;
-		//Util.sendFrameData()
+        if(this.directionKeyCodes.includes(keycode))
+            Networking.sendInput(keycode);
+        else
+            switch(keycode) {
+                case "KeyO":
+                    Game.toggleSound();
+                    break;
+                case "Enter":
+                    Game.handleEnterKey();
+                    break;
+                case "Escape":
+                    Game.handleEscKey();
+                    break;
+                // Default case is invalid key, which doesn't need to be processed.
+            }
     };
 
     static handleAjaxSuccess = (data) => {
