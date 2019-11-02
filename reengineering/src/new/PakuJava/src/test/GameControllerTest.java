@@ -16,11 +16,32 @@ public class GameControllerTest {
 
 
     @Test
+    public void LoadMap()
+    {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        gc.LoadMap();
+        Assert.assertNotNull(gameData.getMap());
+
+    }
+
+    @Test
     public void startGame() {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
+        gc.LoadMap();
         gc.startGame();
 
+    }
+
+    @Test
+    public void nextLevel(){
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        gc.LoadMap();
+        gc.startGame();
+        gc.update();
+        gc.nextLevel();
     }
 
     @Test
@@ -36,6 +57,7 @@ public class GameControllerTest {
     {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
+        gc.startGame();
         gc.respawn();
 
     }
@@ -68,11 +90,15 @@ public class GameControllerTest {
 
     }
 
+
+
     @Test
     public void update()
     {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
+        gc.LoadMap();
+        gc.startGame();
         gc.update();
         Assert.assertNotNull(gc.getUserInput());
 
