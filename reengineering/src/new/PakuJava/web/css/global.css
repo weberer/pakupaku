@@ -323,12 +323,12 @@ body {
     width: inherit;
     height: 300%;
     background-image: repeating-linear-gradient(0deg, var(--linear-gradient));
-    animation: animate_background_y 5s linear 0s infinite reverse;
+    animation: animate_background_y 2s linear 0s infinite reverse;
 }
 
 #ghost_display_box .right::before {
     background-image: repeating-linear-gradient(180deg, var(--linear-gradient));
-    animation: animate_background_y 5s linear 0s infinite;
+    animation: animate_background_y 2s linear 0s infinite;
 }
 
 #ghost_display_box .top::before,
@@ -338,7 +338,7 @@ body {
     height: inherit;
     display: block;
     background-image: repeating-linear-gradient(90deg, var(--linear-gradient));
-    animation: animate_background_x 5s linear 0s infinite;
+    animation: animate_background_x 2s linear 0s infinite;
 }
 
 #ghost_display_box .bottom::before {
@@ -347,7 +347,7 @@ body {
     height: inherit;
     display: block;
     background-image: repeating-linear-gradient(270deg, var(--linear-gradient));
-    animation: animate_background_x 5s linear 0s infinite reverse;
+    animation: animate_background_x 2s linear 0s infinite reverse;
 }
 
 @keyframes animate_background_x { 

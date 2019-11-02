@@ -1,12 +1,5 @@
 class Networking {
 
-    static vars = {
-        frameNumber: 0,
-        frameInterval: 120,
-        intervalId: null,
-        requestUrl: "servlet/PakuPaku"
-    };
-
     // handles error responses from the server
     static handleAjaxError = (jqXHR, status, error) => {
         console.log("Request Error:");
@@ -17,24 +10,23 @@ class Networking {
     };
 
     static _sendRequest = (data, callback) => {
-        let url = window.location.href + "servlet/PakuPaku";
+        let url = window.location.href + "servlet/PakuPaku"; // adjusts the URL so it works on different machines
 
         $.ajax({
-            //url: "http://localhost:8080/paku_war_exploded/servlet/PakuPaku",
             url: url,
             data: data,
             type: "POST",
-            crossDomain: true,
             success: callback,
-            timeout: 400,
-            error: this.handleAjaxError
+            timeout: 100,
+            error: this.handleAjaxError,
+            converters: {"text json": this.parseRawData} // 'custom' default JSON parser
         });
     };
 
     // sends a request to the server for a new frame
     static sendFrameData = () => {
         let data = {
-            frameId: this.vars.frameNumber++
+            //frameId: this.vars.frameNumber++
         };
 
         if(Util.lastKeyPressed) {
@@ -44,29 +36,28 @@ class Networking {
         this._sendRequest(data, this.success);
     };
 
-    static sendMenuRequest = () => {
-        console.log("Sending Menu Request");
+    static sendMenuRequest = callback => {
         let data = {
             type: "menu"
         };
 
-        this._sendRequest(data, (rawData) => {
-            let data = JSON.parse(rawData).data;
-            let highscoreList = data.highscore_list;
-            //Game.updateHighScoreList(highscoreList); // Backend returns array, not object as is needed to update the list
-        });
+        this._sendRequest(data, callback);
+    };
+
+    static sendGameReadyRequest = callback => {
+        let data = {
+            type: "game_ready"
+        };
+
+        this._sendRequest(data, callback);
     };
 
     static sendStartGameRequest = () => {
         let data = {
             type: "start_game"
         };
-
-        this._sendRequest(data, this.success);
+        this._sendRequest(data, () => {}); // no data returned = no callback.
     };
 
-    static success = (responseData) => {
-        let data = JSON.parse(responseData);
-        console.log(data);
-    }
+    static parseRawData = rawData => { return JSON.parse(rawData).data; };
 }

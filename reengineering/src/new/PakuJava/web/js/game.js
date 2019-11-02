@@ -12,6 +12,16 @@ class Game {
         gameOver: "game_over"
     };
 
+    static defaultFruit = [ // Display Right -> Left
+        13,//key
+        9, //ship
+        7, //grape
+        5, //apple
+        11,//bell
+        3, //orange/peach
+        2, //strawberry
+        1 //cherry
+    ];
     static htmlAttrName = "state";
 
     static gameElId = "display";
@@ -31,14 +41,14 @@ class Game {
     static isSoundOn = true; // sound defaults to 'ON'
 
     static setBoardState(state) {
-        if(!(state in this.boardStates)) //TODO: TESTED
+        if(!(state in this.boardStates))
             throw "Error: " + state + " is not a valid attribute for " + this.boardEl.id;
 
         Util.setAttributeValue(this.boardEl, this.htmlAttrName, state);
         this.boardState = state;
     }
 
-    static setGameState(state) { //TODO: TESTED
+    static setGameState(state) {
         if(!(state in this.gameStates))
             throw "Error: " + state + " is not a valid attribute for " + this.gameEl.id;
 
@@ -49,10 +59,11 @@ class Game {
     static openMenu = () => {
         this.setGameState(this.gameStates.menu);
         Board.setLifeCount(Board.startingLifeCount);
-        Board.updateAllFruits([13,9,7,5,11,3,2,1]); // R->L, key, ship, grape, apple, bell, orange, strawberry, cherry
+        Board.updateAllFruits(this.defaultFruit);
         Util.stopAudio();
-
-        Networking.sendMenuRequest();
+        Networking.sendMenuRequest((data) => {
+            //Game.updateHighScoreList(data.highscoreList); // Backend returns array, not object as is needed to update the list
+        });
     };
 
     static startGameReady = () => {
@@ -64,28 +75,33 @@ class Game {
             this.setBoardState(this.boardStates.ready);
             let audioDuration = Util.playAudio("ready");
             setTimeout(this.startGame, audioDuration);
-            Networking.sendStartGameRequest();
+            Networking.sendGameReadyRequest((data) => {
+                Board.updateHighScore(data.highscore);
+            });
         }, 1000);
     };
 
-    static startGame = () => { this.setBoardState(this.boardStates.play) }; //TODO: Element Switch Tested
+    static startGame = () => {
+        this.setBoardState(this.boardStates.play);
+        Networking.sendStartGameRequest();
+    };
 
-    static gameOver = () => { this.setBoardState(this.boardStates.gameOver); }; //TODO: Tested
+    static gameOver = () => { this.setBoardState(this.boardStates.gameOver); };
 
-    static newHighscore = () => { this.setGameState(this.gameStates.newHighScore); }; //TODO: Element Switch tested. Will need to alter the Input Check routine in some way to check for enter key down to submit
+    static newHighscore = () => { this.setGameState(this.gameStates.newHighScore); };
 
-    static handleEnterKey = () => { //TODO: TESTED
+    static handleEnterKey = () => {
         if(this.gameState === this.gameStates.menu)
             this.newGame();
     };
 
-    static handleEscKey = () => { //TODO: TESTED
+    static handleEscKey = () => {
       if(this.gameState === this.gameStates.play)
           this.openMenu();
     };
 
     // state should be a boolean value
-    static setSound = (state) => { //TODO: TESTED
+    static setSound = (state) => {
         for(let el of this.soundElList)
             Util.setAttributeValue(el, this.htmlAttrName, state);
 
@@ -95,9 +111,9 @@ class Game {
             Util.stopAudio();
     };
 
-    static toggleSound = () => { this.setSound(!this.isSoundOn); };  //TODO: TESTED
+    static toggleSound = () => { this.setSound(!this.isSoundOn); };
 
-    static updateHighScoreList = (scoreList) => { //assume an object {"KEY": SCORE
+    static updateHighScoreList = (scoreList) => { //assume an object is formatted as {"KEY": SCORE, ...}
         let keys = Object.keys(scoreList);
         if(keys.length > this.highScoreListCount)
             throw "Error: Too many high scores. A maximum of " + this.highScoreListCount + " scores can be displayed. "
