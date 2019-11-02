@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Import JS Libraries -->
+    <script type="application/javascript" src="lib/jquery-3.4.1.min.js"></script>
+    <!-- Import Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet"> <!-- Namco 8-bit-esque font -->
+    <link href="resources/favicon.ico" rel="icon" type="imgate/x-icon" />
+
+    <style>
+        :root {
+            --background: #000;
+            --paku: #FFFF56;
+            --font_gray_1: #A9A9A9;
+            --font_size: 1vw;
+            --font_family: 'Press Start 2P', Monospace;
+        }
+
+        html {
+            background-color: var(--background);
+        }
+
+        label {
+            font-family: var(--font_family);
+            color: var(--paku);
+            font-size: var(--font_size);
+        }
+
+        textarea {
+            resize: none;
+            background-color: transparent;
+            color: white;
+        }
+
+        textarea::placeholder {
+            color: var(--font_gray_1);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1.5vw;
+        }
+
+        button {
+            margin-bottom: 1.5vw;
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <title>Paku Paku Debug Page</title>
+</head>
+<body>
+<div class="container">
+    <label id="request_lbl" for="request_data">Ajax Request Data</label>
+    <textarea id="request_data" name="request_data" rows="10" cols="30" placeholder="{&quot;type&quot;:&quot;other&quot;}" autofocus autocomplete="on" spellcheck="false"></textarea>
+</div>
+<Button id="submit_btn" onclick="sendRequest()">Send Request</Button>
+<div class="container">
+    <label id="response_lbl" for="response_data">Ajax Response Data</label>
+    <textarea id="response_data" name="response_data" rows="20" cols="30" autocomplete="off" readonly spellcheck="false"></textarea>
+</div>
+<div class="container">
+    <label id="error_lbl" for="error">Response Error</label>
+    <textarea id="error" name="error" rows="10" cols="30" autocomplete="off" readonly spellcheck="false"></textarea>
+</div>
+<script>
+    let requestEl = document.getElementById("request_data");
+    let responseEl = document.getElementById("response_data");
+    let errorEl = document.getElementById("error");
+
+    let sendRequest = () => {
+        let url = window.location.href;
+        url = url.split('debug')[0];
+        url += "servlet/PakuPaku"; // makes URL to servlet relative to this page
+
+        responseEl.value = "";
+        errorEl.value ="";
+
+        try {
+            let data = JSON.parse(requestEl.value); // Text must be a JSON object to be passed correctly
+            $.ajax({
+                url: url,
+                data: data,
+                type: "POST",
+                crossDomain: true,
+                success: success,
+                timeout: 400,
+                error: error
+            });
+        }
+        catch(exception) {
+            errorEl.value = "EXCEPTION: " + exception.toString();
+        }
+    };
+
+    let success = (data) => {
+        responseEl.value = JSON.stringify(JSON.parse(data), null, 2); // 'pretifies' the JSON output
+    };
+
+    let error = (data) => {
+        errorEl.value = JSON.stringify(JSON.parse(data), null, 2); // 'pretifies' the JSON output
+    };
+</script>
+</body>
+</html>
