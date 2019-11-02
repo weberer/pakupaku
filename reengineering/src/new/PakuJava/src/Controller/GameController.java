@@ -558,7 +558,6 @@ public class GameController
 
     public JSONObject getDataToSend() {
         return dataToSend;
-
     }
 
     public JSONObject getHighScore() throws Exception {
@@ -580,4 +579,7 @@ public class GameController
         return obj;
     }
 
+    public String getGameStatus() {
+        return GameStatus.getStatusUI(gameData.getGameStatus());
+    }
 }
