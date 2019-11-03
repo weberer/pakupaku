@@ -28,10 +28,10 @@ public class GameController
     private final int POINTS_PER_SUPER_DOT = 50;
     private Controls userInput;
     private JSONObject dataToSend;
-    private boolean fleeMove = false;
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
     private int currentFrame;
-
+    private final int BLINK = 50; //used to determine when the ghosts blink, they blink two to four times currently.
+    private int blinkCounter;
 
     /**
      * GameController constructor
@@ -138,6 +138,8 @@ public class GameController
     public void startGame() {
         Paku paku = gameData.getPaku(); //retrieve singleton Paku Object
 
+        blinkCounter = 0;
+
         paku.setGameData(gameData); //giving Paku a reference to gameData
         spawnGhosts();
 
@@ -164,7 +166,7 @@ public class GameController
         ghostList.add(new Hinky(stinky, gameData.getMap())); //pink, Hinky needs Stinky's info to move. please do not modify
 
         gameData.setGhostList(ghostList);
-        gameData.getGhostList().get(0).setupTimers();
+        Ghost.setupTimers();
         setGhostGameDataReference();  //probably isn't needed --Evan 10/29
         int[] fruits = new int[8];
         fruits[7] = 1;
@@ -199,14 +201,19 @@ public class GameController
         List<Ghost> ghostList = gameData.getGhostList();
         Paku paku = gameData.getPaku();
         paku.resetLocation();
-        for(Ghost ghost : ghostList){
-            ghost.resetLocation();
-            ghost.startTimer();
-        }
-        ghostList.get(0).resetMultiplier();
+        resetGhosts(ghostList);
+        blinkCounter = BLINK;
     }
 
-
+    private void resetGhosts(List<Ghost> ghostList) {
+        for(Ghost ghost : ghostList){
+            ghost.resetLocation();
+            if(ghost.getState().equals(GhostState.flee))
+                ghost.endingFleeProtocol();
+            ghost.startTimer();
+        }
+        Ghost.resetMultiplier();
+    }
 
 
     /**
@@ -216,11 +223,7 @@ public class GameController
     {
         List<Ghost> ghostList = gameData.getGhostList();
         gameData.getPaku().resetPaku();
-        for(Ghost ghost : ghostList){
-            ghost.resetLocation();
-            ghost.startTimer();
-        }
-        ghostList.get(0).resetMultiplier();
+        resetGhosts(ghostList);
         int gamelevel = 0;
         gameData.setGamelevel(gamelevel);
 
@@ -229,6 +232,8 @@ public class GameController
 
         //tells the Score class to store the current score int the score list for high score tracking purposes, then resets current score to 0
         gameData.getScore().reset();
+
+        blinkCounter = BLINK;
 
     }
 
@@ -239,13 +244,9 @@ public class GameController
         List<Ghost> ghostList = gameData.getGhostList();
         Paku paku = gameData.getPaku();
         paku.resetLocation();
-        for(Ghost ghost : ghostList){
-            ghost.resetLocation();
-            ghost.startTimer();
-        }
-        ghostList.get(0).resetMultiplier();
-        int gameLevel = gameData.getGamelevel();
-        gameLevel = gameLevel++;
+        resetGhosts(ghostList);
+        blinkCounter = BLINK;
+        int gameLevel = gameData.getGamelevel() + 1;
         LoadMap();
         gameData.setGamelevel(gameLevel);
         int[] fruitArray = new int[8];
@@ -342,7 +343,7 @@ public class GameController
         if(input != Controls.escape && input != Controls.O && input
                 != Controls.enter && !gameData.getGameStatus().equals(GameStatus.mainMenu))
         {
-            pakuUpdate((input.castToDir(input)));
+            pakuUpdate((Controls.castToDir(input)));
         }
         dataToSend = gameData.getData();
     }
@@ -429,7 +430,9 @@ public class GameController
                 {
                     ghost.makeFlee();
                 }
+
             }
+            Ghost.startGlobalFleeCounter();
             gameData.getScore().addScore(POINTS_PER_SUPER_DOT);
             row.set(location.getxLoc(), 2);
             map.set(location.getyLoc(), row);
@@ -454,9 +457,8 @@ public class GameController
         List<Ghost> ghostList = gameData.getGhostList();
         Paku paku = gameData.getPaku();
         Score score = gameData.getScore();
-        GameStatus gameStatus = gameData.getGameStatus();
+        GameStatus gameStatus;// = gameData.getGameStatus();
         for(Ghost ghost : ghostList){
-
             if(!ghost.getState().equals(GhostState.flee) || !ghost.getState().equals(GhostState.eaten)) {
                 if(paku.getLoc().getxLoc() == ghost.getLoc().getxLoc() && paku.getLoc().getyLoc() == ghost.getLoc().getyLoc()) {
                     paku.substractLife();
@@ -465,6 +467,7 @@ public class GameController
             }
             if(ghost.getState().equals(GhostState.flee)) {
                 gameData.setBonus(ghost.addScore(score));
+                ghost.endingFleeProtocol();
 
             }
         }
@@ -481,28 +484,57 @@ public class GameController
     }
 
     /**
-     * Calls each ghost's move method, which updates the ghost's position
+     * Calls each ghost's move method, which updates the ghost's position.
+     *
      */
     private void ghostsMove()
     {
         List<Ghost> ghostList = gameData.getGhostList();
-        boolean fleeing = false;
-        fleeMove = !fleeMove;
         for (Ghost ghost: ghostList) {
-            if(ghost.getState().equals(GhostState.flee))
+            ghost.move();
+        }
+        checkFlee(ghostList);
+
+    }
+
+    /**
+     * Handles the Flee state counters on the ghosts, and will set them to blink when .
+     * @param ghostList the list of ghosts from gameData
+     */
+    private void checkFlee(List<Ghost> ghostList)
+    {
+        if(Ghost.getGlobalFleeCounter() > 0)
+        {
+            Ghost.decrementGlobalFleeCounter();
+            if(Ghost.isBlinking())
             {
-                if(fleeMove)
-                    ghost.move();
-                fleeing = true;
+                for(Ghost ghost: ghostList)
+                {
+                    if(ghost.getState().equals(GhostState.flee) && blinkCounter == 0)
+                    {
+                        ghost.blink();
+                    }
+                }
             }
+            if(blinkCounter == 0)
+                blinkCounter = BLINK;
             else
-            {
-                ghost.move();
-            }
+                blinkCounter--;
 
         }
-        if(!fleeing)
-            ghostList.get(0).resetMultiplier();
+        else if(Ghost.getGlobalFleeCounter() == 0)
+        {
+            Ghost.resetMultiplier();
+            for(Ghost ghost: ghostList)
+            {
+                if(ghost.getState().equals(GhostState.flee))
+                {
+                    ghost.endingFleeProtocol();
+                }
+            }
+            Ghost.decrementGlobalFleeCounter();
+            blinkCounter = 0;
+        }
     }
     /**
      * checks whether paku collided with ghost

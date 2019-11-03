@@ -25,6 +25,7 @@ public class Kinky extends Ghost {
         facingDirection = Direction.up;
         exitCounter = EXITCOUNTER;
         resetExitCounter = EXITCOUNTER;
+        gameData = GameData.getInstance();
     }
 
     @Override
@@ -80,20 +81,22 @@ public class Kinky extends Ghost {
             calculateMove();
         }
     }
-
     /**
-     * Compares the fleeTimer variables to the level's blinkTimer values, if the fleeTimer is less than or equal to the
-     * blinkTimer ArrayList's value for the level, it will alternate the current blink boolean in gameData for Kinky.
-     * If the fleeTimer is greater than the blinkTimers value, or the current level is after 21 (20 due to how gameData
-     * stores it), it will set the boolean to false.
+     * See Ghost for details (Line 451)
      */
-    public void isBlinking() {
-        if (gameData.getGamelevel() < 21) {
-            if (fleeTimer <= blinkTimers.get(gameData.getGamelevel())) {
-                gameData.setKinkyBlink(!gameData.isKinkyBlink());
-            } else
-                gameData.setKinkyBlink(false);
+    @Override
+    public void endingFleeProtocol() {
+        if(!state.equals(GhostState.eaten)) {
+            state = storedState;
         }
+        storedState = null;
         gameData.setKinkyBlink(false);
+    }
+    /**
+     * See Ghost for details (Line 457)
+     */
+    @Override
+    public void blink() {
+        gameData.setKinkyBlink(!gameData.isKinkyBlink());
     }
 }

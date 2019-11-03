@@ -27,6 +27,7 @@ public class Blaine extends Ghost
         facingDirection = Direction.up;
         exitCounter = EXITCOUNTER;
         resetExitCounter = EXITCOUNTER;
+        gameData = GameData.getInstance();
     }
     @Override
     public void resetLocation()
@@ -68,22 +69,21 @@ public class Blaine extends Ghost
         }
     }
     /**
-     * Compares the fleeTimer variables to the level's blinkTimer values, if the fleeTimer is less than or equal to the
-     * blinkTimer ArrayList's value for the level, it will alternate the current blink boolean in gameData for Blaine.
-     * If the fleeTimer is greater than the blinkTimers value, or the current level is after 21 (20 due to how gameData
-     * stores it), it will set the boolean to false.
+     * See Ghost for details (Line 451)
      */
-    public void isBlinking()
-    {
-        if(gameData.getGamelevel() < 21)
-        {
-            if(fleeTotal <= blinkTimers.get(gameData.getGamelevel()))
-            {
-                gameData.setBlaineBlink(!gameData.isBlaineBlink());
-            }
-            else
-                gameData.setBlaineBlink(false);
+    @Override
+    public void endingFleeProtocol() {
+        if(!state.equals(GhostState.eaten)) {
+            state = storedState;
         }
+        storedState = null;
         gameData.setBlaineBlink(false);
+    }
+    /**
+     * See Ghost for details (Line 457)
+     */
+    @Override
+    public void blink() {
+        gameData.setBlaineBlink(!gameData.isBlaineBlink());
     }
 }

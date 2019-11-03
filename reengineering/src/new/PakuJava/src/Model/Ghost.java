@@ -12,7 +12,9 @@ import java.util.Random;
  * Ghost handles the shared functions of the ghost subclasses, holding the main move method, shared movement calculations,
  * and jail procedures. Also stores the timers used to change state for each ghost. The movement patterns shared
  * by each ghost is scatterMove, fleeMove, eatenMove, and jailMove.
- * @author kruge
+ * Each Ghost handles their own Scatter movement direction, their starting location, their starting direction, and
+ * how long they each stay in jail. Edit those values to change the movement.
+ * @author luedtkemi
  */
 
 //Todo: Every frame sent is on 40 milliseconds, use this information to set up the internal timers
@@ -41,7 +43,7 @@ public abstract class Ghost extends MovingGameObject {
     protected int exitCounter;
     protected int howFar = 1;
     protected int howFarIncrement = 0;
-    protected int fleeTimer;
+    protected static int globalFleeTimer;
     protected static int multiplier = 1;
     protected GhostState state;
     protected GhostState storedState;
@@ -49,7 +51,7 @@ public abstract class Ghost extends MovingGameObject {
     protected static ArrayList<Integer> frightTimers;
     protected static ArrayList<Integer> blinkTimers;
     protected static ArrayList<Integer> level1behaviors;
-    protected static ArrayList<Integer> level2to5Behaviors;
+    protected static ArrayList<Integer> level2to4Behaviors;
     protected static ArrayList<Integer> level5PlusBehaviors;
     protected static ArrayList<GhostState> levelStates;
 
@@ -59,10 +61,10 @@ public abstract class Ghost extends MovingGameObject {
     protected ArrayList<ArrayList> map;
 
     public Ghost(States ss, Direction dir) {
-        super(null, Direction.up);
+        super(ss, dir);
 
         random = new Random();
-        state = GhostState.chase;
+        state = GhostState.scatter;
         facingDirection = Direction.up;
     }
 
@@ -84,7 +86,7 @@ public abstract class Ghost extends MovingGameObject {
      * Logic on how the ghost moves in jail. The ghost is forced out when exitCounter is 0, otherwise they move
      * in the jail and decrement the exit counter.
      * When a ghost enters the jail for the first time after being eaten, the state variable is set to Scatter, the exitCounter
-     * is set to the defaut of each ghost, andthe timers for scatter are set to the corresponding level's first behavior.
+     * is set to the default of each ghost, and the timers for scatter are set to the corresponding level's first behavior.
      */
     protected void jailMove() {
         if (state.equals(GhostState.eaten) && loc.getyLoc() > JAIL_TOP) {
@@ -99,7 +101,7 @@ public abstract class Ghost extends MovingGameObject {
                 }
                 else if(GameData.getInstance().getGamelevel() >= 2 && GameData.getInstance().getGamelevel() < 5)
                 {
-                    timer = level2to5Behaviors.get(timerIndex);
+                    timer = level2to4Behaviors.get(timerIndex);
                 }
                 else
                 {
@@ -149,8 +151,8 @@ public abstract class Ghost extends MovingGameObject {
     }
 
     /**
-     * Checks to see is the ghost is about to warp to the other side of the map from either (1,14) or (26,14),
-     * and if it is, set the ghost's location to the oppisite coordinates.
+     * Checks to see is the ghost is moving to the the tiles (0,14) or (27,14),
+     * and if it is, set the ghost's location (26,14) when it is at (1,14), or (1,14) when it is at (26, 14).
      */
     protected void checkWarp() {
         if (facingDirection.equals(Direction.right)) {
@@ -280,50 +282,6 @@ public abstract class Ghost extends MovingGameObject {
                 if (!alternate) {
                     moveNotTurn();
                 }
-//todo: remake into it's own method.
-        if(!state.equals(GhostState.flee) && !state.equals(GhostState.eaten))
-        {
-            timer--;
-        }
-        if(timer <= 0 && !state.equals(GhostState.flee))
-        {
-            if(!state.equals(GhostState.eaten)) {
-                if (GameData.getInstance().getGamelevel() == 0) {
-                    if (timerIndex == 6)
-                        timerIndex = 0;
-                    else
-                        timerIndex++;
-                    timer = level1behaviors.get(timerIndex);
-                    state = levelStates.get(timerIndex);
-                } else if (GameData.getInstance().getGamelevel() >= 1 && GameData.getInstance().getGamelevel() < 4) {
-                    if (timerIndex == 6)
-                        timerIndex = 0;
-                    else
-                        timerIndex++;
-                    timer = level2to5Behaviors.get(timerIndex);
-                    state = levelStates.get(timerIndex);
-                } else {
-                    if (timerIndex == 5)
-                        timerIndex = 0;
-                    else
-                        timerIndex++;
-                    timer = level5PlusBehaviors.get(timerIndex);
-                    state = levelStates.get(timerIndex);
-                }
-            }
-        }
-        if(state.equals(GhostState.flee))
-        {
-            if(fleeTimer <= 0)
-            {
-                state = storedState;
-
-            }
-            else
-            {
-                fleeTimer--;
-            }
-        }
     }
 
     /**
@@ -441,29 +399,20 @@ public abstract class Ghost extends MovingGameObject {
         this.setState(GhostState.eaten);
         return ret;
     }
-    public void resetMultiplier()
+    public static void resetMultiplier()
     {
         multiplier = 1;
     }
 
     /**
-     * Method to set the ghost to a fleeing state. will set the fright timers to the corresponding level's timer.
-     * When the level is above 21, the check will default to the 21st level's timers. Afterards the ghosts have their
-     * direction flipped. If the ghost is already fleeing nothing will happen.
-     * Todo: Rework flee timer.
+     * Method to set the ghost to a fleeing state. If the ghost is not fleeing or eaten the ghost will have their current
+     * state saved in storedState, and the ghost has its direction flipped. If the ghost is already fleeing nothing will happen.
      */
     public void makeFlee()
     {
-        if(state != GhostState.flee) {
-            if (GameData.getInstance().getGamelevel() <= 20) {
-                fleeTimer = frightTimers.get(GameData.getInstance().getGamelevel());
-                storedState = state;
-                state = GhostState.flee;
-            } else {
-                fleeTimer = frightTimers.get(20);
-                storedState = state;
-                state = GhostState.flee;
-            }
+        if(!state.equals(GhostState.flee) && !state.equals(GhostState.eaten)) {
+            storedState = state;
+            state = GhostState.flee;
             if (facingDirection.equals(Direction.left))
                 facingDirection = Direction.right;
             else if (facingDirection.equals(Direction.right))
@@ -473,50 +422,88 @@ public abstract class Ghost extends MovingGameObject {
             else if (facingDirection.equals(Direction.down))
                 facingDirection = Direction.up;
         }
-        else
-        {
-            if (GameData.getInstance().getGamelevel() <= 20) {
-                fleeTimer = frightTimers.get(GameData.getInstance().getGamelevel());
-            } else {
-                fleeTimer = frightTimers.get(20);
-            }
-        }
-
     }
+
+    /**
+     * getter for globalFleeCounter
+     * @return globalFleeCounter
+     */
+    public static int getGlobalFleeCounter()
+    {
+        return globalFleeTimer;
+    }
+
+    /**
+     * Starts the flee timer for all ghosts. Timer is determined by the current level's frightTimer variable, until level
+     * 21 (20 in the code), where the game stops increasing difficulty.
+     */
+    public static void startGlobalFleeCounter()
+    {
+        if (GameData.getInstance().getGamelevel() <= 20) {
+            globalFleeTimer = frightTimers.get(GameData.getInstance().getGamelevel());
+        } else {
+            globalFleeTimer = frightTimers.get(20);
+        }
+    }
+    public static void decrementGlobalFleeCounter()
+    {
+        globalFleeTimer--;
+    }
+    /**
+     * endingFleeProtocol is used to reset the ghost to the state before they were fleeing, unless they were eaten.
+     * Then the storedState variable is reset to null, and the ghosts will set their blinking values to false.
+     */
+    public abstract void endingFleeProtocol();
+
+    /**
+     * Alternates the current blink value of the ghost that calls it.
+     */
+    public abstract void blink();
+
     public abstract void resetLocation();
 
-    //Used to populate level based timers.
-    public void setupTimers()
+    /**
+     * setupTimers is used when the ghosts are first built to set the preset timers for each behavior level.
+     * These were derived by taking the pascal code's values, dividing them by 60 to get seconds, converting that value
+     * into milliseconds, and then dividing it by 40. 40 milliseconds is the speed of which each new frame is sent to
+     * the game from the Tomcat server. The last two of each one are there to match the pascal code.
+     */
+    public static void setupTimers()
     {
         level1behaviors = new ArrayList<>();
-        level2to5Behaviors = new ArrayList<>();
+        level2to4Behaviors = new ArrayList<>();
         level5PlusBehaviors = new ArrayList<>();
         levelStates = new ArrayList<>();
         frightTimers = new ArrayList<>();
         blinkTimers = new ArrayList<>();
 
-        level1behaviors.add(7);
-        level1behaviors.add(20);
-        level1behaviors.add(7);
-        level1behaviors.add(20);
-        level1behaviors.add(5);
-        level1behaviors.add(20);
-        level1behaviors.add(5);
+        level1behaviors.add(175);
+        level1behaviors.add(500);
+        level1behaviors.add(175);
+        level1behaviors.add(500);
+        level1behaviors.add(125);
+        level1behaviors.add(500);
+        level1behaviors.add(125);
+        level1behaviors.add(1);
+        level1behaviors.add(1);
 
-        level2to5Behaviors.add(7);
-        level2to5Behaviors.add(20);
-        level2to5Behaviors.add(7);
-        level2to5Behaviors.add(20);
-        level2to5Behaviors.add(5);
-        level2to5Behaviors.add(1092);
-        level2to5Behaviors.add(7);
+        level2to4Behaviors.add(175);
+        level2to4Behaviors.add(500);
+        level2to4Behaviors.add(175);
+        level2to4Behaviors.add(500);
+        level2to4Behaviors.add(125);
+        level2to4Behaviors.add(21300);
+        level2to4Behaviors.add(1);
+        level2to4Behaviors.add(1);
 
-        level5PlusBehaviors.add(5);
-        level5PlusBehaviors.add(20);
-        level5PlusBehaviors.add(5);
-        level5PlusBehaviors.add(20);
-        level5PlusBehaviors.add(5);
-        level5PlusBehaviors.add(1092);
+        level5PlusBehaviors.add(125);
+        level5PlusBehaviors.add(500);
+        level5PlusBehaviors.add(125);
+        level5PlusBehaviors.add(500);
+        level5PlusBehaviors.add(125);
+        level5PlusBehaviors.add(21300);
+        level5PlusBehaviors.add(1);
+        level5PlusBehaviors.add(1);
 
         levelStates.add(GhostState.scatter);
         levelStates.add(GhostState.chase);
@@ -525,56 +512,57 @@ public abstract class Ghost extends MovingGameObject {
         levelStates.add(GhostState.scatter);
         levelStates.add(GhostState.chase);
         levelStates.add(GhostState.scatter);
+        levelStates.add(GhostState.chase);
 
-        frightTimers.add(22);
-        frightTimers.add(20);
-        frightTimers.add(18);
-        frightTimers.add(16);
+        frightTimers.add(550);
+        frightTimers.add(500);
+        frightTimers.add(450);
+        frightTimers.add(400);
 
-        frightTimers.add(14);
-        frightTimers.add(22);
-        frightTimers.add(14);
-        frightTimers.add(14);
+        frightTimers.add(350);
+        frightTimers.add(550);
+        frightTimers.add(350);
+        frightTimers.add(350);
 
-        frightTimers.add(8);
-        frightTimers.add(20);
-        frightTimers.add(14);
-        frightTimers.add(8);
+        frightTimers.add(200);
+        frightTimers.add(500);
+        frightTimers.add(350);
+        frightTimers.add(200);
 
-        frightTimers.add(8);
-        frightTimers.add(16);
-        frightTimers.add(8);
-        frightTimers.add(8);
-
-        frightTimers.add(0);
-        frightTimers.add(8);
-        frightTimers.add(0);
-        frightTimers.add(0);
+        frightTimers.add(200);
+        frightTimers.add(400);
+        frightTimers.add(200);
+        frightTimers.add(200);
 
         frightTimers.add(0);
+        frightTimers.add(200);
+        frightTimers.add(0);
+        frightTimers.add(0);
 
-        blinkTimers.add(10);
-        blinkTimers.add(10);
-        blinkTimers.add(10);
-        blinkTimers.add(10);
+        frightTimers.add(0);
 
-        blinkTimers.add(10);
-        blinkTimers.add(10);
-        blinkTimers.add(10);
-        blinkTimers.add(10);
+        blinkTimers.add(250);
+        blinkTimers.add(250);
+        blinkTimers.add(250);
+        blinkTimers.add(250);
 
-        blinkTimers.add(6);
-        blinkTimers.add(10);
-        blinkTimers.add(10);
-        blinkTimers.add(6);
+        blinkTimers.add(250);
+        blinkTimers.add(250);
+        blinkTimers.add(250);
+        blinkTimers.add(250);
 
-        blinkTimers.add(6);
-        blinkTimers.add(10);
-        blinkTimers.add(6);
-        blinkTimers.add(6);
+        blinkTimers.add(150);
+        blinkTimers.add(250);
+        blinkTimers.add(250);
+        blinkTimers.add(150);
+
+        blinkTimers.add(150);
+        blinkTimers.add(250);
+        blinkTimers.add(150);
+        blinkTimers.add(150);
 
         blinkTimers.add(0);
-        blinkTimers.add(6);
+        blinkTimers.add(150);
         blinkTimers.add(0);
         blinkTimers.add(0);
 
@@ -592,7 +580,7 @@ public abstract class Ghost extends MovingGameObject {
         else if(gameData.getGamelevel() >= 1 && gameData.getGamelevel() < 4)
         {
             timerIndex = 0;
-            timer = level2to5Behaviors.get(timerIndex);
+            timer = level2to4Behaviors.get(timerIndex);
             state = levelStates.get(timerIndex);
         }
         else
@@ -603,8 +591,31 @@ public abstract class Ghost extends MovingGameObject {
         }
 
     }
-    //implement as true if fleeTotal is less than the level's blinkTimer.
-    public abstract void isBlinking();
+
+    /**
+     * isBlinking is used when the ghosts are Fleeing to determine when to change their sprite to white instead of blue.
+     * @return true if the globalFleeTimer integer is less than the current level's blinkTimer. Returns false if the
+     * globalFleeTimer is greater than or equal to the current level's blink timer, equal to to avoid any possible issues
+     * with the 0 count blink timers, or when the game's level is above 21 (20 in the code), as that's where the
+     * game switches to the fixed values of level 21, which is 0 for the count.
+     */
+    public static boolean isBlinking(){
+        if(GameData.getInstance().getGamelevel() < 21)
+        {
+            if(globalFleeTimer < blinkTimers.get(GameData.getInstance().getGamelevel()))
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
     //These methods are used for testing.
     public void setDirection(Direction dir)
     {
@@ -616,6 +627,14 @@ public abstract class Ghost extends MovingGameObject {
     }
     public void setFleeTimer(int i)
     {
-        fleeTimer = i;
+        globalFleeTimer = i;
+    }
+    public static void setGlobalFleeCounter(int counter)
+    {
+        globalFleeTimer = counter;
+    }
+    public GhostState getStoredState()
+    {
+        return storedState;
     }
 }

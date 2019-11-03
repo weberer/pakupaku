@@ -14,6 +14,9 @@ import static org.junit.Assert.assertEquals;
  */
 public class GhostTest {
 
+    /**
+     * Tests that the ghosts spawn properly and the inJail check works.
+     */
     @Test
     public void  inJail() {
         GameData gameData = GameData.getInstance();
@@ -44,12 +47,15 @@ public class GhostTest {
 
     }
 
+    /**
+     * Checks that the warp areas of (1, 14) and (26,14) work as intended.
+     */
     @Test
     public void  checkWarp() {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         stinky.startTimer();
         gameData.getGhostList().add(stinky);
         gameData.getGhostList().get(0).getLoc().setxLoc(26);
@@ -59,14 +65,37 @@ public class GhostTest {
         assertEquals(2, gameData.getGhostList().get(0).getLoc().getxLoc());
         assertEquals(14, gameData.getGhostList().get(0).getLoc().getyLoc());
 
+        gameData.getGhostList().get(0).getLoc().setxLoc(26);
+        gameData.getGhostList().get(0).getLoc().setyLoc(14);
+        gameData.getGhostList().get(0).setDirection(Direction.left);
+        gameData.getGhostList().get(0).move();
+        assertEquals(25, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(14, gameData.getGhostList().get(0).getLoc().getyLoc());
+
         gameData.getGhostList().get(0).getLoc().setxLoc(1);
         gameData.getGhostList().get(0).setDirection(Direction.left);
         gameData.getGhostList().get(0).move();
         assertEquals(25, gameData.getGhostList().get(0).getLoc().getxLoc());
         assertEquals(14, gameData.getGhostList().get(0).getLoc().getyLoc());
+
+        gameData.getGhostList().get(0).getLoc().setxLoc(1);
+        gameData.getGhostList().get(0).setDirection(Direction.right);
+        gameData.getGhostList().get(0).move();
+        assertEquals(2, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(14, gameData.getGhostList().get(0).getLoc().getyLoc());
     }
 /**
- * Tests all of the corners in the top left quadrant of the maze to see if the ghosts properly react.
+ * These tests are the most important tests for the Ghost class to work. the next four tests test the corresponding
+ * quadrant of the map, using the coordinates (12, 14) and (13,15) as the center of the map. Each test tests all corners
+ * of the quadrant twice. The code is formatted as follows:
+ * Comment of the coordinates being tested
+ * Comment of what Direction value is being used
+ * Test of that Direction
+ * Comment of the other Direction being used
+ * Test of that direction
+ *
+ * Please note that these only need to be tested from the Directions going directly into a wall, as the other directions
+ * will not be possible to achieve in the game
  */
     @Test
     public void CheckTopLeftCorners()
@@ -76,7 +105,7 @@ public class GhostTest {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         gameData.getGhostList().add(stinky);
         gameData.getGhostList().get(0).getLoc().setxLoc(1);
         gameData.getGhostList().get(0).getLoc().setyLoc(1);
@@ -178,7 +207,7 @@ public class GhostTest {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         gameData.getGhostList().add(stinky);
         gameData.getGhostList().get(0).getLoc().setxLoc(26);
         gameData.getGhostList().get(0).getLoc().setyLoc(1);
@@ -281,7 +310,7 @@ public class GhostTest {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         gameData.getGhostList().add(stinky);
         gameData.getGhostList().get(0).getLoc().setxLoc(1);
         gameData.getGhostList().get(0).getLoc().setyLoc(29);
@@ -412,7 +441,7 @@ public class GhostTest {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         gameData.getGhostList().add(stinky);
         gameData.getGhostList().get(0).getLoc().setxLoc(26);
         gameData.getGhostList().get(0).getLoc().setyLoc(29);
@@ -534,13 +563,18 @@ public class GhostTest {
         assertEquals(20, gameData.getGhostList().get(0).getLoc().getyLoc());
 
     }
+
+    /**
+     * Ensures that the jailMove method allows the ghost to leave jail when their exitCounter is 0. Stinky is the best
+     * to test this with as its counter is always 0.
+     */
     @Test
     public void jailExit()
     {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         gameData.getGhostList().add(stinky);
         gameData.getGhostList().get(0).getLoc().setxLoc(14);
         gameData.getGhostList().get(0).getLoc().setyLoc(13);
@@ -552,13 +586,16 @@ public class GhostTest {
         assertFalse(gameData.getGhostList().get(0).inJail());
     }
 
-
+    /**
+     * A test of the fleeMove method in Ghost. Due to fleeMove being a private method accessable only by move, move
+     * must be used to test this. This is a bit of an annoying one to test as the ghost variance may move towards Paku.
+     */
     @Test
     public void  fleeMove() {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         stinky.setState(GhostState.flee);
         gameData.setPakuLoc(new Location(26, 29));
         stinky.getLoc().setyLoc(29);
@@ -578,7 +615,7 @@ public class GhostTest {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         stinky.setState(GhostState.eaten);
         stinky.move();
         assertEquals(12, stinky.getLoc().getyLoc());
@@ -591,37 +628,42 @@ public class GhostTest {
         assertEquals(GhostState.scatter, stinky.getState());
     }
 
+    /**
+     * Tests the setter setState to ensure it doesn't send bad data back.
+     */
     @Test
     public void  setState() {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         stinky.setState(GhostState.eaten);
         assertEquals(GhostState.eaten, stinky.getState());
 
     }
 
-
+    /**
+     * Tests the getter getState to ensure it saves the states.
+     */
     @Test
     public void  getState() {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         stinky.startTimer();
         assertEquals(GhostState.scatter, stinky.getState());
     }
 
     /**
-     * Tests that addscore properly updates the score for one ghost, capping at 6400 points.
+     * Tests that addScore properly updates the score for one ghost, capping at 6400 points.
      */
     @Test
     public void  addScoreOneGhost() {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         stinky.startTimer();
         int test = stinky.addScore(new Score());
         assertEquals(200, test);
@@ -649,7 +691,7 @@ public class GhostTest {
         GameController gc = new GameController();
         Stinky stinky = new Stinky(gameData.getMap());
         Kinky kinky = new Kinky(gameData.getMap());
-        stinky.setupTimers();
+        Ghost.setupTimers();
         stinky.startTimer();
         kinky.startTimer();
         int test = stinky.addScore(new Score());
@@ -669,7 +711,7 @@ public class GhostTest {
 
     }
     /**
-     * Tests that reset mutiplier sets multiplier to 1
+     * Tests that resetMultiplier sets multiplier to 1
      */
     @Test
     public void  resetMultiplier() {
@@ -684,5 +726,42 @@ public class GhostTest {
         test = stinky.addScore(new Score());
         stinky.resetMultiplier();
         assertEquals(1, stinky.getMultiplier());
+    }
+
+    /**
+     * testFlee tests the flee based methods in Ghost. It starts the flee timer first to make sure that it works,
+     * then it tests the isBlink method. Afterwards, an instance of Stinky is used to model the ghosts, as these methods
+     * are all shared by the ghosts. makeFlee is tested to make sure that the state is set to flee and that the storedState
+     * in Ghost stores the state before it was fleeing. blink is tested next, comparing it to isStinkyBlink in GameData.
+     * Lastly, endingFleeProtocol is tested to make sure that A) the state of the ghost is restored using the value of
+     * storedState, B) storedState is set to null, and C) the ghost's blink value is false.
+     */
+    @Test
+    public void testFlee()
+    {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Stinky s = new Stinky(gameData.getMap());
+        Ghost.setupTimers();
+        s.startTimer();
+        Ghost.startGlobalFleeCounter();
+        assertFalse(Ghost.getGlobalFleeCounter() == 0);
+        Ghost.setGlobalFleeCounter(50);
+        assertTrue(Ghost.isBlinking());
+        GhostState state = s.getState();
+        s.makeFlee();
+        assertTrue(s.getState().equals(GhostState.flee));
+        assertTrue(s.getStoredState().equals(state));
+        s.blink();
+        assertTrue(gameData.isStinkyBlink());
+        s.blink();
+        assertFalse(gameData.isStinkyBlink());
+        s.blink();
+        assertTrue(gameData.isStinkyBlink());
+        s.endingFleeProtocol();
+
+        assertTrue(s.getState().equals(state));
+        assertTrue(s.getStoredState() == null);
+        assertFalse(gameData.isStinkyBlink());
     }
 }
