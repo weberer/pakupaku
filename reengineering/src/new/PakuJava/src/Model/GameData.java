@@ -170,7 +170,7 @@ public class GameData
 
 
             JSONObject stinkyToSend = new JSONObject();
-            stinkyToSend.put("location", getStinkyLoc());
+            stinkyToSend.put("location", stinkyLocationToSend);
             stinkyToSend.put("ghost_state", GhostState.castState(getStinky().getState()));
 
             JSONObject hinkyLocationToSend = new JSONObject();
@@ -179,7 +179,7 @@ public class GameData
             hinkyLocationToSend.put("direction", getHinky().getFacingDirection().toString());
 
             JSONObject hinkyToSend = new JSONObject();
-            hinkyToSend.put("location", getHinkyLoc());
+            hinkyToSend.put("location", hinkyLocationToSend);
             hinkyToSend.put("ghost_state", GhostState.castState(getHinky().getState()));
 
             JSONObject kinkyLocationToSend = new JSONObject();
@@ -188,7 +188,7 @@ public class GameData
             kinkyLocationToSend.put("direction", getKinky().getFacingDirection().toString());
 
             JSONObject kinkyToSend = new JSONObject();
-            kinkyToSend.put("location", getKinkyLoc());
+            kinkyToSend.put("location", kinkyLocationToSend);
             kinkyToSend.put("ghost_state", GhostState.castState(getKinky().getState()));
 
 
