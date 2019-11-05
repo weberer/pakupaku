@@ -236,6 +236,12 @@ public class GameController
         LoadMap();
         gameData.setGamelevel(gameLevel);
         gameData.resetDots();
+        setUpFruitArray(gameLevel);
+        update();
+    }
+
+    private void setUpFruitArray(int gameLevel)
+    {
         int[] fruitArray = new int[8];
         if(gameLevel < 3)
         {
@@ -316,7 +322,6 @@ public class GameController
                 i--;
             }
         }
-        update();
     }
 
 
