@@ -23,6 +23,7 @@ public class Paku extends MovingGameObject{
     private final int STARTINGLIFES = 3;
     //private Location loc;
     private final int STARTING_X = 13;  //starting x and y coordinates of Paku; subject to change
+    //private final int STARTING_X = 14;
     private final int STARTING_Y = 23;
     private final int MOVE_DIST_PER_TICK = 1;
 

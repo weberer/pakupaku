@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 package Model;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * This class defines the score object for the game. It holds the current score as well as a list of
@@ -15,13 +17,29 @@ import java.util.ArrayList;
 public class Score 
 {
     private int currentScore;
-    private int highScore;
-    private List<Integer> scoreList;
+    //private int highScore;
+    private Map.Entry<String, Integer> highScore;
+
+    private String initials;
+    private HashMap<String, Integer> scores;
     public Score() {
-        scoreList = new ArrayList<>();
+        //scoreList = new ArrayList<>();
+        scores = new HashMap<>();
         currentScore = 0;
+
+
+        //Adding initial scores to the map
+        scores.put("PAL", 80000);
+        scores.put("ADI", 40000);
+        scores.put("N_S", 20000);
+        scores.put("JMK", 14680);
+        scores.put("YST", 10000);
     }
 
+    /**
+     * updates the current score
+     * @param score
+     */
     public void addScore(int score)
     {
         this.currentScore += score;
@@ -45,7 +63,7 @@ public class Score
      */
     private void archiveScore()
     {
-        scoreList.add(currentScore);
+        scores.put(initials, currentScore);
     }
 
     /**
@@ -53,20 +71,51 @@ public class Score
      */
     private void determineHighScore()
     {
+        Map.Entry<String, Integer> maxEntry = null;
+        for(Map.Entry<String, Integer> entry : scores.entrySet())
+        {
+            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
+            {
+                maxEntry = entry;
+            }
+        }
+        highScore = maxEntry;
+        /*
         for(int i = 0; i < scoreList.size(); i++)
         {
             if(scoreList.get(i) > highScore)
                 highScore = scoreList.get(i);
         }
+        */
     }
 
-    public int getHighScore()
+
+    public Map.Entry<String, Integer> getHighScore()
     {
         determineHighScore();
         return highScore;
     }
 
-    public List<Integer> getScoreList() {
-        return scoreList;
+
+    public HashMap<String, Integer> getScoreList() {
+        return scores;
+    }
+
+    /**
+     * Gets the player initials for the current game score
+     * @return
+     */
+    public String getInitials()
+    {
+        return this.initials;
+    }
+
+    /**
+     * Sets the player initials for the current game score
+     * @param initials
+     */
+    public void setInitials(String initials)
+    {
+        this.initials = initials;
     }
 }

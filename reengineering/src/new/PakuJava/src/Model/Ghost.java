@@ -22,14 +22,14 @@ public abstract class Ghost extends MovingGameObject {
 
     //constants from original code
     protected final int FAR_RIGHT = 26;
+    //protected final int FAR_RIGHT = 27;
     private final int JAIL_BOTTOM = 16;
     private final int JAIL_TOP = 12;
     private final int JAIL_LEFT = 11;
     private final int JAIL_RIGHT = 16;
+    //private final int JAIL_RIGHT = 17;
     private final int JAIL_DOOR = 14;
     private final int WARP_LEVEL = 14;
-    private final int EATEN_Y = 10;
-    private final int EATEN_X = 13;
 
     protected final static int SCORE = 200;
     protected boolean jailSkip;
@@ -41,8 +41,6 @@ public abstract class Ghost extends MovingGameObject {
     protected int testAmount;
     protected int resetExitCounter;
     protected int exitCounter;
-    protected int howFar = 1;
-    protected int howFarIncrement = 0;
     protected static int globalFleeTimer;
     protected static int multiplier = 1;
     protected GhostState state;
@@ -91,7 +89,7 @@ public abstract class Ghost extends MovingGameObject {
     protected void jailMove() {
         if (state.equals(GhostState.eaten) && loc.getyLoc() > JAIL_TOP) {
             loc.setyLoc(loc.getyLoc() + 1);
-            if (loc.getyLoc() == JAIL_BOTTOM) {
+            if (loc.getyLoc() == JAIL_BOTTOM - 1) {
                 exitCounter = resetExitCounter;
                 state = GhostState.scatter;
                 timerIndex = 0;
@@ -111,12 +109,10 @@ public abstract class Ghost extends MovingGameObject {
 
         } else {
             if (exitCounter > 0) {
-                if (loc.getyLoc() == JAIL_TOP  ) {
+                if (loc.getyLoc() == JAIL_TOP + 1 ) {
                     facingDirection = Direction.down;
-                    loc.setyLoc(loc.getyLoc() + 1);
-                } else if (loc.getyLoc() == JAIL_BOTTOM ) {
+                } else if (loc.getyLoc() == JAIL_BOTTOM - 1) {
                     facingDirection = Direction.up;
-                    loc.setyLoc(loc.getyLoc() - 1);
                 }
             } else {
                 if(loc.getxLoc() >= JAIL_LEFT && loc.getxLoc() <= 13)
@@ -158,10 +154,12 @@ public abstract class Ghost extends MovingGameObject {
         if (facingDirection.equals(Direction.right)) {
             if (loc.getxLoc() == FAR_RIGHT && loc.getyLoc() == WARP_LEVEL) {
                 loc.setxLoc(1);
+                facingDirection = Direction.right;
             }
         } else if (facingDirection.equals(Direction.left)) {
             if (loc.getxLoc() == 1 && loc.getyLoc() == WARP_LEVEL) {
                 loc.setxLoc(FAR_RIGHT);
+                facingDirection = Direction.left;
             }
         }
     }
@@ -200,12 +198,7 @@ public abstract class Ghost extends MovingGameObject {
             }
         } else {
             changeX = JAIL_DOOR - loc.getxLoc();
-            changeY = JAIL_TOP - loc.getyLoc();
-            if(howFarIncrement == 3)
-            {
-                howFar++;
-                howFarIncrement = 1;
-            }
+            changeY = (JAIL_TOP + 1) - loc.getyLoc();
         }
     }
 
@@ -228,7 +221,7 @@ public abstract class Ghost extends MovingGameObject {
             // Up and Down movement testing for turns
             if (facingDirection.equals(Direction.up) || facingDirection.equals(Direction.down)) {
                 if (randomInt > 1) {
-                    if (loc.getxLoc() == 9 || loc.getxLoc() == 18)
+                    if (loc.getxLoc() == 9 || loc.getxLoc() == 18)//loc.getxLoc() == 19
                         if (loc.getyLoc() > 9 && loc.getyLoc() < 27)
                             allowTurn = true;
                         else
@@ -254,7 +247,7 @@ public abstract class Ghost extends MovingGameObject {
             // Left and Right movement testing for turns
             else if (facingDirection.equals(Direction.left) || facingDirection.equals(Direction.right)) {
                 if (randomInt > 1) {
-                    if ((loc.getxLoc() > 9) && (loc.getxLoc() < 18))
+                    if ((loc.getxLoc() > 9) && (loc.getxLoc() < 18))//loc.getxLoc() == 19
                         if ((loc.getyLoc() > 9) || (loc.getyLoc() < 22))
                             allowTurn = false;
                         else
@@ -278,7 +271,7 @@ public abstract class Ghost extends MovingGameObject {
         }
         //Fleeing ghosts can only move every other movement call
         else if (!(loc.getyLoc() == 14))
-            if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))
+            if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))//loc.getxLoc() == 22
                 if (!alternate) {
                     moveNotTurn();
                 }
@@ -294,23 +287,15 @@ public abstract class Ghost extends MovingGameObject {
         ArrayList rowDown = map.get(loc.getyLoc() + 1);
         if (facingDirection.equals(Direction.up)) {
             if ((int)rowUp.get(loc.getxLoc())> 0)
-                loc.setyLoc(loc.getyLoc() - howFar);
-            else
                 loc.setyLoc(loc.getyLoc() - 1);
         } else if (facingDirection.equals(Direction.right)) {
             if ((int)row.get(loc.getxLoc() + 1) > 0)
-                loc.setxLoc(loc.getxLoc() + howFar);
-            else
                 loc.setxLoc(loc.getxLoc() + 1);
         } else if (facingDirection.equals(Direction.down)) {
             if ((int)rowDown.get(loc.getxLoc()) > 0 || jailSkip)
-                loc.setyLoc(loc.getyLoc() + howFar);
-            else
                 loc.setyLoc(loc.getyLoc() + 1);
         } else if (facingDirection.equals(Direction.left)) {
             if ((int)row.get(loc.getxLoc() - 1) > 0)
-                loc.setxLoc(loc.getxLoc() - howFar);
-            else
                 loc.setxLoc(loc.getxLoc() - 1);
         }
     }
@@ -459,7 +444,6 @@ public abstract class Ghost extends MovingGameObject {
      * Alternates the current blink value of the ghost that calls it.
      */
     public abstract void blink();
-
     public abstract void resetLocation();
 
     /**

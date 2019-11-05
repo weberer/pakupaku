@@ -4,6 +4,7 @@ import Model.Paku;
 import Model.GameStatus;
 import Model.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import com.opencsv.CSVReader;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +41,9 @@ public class GameController
     public GameController()
     {
         gameData = GameData.getInstance();  //INSTANTIATION OF GAMEDATA OBJECT
-        LoadMap();
+
+        if(gameData.getMap().isEmpty())
+            LoadMap();
         gameData.setGameStatus(GameStatus.mainMenu);
       //  startGame();   //this method is already called from the Program class --Evan
         currentFrame = -1;
@@ -82,31 +86,6 @@ public class GameController
         }
 
     }
-
-   /*public void init() {
-        while(true){
-            Controls input = getUserInput();
-            switch (gameData.getGameStatus()){
-                case mainMenu:
-                    if(input.equals(Controls.enter))
-                    {
-                        gameData.setGameStatus(GameStatus.play);
-                        startGame();
-                    }
-                case play:
-                    int frameNumber = gameData.getCurrentFrame();
-                    if(frameNumber>currentFrame)
-                    {
-                        currentFrame = frameNumber;
-                        update();
-                    }
-                    default:
-
-            }
-        }
-
-    }*/
-
     /**
      * TODO: Utilize
      * @param frameNumber
@@ -147,7 +126,7 @@ public class GameController
 
        // score = new Score();  //new score object created each game UPDATE 10/29 no longer creating new score object each game --Evan
         gameData.setGameStatus(GameStatus.staring);  //update gameStatus
-        update();
+        //update();
     }
 
 
@@ -166,7 +145,7 @@ public class GameController
         ghostList.add(new Hinky(stinky, gameData.getMap())); //pink, Hinky needs Stinky's info to move. please do not modify
 
         gameData.setGhostList(ghostList);
-        Ghost.setupTimers();
+        gameData.getGhostList().get(0).setupTimers(); // Was Ghost.setupTimers() --Eric 11/4
         setGhostGameDataReference();  //probably isn't needed --Evan 10/29
         int[] fruits = new int[8];
         fruits[7] = 1;
@@ -212,7 +191,7 @@ public class GameController
                 ghost.endingFleeProtocol();
             ghost.startTimer();
         }
-        Ghost.resetMultiplier();
+        ghostList.get(0).resetMultiplier(); // was Ghost.resetMultiplier(); --Eric 11/4
     }
 
 
@@ -223,7 +202,16 @@ public class GameController
     {
         List<Ghost> ghostList = gameData.getGhostList();
         gameData.getPaku().resetPaku();
-        resetGhosts(ghostList);
+
+        resetGhosts(ghostList); // New
+
+        for(Ghost ghost : ghostList){
+            ghost.resetLocation();
+            ghost.startTimer();
+        }
+        if(ghostList.size() > 0) {
+            ghostList.get(0).resetMultiplier();
+        }
         int gamelevel = 0;
         gameData.setGamelevel(gamelevel);
 
@@ -234,7 +222,6 @@ public class GameController
         gameData.getScore().reset();
 
         blinkCounter = BLINK;
-
     }
 
     /**
@@ -510,16 +497,12 @@ public class GameController
             {
                 for(Ghost ghost: ghostList)
                 {
-                    if(ghost.getState().equals(GhostState.flee) && blinkCounter == 0)
+                    if(ghost.getState().equals(GhostState.flee))
                     {
                         ghost.blink();
                     }
                 }
             }
-            if(blinkCounter == 0)
-                blinkCounter = BLINK;
-            else
-                blinkCounter--;
 
         }
         else if(Ghost.getGlobalFleeCounter() == 0)
@@ -533,7 +516,7 @@ public class GameController
                 }
             }
             Ghost.decrementGlobalFleeCounter();
-            blinkCounter = 0;
+
         }
     }
     /**
@@ -602,11 +585,20 @@ public class GameController
     public JSONObject getHighScoreList() throws Exception {
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
-        List<Integer> list = gameData.getScoreList();
+      //  List<Integer> list = gameData.getScoreList();
+        HashMap<String, Integer> scoreMap = gameData.getScoreList();
 
+
+        //put map entries, which consist of scores with their corresponding player initials, into the JSONArray
+        for(Map.Entry<String, Integer> entry : scoreMap.entrySet())
+            arr.put(entry);
+        obj.put("highscore_list", arr);
+
+        /*
         for(Integer i : list)
             arr.put(i);
         obj.put("highscore_list", arr);
+        */
 
         return obj;
     }

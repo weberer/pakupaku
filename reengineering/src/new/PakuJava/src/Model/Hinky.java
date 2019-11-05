@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Hinky extends Ghost
 {
-    private final int STARTING_X = 11;  //starting x and y coordinates of Paku; subject to change
+    private final int STARTING_X = 12;  //starting x and y coordinates of Paku; subject to change
     private final int STARTING_Y = 14;
     private final int SCATTER_X = 26;
     private final int SCATTER_Y = 30;
@@ -105,6 +105,9 @@ public class Hinky extends Ghost
      */
     @Override
     public void blink() {
-        gameData.setHinkyBlink(!gameData.isHinkyBlink());
+        if(!gameData.isHinkyBlink() && isBlinking())
+            gameData.setHinkyBlink(true);
+        else if(gameData.isHinkyBlink() && !isBlinking())
+            gameData.setHinkyBlink(false);
     }
 }

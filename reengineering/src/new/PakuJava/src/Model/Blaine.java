@@ -13,7 +13,7 @@ import static java.lang.Math.sqrt;
  */
 public class Blaine extends Ghost
 {
-    private final int STARTING_X = 15;  //starting x and y coordinates of Paku; subject to change
+    private final int STARTING_X = 16;  //starting x and y coordinates of Paku; subject to change
     private final int STARTING_Y = 14;
     private final int SCATTER_X = 1;
     private final int SCATTER_Y = 30;
@@ -84,6 +84,9 @@ public class Blaine extends Ghost
      */
     @Override
     public void blink() {
-        gameData.setBlaineBlink(!gameData.isBlaineBlink());
+        if(!gameData.isBlaineBlink() && isBlinking())
+            gameData.setBlaineBlink(true);
+        else if(gameData.isBlaineBlink() && !isBlinking())
+            gameData.setBlaineBlink(false);
     }
 }

@@ -4,9 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -61,9 +59,10 @@ public class GameData
 
 
     ///DO NOT DO NOT DO NOT MODIFY
-    //private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";///DO NOT DO NOT DO NOT MODIFY
-    private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";///DO NOT DO NOT DO NOT MODIFY
+    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";///DO NOT DO NOT DO NOT MODIFY
+    // private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";///DO NOT DO NOT DO NOT MODIFY
    // private final String SAMPLE_CSV_FILE_PATH = "c:\\users\\weber\\desktop\\firebreathingrubberduckies\\reengineering\\src\\new\\pakujava\\src\\asset\\map.csv";
+    //private final String SAMPLE_CSV_FILE_PATH = "J:\\CSSE\\se\\se3860\\firebreathingrubberduckies\\reengineering\\src\\new\\PakuJava\\src\\asset\\map.csv";
 
 
     private static GameData data = new GameData();  //to make this class a Singleton
@@ -123,10 +122,36 @@ public class GameData
             dataToSend.put("score", scoreToSend);
 
             dataToSend.put("sound", true);
+            //this.correctMap();
+            ArrayList<ArrayList> mapToSend = new ArrayList<>();
+            for(int i = 0; i < map.size(); i++)
+            {
+                ArrayList<Integer> row = new ArrayList<>();
+                for(int j = 0; j < map.get(i).size(); j++)
+                {
+                    row.add((int)map.get(i).get(j));
+                }
+                mapToSend.add(row);
+            }
+            //mapToSend = (ArrayList<ArrayList>) map.clone();
+            mapToSend.remove(mapToSend.size()-1);
+            mapToSend.remove(0);
 
+
+//2 to 0 3 to 1.
+            mapToSend.forEach((eachrowAL) -> {
+                eachrowAL.remove(eachrowAL.size()-1);
+                eachrowAL.remove(0);
+                eachrowAL.forEach((eachLoc)->{
+                    if((int)eachLoc == 2)
+                        eachrowAL.set(eachrowAL.indexOf(eachLoc), 0);
+                    if((int)eachLoc == 3)
+                        eachrowAL.set(eachrowAL.indexOf(eachLoc), 1);
+                });
+            });
 
             JSONArray mapJS = new JSONArray();
-            map.forEach((eachrowAL) -> {
+            mapToSend.forEach((eachrowAL) -> {
                 mapJS.put(new JSONArray(Arrays.asList(eachrowAL)));
             });
 
@@ -168,10 +193,10 @@ public class GameData
             stinkyLocationToSend.put("y", getStinky().getLoc().getyLoc());
             stinkyLocationToSend.put("direction", getStinky().getFacingDirection().toString());
 
-
             JSONObject stinkyToSend = new JSONObject();
             stinkyToSend.put("location", stinkyLocationToSend);
             stinkyToSend.put("ghost_state", GhostState.castState(getStinky().getState()));
+            stinkyToSend.put("blinking", isStinkyBlink());
 
             JSONObject hinkyLocationToSend = new JSONObject();
             hinkyLocationToSend.put("x", getHinky().getLoc().getxLoc());
@@ -181,6 +206,7 @@ public class GameData
             JSONObject hinkyToSend = new JSONObject();
             hinkyToSend.put("location", hinkyLocationToSend);
             hinkyToSend.put("ghost_state", GhostState.castState(getHinky().getState()));
+            hinkyToSend.put("blinking", isHinkyBlink());
 
             JSONObject kinkyLocationToSend = new JSONObject();
             kinkyLocationToSend.put("x", getKinky().getLoc().getxLoc());
@@ -190,7 +216,7 @@ public class GameData
             JSONObject kinkyToSend = new JSONObject();
             kinkyToSend.put("location", kinkyLocationToSend);
             kinkyToSend.put("ghost_state", GhostState.castState(getKinky().getState()));
-
+            kinkyToSend.put("blinking", isKinkyBlink());
 
             JSONObject blaineLocationToSend = new JSONObject();
             blaineLocationToSend.put("x", getBlaine().getLoc().getxLoc());
@@ -200,6 +226,7 @@ public class GameData
             JSONObject blaineToSend = new JSONObject();
             blaineToSend.put("location", blaineLocationToSend);
             blaineToSend.put("ghost_state", GhostState.castState(getBlaine().getState()));
+            blaineToSend.put("blinking", isBlaineBlink());
 
             JSONObject ghostsToSend = new JSONObject();
             ghostsToSend.put("stinky", stinkyToSend);
@@ -304,6 +331,14 @@ public class GameData
     }
 
     public int getHighScore() {
+        return score.getHighScore().getValue();
+    }
+
+    /**
+     * Returns the high score with its corresponding player intitials
+     * @return
+     */
+    public Map.Entry<String, Integer> getPlayerHighScore() {
         return score.getHighScore();
     }
 
@@ -311,7 +346,14 @@ public class GameData
         return score;
     }
 
+    /*
     public List<Integer> getScoreList() {
+        return score.getScoreList();
+    }
+    */
+
+    public HashMap<String ,Integer> getScoreList()
+    {
         return score.getScoreList();
     }
 
@@ -347,6 +389,16 @@ public class GameData
 
     public void setMap(ArrayList<ArrayList> map) {
         this.map = map;
+    }
+
+    public void correctMap(){
+        try {
+            for (int i = 31; i < 62; i++)
+                map.remove(i);
+        }
+        catch(Exception e){
+
+        }
     }
 
     public ArrayList<Integer> getEachRow() {

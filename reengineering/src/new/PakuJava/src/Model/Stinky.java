@@ -50,7 +50,6 @@ public class Stinky extends Ghost
         else {
             checkWarp();
                 jailSkip = false;
-                howFar = 1;
             if (state.equals(GhostState.scatter)) {
                 scatterMove(SCATTER_X, SCATTER_Y);
             } else if (state.equals(GhostState.chase)) {
@@ -80,7 +79,10 @@ public class Stinky extends Ghost
      */
     @Override
     public void blink() {
-        gameData.setStinkyBlink(!gameData.isStinkyBlink());
+        if(!gameData.isStinkyBlink() && isBlinking())
+            gameData.setStinkyBlink(true);
+        else if(gameData.isStinkyBlink() && !isBlinking())
+            gameData.setStinkyBlink(false);
     }
 }
 
