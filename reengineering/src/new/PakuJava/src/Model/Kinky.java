@@ -16,7 +16,7 @@ public class Kinky extends Ghost {
     private final int STARTING_Y = 14;
     private final int SCATTER_X = 1;
     private final int SCATTER_Y = 1;
-    private final int EXITCOUNTER = 30;
+    private final int EXITCOUNTER = 0;
     private final int KINKY_VARIANCE = 4;
     public Kinky(ArrayList<ArrayList> map) {
         super(null, Direction.up);

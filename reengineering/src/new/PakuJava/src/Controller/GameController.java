@@ -33,7 +33,7 @@ public class GameController
     private GameData gameData; //GAMEDATA OBJECT; THERE SHOULD BE ONLY ONE
     private int currentFrame;
     private final int BLINK = 50; //used to determine when the ghosts blink, they blink two to four times currently.
-    private int blinkCounter;
+
 
     /**
      * GameController constructor
@@ -117,7 +117,6 @@ public class GameController
     public void startGame() {
         Paku paku = gameData.getPaku(); //retrieve singleton Paku Object
 
-        blinkCounter = 0;
 
         paku.setGameData(gameData); //giving Paku a reference to gameData
         spawnGhosts();
@@ -127,6 +126,8 @@ public class GameController
        // score = new Score();  //new score object created each game UPDATE 10/29 no longer creating new score object each game --Evan
         gameData.setGameStatus(GameStatus.staring);  //update gameStatus
         //update();
+        if(gameData.getDots() != gameData.getStartingDots())
+            gameData.resetDots();
     }
 
 
@@ -181,7 +182,6 @@ public class GameController
         Paku paku = gameData.getPaku();
         paku.resetLocation();
         resetGhosts(ghostList);
-        blinkCounter = BLINK;
     }
 
     private void resetGhosts(List<Ghost> ghostList) {
@@ -222,7 +222,7 @@ public class GameController
         //tells the Score class to store the current score int the score list for high score tracking purposes, then resets current score to 0
         gameData.getScore().reset();
 
-        blinkCounter = BLINK;
+        gameData.resetDots();
     }
 
     /**
@@ -233,10 +233,16 @@ public class GameController
         Paku paku = gameData.getPaku();
         paku.resetLocation();
         resetGhosts(ghostList);
-        blinkCounter = BLINK;
         int gameLevel = gameData.getGamelevel() + 1;
         LoadMap();
         gameData.setGamelevel(gameLevel);
+        gameData.resetDots();
+        setUpFruitArray(gameLevel);
+        update();
+    }
+
+    private void setUpFruitArray(int gameLevel)
+    {
         int[] fruitArray = new int[8];
         if(gameLevel < 3)
         {
@@ -317,7 +323,6 @@ public class GameController
                 i--;
             }
         }
-        update();
     }
 
 
@@ -409,6 +414,7 @@ public class GameController
             row.set(location.getxLoc(), 2);
             map.set(location.getyLoc(), row);
             gameData.setMap(map);
+            gameData.setDots(gameData.getDots() - 1);
         }
         if(tile == gameData.getLARGEDOT_CODE())  //super (large) dot
         {
@@ -425,6 +431,7 @@ public class GameController
             row.set(location.getxLoc(), 2);
             map.set(location.getyLoc(), row);
             gameData.setMap(map);
+            gameData.setDots(gameData.getDots() - 1);
         }
         if(tile == gameData.getFRUIT_CODE())  //fruit
         {
@@ -434,6 +441,10 @@ public class GameController
             map.set(location.getyLoc(), row);
             gameData.setMap(map);
             gameData.setFruit(null);
+        }
+        if(gameData.fruitCheck())
+        {
+            spawnFruit();
         }
     }
 
@@ -453,10 +464,11 @@ public class GameController
                     death = true;
                 }
             }
-            if(ghost.getState().equals(GhostState.flee)) {
-                gameData.setBonus(ghost.addScore(score));
-                ghost.endingFleeProtocol();
-
+            else if(ghost.getState().equals(GhostState.flee)) {
+                if(paku.getLoc().getxLoc() == ghost.getLoc().getxLoc() && paku.getLoc().getyLoc() == ghost.getLoc().getyLoc()) {
+                    gameData.setBonus(ghost.addScore(score));
+                    ghost.endingFleeProtocol();
+                }
             }
         }
         if(paku.isGameOver()){
@@ -563,9 +575,9 @@ public class GameController
         if(fruit == null)
         {
             fruit = new Fruit(gamelevel);
-            ArrayList row = map.get(24);
+            ArrayList row = map.get(17);
             row.set(14, 5);
-            map.set(24, row);
+            map.set(17, row);
             gameData.setFruit(fruit);
             gameData.setMap(map); //to update the map in gameData ?? --Evan
         }
@@ -606,5 +618,9 @@ public class GameController
 
     public String getGameStatus() {
         return GameStatus.getStatusUI(gameData.getGameStatus());
+    }
+    public void testFruit()
+    {
+        spawnFruit();
     }
 }

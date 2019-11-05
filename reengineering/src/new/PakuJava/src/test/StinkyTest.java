@@ -26,6 +26,9 @@ public class StinkyTest {
         assertEquals(11, stinky.getLoc().getyLoc());
     }
 
+    /**
+     * This test ensures that Stinky moves towards the upper right corner when scattering.
+     */
     @Test
     public void  scatterMove() {
         GameData gameData = GameData.getInstance();
@@ -48,6 +51,10 @@ public class StinkyTest {
         assertEquals(22, stinky.getLoc().getxLoc());
         assertEquals(1, stinky.getLoc().getyLoc());
     }
+
+    /**
+     * This test ensures that Stinky favors moving towards Paku Paku when chasing.
+     */
     @Test
     public void chaseMove() {
         GameData gameData = GameData.getInstance();

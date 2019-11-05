@@ -23,12 +23,14 @@ public class HinkyTest {
         hinky.getLoc().setxLoc(1);
         hinky.getLoc().setyLoc(1);
         hinky.resetLocation();
-        assertEquals(11, hinky.getLoc().getxLoc());
+        assertEquals(12, hinky.getLoc().getxLoc());
         assertEquals(14, hinky.getLoc().getyLoc());
     }
 
     /**
      * Hinky's chase is a bit more random than the other ones, so It may not always test the way you want it to.
+     * Hinky's chase is tested here to ensure that he moves towards paku when Stinky is close to Paku, but veers off if Stinky
+     * is far from Paku
      */
     @Test
     public void chaseMove() {
@@ -75,7 +77,9 @@ public class HinkyTest {
         assertNotSame(19, hinky.getLoc().getxLoc());
     }
 
-
+    /**
+     * Ensures that Hinky favors moving towards the bottom right corner when scattering.
+     */
     @Test
     public void  scatterMove() {
         GameData gameData = GameData.getInstance();
