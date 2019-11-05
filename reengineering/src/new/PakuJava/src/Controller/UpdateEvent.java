@@ -3,6 +3,7 @@ package Controller;
 public class UpdateEvent
 {
     private int updateNum;
+    private int frameNum;
     private UpdateEvent(UpdateEventBuilder builder)
     {
 
