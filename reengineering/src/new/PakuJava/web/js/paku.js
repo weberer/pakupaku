@@ -17,14 +17,22 @@ class Paku extends MovingEntity {
     changeStatus = status => this.setAttr(this.constructor.attrNames.status, status);
 
     moveToStartingPos = () => {
-        let me = document.paku;
+        let me = window.paku;
         me.setX(12.5); //he starts at a half square for some reason.
         me.setY(22);
         me.changeDirection(MovingEntity.directions.left);
     };
 
+    update = (data) => {
+        let me = window.paku;
+        me.setX(data.location.x - 1); // -1 in x and y accounts for the UI not using game boarders in its calculations
+        me.setY(data.location.y - 1);
+        me.changeDirection(data.location.direction);
+    };
+
+
     // call in init method
     static createPaku = () => {
-        document.paku = new Paku();
+        window.paku = new Paku();
     }
 }

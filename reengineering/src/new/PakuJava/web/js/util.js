@@ -54,6 +54,9 @@ class Util {
             Networking.sendInput(keycode);
         else
             switch(keycode) {
+                case "KeyR":
+                    Networking.sendFrameRequest();
+                    break;
                 case "KeyO":
                     Game.toggleSound();
                     break;

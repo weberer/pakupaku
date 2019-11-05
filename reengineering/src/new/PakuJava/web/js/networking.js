@@ -24,11 +24,11 @@ class Networking {
     };
 
     // sends a request to the server for a new frame
-    static sendFrameData = () => {
+    static sendFrameRequest = () => {
         let data = {
-            //frameId: this.vars.frameNumber++
+            type: "send_frame"
         };
-        this._sendRequest(data, Game.processFrame)
+        this._sendRequest(data, Game.processFrame);
     };
 
     static sendMenuRequest = callback => {

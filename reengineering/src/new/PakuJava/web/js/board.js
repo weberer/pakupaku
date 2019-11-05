@@ -10,6 +10,7 @@ class Board {
     };
 
     static fruitMappings = {
+        0: "empty",
         1: "cherry",
         2: "strawberry",
         3: "peach",

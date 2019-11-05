@@ -51,6 +51,14 @@ class Ghost extends MovingEntity {
         })
     };
 
+    static updateAllGhosts = (ghostData) => {
+        this.ghosts.forEach((ghost) => {
+            ghost.setX1(ghostData[ghost.id].location.x - 1); // -1 in x and y accounts for the UI not using game boarders in its calculations
+            ghost.setY1(ghostData[ghost.id].location.y - 1);
+            ghost.changeDirection(ghostData[ghost.id].location.direction);
+        });
+    };
+
     /* Temp fix for movement updates*/
     setX1 = (x) => {
         let cssElement = Util.getCssElement("ghost.css", "#" + this.id);
