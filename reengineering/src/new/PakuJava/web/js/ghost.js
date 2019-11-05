@@ -2,8 +2,6 @@ class Ghost extends MovingEntity {
     constructor(id) {
         super(id);
         this.stylesheet = "ghost.css";
-        //this.cssElementName = ".ghost";
-        console.log("#" + id);
         this.cssElementname = "#" + id;
     }
 
@@ -53,9 +51,15 @@ class Ghost extends MovingEntity {
 
     static updateAllGhosts = (ghostData) => {
         this.ghosts.forEach((ghost) => {
-            ghost.setX1(ghostData[ghost.id].location.x - 1); // -1 in x and y accounts for the UI not using game boarders in its calculations
-            ghost.setY1(ghostData[ghost.id].location.y - 1);
-            ghost.changeDirection(ghostData[ghost.id].location.direction);
+            let data = ghostData[ghost.id];
+            let blinking = data.blinking;
+            ghost.setX1(data.location.x - 1); // -1 in x and y accounts for the UI not using game boarders in its calculations
+            ghost.setY1(data.location.y - 1);
+            ghost.changeDirection(data.location.direction);
+            if(blinking)
+                ghost.changeState("scaredExpiring");
+            else
+                ghost.changeState(data.ghost_state);
         });
     };
 

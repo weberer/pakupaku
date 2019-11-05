@@ -12,15 +12,15 @@ class Game {
         gameOver: "game_over"
     };
 
-    static defaultFruit = [ // Display Right -> Left
-        13,//key
-        9, //ship
-        7, //grape
-        5, //apple
-        11,//bell
-        3, //orange/peach
+    static defaultFruit = [ // Display Left -> Right
+        1, //cherry
         2, //strawberry
-        1 //cherry
+        3, //orange/peach
+        11,//bell
+        5, //apple
+        7, //grape
+        9, //ship
+        13 //key
     ];
     static htmlAttrName = "state";
 
@@ -34,7 +34,7 @@ class Game {
     static boardState = null;
     static lastScoreElId = "last_score";
     static lastScoreEl = null;
-    static highscoreInitialsPrevix = "highscore_init_";
+    static highscoreInitialsPrefix = "highscore_init_";
     static highscoreScorePrefix = "highscore_score_";
 
     static highScoreListCount = 5;
@@ -61,8 +61,9 @@ class Game {
         Board.setLifeCount(Board.startingLifeCount);
         Board.updateAllFruits(this.defaultFruit);
         Util.stopAudio();
+        Util.stopInterval();
         Networking.sendMenuRequest((data) => {
-            //Game.updateHighScoreList(data.highscoreList); // Backend returns array, not object as is needed to update the list
+            Game.updateHighScoreList(data.highscore_list); // Backend returns array, not object as is needed to update the list
         });
     };
 
@@ -84,6 +85,7 @@ class Game {
     static startGame = () => {
         this.setBoardState(this.boardStates.play);
         Networking.sendStartGameRequest();
+        Util.startInterval();
     };
 
     static gameOver = () => { this.setBoardState(this.boardStates.gameOver); };
@@ -114,17 +116,16 @@ class Game {
     static toggleSound = () => { this.setSound(!this.isSoundOn); };
 
     static updateHighScoreList = (scoreList) => { //assume an object is formatted as {"KEY": SCORE, ...}
-        let keys = Object.keys(scoreList);
-        if(keys.length > this.highScoreListCount)
-            throw "Error: Too many high scores. A maximum of " + this.highScoreListCount + " scores can be displayed. "
-                + keys.length + " were passed in.";
+        if(scoreList.length !== this.highScoreListCount)
+            throw "Error: wrong number of scores in high score list";
 
-        for(let i = 0; i < keys.length; i++)
-        {
-            let scoreEl = document.getElementById(this.highscoreScorePrefix + i);
-            let initialsEl = document.getElementById(this.highscoreInitialsPrevix + i);
-            initialsEl.innerText = keys[i];
-            scoreEl.innerText = Util.padScore(scoreList[keys[i]]);
+        for(let i = 0; i < scoreList.length; i++) {
+            let splitScore = scoreList[i].split('='); //Initials stored @ index 0; score stored @ index 1 after split
+            let initials = splitScore[0];
+            let highscore = Util.padScore(splitScore[1]);
+
+            Util.setText(this.highscoreInitialsPrefix + i, initials);
+            Util.setText(this.highscoreScorePrefix + i, highscore);
         }
     };
 
@@ -138,6 +139,7 @@ class Game {
         Board.updateAllFruits(data.fruitList);
         window.paku.update(data.paku);
         Ghost.updateAllGhosts(data.ghosts);
+        Board.updatePellets(data.board);
     };
 
     static newGame = () => {
@@ -163,6 +165,8 @@ class Game {
         this.setSound(true);
         this.openMenu();
         this.updateLastScore(0);
+
+        window.frameInterval = 200;
     };
 
 }

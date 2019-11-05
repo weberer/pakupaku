@@ -52,13 +52,6 @@ class Networking {
         this._sendRequest(data, () => {}); // no data returned = no callback.
     };
 
-    static sendGetFrameRequest = (callback) => {
-      let data = {
-          type: "send_frame"
-      };
-      this._sendRequest(data, callback);
-    };
-
     static sendInput = keycode => {
         let data = {
             type:   "input",

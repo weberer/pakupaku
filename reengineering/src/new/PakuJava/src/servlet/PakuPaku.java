@@ -40,6 +40,7 @@ public class PakuPaku extends HttpServlet {
             switch (requestType) {
                 case "menu":
                     obj = controller.getHighScoreList();
+                    controller.resetGame();
                     break;
                 case "game_ready":
                     obj = controller.getHighScore();
@@ -51,8 +52,9 @@ public class PakuPaku extends HttpServlet {
                     String inputData = request.getParameter("input");
                     controller.receivedUserInput(inputData);
                     break;
-                case "send_frame": //TODO: Finish implementation
+                case "send_frame":
                     controller.update();
+                    obj = controller.getDataToSend();
                     break;
                 default:
                     obj = new JSONObject().put("default", "response");

@@ -43,6 +43,8 @@ class Util {
 
     static setAttributeValue = (element, attrName, value) => element.setAttribute(attrName, value);
 
+    static setText = (elementId, text) => { document.getElementById(elementId).innerText = text };
+
     static directionKeyCodes = ["KeyW", "KeyD", "KeyS", "KeyA", "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"];
 
     // Since requests are sent on a cycle, not reactionary, update the 'last key pressed' variable in Util.
@@ -54,8 +56,11 @@ class Util {
             Networking.sendInput(keycode);
         else
             switch(keycode) {
-                case "KeyR":
+                case "KeyR": //TODO: REMOVE, DEBUG ONLY
                     Networking.sendFrameRequest();
+                    break;
+                case "KeyQ": // TODO: REMOVE, DEBUG ONLY
+                    this.stopInterval();
                     break;
                 case "KeyO":
                     Game.toggleSound();
@@ -73,18 +78,14 @@ class Util {
             }
     };
 
-    static handleAjaxSuccess = (data) => {
-        console.log(data);
-    };
-
     // begins sending Ajax requests to the server at regular intervals
     static startInterval = () => {
-        this.intervalId = setInterval(this.sendFrameData, this.frameInterval);
+        this.intervalId = setInterval(Networking.sendFrameRequest, window.frameInterval);
     };
 
     // changes the interval Ajax requests are sent to the server
     static updateInterval = (newInterval) => {
-        this.frameInterval = newInterval;
+        window.frameInterval = newInterval;
         this.stopInterval();
         this.startInterval();
     };
@@ -93,8 +94,6 @@ class Util {
     static stopInterval = () => {
         if(this.intervalId)
             clearInterval(this.intervalId);
-        else
-            throw "No interval to stop";
     };
 
     // plays a sound file associated with an html element. returns the duration of the sound file in ms

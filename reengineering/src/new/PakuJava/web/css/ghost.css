@@ -26,11 +26,11 @@
 }
 
 /* Creates the ghost animation effect */
-.ghost::after {
+.ghost:not([state="eaten"])::after {
     animation: ghost-movement .5s infinite both;
 }
 
-.ghost::before {
+.ghost:not([state="eaten"])::before {
     animation: ghost-movement .5s infinite both reverse;
 }
 
@@ -210,10 +210,20 @@
 
 
 
-/*TODO: Add Support for 'Scared' state (SVG assets need to be updated)
-   - Probably use a child element of the 'ghost' that is only triggered
-   when the ghost is scared. That child element is just the white
-   background swishing back and forth forever. When this happens,
-   modify the keyframe timing/frames so there are seconds where
-   both of the 'blue' before/after elements are hidden, allowing
-   the white background image of the child element to show through.*/
+.ghost[state="scared"]::before {
+    background-image: url("../resources/svg/ghosts/scared.svg#blue_1");
+}
+
+.ghost[state="scared"]::after {
+     background-image: url("../resources/svg/ghosts/scared.svg#blue_2");
+ }
+
+
+
+.ghost[state="scaredExpiring"]::before {
+    background-image: url("../resources/svg/ghosts/scared.svg#blue_1");
+}
+
+.ghost[state="scaredExpiring"]::after {
+    background-image: url("../resources/svg/ghosts/scared.svg#gray_2");
+}

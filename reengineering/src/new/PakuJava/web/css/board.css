@@ -10,6 +10,7 @@
     align-items: start;
     background-clip: border-box;
     padding: 4%;
+    
 }
 
 #game_board::before {
@@ -50,6 +51,7 @@
 #fruit {
     flex: 8;
     padding-right: 2%;
+    flex-direction: row-reverse;
 }
 
 .game_board_row {
@@ -62,6 +64,12 @@
 .pellet {
     flex: 1;
     display: block;
+    transition: opacity 0s linear calc(var(--speed) / 2); /* property duration timing-function dleay */
+    opacity: 1;
+}
+
+.pellet[state="hidden"] {
+    opacity: 0;
 }
 
 .pellet::before {
@@ -71,7 +79,7 @@
      display: block;
      position: relative;
      left: 25%;
-     top: 0%;
+     top: 0;
  }
 
 .pellet.super_pellet::before {
@@ -175,6 +183,15 @@
         opacity: 1;
     }
     1.999%, 49% {
+        opacity: 0;
+    }
+}
+
+@keyframes pellet_hide {
+    0%, 95% {
+        opacity: 1;
+    }
+    95.0001%, 100% {
         opacity: 0;
     }
 }
