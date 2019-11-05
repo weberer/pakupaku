@@ -166,7 +166,6 @@ public class GameData
             stinkyLocationToSend.put("y", getStinky().getLoc().getyLoc());
             stinkyLocationToSend.put("direction", getStinky().getFacingDirection().toString());
 
-
             JSONObject stinkyToSend = new JSONObject();
             stinkyToSend.put("location", stinkyLocationToSend);
             stinkyToSend.put("ghost_state", GhostState.castState(getStinky().getState()));

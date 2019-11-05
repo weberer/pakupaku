@@ -28,12 +28,7 @@ class Networking {
         let data = {
             //frameId: this.vars.frameNumber++
         };
-
-        if(Util.lastKeyPressed) {
-            data["keycode"] = Util.lastKeyPressed;
-            Util.lastKeyPressed = null;
-        }
-        this._sendRequest(data, this.success);
+        this._sendRequest(data, Game.processFrame)
     };
 
     static sendMenuRequest = callback => {
