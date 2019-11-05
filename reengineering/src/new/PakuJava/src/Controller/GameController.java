@@ -463,10 +463,11 @@ public class GameController
                     death = true;
                 }
             }
-            if(ghost.getState().equals(GhostState.flee)) {
-                gameData.setBonus(ghost.addScore(score));
-                ghost.endingFleeProtocol();
-
+            else if(ghost.getState().equals(GhostState.flee)) {
+                if(paku.getLoc().getxLoc() == ghost.getLoc().getxLoc() && paku.getLoc().getyLoc() == ghost.getLoc().getyLoc()) {
+                    gameData.setBonus(ghost.addScore(score));
+                    ghost.endingFleeProtocol();
+                }
             }
         }
         if(paku.isGameOver()){

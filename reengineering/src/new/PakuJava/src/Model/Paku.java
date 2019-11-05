@@ -52,11 +52,19 @@ public class Paku extends MovingGameObject{
     public void move() {
         switch(this.facingDirection) {
             case left:   //move Paku left a unit
+                if (paku.loc.getxLoc() == 1 && paku.getLoc().getyLoc() == 14)
+                {
+                        paku.getLoc().setxLoc(26);
+                }
                 int currentX = loc.getxLoc();
                 if(!checkWall(loc.getxLoc() - MOVE_DIST_PER_TICK, loc.getyLoc()))
                     loc.setxLoc(loc.getxLoc() - MOVE_DIST_PER_TICK); //move left if not running into wall
                 break;
             case right: //move Paku right a unit unless there's a wall there
+                if (paku.loc.getxLoc() == 26 && paku.getLoc().getyLoc() == 14)
+                {
+                    paku.getLoc().setxLoc(1);
+                }
                 if(!checkWall(loc.getxLoc() + MOVE_DIST_PER_TICK, loc.getyLoc()))
                     loc.setxLoc(loc.getxLoc() + MOVE_DIST_PER_TICK);
                 break;
