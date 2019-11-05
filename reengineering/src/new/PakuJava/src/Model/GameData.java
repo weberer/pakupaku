@@ -4,9 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -304,6 +302,14 @@ public class GameData
     }
 
     public int getHighScore() {
+        return score.getHighScore().getValue();
+    }
+
+    /**
+     * Returns the high score with its corresponding player intitials
+     * @return
+     */
+    public Map.Entry<String, Integer> getPlayerHighScore() {
         return score.getHighScore();
     }
 
@@ -311,7 +317,14 @@ public class GameData
         return score;
     }
 
+    /*
     public List<Integer> getScoreList() {
+        return score.getScoreList();
+    }
+    */
+
+    public HashMap<String ,Integer> getScoreList()
+    {
         return score.getScoreList();
     }
 

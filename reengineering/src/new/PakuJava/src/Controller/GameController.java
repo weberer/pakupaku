@@ -4,6 +4,7 @@ import Model.Paku;
 import Model.GameStatus;
 import Model.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import com.opencsv.CSVReader;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -602,11 +604,20 @@ public class GameController
     public JSONObject getHighScoreList() throws Exception {
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
-        List<Integer> list = gameData.getScoreList();
+      //  List<Integer> list = gameData.getScoreList();
+        HashMap<String, Integer> scoreMap = gameData.getScoreList();
 
+
+        //put map entries, which consist of scores with their corresponding player initials, into the JSONArray
+        for(Map.Entry<String, Integer> entry : scoreMap.entrySet())
+            arr.put(entry);
+        obj.put("highscore_list", arr);
+
+        /*
         for(Integer i : list)
             arr.put(i);
         obj.put("highscore_list", arr);
+        */
 
         return obj;
     }
