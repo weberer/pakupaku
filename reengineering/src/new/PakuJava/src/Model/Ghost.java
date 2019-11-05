@@ -113,10 +113,8 @@ public abstract class Ghost extends MovingGameObject {
             if (exitCounter > 0) {
                 if (loc.getyLoc() == JAIL_TOP + 1 ) {
                     facingDirection = Direction.down;
-                    loc.setyLoc(loc.getyLoc() + 1);
                 } else if (loc.getyLoc() == JAIL_BOTTOM - 1) {
                     facingDirection = Direction.up;
-                    loc.setyLoc(loc.getyLoc() - 1);
                 }
             } else {
                 if(loc.getxLoc() >= JAIL_LEFT && loc.getxLoc() <= 13)
