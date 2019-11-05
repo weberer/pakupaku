@@ -4,10 +4,7 @@
  * and open the template in the editor.
  */
 package Model;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class defines the score object for the game. It holds the current score as well as a list of
@@ -24,7 +21,7 @@ public class Score
     private HashMap<String, Integer> scores;
     public Score() {
         //scoreList = new ArrayList<>();
-        scores = new HashMap<>();
+        scores = new LinkedHashMap<>();
         currentScore = 0;
 
 
@@ -63,7 +60,31 @@ public class Score
      */
     private void archiveScore()
     {
-        scores.put(initials, currentScore);
+        //scores.put(initials, currentScore);
+        LinkedHashMap<String, Integer> temp = new LinkedHashMap<>();
+        Set<String> keySet = scores.keySet();
+        Iterator iterator = keySet.iterator();
+        boolean placed = false;
+        while (iterator.hasNext())
+        {
+            String key = (String) iterator.next();
+            if(scores.get(key) > currentScore)
+            {
+                temp.put(key, scores.get(key));
+            }
+            else if(!placed)
+            {
+                temp.put(initials, currentScore);
+                placed = true;
+            }
+            if(placed && temp.size() != scores.size())
+            {
+                temp.put(key, scores.get(key));
+            }
+            else if(scores.size() == temp.size())
+                break;
+        }
+        scores = temp;
     }
 
     /**
