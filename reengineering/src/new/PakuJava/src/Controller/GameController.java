@@ -124,7 +124,7 @@ public class GameController
 
        // score = new Score();  //new score object created each game UPDATE 10/29 no longer creating new score object each game --Evan
         gameData.setGameStatus(GameStatus.staring);  //update gameStatus
-        update();
+        //update();
     }
 
 
@@ -143,7 +143,7 @@ public class GameController
         ghostList.add(new Hinky(stinky, gameData.getMap())); //pink, Hinky needs Stinky's info to move. please do not modify
 
         gameData.setGhostList(ghostList);
-        Ghost.setupTimers();
+        gameData.getGhostList().get(0).setupTimers(); // Was Ghost.setupTimers() --Eric 11/4
         setGhostGameDataReference();  //probably isn't needed --Evan 10/29
         int[] fruits = new int[8];
         fruits[7] = 1;
@@ -189,7 +189,7 @@ public class GameController
                 ghost.endingFleeProtocol();
             ghost.startTimer();
         }
-        Ghost.resetMultiplier();
+        ghostList.get(0).resetMultiplier(); // was Ghost.resetMultiplier(); --Eric 11/4
     }
 
 
@@ -200,7 +200,9 @@ public class GameController
     {
         List<Ghost> ghostList = gameData.getGhostList();
         gameData.getPaku().resetPaku();
-        resetGhosts(ghostList);
+
+        resetGhosts(ghostList); // New
+
         for(Ghost ghost : ghostList){
             ghost.resetLocation();
             ghost.startTimer();
