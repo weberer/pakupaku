@@ -26,7 +26,14 @@ public class Score
         //scoreList = new ArrayList<>();
         scores = new HashMap<>();
         currentScore = 0;
-        //this.initials = initials;
+
+
+        //Adding initial scores to the map
+        scores.put("PAL", 80000);
+        scores.put("ADI", 40000);
+        scores.put("N_S", 20000);
+        scores.put("JMK", 14680);
+        scores.put("YST", 10000);
     }
 
     /**

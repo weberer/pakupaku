@@ -60,6 +60,9 @@ class Util {
                 case "Enter":
                     Game.handleEnterKey();
                     break;
+                case "NumpadEnter":
+                    Game.handleEnterKey();
+                    break;
                 case "Escape":
                     Game.handleEscKey();
                     break;

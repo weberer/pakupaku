@@ -84,31 +84,6 @@ public class GameController
         }
 
     }
-
-   /*public void init() {
-        while(true){
-            Controls input = getUserInput();
-            switch (gameData.getGameStatus()){
-                case mainMenu:
-                    if(input.equals(Controls.enter))
-                    {
-                        gameData.setGameStatus(GameStatus.play);
-                        startGame();
-                    }
-                case play:
-                    int frameNumber = gameData.getCurrentFrame();
-                    if(frameNumber>currentFrame)
-                    {
-                        currentFrame = frameNumber;
-                        update();
-                    }
-                    default:
-
-            }
-        }
-
-    }*/
-
     /**
      * TODO: Utilize
      * @param frameNumber
@@ -226,6 +201,13 @@ public class GameController
         List<Ghost> ghostList = gameData.getGhostList();
         gameData.getPaku().resetPaku();
         resetGhosts(ghostList);
+        for(Ghost ghost : ghostList){
+            ghost.resetLocation();
+            ghost.startTimer();
+        }
+        if(ghostList.size() > 0) {
+            ghostList.get(0).resetMultiplier();
+        }
         int gamelevel = 0;
         gameData.setGamelevel(gamelevel);
 
@@ -236,7 +218,6 @@ public class GameController
         gameData.getScore().reset();
 
         blinkCounter = BLINK;
-
     }
 
     /**
