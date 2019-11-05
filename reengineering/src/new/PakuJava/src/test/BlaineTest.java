@@ -25,10 +25,14 @@ public class BlaineTest {
         blaine.getLoc().setxLoc(1);
         blaine.getLoc().setyLoc(1);
         blaine.resetLocation();
-        assertEquals(15, blaine.getLoc().getxLoc());
+        assertEquals(16, blaine.getLoc().getxLoc());
         assertEquals(14, blaine.getLoc().getyLoc());
     }
 
+    /**
+     * Tests that Blaine's movements favor moving towards Paku when Paku is far away and that his movements follow his
+     * scatter when he gets close to Paku.
+     */
     @Test
     public void chaseMove() {
         GameData gameData = GameData.getInstance();
@@ -59,6 +63,9 @@ public class BlaineTest {
         assertEquals(20, blaine.getLoc().getyLoc());
     }
 
+    /**
+     * Tests that Blaine favors moving towards the bottom left corner of the map when scattering.
+     */
     @Test
     public void  scatterMove() {
         GameData gameData = GameData.getInstance();

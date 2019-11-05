@@ -22,6 +22,10 @@ public class KinkyTest {
         assertEquals(14, kinky.getLoc().getxLoc());
         assertEquals(14, kinky.getLoc().getyLoc());
     }
+
+    /**
+     * This test ensures that Kinky favors moving towards the top left corner when scattering.
+     */
     @Test
     public void  scatterMove() {
         GameData gameData = GameData.getInstance();
@@ -46,7 +50,8 @@ public class KinkyTest {
     }
 
     /**
-     * Tests that Kinky's behaviors are functioning properly: to turn chase paku to the tile he is pointing to.
+     * Tests that Kinky's behaviors are functioning properly: to chase Paku by targeting the tile four spaces away
+     * from which Paku is facing.
      */
     @Test
     public void chaseMove() {

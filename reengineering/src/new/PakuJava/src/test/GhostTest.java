@@ -510,11 +510,11 @@ public class GhostTest {
         assertEquals(21, gameData.getGhostList().get(0).getLoc().getxLoc());
         assertEquals(25, gameData.getGhostList().get(0).getLoc().getyLoc());
         //Moving Down
-        gameData.getGhostList().get(0).getLoc().setxLoc(26);
+        gameData.getGhostList().get(0).getLoc().setxLoc(21);
         gameData.getGhostList().get(0).getLoc().setyLoc(26);
         gameData.getGhostList().get(0).setDirection(Direction.down);
         gameData.getGhostList().get(0).move();
-        assertEquals(25, gameData.getGhostList().get(0).getLoc().getxLoc());
+        assertEquals(22, gameData.getGhostList().get(0).getLoc().getxLoc());
         assertEquals(26, gameData.getGhostList().get(0).getLoc().getyLoc());
         //(18, 26)
         //Moving Right
@@ -752,10 +752,6 @@ public class GhostTest {
         s.makeFlee();
         assertTrue(s.getState().equals(GhostState.flee));
         assertTrue(s.getStoredState().equals(state));
-        s.blink();
-        assertTrue(gameData.isStinkyBlink());
-        s.blink();
-        assertFalse(gameData.isStinkyBlink());
         s.blink();
         assertTrue(gameData.isStinkyBlink());
         s.endingFleeProtocol();

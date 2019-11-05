@@ -57,10 +57,11 @@ public class GameData
     // used for checking the score based extra lives.
     private int extraLives;
 
-
+    private int dots;
+    private boolean fruitSpawned;
     ///DO NOT DO NOT DO NOT MODIFY
-    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";///DO NOT DO NOT DO NOT MODIFY
-    // private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";///DO NOT DO NOT DO NOT MODIFY
+    //private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv"; //Use this with the Tomcat server
+    private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv"; //Use this string for running test classes
    // private final String SAMPLE_CSV_FILE_PATH = "c:\\users\\weber\\desktop\\firebreathingrubberduckies\\reengineering\\src\\new\\pakujava\\src\\asset\\map.csv";
     //private final String SAMPLE_CSV_FILE_PATH = "J:\\CSSE\\se\\se3860\\firebreathingrubberduckies\\reengineering\\src\\new\\PakuJava\\src\\asset\\map.csv";
 
@@ -91,6 +92,9 @@ public class GameData
         eachRow = new ArrayList<Integer>();
 
         currentFrame = -1;
+
+        dots = startingDots;
+        fruitSpawned = false;
     }
 
     public boolean isBlaineBlink() {
@@ -381,6 +385,7 @@ public class GameData
 
     public void setFruit(Fruit fruit) {
         this.fruit = fruit;
+        fruitSpawned = true;
     }
 
     public ArrayList<ArrayList> getMap() {
@@ -502,5 +507,48 @@ public class GameData
 
     public void setCurrentFrame(int currentFrame) {
         this.currentFrame = currentFrame;
+    }
+
+    public void setDots(int dots) {
+        this.dots = dots;
+    }
+    public int getDots()
+    {
+        return dots;
+}
+
+    /**
+     * Use this method in the nextLevel and resetGame methods of GameController. resetDots is used to reset the
+     * dot counter to the original value and reset the fruitSpwaned boolean.
+     */
+    public void resetDots()
+    {
+        dots = startingDots;
+        fruitSpawned = false;
+    }
+
+    /**
+     * fruitCheck checks to see if enough dots were consumed to spawn a fruit
+     * @return true if fruit is null, dots < fruitCounter1, and fruitSpawned == false.
+     *         false if dots > fruitCounter1, fruit is not null, or fruitSpawned is true.
+     */
+    public boolean fruitCheck()
+    {
+        if(fruit == null && dots < fruitCounter1)
+        {
+            if(!fruitSpawned)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+    public int getStartingDots()
+    {
+        return startingDots;
     }
 }

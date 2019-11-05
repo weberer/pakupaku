@@ -115,7 +115,24 @@ public class GameControllerTest {
 
     }
 
-
+    /**
+     * testFruit tests to make sure that the gameData method fruitCheck works, and then tests the GameController's
+     * spawnFruit method using testFruit as an accessor. If everything runs as intended, the fruitCheck should return
+     * false at first, then true once dots < fruitCounter1, in this case, 100. The fruit should also properly spawn in
+     * the map coordinates (14, 17), and has an integer code of 5.
+     */
+    @Test
+    public void testFruit()
+{
+    GameData gameData = GameData.getInstance();
+    GameController gc = new GameController();
+    assertFalse(gameData.fruitCheck());
+    gameData.setDots(100);
+    assertTrue(gameData.fruitCheck());
+    gc.testFruit();
+    assertFalse(gameData.fruitCheck());
+    assertTrue((int)gameData.getMap().get(17).get(14) == 5);
+}
 
 
 
