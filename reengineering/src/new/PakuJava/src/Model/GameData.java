@@ -125,7 +125,7 @@ public class GameData
 
             ArrayList<ArrayList> mapToSend =  new ArrayList<ArrayList>(map);
             ArrayList<ArrayList> mapToSendCleared =  new ArrayList<ArrayList>(map);
-            mapToSend.remove(mapToSend.size()-1);
+            mapToSend.remove(30);
             mapToSend.remove(0);
 
 
