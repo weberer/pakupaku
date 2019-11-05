@@ -41,7 +41,9 @@ public class GameController
     public GameController()
     {
         gameData = GameData.getInstance();  //INSTANTIATION OF GAMEDATA OBJECT
-        LoadMap();
+
+        if(gameData.getMap().isEmpty())
+            LoadMap();
         gameData.setGameStatus(GameStatus.mainMenu);
       //  startGame();   //this method is already called from the Program class --Evan
         currentFrame = -1;

@@ -59,10 +59,10 @@ public class GameData
 
 
     ///DO NOT DO NOT DO NOT MODIFY
-    //private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";///DO NOT DO NOT DO NOT MODIFY
+    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";///DO NOT DO NOT DO NOT MODIFY
     // private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";///DO NOT DO NOT DO NOT MODIFY
    // private final String SAMPLE_CSV_FILE_PATH = "c:\\users\\weber\\desktop\\firebreathingrubberduckies\\reengineering\\src\\new\\pakujava\\src\\asset\\map.csv";
-    private final String SAMPLE_CSV_FILE_PATH = "J:\\CSSE\\se\\se3860\\firebreathingrubberduckies\\reengineering\\src\\new\\PakuJava\\src\\asset\\map.csv";
+    //private final String SAMPLE_CSV_FILE_PATH = "J:\\CSSE\\se\\se3860\\firebreathingrubberduckies\\reengineering\\src\\new\\PakuJava\\src\\asset\\map.csv";
 
 
     private static GameData data = new GameData();  //to make this class a Singleton
@@ -122,9 +122,18 @@ public class GameData
             dataToSend.put("score", scoreToSend);
 
             dataToSend.put("sound", true);
-            this.correctMap();
-            ArrayList<ArrayList> mapToSend =  new ArrayList<ArrayList>();
-            Collections.copy(mapToSend, map);
+            //this.correctMap();
+            ArrayList<ArrayList> mapToSend = new ArrayList<>();
+            for(int i = 0; i < map.size(); i++)
+            {
+                ArrayList<Integer> row = new ArrayList<>();
+                for(int j = 0; j < map.get(i).size(); j++)
+                {
+                    row.add((int)map.get(i).get(j));
+                }
+                mapToSend.add(row);
+            }
+            //mapToSend = (ArrayList<ArrayList>) map.clone();
             mapToSend.remove(mapToSend.size()-1);
             mapToSend.remove(0);
 
