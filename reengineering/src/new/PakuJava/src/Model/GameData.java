@@ -60,8 +60,9 @@ public class GameData
 
     ///DO NOT DO NOT DO NOT MODIFY
     //private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv";///DO NOT DO NOT DO NOT MODIFY
-    private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";///DO NOT DO NOT DO NOT MODIFY
+    // private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv";///DO NOT DO NOT DO NOT MODIFY
    // private final String SAMPLE_CSV_FILE_PATH = "c:\\users\\weber\\desktop\\firebreathingrubberduckies\\reengineering\\src\\new\\pakujava\\src\\asset\\map.csv";
+    private final String SAMPLE_CSV_FILE_PATH = "J:\\CSSE\\se\\se3860\\firebreathingrubberduckies\\reengineering\\src\\new\\PakuJava\\src\\asset\\map.csv";
 
 
     private static GameData data = new GameData();  //to make this class a Singleton
@@ -122,9 +123,26 @@ public class GameData
 
             dataToSend.put("sound", true);
 
+            ArrayList<ArrayList> mapToSend =  new ArrayList<ArrayList>(map);
+            ArrayList<ArrayList> mapToSendCleared =  new ArrayList<ArrayList>(map);
+            mapToSend.remove(mapToSend.size()-1);
+            mapToSend.remove(0);
+
+
+//2 to 0 3 to 1.
+            mapToSend.forEach((eachrowAL) -> {
+                eachrowAL.remove(eachrowAL.size()-1);
+                eachrowAL.remove(0);
+                eachrowAL.forEach((eachLoc)->{
+                    if((int)eachLoc == 2)
+                        eachrowAL.set(eachrowAL.indexOf(eachLoc), 0);
+                    if((int)eachLoc == 3)
+                        eachrowAL.set(eachrowAL.indexOf(eachLoc), 1);
+                });
+            });
 
             JSONArray mapJS = new JSONArray();
-            map.forEach((eachrowAL) -> {
+            mapToSend.forEach((eachrowAL) -> {
                 mapJS.put(new JSONArray(Arrays.asList(eachrowAL)));
             });
 
