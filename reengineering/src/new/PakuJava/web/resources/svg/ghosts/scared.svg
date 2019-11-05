@@ -1,29 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="63.765mm" height="63.765mm" version="1.1" viewBox="0 0 63.765 63.765" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <g transform="translate(7.6189e-7 -.93125)">
-    <g transform="translate(-15.159 -61.853)">
-      <g transform="translate(-16.704 -5.8799)" stroke-width=".35278">
-        <path d="m64.407 122.55v-9.8778h2.4694v-5.6444h2.8222v-2.8222h5.6444v-2.4694h8.4667v2.4694h5.6444v2.8222h2.8222v5.6444h2.8222v19.756h-5.6444v-2.8222h-5.6444v2.8222h-8.4667v-2.8222h-5.6444v2.8222h-5.2917z" fill="#2121dd"/>
-        <path d="m69.699 125.37v-1.4111h2.8222v-2.8222h2.8222v2.8222h2.8222v-2.8222h2.8222v2.8222h2.8222v-2.8222h2.8222v2.8222h2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222zm2.8222-12.7v-2.8222h5.6444v5.6444h-5.6444zm8.4667 0v-2.8222h5.6444v5.6444h-5.6444z" fill="#ffb5ff"/>
-      </g>
-    </g>
-    <g transform="matrix(1.0227 0 0 1.0227 -48.44 -64.867)">
-      <g transform="translate(.84299 .79061)" stroke-width=".35278">
-        <path d="m46.52 116.02v-9.8778h2.8222v-5.6444h2.8222v-2.8222h5.6444v-2.8222h8.4667v2.8222h5.6444v2.8222h2.8222v5.6444h2.8222v19.756h-2.8222v-2.8222h-5.6444v2.8222h-5.6444v-2.8222h-2.8222v2.8222h-5.6444v-2.8222h-5.6444v2.8222h-2.8222v-9.8778z" fill="#2121ff"/>
-        <path d="m52.165 118.84c0.11585-0.41306-0.2336-1.2914 0.17561-1.4111h2.6466v-2.8222h2.8222v2.8222h2.8222v-2.8222h2.8222v2.8222h2.8222v-2.8222h2.8222v2.8222h2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222v-1.4111zm2.8222-12.7v-2.8222h5.6444v5.6444h-5.6444v-2.8222zm8.4667 0v-2.8222h5.6444v5.6444h-5.6444v-2.8222z" fill="#ffb5ff"/>
-      </g>
-    </g>
-    <g transform="matrix(1.0345 0 0 1.0345 -49.348 -98.232)">
-      <g transform="translate(-16.704 -5.8799)" stroke-width=".35278">
-        <path d="m64.407 122.55v-9.8778h2.4694v-5.6444h2.8222v-2.8222h5.6444v-2.4694h8.4667v2.4694h5.6444v2.8222h2.8222v5.6444h2.8222v19.756h-5.6444v-2.8222h-5.6444v2.8222h-8.4667v-2.8222h-5.6444v2.8222h-5.2917z" fill="#ddd"/>
-        <path d="m69.699 125.37v-1.4111h2.8222v-2.8222h2.8222v2.8222h2.8222v-2.8222h2.8222v2.8222h2.8222v-2.8222h2.8222v2.8222h2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222zm2.8222-12.7v-2.8222h5.6444v5.6444h-5.6444zm8.4667 0v-2.8222h5.6444v5.6444h-5.6444z" fill="#d00"/>
-      </g>
-    </g>
-    <g transform="matrix(1.0227 0 0 1.0227 -16.425 -96.882)">
-      <g transform="translate(.84299 .79061)" stroke-width=".35278">
-        <path d="m46.52 116.02v-9.8778h2.8222v-5.6444h2.8222v-2.8222h5.6444v-2.8222h8.4667v2.8222h5.6444v2.8222h2.8222v5.6444h2.8222v19.756h-2.8222v-2.8222h-5.6444v2.8222h-5.6444v-2.8222h-2.8222v2.8222h-5.6444v-2.8222h-5.6444v2.8222h-2.8222v-9.8778z" fill="#ddd"/>
-        <path d="m52.165 118.84c0.11585-0.41306-0.2336-1.2914 0.17561-1.4111h2.6466v-2.8222h2.8222v2.8222h2.8222v-2.8222h2.8222v2.8222h2.8222v-2.8222h2.8222v2.8222h2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222v-2.8222h-2.8222v2.8222h-2.8222v-1.4111zm2.8222-12.7v-2.8222h5.6444v5.6444h-5.6444v-2.8222zm8.4667 0v-2.8222h5.6444v5.6444h-5.6444v-2.8222z" fill="#d00"/>
-      </g>
-    </g>
+<svg shape-rendering="crispEdges" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(12)" shape-rendering="crispEdges">
+    <path d="m0 12v-8h1v-2h1v-1h2v-1h3v1h2v1h2v2h1v8h-2v-1h-2v1h-4v-1h-2v1h-2" fill="#ddd"/>
+    <path d="m3 3v3h3v-3zm4 0v3h3v-3zm-4 6h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1z" fill="#d00"/>
   </g>
+  <g>
+    <path d="m0 12v-8h1v-2h1v-1h2v-1h3v1h2v1h2v2h1v8h-1v-1h-2v1h-2v-1h-2v1h-2v-1h-2v1h-1" fill="#ddd"/>
+    <path d="m3 3v3h3v-3zm4 0v3h3v-3zm-4 6h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1z" fill="#d00"/>
+  </g>
+  <g transform="translate(0,12)" shape-rendering="crispEdges">
+    <g transform="translate(12)" shape-rendering="crispEdges">
+      <path d="m0 12v-8h1v-2h1v-1h2v-1h3v1h2v1h2v2h1v8h-2v-1h-2v1h-4v-1h-2v1h-2" fill="#2121ff"/>
+      <path d="m3 3v3h3v-3zm4 0v3h3v-3zm-4 6h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1z" fill="#ffb5ff"/>
+    </g>
+    <path d="m0 12v-8h1v-2h1v-1h2v-1h3v1h2v1h2v2h1v8h-1v-1h-2v1h-2v-1h-2v1h-2v-1h-2v1h-1" fill="#2121ff"/>
+    <path d="m3 3v3h3v-3zm4 0v3h3v-3zm-4 6h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1v-2h1v1h-1m2 0h-1v1h1z" fill="#ffb5ff"/>
+  </g>
+  <view id="blue_1" viewBox="0 12 12 12"/>
+  <view id="blue_2" viewBox="12 12 12 12"/>
+  <view id="gray_1" viewBox="0 0 12 12"/>
+  <view id="gray_2" viewBox="12 0 12 12"/>
 </svg>

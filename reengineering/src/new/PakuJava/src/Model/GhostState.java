@@ -15,7 +15,7 @@ public enum GhostState
             return "scared";
         }
         else if(state.equals(eaten)){
-            return "eyes";
+            return "eaten";
         }
         return "";
     }

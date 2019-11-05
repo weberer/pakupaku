@@ -9,7 +9,7 @@ class Board {
         dead: "hide"
     };
 
-    static fruitMappings = {
+    static fruitMappings = { // map backend fruit representation to match the frontend
         0: "empty",
         1: "cherry",
         2: "strawberry",
@@ -32,12 +32,24 @@ class Board {
     static gameScoreEl = null;
 
     static startingLifeCount = 2;
+    static visiblePellet = 1; // maps value passed in from backend to the ui visible pellet state.
 
-    static getpelletElement = () => {
-
+    static getpelletElement = (x, y) => {
+        return document.getElementById("p" + y + "_" + x);
     };
 
     static updatePellets = (pelletArr) => {
+        for(let row = 0; row < pelletArr.length; row++)
+            for(let column = 0; column < pelletArr[row][0].length; column++) // 3d array is temporary fix for issue SEF2-48
+            {
+                let pelletEl = this.getpelletElement(column, row);
+                if(pelletEl)
+                {
+                    let pelletData = pelletArr[row][0][column]; // 3d array is temporary fix FOR ISSUE SEF2-48
+                    let pelletState = pelletData === this.visiblePellet ? "show" : "hidden";
+                    Util.setAttributeValue(pelletEl, Game.htmlAttrName, pelletState);
+                }
+            }
 
     };
 
@@ -111,7 +123,7 @@ class Board {
 
     static newGame = () => {
         this.setLifeCount(2);
-        this.updateAllFruits([1]); // only the cherry
+        this.updateAllFruits([0,0,0,0,0,0,0,1]); // only the cherry
         this.updateScore(0);
     }
 }

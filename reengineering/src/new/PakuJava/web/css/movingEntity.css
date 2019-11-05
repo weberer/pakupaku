@@ -7,7 +7,6 @@
     --entity_height: calc(var(--screen_height) / 22);
     --x: calc(var(--x_coord) * var(--movement_x_amt));
     --y: calc(var(--y_coord) * var(--movement_y_amt));
-    --speed: 0.7s;
     height: var(--entity_height);
     width: var(--entity_height);
     position: absolute;

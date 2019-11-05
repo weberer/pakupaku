@@ -201,15 +201,16 @@ public class GameController
     public void resetGame()
     {
         List<Ghost> ghostList = gameData.getGhostList();
-        gameData.getPaku().resetPaku();
 
-        resetGhosts(ghostList); // New
+        if(ghostList.size() > 0) { // if ghostList is of size 0, then the game has not yet started.
+            gameData.getPaku().resetPaku();
 
-        for(Ghost ghost : ghostList){
-            ghost.resetLocation();
-            ghost.startTimer();
-        }
-        if(ghostList.size() > 0) {
+            resetGhosts(ghostList); // New
+
+            for(Ghost ghost : ghostList){
+                ghost.resetLocation();
+                ghost.startTimer();
+            }
             ghostList.get(0).resetMultiplier();
         }
         int gamelevel = 0;
