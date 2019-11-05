@@ -123,8 +123,8 @@ public class GameData
 
             dataToSend.put("sound", true);
             this.correctMap();
-            ArrayList<ArrayList> mapToSend =  new ArrayList<ArrayList>(map);
-            ArrayList<ArrayList> mapToSendCleared =  new ArrayList<ArrayList>(map);
+            ArrayList<ArrayList> mapToSend =  new ArrayList<ArrayList>();
+            Collections.copy(mapToSend, map);
             mapToSend.remove(mapToSend.size()-1);
             mapToSend.remove(0);
 
@@ -380,8 +380,13 @@ public class GameData
     }
 
     public void correctMap(){
-        for(int i = 31; i<62; i++)
-        map.remove(i);
+        try {
+            for (int i = 31; i < 62; i++)
+                map.remove(i);
+        }
+        catch(Exception e){
+
+        }
     }
 
     public ArrayList<Integer> getEachRow() {
