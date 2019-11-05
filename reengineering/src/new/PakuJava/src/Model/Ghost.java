@@ -446,7 +446,6 @@ public abstract class Ghost extends MovingGameObject {
      * Alternates the current blink value of the ghost that calls it.
      */
     public abstract void blink();
-
     public abstract void resetLocation();
 
     /**

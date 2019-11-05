@@ -79,7 +79,10 @@ public class Stinky extends Ghost
      */
     @Override
     public void blink() {
-        gameData.setStinkyBlink(!gameData.isStinkyBlink());
+        if(!gameData.isStinkyBlink() && isBlinking())
+            gameData.setStinkyBlink(true);
+        else if(gameData.isStinkyBlink() && !isBlinking())
+            gameData.setStinkyBlink(false);
     }
 }
 

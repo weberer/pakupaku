@@ -497,16 +497,12 @@ public class GameController
             {
                 for(Ghost ghost: ghostList)
                 {
-                    if(ghost.getState().equals(GhostState.flee) && blinkCounter == 0)
+                    if(ghost.getState().equals(GhostState.flee))
                     {
                         ghost.blink();
                     }
                 }
             }
-            if(blinkCounter == 0)
-                blinkCounter = BLINK;
-            else
-                blinkCounter--;
 
         }
         else if(Ghost.getGlobalFleeCounter() == 0)
@@ -520,7 +516,7 @@ public class GameController
                 }
             }
             Ghost.decrementGlobalFleeCounter();
-            blinkCounter = 0;
+
         }
     }
     /**

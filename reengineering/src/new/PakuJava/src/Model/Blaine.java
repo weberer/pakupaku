@@ -84,6 +84,9 @@ public class Blaine extends Ghost
      */
     @Override
     public void blink() {
-        gameData.setBlaineBlink(!gameData.isBlaineBlink());
+        if(!gameData.isBlaineBlink() && isBlinking())
+            gameData.setBlaineBlink(true);
+        else if(gameData.isBlaineBlink() && !isBlinking())
+            gameData.setBlaineBlink(false);
     }
 }

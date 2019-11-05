@@ -105,6 +105,9 @@ public class Hinky extends Ghost
      */
     @Override
     public void blink() {
-        gameData.setHinkyBlink(!gameData.isHinkyBlink());
+        if(!gameData.isHinkyBlink() && isBlinking())
+            gameData.setHinkyBlink(true);
+        else if(gameData.isHinkyBlink() && !isBlinking())
+            gameData.setHinkyBlink(false);
     }
 }

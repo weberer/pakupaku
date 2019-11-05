@@ -97,6 +97,9 @@ public class Kinky extends Ghost {
      */
     @Override
     public void blink() {
-        gameData.setKinkyBlink(!gameData.isKinkyBlink());
+        if(!gameData.isKinkyBlink() && isBlinking())
+            gameData.setKinkyBlink(true);
+        else if(gameData.isKinkyBlink() && !isBlinking())
+            gameData.setKinkyBlink(false);
     }
 }
