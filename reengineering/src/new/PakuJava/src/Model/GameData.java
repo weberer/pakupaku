@@ -122,10 +122,10 @@ public class GameData
             dataToSend.put("score", scoreToSend);
 
             dataToSend.put("sound", true);
-
+            this.correctMap();
             ArrayList<ArrayList> mapToSend =  new ArrayList<ArrayList>(map);
             ArrayList<ArrayList> mapToSendCleared =  new ArrayList<ArrayList>(map);
-            mapToSend.remove(30);
+            mapToSend.remove(mapToSend.size()-1);
             mapToSend.remove(0);
 
 
@@ -377,6 +377,11 @@ public class GameData
 
     public void setMap(ArrayList<ArrayList> map) {
         this.map = map;
+    }
+
+    public void correctMap(){
+        for(int i = 31; i<62; i++)
+        map.remove(i);
     }
 
     public ArrayList<Integer> getEachRow() {
