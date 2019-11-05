@@ -91,7 +91,7 @@ public abstract class Ghost extends MovingGameObject {
     protected void jailMove() {
         if (state.equals(GhostState.eaten) && loc.getyLoc() > JAIL_TOP) {
             loc.setyLoc(loc.getyLoc() + 1);
-            if (loc.getyLoc() == JAIL_BOTTOM) {
+            if (loc.getyLoc() == JAIL_BOTTOM - 1) {
                 exitCounter = resetExitCounter;
                 state = GhostState.scatter;
                 timerIndex = 0;
@@ -111,10 +111,10 @@ public abstract class Ghost extends MovingGameObject {
 
         } else {
             if (exitCounter > 0) {
-                if (loc.getyLoc() == JAIL_TOP  ) {
+                if (loc.getyLoc() == JAIL_TOP + 1 ) {
                     facingDirection = Direction.down;
                     loc.setyLoc(loc.getyLoc() + 1);
-                } else if (loc.getyLoc() == JAIL_BOTTOM ) {
+                } else if (loc.getyLoc() == JAIL_BOTTOM - 1) {
                     facingDirection = Direction.up;
                     loc.setyLoc(loc.getyLoc() - 1);
                 }
@@ -201,11 +201,6 @@ public abstract class Ghost extends MovingGameObject {
         } else {
             changeX = JAIL_DOOR - loc.getxLoc();
             changeY = JAIL_TOP - loc.getyLoc();
-            if(howFarIncrement == 3)
-            {
-                howFar++;
-                howFarIncrement = 1;
-            }
         }
     }
 
@@ -294,23 +289,15 @@ public abstract class Ghost extends MovingGameObject {
         ArrayList rowDown = map.get(loc.getyLoc() + 1);
         if (facingDirection.equals(Direction.up)) {
             if ((int)rowUp.get(loc.getxLoc())> 0)
-                loc.setyLoc(loc.getyLoc() - howFar);
-            else
                 loc.setyLoc(loc.getyLoc() - 1);
         } else if (facingDirection.equals(Direction.right)) {
             if ((int)row.get(loc.getxLoc() + 1) > 0)
-                loc.setxLoc(loc.getxLoc() + howFar);
-            else
                 loc.setxLoc(loc.getxLoc() + 1);
         } else if (facingDirection.equals(Direction.down)) {
             if ((int)rowDown.get(loc.getxLoc()) > 0 || jailSkip)
-                loc.setyLoc(loc.getyLoc() + howFar);
-            else
                 loc.setyLoc(loc.getyLoc() + 1);
         } else if (facingDirection.equals(Direction.left)) {
             if ((int)row.get(loc.getxLoc() - 1) > 0)
-                loc.setxLoc(loc.getxLoc() - howFar);
-            else
                 loc.setxLoc(loc.getxLoc() - 1);
         }
     }
