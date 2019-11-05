@@ -24,16 +24,11 @@ class Networking {
     };
 
     // sends a request to the server for a new frame
-    static sendFrameData = () => {
+    static sendFrameRequest = () => {
         let data = {
-            //frameId: this.vars.frameNumber++
+            type: "send_frame"
         };
-
-        if(Util.lastKeyPressed) {
-            data["keycode"] = Util.lastKeyPressed;
-            Util.lastKeyPressed = null;
-        }
-        this._sendRequest(data, this.success);
+        this._sendRequest(data, Game.processFrame);
     };
 
     static sendMenuRequest = callback => {

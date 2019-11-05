@@ -67,7 +67,7 @@ class Game {
     };
 
     static startGameReady = () => {
-        document.paku.moveToStartingPos();
+        window.paku.moveToStartingPos();
         Ghost.moveToStartingLocations();
         // timeout gives entities time to move to their starting positions
         setTimeout(() => {
@@ -132,12 +132,20 @@ class Game {
         this.lastScoreEl.innerHtml = Util.padScore(newScore);
     };
 
+    static processFrame = (data) => {
+        console.log(data);
+        Board.updateScore(data.score);
+        Board.updateAllFruits(data.fruitList);
+        window.paku.update(data.paku);
+        Ghost.updateAllGhosts(data.ghosts);
+    };
+
     static newGame = () => {
       Board.newGame();
       this.startGameReady();
     };
 
-    static init() {
+    static init = () => {
         // set size of the view container
         Util.getRootCssElement();
         Util.heightAdjust();

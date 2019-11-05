@@ -1,7 +1,6 @@
 .ghost {
     background-size: cover;
     background-repeat: no-repeat;
-    --speed: 0.3;
 }
 
 .ghost::after,
