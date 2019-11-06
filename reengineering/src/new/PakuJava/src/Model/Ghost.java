@@ -460,9 +460,8 @@ public abstract class Ghost extends MovingGameObject {
 
     /**
      * setupTimers is used when the ghosts are first built to set the preset timers for each behavior level.
-     * These were derived by taking the pascal code's values, dividing them by 60 to get seconds, converting that value
-     * into milliseconds, and then dividing it by 40. 40 milliseconds is the speed of which each new frame is sent to
-     * the game from the Tomcat server. The last two of each one are there to match the pascal code.
+     * These were derived by taking the pascal code's values and trial and error to get a good feel on what felt like
+     * the best behavior timers. The last two of each one are there to match the pascal code.
      */
     public static void setupTimers()
     {
@@ -483,21 +482,21 @@ public abstract class Ghost extends MovingGameObject {
         level1behaviors.add(1);
         level1behaviors.add(1);
 
-        level2to4Behaviors.add(175);
-        level2to4Behaviors.add(500);
-        level2to4Behaviors.add(175);
-        level2to4Behaviors.add(500);
-        level2to4Behaviors.add(125);
-        level2to4Behaviors.add(21300);
+        level2to4Behaviors.add(30);
+        level2to4Behaviors.add(60);
+        level2to4Behaviors.add(30);
+        level2to4Behaviors.add(60);
+        level2to4Behaviors.add(10);
+        level2to4Behaviors.add(10000);
         level2to4Behaviors.add(1);
         level2to4Behaviors.add(1);
 
-        level5PlusBehaviors.add(125);
-        level5PlusBehaviors.add(500);
-        level5PlusBehaviors.add(125);
-        level5PlusBehaviors.add(500);
-        level5PlusBehaviors.add(125);
-        level5PlusBehaviors.add(21300);
+        level5PlusBehaviors.add(10);
+        level5PlusBehaviors.add(60);
+        level5PlusBehaviors.add(10);
+        level5PlusBehaviors.add(60);
+        level5PlusBehaviors.add(10);
+        level5PlusBehaviors.add(10000);
         level5PlusBehaviors.add(1);
         level5PlusBehaviors.add(1);
 

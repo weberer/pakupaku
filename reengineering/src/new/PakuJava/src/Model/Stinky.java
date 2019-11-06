@@ -34,15 +34,13 @@ public class Stinky extends Ghost
     /**
      * Stinky's unique Scatter movement is to go to the top right corner.
      * Stinky has the simplist Chase movement, which takes the current location of paku and subtract's Stinky's location
-     * to detemine distance. This value can be negative.
+     * to determine distance. This value can be negative.
      */
     @ Override
     public void move()   {
         Location paku = Paku.getInstance().getLoc();
 
         alternate = !alternate;
-        modX = loc.getxLoc() % 3;
-        modY = (loc.getyLoc() + 1) % 3;
         if(inJail())
         {
             jailMove();
