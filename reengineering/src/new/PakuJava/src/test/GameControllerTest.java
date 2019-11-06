@@ -189,8 +189,19 @@ public class GameControllerTest {
         paku.resetLocation();
     }
 
+
     @Test
-    public void spawnFruit() {
+    public void spawnFruit()
+    {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        gameData.setGamelevel(1);
+        gc.spawnFruit();
+        int objCode = (int)gameData.getMap().get(17).get(14); //code value at the coordinates where fruit should spawn
+
+        //Test whether fruit is inserted into the map at the proper location
+        Assert.assertEquals(gameData.getFRUIT_CODE(), objCode);
+
 
     }
 
