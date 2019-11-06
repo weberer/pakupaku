@@ -148,7 +148,6 @@ class Game {
     };
 
     static processFrame = (data) => {
-        console.log(data);
         Board.updateScore(data.score);
         Board.updateAllFruits(data.fruitList);
         Ghost.updateAllGhosts(data.ghosts);
