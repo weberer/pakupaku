@@ -209,8 +209,6 @@ public class GameController
         gameData.setGamelevel(gameLevel);
         gameData.resetDots();
         setUpFruitArray(gameLevel);
-        gameData.setGameStatus(GameStatus.play);
-        //update();
     }
 
     /**
@@ -318,7 +316,7 @@ public class GameController
 
         Controls input = getUserInput();
         dataToSend = gameData.getData();
-        if(gameData.getGameStatus() == GameStatus.pakuDiedButStillHasLifeLeft)
+        if(gameData.getGameStatus().equals(GameStatus.pakuDiedButStillHasLifeLeft)  || gameData.getGameStatus().equals(GameStatus.nextLevel))
         {
             gameData.setGameStatus(GameStatus.play);
         }
