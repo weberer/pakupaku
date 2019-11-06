@@ -62,9 +62,8 @@ public class GameData
 
     ///DO NOT DO NOT DO NOT MODIFY
     private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv"; //Use this with the Tomcat server
-   // private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv"; //Use this string for running test classes
-    //private final String SAMPLE_CSV_FILE_PATH = "c:\\users\\weber\\desktop\\firebreathingrubberduckies\\reengineering\\src\\new\\pakujava\\src\\asset\\map.csv";
-    //private final String SAMPLE_CSV_FILE_PATH = "J:\\CSSE\\se\\se3860\\firebreathingrubberduckies\\reengineering\\src\\new\\PakuJava\\src\\asset\\map.csv";
+    //private final String SAMPLE_CSV_FILE_PATH = "../webapps/PakuJava_Web_exploded/WEB-INF/classes/asset/map.csv"; //second variation of Tomcat Relative string
+    //private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv"; //Use this string for running test classes
 
 
     private static GameData data = new GameData();  //to make this class a Singleton
@@ -494,15 +493,30 @@ public class GameData
         this.fruitArray = fruitArray;
     }
 
-    public boolean checkForDot() {
-        ArrayList<Integer> eachrow = new ArrayList<Integer>();
-        return eachrow.contains(1);
+
+    /**
+     * Returns true if map has dots remaining
+     * Returns false if no dots remain, in which case it's time to go to the next level
+     * @return
+     */
+    public boolean dotsRemain()
+    {
+        for(int i = 0; i < map.size(); i++)
+        {
+            if(map.get(i).contains(DOT_CODE) || map.get(i).contains(LARGEDOT_CODE))
+                return true;
+        }
+        return false;
     }
 
-    public boolean checkForSuperDot() {
+    /*
+    public boolean checkForSuperDot()
+    {
         ArrayList<Integer> eachrow = new ArrayList<Integer>();
         return eachrow.contains(3);
     }
+    */
+
 
     public int getCurrentFrame() {
         return currentFrame;

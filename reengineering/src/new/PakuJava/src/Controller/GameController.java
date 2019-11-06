@@ -3,6 +3,8 @@ import Model.Ghost;
 import Model.Paku;
 import Model.GameStatus;
 import Model.*;
+
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,15 +56,14 @@ public class GameController
      */
     public void LoadMap()
     {
-        // For showing the dictionary. do not remove.
-        //File file = new File(".");
-        //for(String fileNames : file.list()) System.out.println(fileNames);
+        java.nio.file.Path relpath = java.nio.file.Paths.get(gameData.getSAMPLE_CSV_FILE_PATH());
+        String path = relpath.toAbsolutePath().toString();
 
-        //why are parentheses used here instead of braces??? --Evan 10/30
         if(!gameData.getMap().isEmpty())
             gameData.getMap().clear();
+
         try (
-                Reader reader = Files.newBufferedReader(Paths.get(gameData.getSAMPLE_CSV_FILE_PATH()));
+                Reader reader = Files.newBufferedReader(relpath.toAbsolutePath());
                 CSVReader csvReader = new CSVReader(reader);
         )
         {
@@ -385,7 +386,7 @@ public class GameController
             gameData.setExtraLives(2);
             paku.addLife();
         }
-        if(gameData.checkForDot() && gameData.checkForSuperDot())
+        if(!gameData.dotsRemain()) //if map contains no more dots, go to next level
           {
               gameData.setGameStatus(GameStatus.nextLevel); //update gameStatus to next level
               nextLevel();
