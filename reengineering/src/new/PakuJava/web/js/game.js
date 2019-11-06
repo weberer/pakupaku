@@ -88,7 +88,6 @@ class Game {
         this.setGameState(this.gameStates.play);
         this.setBoardState(this.boardStates.ready);
         let audioDuration = Util.playAudio("ready");
-        console.log(audioDuration);
         setTimeout(()=> {
             this.setBoardState(this.boardStates.play);
             callback();
@@ -160,8 +159,7 @@ class Game {
                 this.handleGameOver();
             else if (state === this.boardStates.lostLife)
             {
-                console.log("Lost Life");
-               // this.setBoardState(this.boardStates.lostLife);
+                this.setBoardState(this.boardStates.lostLife);
                 window.paku.handleLostLife();
             }
             else
