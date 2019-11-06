@@ -61,8 +61,8 @@ public class GameData
     private boolean fruitSpawned;
 
     ///DO NOT DO NOT DO NOT MODIFY
-    //private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv"; //Use this with the Tomcat server
-    private final String SAMPLE_CSV_FILE_PATH = "../webapps/PakuJava_Web_exploded/WEB-INF/classes/asset/map.csv"; //second variation of Tomcat Relative string
+    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv"; //Use this with the Tomcat server
+    //private final String SAMPLE_CSV_FILE_PATH = "../webapps/PakuJava_Web_exploded/WEB-INF/classes/asset/map.csv"; //second variation of Tomcat Relative string
     //private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv"; //Use this string for running test classes
 
 
@@ -166,8 +166,6 @@ public class GameData
                 mapJS.put(new JSONArray(Arrays.asList(eachrowAL)));
             });
 
-//TODO: (Board is the map) mao is a 2d arraylist, put the 2d arraylist into 2D Json Array
-            //todo this, convert arraylist to 2D collection, put collection into 2dJson Aray
 
 
             //Collection board = ;
@@ -251,7 +249,18 @@ public class GameData
             ghostsToSend.put("kinky", kinkyToSend);
             ghostsToSend.put("blaine", blaineToSend);
 
+
             dataToSend.put("ghosts", ghostsToSend);
+
+            JSONObject fruitToSend = new JSONObject();
+            if(fruit != null)
+                fruitToSend.put("active", true);
+            else
+                fruitToSend.put("fruit", false);
+            fruitToSend.put("type", gamelevel + 1);
+
+            dataToSend.put("fruit", fruitToSend);
+
         }
 
         catch (JSONException ex)
