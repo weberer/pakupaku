@@ -99,9 +99,12 @@ class Board {
     };
 
     static updateBonusFruit = (data) => {
-        if(data.active) // data.fruit is true when showing a fruit, else false
-            Util.setAttributeValue(this.bonusFruitEl, this.fruitAttrName, this.fruitMappings[data.type]);
+        let bonusDisplayType = this.fruitMappings["0"];
 
+        if(data.active) // data.fruit is true when showing a fruit, else false
+            bonusDisplayType = this.fruitMappings[data.type];
+
+        Util.setAttributeValue(this.bonusFruitEl, this.fruitAttrName, bonusDisplayType);
     };
 
     static clearFruit = () => {
