@@ -59,6 +59,7 @@ class Util {
                     break;
                 case "KeyQ": // TODO: REMOVE, DEBUG ONLY
                     this.stopInterval();
+                    window.paku.stopWaka(); // It's annoying if it continues
                     break;
                 case "KeyO":
                     Game.toggleSound();
