@@ -36,3 +36,4 @@ Part 2: Run
  + It will take at least 10 seconds to connect to the server, then the game menu should appear ina browser tab
  + Press Enter to start the game; can press ESC at any time to stop the game (this doesn't pause the game, it causes it to restart)
  + If an outofboundsexception is encountered after starting the game, go to GameData class and modify SAMPLE_CSV_FILE_PATH. There should be three options with two of them commented out. 
+
