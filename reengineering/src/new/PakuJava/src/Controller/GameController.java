@@ -208,7 +208,8 @@ public class GameController
         gameData.setGamelevel(gameLevel);
         gameData.resetDots();
         setUpFruitArray(gameLevel);
-        update();
+        gameData.setGameStatus(GameStatus.play);
+        //update();
     }
 
     /**
