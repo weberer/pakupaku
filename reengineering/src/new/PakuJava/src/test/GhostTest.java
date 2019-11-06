@@ -83,6 +83,25 @@ public class GhostTest {
         gameData.getGhostList().get(0).move();
         assertEquals(2, gameData.getGhostList().get(0).getLoc().getxLoc());
         assertEquals(14, gameData.getGhostList().get(0).getLoc().getyLoc());
+
+        try
+        {
+            Kinky k = new Kinky(gameData.getMap());
+        while (true) {
+            int oldX = k.getLoc().getxLoc();
+            int oldY = k.getLoc().getyLoc();
+            k.move();
+            if(k.getLoc().getyLoc() == oldY && k.getLoc().getxLoc() == oldX)
+            {
+                System.out.println("I'm stuck!");
+                System.out.println(k.getLoc().getyLoc() + " " + k.getLoc().getxLoc());
+            }
+        }
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 /**
  * These tests are the most important tests for the Ghost class to work. the next four tests test the corresponding

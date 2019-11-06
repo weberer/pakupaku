@@ -128,6 +128,9 @@ public class GameController
         //update();
         if(gameData.getDots() != gameData.getStartingDots())
             gameData.resetDots();
+        int[] fruits = new int[8];
+        fruits[7] = 1;
+        gameData.setFruitArray(fruits);
     }
 
 
@@ -147,10 +150,8 @@ public class GameController
 
         gameData.setGhostList(ghostList);
         gameData.getGhostList().get(0).setupTimers(); // Was Ghost.setupTimers() --Eric 11/4
-        setGhostGameDataReference();  //probably isn't needed --Evan 10/29
-        int[] fruits = new int[8];
-        fruits[7] = 1;
-        gameData.setFruitArray(fruits);
+        //setGhostGameDataReference();  //probably isn't needed --Evan 10/29
+
         for(Ghost ghost : ghostList)
         {
             ghost.startTimer();
@@ -185,12 +186,8 @@ public class GameController
     }
 
     private void resetGhosts(List<Ghost> ghostList) {
-        for(Ghost ghost : ghostList){
-            ghost.resetLocation();
-            if(ghost.getState().equals(GhostState.flee))
-                ghost.endingFleeProtocol();
-            ghost.startTimer();
-        }
+        gameData.getGhostList().clear();
+        spawnGhosts();
         ghostList.get(0).resetMultiplier(); // was Ghost.resetMultiplier(); --Eric 11/4
     }
 
@@ -204,18 +201,12 @@ public class GameController
 
         if(ghostList.size() > 0) { // if ghostList is of size 0, then the game has not yet started.
             gameData.getPaku().resetPaku();
-
             resetGhosts(ghostList); // New
-
-            for(Ghost ghost : ghostList){
-                ghost.resetLocation();
-                ghost.startTimer();
-            }
             ghostList.get(0).resetMultiplier();
         }
         int gamelevel = 0;
         gameData.setGamelevel(gamelevel);
-
+        LoadMap();
         int extraLives = 1;
         gameData.setExtraLives(extraLives);
 
