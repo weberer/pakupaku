@@ -331,6 +331,10 @@ public class GameController
 
         Controls input = getUserInput();
         dataToSend = gameData.getData();
+        if(gameData.getGameStatus() == GameStatus.pakuDiedButStillHasLifeLeft)
+        {
+            gameData.setGameStatus(GameStatus.play);
+        }
         if(input != Controls.escape && input != Controls.O && input
                 != Controls.enter && !gameData.getGameStatus().equals(GameStatus.mainMenu))
         {
