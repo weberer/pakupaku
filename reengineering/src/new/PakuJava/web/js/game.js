@@ -40,8 +40,10 @@ class Game {
     static highScoreListCount = 5;
     static isSoundOn = true; // sound defaults to 'ON'
 
+    static gameOverDuration = 5000; // Time the 'game over' text is show. 5s.
+
     static setBoardState(state) {
-        if(!(state in this.boardStates))
+        if(!(Object.values(this.boardStates).includes(state)))
             throw "Error: " + state + " is not a valid attribute for " + this.boardEl.id;
 
         Util.setAttributeValue(this.boardEl, this.htmlAttrName, state);
@@ -49,7 +51,7 @@ class Game {
     }
 
     static setGameState(state) {
-        if(!(state in this.gameStates))
+        if(!(Object.values(this.gameStates).includes(state)))
             throw "Error: " + state + " is not a valid attribute for " + this.gameEl.id;
 
         Util.setAttributeValue(this.gameEl, this.htmlAttrName, state);
@@ -59,7 +61,7 @@ class Game {
     static openMenu = () => {
         this.setGameState(this.gameStates.menu);
         Board.resetPellets();
-        Board.setLifeCount(Board.startingLifeCount);
+        Board.setLifeCount(Board.menuLifeCount);
         Board.updateAllFruits(this.defaultFruit);
         Util.stopAudio();
         Util.stopInterval();
@@ -77,6 +79,7 @@ class Game {
             this.setBoardState(this.boardStates.ready);
             let audioDuration = Util.playAudio("ready");
             setTimeout(this.startGame, audioDuration);
+            Board.setLifeCount(Board.startingLifeCount);
             Networking.sendGameReadyRequest((data) => {
                 Board.updateHighScore(data.highscore);
             });
@@ -141,6 +144,22 @@ class Game {
         window.paku.update(data.paku);
         Ghost.updateAllGhosts(data.ghosts);
         Board.updatePellets(data.board);
+        if(data.game_state !== this.boardStates.play) {
+            Util.stopInterval(); // state has changed, stop requesting new frames and deal with this one.
+
+            let state = data.game_state;
+            console.log(state);
+
+            if(state === this.boardStates.gameOver)
+                this.handleGameOver();
+        }
+    };
+
+    static handleGameOver = () => {
+        Util.stopInterval();
+        this.gameOver();
+        setTimeout(this.openMenu, this.gameOverDuration);
+
     };
 
     static newGame = () => {
