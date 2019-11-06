@@ -59,6 +59,8 @@ public class GameController
         //for(String fileNames : file.list()) System.out.println(fileNames);
 
         //why are parentheses used here instead of braces??? --Evan 10/30
+        if(!gameData.getMap().isEmpty())
+            gameData.getMap().clear();
         try (
                 Reader reader = Files.newBufferedReader(Paths.get(gameData.getSAMPLE_CSV_FILE_PATH()));
                 CSVReader csvReader = new CSVReader(reader);
@@ -81,6 +83,7 @@ public class GameController
                 gameData.resetEachRow();
                 //map.add(eachrow);
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
