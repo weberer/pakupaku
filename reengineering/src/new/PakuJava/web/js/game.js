@@ -58,6 +58,7 @@ class Game {
 
     static openMenu = () => {
         this.setGameState(this.gameStates.menu);
+        Board.resetPellets();
         Board.setLifeCount(Board.startingLifeCount);
         Board.updateAllFruits(this.defaultFruit);
         Util.stopAudio();
