@@ -158,15 +158,15 @@ class Game {
             Util.stopInterval(); // state has changed, stop requesting new frames and deal with this one.
             let state = data.game_state;
 
-            if(state === this.boardStates.gameOver)
+            if(state === this.boardStates.gameOver) {
                 this.handleGameOver();
-            else if (state === this.boardStates.lostLife)
-            {
-                this.setBoardState(this.boardStates.lostLife);
-                window.paku.handleLostLife();
+                window.paku.handleLostLife(false);
             }
-            else if(state === this.boardStates.newLevel)
-            {
+            else if (state === this.boardStates.lostLife) {
+                this.setBoardState(this.boardStates.lostLife);
+                window.paku.handleLostLife(true);
+            }
+            else if(state === this.boardStates.newLevel) {
                 this.setBoardState(this.boardStates.newLevel);
                 Board.updateAllFruits([0,0,0,0,0,0,0,0]); // Empty Fruits
                 Util.stopAllAudio();

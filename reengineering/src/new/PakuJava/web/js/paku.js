@@ -38,16 +38,17 @@ class Paku extends MovingEntity {
         me.changeState(state);
     };
 
-    handleLostLife = () => {
+    handleLostLife = (newLife) => {
         this.stopWaka();
         let audioDuration = Util.playAudio('lost_life');
         this.changeState("lost_life");
+        if(newLife)
             setTimeout(() => {
                 this.moveToStartingPos();
                 Ghost.moveToStartingLocations();
-                setTimeout(() => {
-                    Game.setGameReady(Util.startInterval);
-                }, 1000); // Timeout helps entities move to new locations without showing it.
+                    setTimeout(() => {
+                        Game.setGameReady(Util.startInterval);
+                    }, 1000); // Timeout helps entities move to new locations without showing it.
         }, audioDuration);
     };
 
