@@ -186,6 +186,7 @@ public class GameController
         List<Ghost> ghostList = gameData.getGhostList();
         Paku paku = gameData.getPaku();
         paku.resetLocation();
+        paku.setDir(Direction.left);
         resetGhosts(ghostList);
     }
 
