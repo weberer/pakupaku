@@ -212,7 +212,7 @@ public class GameController
         LoadMap();
         int extraLives = 1;
         gameData.setExtraLives(extraLives);
-
+        gameData.getPaku().setDir(Direction.left);
         //tells the Score class to store the current score int the score list for high score tracking purposes, then resets current score to 0
         gameData.getScore().reset();
 
@@ -230,6 +230,7 @@ public class GameController
         resetGhosts(ghostList);
         int gameLevel = gameData.getGamelevel() + 1;
         LoadMap();
+        paku.setDir(Direction.left);
         gameData.setGamelevel(gameLevel);
         gameData.resetDots();
         setUpFruitArray(gameLevel);
