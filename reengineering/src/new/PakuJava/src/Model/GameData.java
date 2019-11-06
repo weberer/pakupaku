@@ -61,8 +61,8 @@ public class GameData
     private boolean fruitSpawned;
 
     ///DO NOT DO NOT DO NOT MODIFY
-    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv"; //Use this with the Tomcat server
-    //private final String SAMPLE_CSV_FILE_PATH = "../webapps/PakuJava_Web_exploded/WEB-INF/classes/asset/map.csv"; //second variation of Tomcat Relative string
+    //private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv"; //Use this with the Tomcat server
+    private final String SAMPLE_CSV_FILE_PATH = "../webapps/PakuJava_Web_exploded/WEB-INF/classes/asset/map.csv"; //second variation of Tomcat Relative string
     //private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv"; //Use this string for running test classes
 
 
