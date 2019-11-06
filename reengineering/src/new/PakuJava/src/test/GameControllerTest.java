@@ -3,6 +3,7 @@ package test;
 
 import Controller.Controls;
 import Controller.GameController;
+import Model.Direction;
 import Model.GameData;
 import Model.Location;
 import Model.Paku;
@@ -138,7 +139,71 @@ public class GameControllerTest {
 
     }
 
+    /**
+     * Tests that the fruitArray properly builds based on the level.
+     */
+    @Test
+    public void setUpFruitArray() {
+        GameData gd = GameData.getInstance();
+        GameController gc = new GameController();
+        gc.testFruitArray();
+        assertEquals(4, gd.getFruitArray()[7]);
+    }
 
+    @Test
+    public void pakuUpdate() {
+
+    }
+
+    @Test
+    public void collideWithGhostProtocol() {
+
+    }
+
+    @Test
+    public void ghostsMove() {
+
+    }
+    @Test
+    public void checkFlee() {
+
+    }
+
+    @Test
+    public void collideWithGhost() {
+
+    }
+
+    @Test
+    public void pakuMove() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Paku paku = Paku.getInstance();
+        paku.setGameData(gameData);
+        paku.setMap(gameData.getMap());
+        gc.pakuMove(Direction.left);
+
+        ; //move unit in default left direction
+        int currentX = paku.getLoc().getxLoc();
+        Assert.assertEquals(currentX, paku.getSTARTING_X() - 1);
+        paku.resetLocation();
+    }
+
+
+    @Test
+    public void spawnFruit()
+    {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        gameData.setGamelevel(1);
+        gc.spawnFruit();
+        int objCode = (int)gameData.getMap().get(17).get(14); //code value at the coordinates where fruit should spawn
+
+        //Test whether fruit is inserted into the map at the proper location
+        Assert.assertEquals(gameData.getFRUIT_CODE(), objCode);
+
+
+    }
 
 
 

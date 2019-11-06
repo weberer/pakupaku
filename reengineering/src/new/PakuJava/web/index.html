@@ -38,7 +38,7 @@
     </svg>
     <audio id = "audio_ready" src="resources/audio/ready.wav" type="audio/wav"></audio>
     <audio id = "audio_lost_life" src="resources/audio/lost_life.wav" type="audio/wav"></audio>
-    <audio id = "audio_eating" src="resources/audio/eating.wav" type="audio/wav"></audio>
+    <audio loop = "loop" id = "audio_eating" src="resources/audio/eating.mp3" type="audio/wav"></audio>
     <div id="display" class="container" state="game">
         <div id="left_container" class="container">
             <div id="game_board" state="ready" >
@@ -152,7 +152,7 @@
                     <div id="p5_s1" style="flex: 2"></div>
                     <div id="p5_8" class="pellet"></div>
                     <div id="p5_s2" style="flex: 8"></div>
-                    <div id="p5_7" class="pellet"></div>
+                    <div id="p5_17" class="pellet"></div>
                     <div id="p5_s3" style="flex: 2"></div>
                     <div id="p5_20" class="pellet"></div>
                     <div id="p5_s4" style="flex: 4"></div>
@@ -255,9 +255,11 @@
                 <div id="row_16" class="game_board_row">
                     <div id="p16_s0" style="flex: 5"></div>
                     <div id="p16_5" class="pellet"></div>
-                    <div id="p16_s1" style="flex: 14"></div>
+                    <div id="p16_s1" style="flex: 6"></div>
+                    <div id="bonus_fruit" class="fruit" type="empty" style="flex: 2"></div>
+                    <div id="p16_s2" style="flex: 6"></div>
                     <div id="p16_20" class="pellet"></div>
-                    <div id="p16_s2" style="flex: 5"></div>
+                    <div id="p16_s3" style="flex: 5"></div>
                 </div>
                 <div id="row_17" class="game_board_row">
                     <div id="p17_s0" style="flex: 5"></div>
@@ -307,7 +309,7 @@
                     <div id="p20_s1" style="flex: 5"></div>
                     <div id="p20_11" class="pellet"></div>
                     <div id="p20_s2" style="flex: 2"></div>
-                    <div id="p20_4" class="pellet"></div>
+                    <div id="p20_14" class="pellet"></div>
                     <div id="p20_s3" style="flex: 5"></div>
                     <div id="p20_20" class="pellet"></div>
                     <div id="p20_s4" style="flex: 4"></div>
@@ -387,7 +389,7 @@
                     <div id="p24_s4" style="flex:2"></div>
                     <div id="p24_20" class="pellet"></div>
                     <div id="p24_s5" style="flex:2"></div>
-                    <div id="p24_3" class="pellet"></div>
+                    <div id="p24_23" class="pellet"></div>
                     <div id="p24_s6" style="flex:2"></div>
                 </div>
                 <div id="row_25" class="game_board_row">

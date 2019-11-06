@@ -45,12 +45,15 @@ public class Blaine extends Ghost
     @Override
     public void move() {
         Location paku = Paku.getInstance().getLoc();
-        alternate = !alternate;
         if (inJail()) {
             jailMove();
             exitCounter--;
         } else {
+            warp = false;
+            alternate = !alternate;
+            jailSkip = false;
             checkWarp();
+            setWarpFlag();
             if (state.equals(GhostState.scatter)) {
                 scatterMove(SCATTER_X, SCATTER_Y);
             } else if (state.equals(GhostState.chase)) {
@@ -88,5 +91,9 @@ public class Blaine extends Ghost
             gameData.setBlaineBlink(true);
         else if(gameData.isBlaineBlink() && !isBlinking())
             gameData.setBlaineBlink(false);
+    }
+    private void setWarpFlag()
+    {
+        gameData.setBlaineWarp(warp);
     }
 }

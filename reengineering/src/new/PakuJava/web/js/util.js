@@ -14,8 +14,6 @@ class Util {
             this.setPropertyValue("global.css", ":root","--screen_height", (width / this.aspectRatio.width * this.aspectRatio.height)+ "px");
     };
 
-    static currentlyPlayingAudio = null;
-
     // Sets the value of a given CSS property/value. Throws an exception if no such property exists.
     static setPropertyValue = (sheetName, elementName, propertyName, newValue) => {
         let cssElement = this.getCssElement(sheetName, elementName);
@@ -61,6 +59,7 @@ class Util {
                     break;
                 case "KeyQ": // TODO: REMOVE, DEBUG ONLY
                     this.stopInterval();
+                    window.paku.stopWaka(); // It's annoying if it continues
                     break;
                 case "KeyO":
                     Game.toggleSound();
@@ -100,25 +99,44 @@ class Util {
 
     // plays a sound file associated with an html element. returns the duration of the sound file in ms
     static playAudio = (name) => {
-        if(Game.isSoundOn)
+        let audio = document.getElementById('audio_' + name);
+        if(!audio)
+            throw "Error: An <audio> element with id audio_" + name + " does not exist.";
+        let duration = audio.duration * 1000; // convert returned s into ms
+        audio.currentTime = 0;
+        audio.play();
+        return duration
+    };
+
+    static stopAudio = (name) => {
+        if(name)
         {
-            let audio = document.getElementById('audio_' + name);
-            if(!audio)
-                throw "Error: An <audio> element with id audio_" + name + " does not exist.";
-            let duration = audio.duration * 1000; // convert returned s into ms
-            this.currentlyPlayingAudio = audio;
-            audio.play();
-            setTimeout(this.stopAudio, duration);
-            return duration
+            let audio = name;
+            if(typeof name === "string")
+                audio = document.getElementById('audio_' + name); // get html Element if type string
+            else if(typeof name !== "object")
+                throw "Error: Value of 'name' in Util.stopAudio() must be either of type string or type object.";
+
+            if(audio) {
+                audio.pause();
+                audio.currentTime = 0; // fixes bug in blink based browsers where audio doesn't rewind after playing
+            }
         }
     };
 
-    static stopAudio = () => {
-        if(this.currentlyPlayingAudio)
-        {
-            this.currentlyPlayingAudio.pause();
-            this.currentlyPlayingAudio = null;
-        }
+    static stopAllAudio = () => {
+      let audioElements = document.getElementsByTagName('audio');
+      Array.from(audioElements).forEach((element) => {
+          this.stopAudio(element);
+      })
+    };
+
+    // Takes in volume level from 0-1
+    static setAudioVolume = (volume) => {
+        let audioElements = document.getElementsByTagName("audio");
+        Array.from(audioElements).forEach((element) => {
+            element.volume = volume;
+        });
     };
 
     // pads a string or integer out to length 8 with '0''s

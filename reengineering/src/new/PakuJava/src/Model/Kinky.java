@@ -49,8 +49,11 @@ public class Kinky extends Ghost {
             jailMove();
             exitCounter--;
         } else {
+            warp = false;
             alternate = !alternate;
+            jailSkip = false;
             checkWarp();
+            setWarpFlag();
             if (state.equals(GhostState.scatter)) {
                 scatterMove(SCATTER_X, SCATTER_Y);
             } else if (state.equals(GhostState.chase)) {
@@ -103,5 +106,9 @@ public class Kinky extends Ghost {
             gameData.setKinkyBlink(true);
         else if(gameData.isKinkyBlink() && !isBlinking())
             gameData.setKinkyBlink(false);
+    }
+    public void setWarpFlag()
+    {
+        gameData.setKinkyWarp(warp);
     }
 }

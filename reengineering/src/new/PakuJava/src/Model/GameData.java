@@ -61,9 +61,9 @@ public class GameData
     private boolean fruitSpawned;
 
     ///DO NOT DO NOT DO NOT MODIFY
-    private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv"; //Use this with the Tomcat server
+    //private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv"; //Use this with the Tomcat server
     //private final String SAMPLE_CSV_FILE_PATH = "../webapps/PakuJava_Web_exploded/WEB-INF/classes/asset/map.csv"; //second variation of Tomcat Relative string
-    //private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv"; //Use this string for running test classes
+    private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv"; //Use this string for running test classes
 
 
     private static GameData data = new GameData();  //to make this class a Singleton
@@ -74,6 +74,14 @@ public class GameData
     private boolean stinkyBlink;
     private boolean hinkyBlink;
     private boolean kinkyBlink;
+
+    private boolean hinkyWarp;
+    private boolean kinkyWarp;
+    private boolean stinkyWarp;
+    private boolean blaineWarp;
+    private boolean pakuWarp;
+
+    private boolean pakuMoved;
 
     JSONObject dataToSend;
 
@@ -160,8 +168,6 @@ public class GameData
                 mapJS.put(new JSONArray(Arrays.asList(eachrowAL)));
             });
 
-//TODO: (Board is the map) mao is a 2d arraylist, put the 2d arraylist into 2D Json Array
-            //todo this, convert arraylist to 2D collection, put collection into 2dJson Aray
 
 
             //Collection board = ;
@@ -188,6 +194,8 @@ public class GameData
             pakuToSend.put("location", pakuLocationToSend);
             //pakuToSend.put("direction", pakuDir());
             pakuToSend.put("lives", paku.getRemainingLife());
+            pakuToSend.put("warping", pakuWarp);
+            pakuToSend.put("moved", pakuMoved);
 
             dataToSend.put("paku", pakuToSend);
 
@@ -203,6 +211,7 @@ public class GameData
             stinkyToSend.put("location", stinkyLocationToSend);
             stinkyToSend.put("ghost_state", GhostState.castState(getStinky().getState()));
             stinkyToSend.put("blinking", isStinkyBlink());
+            stinkyToSend.put("warping", stinkyWarp);
 
             JSONObject hinkyLocationToSend = new JSONObject();
             hinkyLocationToSend.put("x", getHinky().getLoc().getxLoc());
@@ -213,6 +222,7 @@ public class GameData
             hinkyToSend.put("location", hinkyLocationToSend);
             hinkyToSend.put("ghost_state", GhostState.castState(getHinky().getState()));
             hinkyToSend.put("blinking", isHinkyBlink());
+            hinkyToSend.put("warping", hinkyWarp);
 
             JSONObject kinkyLocationToSend = new JSONObject();
             kinkyLocationToSend.put("x", getKinky().getLoc().getxLoc());
@@ -223,6 +233,7 @@ public class GameData
             kinkyToSend.put("location", kinkyLocationToSend);
             kinkyToSend.put("ghost_state", GhostState.castState(getKinky().getState()));
             kinkyToSend.put("blinking", isKinkyBlink());
+            kinkyToSend.put("warping", kinkyWarp);
 
             JSONObject blaineLocationToSend = new JSONObject();
             blaineLocationToSend.put("x", getBlaine().getLoc().getxLoc());
@@ -233,6 +244,7 @@ public class GameData
             blaineToSend.put("location", blaineLocationToSend);
             blaineToSend.put("ghost_state", GhostState.castState(getBlaine().getState()));
             blaineToSend.put("blinking", isBlaineBlink());
+            blaineToSend.put("warping", blaineWarp);
 
             JSONObject ghostsToSend = new JSONObject();
             ghostsToSend.put("stinky", stinkyToSend);
@@ -240,7 +252,18 @@ public class GameData
             ghostsToSend.put("kinky", kinkyToSend);
             ghostsToSend.put("blaine", blaineToSend);
 
+
             dataToSend.put("ghosts", ghostsToSend);
+
+            JSONObject fruitToSend = new JSONObject();
+            if(fruit != null)
+                fruitToSend.put("active", true);
+            else
+                fruitToSend.put("fruit", false);
+            fruitToSend.put("type", gamelevel + 1);
+
+            dataToSend.put("fruit", fruitToSend);
+
         }
 
         catch (JSONException ex)
@@ -540,6 +563,7 @@ public class GameData
      */
     public void resetDots()
     {
+        fruit = null;
         dots = startingDots;
         fruitSpawned = false;
     }
@@ -568,4 +592,31 @@ public class GameData
     {
         return startingDots;
     }
+
+    public void setPakuWarp(boolean warp)
+    {
+        this.pakuWarp = warp;
+    }
+    public void setKinkyWarp(boolean warp)
+    {
+        this.kinkyWarp = warp;
+    }
+    public void setStinkyWarp(boolean warp)
+    {
+        this.stinkyWarp = warp;
+    }
+    public void setHinkyWarp(boolean warp)
+    {
+        this.hinkyWarp = warp;
+    }
+    public void setBlaineWarp(boolean warp)
+    {
+        this.blaineWarp = warp;
+    }
+
+    public void setPakuMoved(boolean moved)
+    {
+        this.pakuMoved = moved;
+    }
+
 }

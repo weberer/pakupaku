@@ -7,14 +7,14 @@ class Paku extends MovingEntity {
 
     static attrNames = {
         direction: 'direction',
-        status: 'status'
+        state: 'state'
     };
 
     // valid status for paku
-    static statuses = ["go, stop"];
+    static states = ["go", "stop", "warping"];
 
-    // updates 'status' of pauk
-    changeStatus = status => this.setAttr(this.constructor.attrNames.status, status);
+    // updates 'state' of pauk
+    changeState = state => this.setAttr(this.constructor.attrNames.state, state);
 
     moveToStartingPos = () => {
         let me = window.paku;
@@ -24,15 +24,21 @@ class Paku extends MovingEntity {
     };
 
     update = (data) => {
+        console.log(data);
         let me = window.paku;
+        let state = "go";
         me.setX(data.location.x - 1); // -1 in x and y accounts for the UI not using game boarders in its calculations
         me.setY(data.location.y - 1);
         me.changeDirection(data.location.direction);
         Board.setLifeCount(data.lives);
+        if(data.warping)
+            state = "warping";
+        me.changeState(state);
     };
 
     handleLostLife = () => {
-        let audioDuration = Util.playAudio('lost_life') || 500;
+        this.stopWaka();
+        let audioDuration = Util.playAudio('lost_life') || 1.4;
         this.moveToStartingPos();
         Ghost.moveToStartingLocations();
         console.log(audioDuration);
@@ -40,6 +46,10 @@ class Paku extends MovingEntity {
             Game.setGameReady(Util.startInterval);
         }, audioDuration);
     };
+
+    startWaka = () => { Util.playAudio("eating"); };
+
+    stopWaka = () => { Util.stopAudio("eating"); };
 
 
     // call in init method

@@ -20,12 +20,13 @@ public abstract class MovingGameObject {
 
 	protected GameData gameData;  //used to centralize the locations of all MovingGameObjects
 
-	protected int modX, modY;
+	protected boolean warp;
 
 	public MovingGameObject(States state, Direction dir){
 		//loc = new Location(x, y);
 		this.state = state;
 		this.facingDirection = dir;
+		warp = false;
 	}
 
 	public MovingGameObject(){

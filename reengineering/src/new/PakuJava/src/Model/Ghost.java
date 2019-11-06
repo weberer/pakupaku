@@ -155,11 +155,13 @@ public abstract class Ghost extends MovingGameObject {
             if (loc.getxLoc() == FAR_RIGHT && loc.getyLoc() == WARP_LEVEL) {
                 loc.setxLoc(1);
                 facingDirection = Direction.right;
+                warp = true;
             }
         } else if (facingDirection.equals(Direction.left)) {
             if (loc.getxLoc() == 1 && loc.getyLoc() == WARP_LEVEL) {
                 loc.setxLoc(FAR_RIGHT);
                 facingDirection = Direction.left;
+                warp = true;
             }
         }
     }
@@ -611,65 +613,10 @@ public abstract class Ghost extends MovingGameObject {
     }
 
     /**
-     * ForceLeftRight fixes a stuck ghost moving left or right being unable to turn. Used as an additional safety measure.
+     * updateTimer is a method that handles state switching in the ghosts, based off of the level and the timerIndex.
+     * once a timer hits 0, the ghost will be set to the next state in rotation, and the timer will be set to that level's
+     * corresponding timer. Else the timer will be decremented.
      */
-    private void ForceLeftRight()
-    {
-        if((int)map.get(loc.getyLoc()).get(loc.getxLoc() - 1) == 0 || (int)map.get(loc.getyLoc()).get(loc.getxLoc() + 1) == 0)
-        {
-            if((int)map.get(loc.getyLoc() - 1).get(loc.getxLoc()) > 0) {
-                if ((int) map.get(loc.getyLoc() + 1).get(loc.getxLoc()) > 0) {
-                    if(changeY > 0)
-                    {
-                        facingDirection = Direction.down;
-                        loc.setxLoc(loc.getyLoc() + 1);
-                    }
-                    else
-                    {
-                        facingDirection = Direction.up;
-                        loc.setyLoc(loc.getyLoc() - 1);
-                    }
-                } else {
-                    facingDirection = Direction.up;
-                    loc.setyLoc(loc.getyLoc() - 1);
-                }
-            }
-            else if ((int) map.get(loc.getyLoc()).get(loc.getxLoc() + 1) > 0)
-            {
-                facingDirection = Direction.down;
-                loc.setyLoc(loc.getyLoc() + 1);
-            }
-
-        }
-    }
-    /**
-     * ForceUpDown fixes a stuck ghost moving up or down being unable to turn. Used as an additional safety measure.
-     */
-    private void ForceUpDown() {
-        if((int)map.get(loc.getyLoc()).get(loc.getxLoc() - 1) > 0) {
-            if ((int) map.get(loc.getyLoc()).get(loc.getxLoc() + 1) > 0) {
-                if(changeX > 0)
-                {
-                    facingDirection = Direction.right;
-                    loc.setxLoc(loc.getxLoc() + 1);
-                }
-                else
-                {
-                    facingDirection = Direction.left;
-                    loc.setxLoc(loc.getxLoc() - 1);
-                }
-            } else {
-                facingDirection = Direction.left;
-                loc.setxLoc(loc.getxLoc() - 1);
-            }
-        }
-        else if ((int) map.get(loc.getyLoc()).get(loc.getxLoc() + 1) > 0)
-        {
-            facingDirection = Direction.right;
-            loc.setxLoc(loc.getxLoc() + 1);
-        }
-    }
-
     private void updateTimer()
     {
         if(timer == 0) {

@@ -62,6 +62,7 @@ class Game {
     static openMenu = () => {
         this.setGameState(this.gameStates.menu);
         Board.resetPellets();
+        Util.stopAllAudio();
         Board.setLifeCount(Board.menuLifeCount);
         Board.updateAllFruits(this.defaultFruit);
         Util.stopAudio();
@@ -88,9 +89,9 @@ class Game {
         this.setGameState(this.gameStates.play);
         this.setBoardState(this.boardStates.ready);
         let audioDuration = Util.playAudio("ready");
-        console.log(audioDuration);
         setTimeout(()=> {
             this.setBoardState(this.boardStates.play);
+            window.paku.startWaka();
             callback();
         }, audioDuration);
     };
@@ -120,9 +121,9 @@ class Game {
             Util.setAttributeValue(el, this.htmlAttrName, state);
 
         this.isSoundOn = state; // update JS sound State.
-
-        if(!state && Util.currentlyPlayingAudio) // if stopping audio, and audio is currently playing, stop playback now
-            Util.stopAudio();
+        Util.setAudioVolume(this.isSoundOn ? 1 : 0); // 1=fullvolume if sound on, 0=mute of sound off
+        //if(!state && Util.currentlyPlayingAudio) // if stopping audio, and audio is currently playing, stop playback now
+        //    Util.stopAudio();
     };
 
     static toggleSound = () => { this.setSound(!this.isSoundOn); };
@@ -152,6 +153,7 @@ class Game {
         window.paku.update(data.paku);
         Ghost.updateAllGhosts(data.ghosts);
         Board.updatePellets(data.board);
+        Board.updateBonusFruit(data.fruit);
         if(data.game_state !== this.boardStates.play) {
             Util.stopInterval(); // state has changed, stop requesting new frames and deal with this one.
             let state = data.game_state;
@@ -160,8 +162,7 @@ class Game {
                 this.handleGameOver();
             else if (state === this.boardStates.lostLife)
             {
-                console.log("Lost Life");
-               // this.setBoardState(this.boardStates.lostLife);
+                this.setBoardState(this.boardStates.lostLife);
                 window.paku.handleLostLife();
             }
             else
@@ -171,6 +172,7 @@ class Game {
 
     static handleGameOver = () => {
         Util.stopInterval();
+        Util.playAudio("lost_life");
         this.gameOver();
         setTimeout(this.openMenu, this.gameOverDuration);
 

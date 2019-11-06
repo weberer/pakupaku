@@ -28,6 +28,9 @@ class Board {
     static emptyFruit = "none";
     static fruitCount = 8;
 
+    static bonusFruitElId = "bonus_fruit";
+    static bonusFruitEl = null;
+
     static gameHighScoreElId = "high_score";
     static gameHighScoreEl = null;
     static gameScoreElId = "your_score";
@@ -95,6 +98,15 @@ class Board {
         Util.setAttributeValue(el, this.fruitAttrName, type);
     };
 
+    static updateBonusFruit = (data) => {
+        let bonusDisplayType = this.fruitMappings["0"];
+
+        if(data.active) // data.fruit is true when showing a fruit, else false
+            bonusDisplayType = this.fruitMappings[data.type];
+
+        Util.setAttributeValue(this.bonusFruitEl, this.fruitAttrName, bonusDisplayType);
+    };
+
     static clearFruit = () => {
       for(let i = 0; i < this.fruitCount; i++)
           this.updateFruit(i, this.emptyFruit);
@@ -131,6 +143,7 @@ class Board {
         //get score elements
         this.gameScoreEl = document.getElementById(this.gameScoreElId);
         this.gameHighScoreEl = document.getElementById(this.gameHighScoreElId);
+        this.bonusFruitEl = document.getElementById(this.bonusFruitElId);
     };
 
     static newGame = () => {

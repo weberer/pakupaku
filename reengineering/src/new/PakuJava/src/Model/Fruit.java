@@ -6,7 +6,7 @@
 package Model;
 
 /**
- *
+ * Handles the construction of fruit objects and holds point value data for each type of fruit
  * @author kruge
  */
 public class Fruit
@@ -40,6 +40,11 @@ public class Fruit
     }
     private Fruits fruit;
     private int score;
+
+    /**
+     * Constructs the fruit, the type of which depends on the level of the game
+     * @param level
+     */
     public Fruit(int level)
     {
         if(level == CHERRY)
