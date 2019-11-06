@@ -138,9 +138,15 @@ public class GameControllerTest {
 
     }
 
+    /**
+     * Tests that the fruitArray properly builds based on the level.
+     */
     @Test
     public void setUpFruitArray() {
-
+        GameData gd = GameData.getInstance();
+        GameController gc = new GameController();
+        gc.testFruitArray();
+        assertEquals(4, gd.getFruitArray()[7]);
     }
 
     @Test
