@@ -459,7 +459,7 @@ public class GameController
         Score score = gameData.getScore();
         GameStatus gameStatus;// = gameData.getGameStatus();
         for(Ghost ghost : ghostList){
-            if(!ghost.getState().equals(GhostState.flee) || !ghost.getState().equals(GhostState.eaten)) {
+            if(!ghost.getState().equals(GhostState.flee) && !ghost.getState().equals(GhostState.eaten)) {
                 if(paku.getLoc().getxLoc() == ghost.getLoc().getxLoc() && paku.getLoc().getyLoc() == ghost.getLoc().getyLoc()) {
                     paku.substractLife();
                     death = true;
