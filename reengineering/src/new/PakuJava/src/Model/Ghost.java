@@ -469,13 +469,13 @@ public abstract class Ghost extends MovingGameObject {
         frightTimers = new ArrayList<>();
         blinkTimers = new ArrayList<>();
 
-        level1behaviors.add(175);
-        level1behaviors.add(500);
-        level1behaviors.add(175);
-        level1behaviors.add(500);
-        level1behaviors.add(125);
-        level1behaviors.add(500);
-        level1behaviors.add(125);
+        level1behaviors.add(30);
+        level1behaviors.add(60);
+        level1behaviors.add(30);
+        level1behaviors.add(60);
+        level1behaviors.add(10);
+        level1behaviors.add(100);
+        level1behaviors.add(10);
         level1behaviors.add(1);
         level1behaviors.add(1);
 
