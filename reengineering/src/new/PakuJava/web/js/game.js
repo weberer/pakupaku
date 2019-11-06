@@ -168,8 +168,10 @@ class Game {
             }
             else if(state === this.boardStates.newLevel)
             {
-                console.log("NEW LEVEL!!");
                 this.setBoardState(this.boardStates.newLevel);
+                Board.updateAllFruits([0,0,0,0,0,0,0,0]); // Empty Fruits
+                Util.stopAllAudio();
+                setTimeout(()=>{this.setGameReady(Util.startInterval)}, 3500);
             }
             else
                 console.log(state);

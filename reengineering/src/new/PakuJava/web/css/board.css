@@ -13,6 +13,10 @@
     
 }
 
+#game_board[state="new_level"] * {
+    opacity: 0;
+}
+
 #game_board::before {
     font-family: var(--font_family);
     font-size: var(--font_size);
@@ -21,6 +25,32 @@
     align-self: center;
     display: block;
     top: 51%;
+}
+
+@keyframes new-level-blink {
+    0%, 50.999% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
+#game_board::after {
+    opacity: 0;
+    content:"";
+    display: block;
+    height: 50%;
+    position: absolute;
+    width: calc(var(--display_width) / 1.8);
+    margin-left: -3%;
+    top: 0;
+    height: var(--screen_height);
+    backdrop-filter: brightness(20) grayscale(1);
+}
+
+#game_board[state="new_level"]::after {
+    animation: new-level-blink 1s 0s 3;
 }
 
 #game_board[state="game_over"]::before {

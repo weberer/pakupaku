@@ -12,7 +12,6 @@ class Paku extends MovingEntity {
 
     // valid status for paku
     static states = ["go", "stop", "warping"];
-    wakaing = false;
 
     // updates 'state' of pauk
     changeState = state => this.setAttr(this.constructor.attrNames.state, state);
@@ -33,11 +32,9 @@ class Paku extends MovingEntity {
         Board.setLifeCount(data.lives);
         if(data.warping)
             state = "warping";
-        else if(!data.moved) {
+        else if(!data.moved)
             state = "stop";
-            me.stopWaka();
-        }
-        me.startWaka();
+
         me.changeState(state);
     };
 
@@ -51,19 +48,9 @@ class Paku extends MovingEntity {
         }, audioDuration);
     };
 
-    startWaka = () => {
-        if(!this.wakaing)
-        {
-            Util.playAudio("eating");
-            this.wakaing = true;
-        }
-    };
+    startWaka = () => { Util.playAudio("eating"); };
 
-    stopWaka = () => {
-        console.log("Stop Waka");
-        Util.stopAudio("eating");
-        this.wakaing = false;
-    };
+    stopWaka = () => { Util.stopAudio("eating"); };
 
 
     // call in init method
