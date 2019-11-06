@@ -2,6 +2,8 @@ class Board {
 
     static lifeElPrefix = "life_";
     static maxLifeCount = 3;
+    static startingLifeCount = 3;
+    static menuLifeCount = 2;
     static lifeElements = [];
 
     static liveStatuses = {
@@ -31,7 +33,6 @@ class Board {
     static gameScoreElId = "your_score";
     static gameScoreEl = null;
 
-    static startingLifeCount = 2;
     static visiblePellet = 1; // maps value passed in from backend to the ui visible pellet state.
     static boardSize = {columns: 26, rows: 29};
     static pelletStates = {show: "show", hide: "hidden"};
@@ -52,7 +53,6 @@ class Board {
                     Util.setAttributeValue(pelletEl, Game.htmlAttrName, pelletState);
                 }
             }
-
     };
 
     static resetPellets = () => {

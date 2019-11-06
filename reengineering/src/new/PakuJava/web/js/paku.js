@@ -28,6 +28,7 @@ class Paku extends MovingEntity {
         me.setX(data.location.x - 1); // -1 in x and y accounts for the UI not using game boarders in its calculations
         me.setY(data.location.y - 1);
         me.changeDirection(data.location.direction);
+        Board.setLifeCount(data.lives);
     };
 
 
