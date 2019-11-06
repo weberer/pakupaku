@@ -138,7 +138,44 @@ public class GameControllerTest {
 
     }
 
+    @Test
+    public void setUpFruitArray() {
 
+    }
+
+    @Test
+    public void pakuUpdate() {
+
+    }
+
+    @Test
+    public void collideWithGhostProtocol() {
+
+    }
+
+    @Test
+    public void ghostsMove() {
+
+    }
+    @Test
+    public void checkFlee() {
+
+    }
+
+    @Test
+    public void collideWithGhost() {
+
+    }
+
+    @Test
+    public void pakuMove() {
+
+    }
+
+    @Test
+    public void spawnFruit() {
+
+    }
 
 
 

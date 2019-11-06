@@ -32,7 +32,7 @@ class Paku extends MovingEntity {
     };
 
     handleLostLife = () => {
-        let audioDuration = Util.playAudio('lost_life') || 500;
+        let audioDuration = Util.playAudio('lost_life') || 1.4;
         this.moveToStartingPos();
         Ghost.moveToStartingLocations();
         console.log(audioDuration);
