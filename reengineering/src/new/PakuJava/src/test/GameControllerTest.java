@@ -151,11 +151,23 @@ public class GameControllerTest {
     @Test
     public void pakuUpdate() {
 
+        GameData gd = GameData.getInstance();
+        GameController gc = new GameController();
     }
 
     @Test
     public void collideWithGhostProtocol()
     {
+
+        GameData gd = GameData.getInstance();
+        GameController gc = new GameController();
+        List<Ghost> ghostList = gameData.getGhostList();
+
+
+    }
+
+    @Test
+    public void ghostsMove() {
         GameData gameData = GameData.getInstance();
         GameController gc = new GameController();
         gc.spawnGhosts();
@@ -169,16 +181,13 @@ public class GameControllerTest {
         Assert.assertNotSame(ghost1Loc, ghostList.get(1).getLoc());
         Assert.assertNotSame(ghost1Loc, ghostList.get(2).getLoc());
         Assert.assertNotSame(ghost1Loc, ghostList.get(3).getLoc());
-
-
-    }
-
-    @Test
-    public void ghostsMove() {
-
     }
     @Test
-    public void checkFlee() {
+    public void checkFlee()
+    {
+        GameData gd = GameData.getInstance();
+        GameController gc = new GameController();
+        List<Ghost> ghostList = gameData.getGhostList();
 
     }
 
