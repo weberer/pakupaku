@@ -125,7 +125,6 @@ public class GameData
             int scoreToSend = getCurrentScore();
             dataToSend.put("score", scoreToSend);
 
-            dataToSend.put("sound", true);
             //this.correctMap();
             ArrayList<ArrayList> mapToSend = new ArrayList<>();
             for(int i = 0; i < map.size(); i++)
