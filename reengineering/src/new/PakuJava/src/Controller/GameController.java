@@ -384,7 +384,7 @@ public class GameController
             gameData.setExtraLives(2);
             paku.addLife();
         }
-        if(gameData.checkForDot() && gameData.checkForSuperDot())
+        if(!gameData.dotsRemain()) //if map contains no more dots, go to next level
           {
               gameData.setGameStatus(GameStatus.nextLevel); //update gameStatus to next level
               nextLevel();

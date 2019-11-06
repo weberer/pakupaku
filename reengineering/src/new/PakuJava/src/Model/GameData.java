@@ -494,15 +494,30 @@ public class GameData
         this.fruitArray = fruitArray;
     }
 
-    public boolean checkForDot() {
-        ArrayList<Integer> eachrow = new ArrayList<Integer>();
-        return eachrow.contains(1);
+
+    /**
+     * Returns true if map has dots remaining
+     * Returns false if no dots remain, in which case it's time to go to the next level
+     * @return
+     */
+    public boolean dotsRemain()
+    {
+        for(int i = 0; i < map.size(); i++)
+        {
+            if(map.get(i).contains(DOT_CODE) || map.get(i).contains(LARGEDOT_CODE))
+                return true;
+        }
+        return false;
     }
 
-    public boolean checkForSuperDot() {
+    /*
+    public boolean checkForSuperDot()
+    {
         ArrayList<Integer> eachrow = new ArrayList<Integer>();
         return eachrow.contains(3);
     }
+    */
+
 
     public int getCurrentFrame() {
         return currentFrame;
