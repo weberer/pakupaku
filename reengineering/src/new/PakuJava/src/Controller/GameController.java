@@ -209,8 +209,6 @@ public class GameController
         gameData.setGamelevel(gameLevel);
         gameData.resetDots();
         setUpFruitArray(gameLevel);
-        gameData.setGameStatus(GameStatus.play);
-        //update();
     }
 
     /**
@@ -318,7 +316,7 @@ public class GameController
 
         Controls input = getUserInput();
         dataToSend = gameData.getData();
-        if(gameData.getGameStatus() == GameStatus.pakuDiedButStillHasLifeLeft)
+        if(gameData.getGameStatus().equals(GameStatus.pakuDiedButStillHasLifeLeft)  || gameData.getGameStatus().equals(GameStatus.nextLevel))
         {
             gameData.setGameStatus(GameStatus.play);
         }
@@ -549,7 +547,7 @@ public class GameController
     /**
      * Calls paku's move method, which updates the paku's position
      */
-    private void pakuMove(Direction input)
+    public void pakuMove(Direction input)
     {
         Direction inputDirection = gameData.getInputDirection(); //get latest direction inputted from keyboard
         Paku paku = gameData.getPaku();  //get singleton Paku reference

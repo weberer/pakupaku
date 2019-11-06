@@ -60,7 +60,6 @@ public class Paku extends MovingGameObject{
                 {
                         paku.getLoc().setxLoc(26);
                         warp = true;
-                        moved = true;
                 }
                 else {
                     int currentX = loc.getxLoc();
@@ -73,7 +72,6 @@ public class Paku extends MovingGameObject{
                 {
                     paku.getLoc().setxLoc(1);
                     warp = true;
-                    moved = true;
                 }
                 else {
                     if (!checkWall(loc.getxLoc() + MOVE_DIST_PER_TICK, loc.getyLoc()))
