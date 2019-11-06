@@ -40,10 +40,10 @@ class Game {
     static highScoreListCount = 5;
     static isSoundOn = true; // sound defaults to 'ON'
 
-    static gameOverDuration = 3000; // Time the 'game over' text is show. 3s.
+    static gameOverDuration = 5000; // Time the 'game over' text is show. 5s.
 
     static setBoardState(state) {
-        if(!(state in this.boardStates))
+        if(!(Object.values(this.boardStates).includes(state)))
             throw "Error: " + state + " is not a valid attribute for " + this.boardEl.id;
 
         Util.setAttributeValue(this.boardEl, this.htmlAttrName, state);
@@ -51,7 +51,7 @@ class Game {
     }
 
     static setGameState(state) {
-        if(!(state in this.gameStates))
+        if(!(Object.values(this.gameStates).includes(state)))
             throw "Error: " + state + " is not a valid attribute for " + this.gameEl.id;
 
         Util.setAttributeValue(this.gameEl, this.htmlAttrName, state);
@@ -157,7 +157,7 @@ class Game {
 
     static handleGameOver = () => {
         Util.stopInterval();
-        this.setBoardState(this.boardStates.gameOver);
+        this.gameOver();
         setTimeout(this.openMenu, this.gameOverDuration);
 
     };
