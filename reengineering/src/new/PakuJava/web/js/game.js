@@ -10,7 +10,8 @@ class Game {
         play: "play",
         ready: "ready",
         gameOver: "game_over",
-        lostLife: "lost_life"
+        lostLife: "lost_life",
+        newLevel: "new_level"
     };
 
     static defaultFruit = [ // Display Left -> Right
@@ -164,6 +165,11 @@ class Game {
             {
                 this.setBoardState(this.boardStates.lostLife);
                 window.paku.handleLostLife();
+            }
+            else if(state === this.boardStates.newLevel)
+            {
+                console.log("NEW LEVEL!!");
+                this.setBoardState(this.boardStates.newLevel);
             }
             else
                 console.log(state);

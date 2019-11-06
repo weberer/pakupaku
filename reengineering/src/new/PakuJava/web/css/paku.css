@@ -11,7 +11,7 @@
     animation: waka 0.15s linear infinite alternate;
 }
 
-#paku[status="stop"] > circle {
+#paku[state="stop"] > circle {
     animation: none;
 }
 
