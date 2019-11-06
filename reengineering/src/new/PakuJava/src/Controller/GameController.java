@@ -130,7 +130,10 @@ public class GameController
     public void spawnGhosts()
     {
         List<Ghost> ghostList = gameData.getGhostList();
-
+        if(ghostList.size() > 0)
+        {
+            ghostList.clear();
+        }
         ghostList.add(new Blaine(gameData.getMap())); //orange
         ghostList.add(new Kinky(gameData.getMap())); //blue
         Stinky stinky = new Stinky(gameData.getMap());
@@ -176,7 +179,6 @@ public class GameController
     }
 
     private void resetGhosts(List<Ghost> ghostList) {
-        gameData.getGhostList().clear();
         spawnGhosts();
         ghostList.get(0).resetMultiplier(); // was Ghost.resetMultiplier(); --Eric 11/4
     }
