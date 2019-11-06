@@ -146,6 +146,16 @@
     background-image: url(../resources/svg/powerups/strawberry.svg);
 }
 
+#bonus_fruit {
+    --size_adjustment: calc(var(--dialog_margin) / 5);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: calc(var(--size_adjustment) * -1);
+    padding: var(--size_adjustment);
+}
+
+
 .life {
     height: 100%;
     width: 100%;

@@ -153,6 +153,7 @@ class Game {
         window.paku.update(data.paku);
         Ghost.updateAllGhosts(data.ghosts);
         Board.updatePellets(data.board);
+        Board.updateBonusFruit(data.fruit);
         if(data.game_state !== this.boardStates.play) {
             Util.stopInterval(); // state has changed, stop requesting new frames and deal with this one.
             let state = data.game_state;
