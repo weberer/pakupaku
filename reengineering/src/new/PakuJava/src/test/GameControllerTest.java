@@ -3,6 +3,7 @@ package test;
 
 import Controller.Controls;
 import Controller.GameController;
+import Model.Direction;
 import Model.GameData;
 import Model.Location;
 import Model.Paku;
@@ -175,7 +176,17 @@ public class GameControllerTest {
 
     @Test
     public void pakuMove() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Paku paku = Paku.getInstance();
+        paku.setGameData(gameData);
+        paku.setMap(gameData.getMap());
+        gc.pakuMove(Direction.left);
 
+        ; //move unit in default left direction
+        int currentX = paku.getLoc().getxLoc();
+        Assert.assertEquals(currentX, paku.getSTARTING_X() - 1);
+        paku.resetLocation();
     }
 
     @Test

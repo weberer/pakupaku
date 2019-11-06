@@ -549,7 +549,7 @@ public class GameController
     /**
      * Calls paku's move method, which updates the paku's position
      */
-    private void pakuMove(Direction input)
+    public void pakuMove(Direction input)
     {
         Direction inputDirection = gameData.getInputDirection(); //get latest direction inputted from keyboard
         Paku paku = gameData.getPaku();  //get singleton Paku reference
