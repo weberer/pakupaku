@@ -270,11 +270,13 @@ public abstract class Ghost extends MovingGameObject {
             moveNotTurn();
         }
         //Fleeing ghosts can only move every other movement call
-        else if (!(loc.getyLoc() == 14))
+        else if (!(loc.getyLoc() == 14)) {
             if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))//loc.getxLoc() == 22
                 if (!alternate) {
                     moveNotTurn();
                 }
+        }
+        updateTimer();
     }
 
     /**
@@ -288,23 +290,23 @@ public abstract class Ghost extends MovingGameObject {
         if (facingDirection.equals(Direction.up)) {
             if ((int)rowUp.get(loc.getxLoc())> 0)
                 loc.setyLoc(loc.getyLoc() - 1);
-            else
-                ForceUpDown();
+            //else
+                //ForceUpDown();
         } else if (facingDirection.equals(Direction.right)) {
             if ((int)row.get(loc.getxLoc() + 1) > 0)
                 loc.setxLoc(loc.getxLoc() + 1);
-            else
-                ForceLeftRight();
+            //else
+                //ForceLeftRight();
         } else if (facingDirection.equals(Direction.down)) {
             if ((int)rowDown.get(loc.getxLoc()) > 0 || jailSkip)
                 loc.setyLoc(loc.getyLoc() + 1);
-            else
-                ForceUpDown();
+            //else
+                //ForceUpDown();
         } else if (facingDirection.equals(Direction.left)) {
             if ((int)row.get(loc.getxLoc() - 1) > 0)
                 loc.setxLoc(loc.getxLoc() - 1);
-            else
-                ForceLeftRight();
+            //else
+                //ForceLeftRight();
         }
     }
 
@@ -506,55 +508,55 @@ public abstract class Ghost extends MovingGameObject {
         levelStates.add(GhostState.scatter);
         levelStates.add(GhostState.chase);
 
-        frightTimers.add(550);
-        frightTimers.add(500);
-        frightTimers.add(450);
-        frightTimers.add(400);
+        frightTimers.add(60);
+        frightTimers.add(55);
+        frightTimers.add(50);
+        frightTimers.add(45);
 
-        frightTimers.add(350);
-        frightTimers.add(550);
-        frightTimers.add(350);
-        frightTimers.add(350);
+        frightTimers.add(40);
+        frightTimers.add(60);
+        frightTimers.add(40);
+        frightTimers.add(40);
 
-        frightTimers.add(200);
-        frightTimers.add(500);
-        frightTimers.add(350);
-        frightTimers.add(200);
+        frightTimers.add(25);
+        frightTimers.add(55);
+        frightTimers.add(40);
+        frightTimers.add(25);
 
-        frightTimers.add(200);
-        frightTimers.add(400);
-        frightTimers.add(200);
-        frightTimers.add(200);
-
-        frightTimers.add(0);
-        frightTimers.add(200);
-        frightTimers.add(0);
-        frightTimers.add(0);
+        frightTimers.add(25);
+        frightTimers.add(45);
+        frightTimers.add(25);
+        frightTimers.add(25);
 
         frightTimers.add(0);
+        frightTimers.add(25);
+        frightTimers.add(0);
+        frightTimers.add(0);
 
-        blinkTimers.add(250);
-        blinkTimers.add(250);
-        blinkTimers.add(250);
-        blinkTimers.add(250);
+        frightTimers.add(0);
 
-        blinkTimers.add(250);
-        blinkTimers.add(250);
-        blinkTimers.add(250);
-        blinkTimers.add(250);
+        blinkTimers.add(15);
+        blinkTimers.add(15);
+        blinkTimers.add(15);
+        blinkTimers.add(15);
 
-        blinkTimers.add(150);
-        blinkTimers.add(250);
-        blinkTimers.add(250);
-        blinkTimers.add(150);
+        blinkTimers.add(15);
+        blinkTimers.add(15);
+        blinkTimers.add(15);
+        blinkTimers.add(15);
 
-        blinkTimers.add(150);
-        blinkTimers.add(250);
-        blinkTimers.add(150);
-        blinkTimers.add(150);
+        blinkTimers.add(10);
+        blinkTimers.add(15);
+        blinkTimers.add(15);
+        blinkTimers.add(10);
+
+        blinkTimers.add(10);
+        blinkTimers.add(15);
+        blinkTimers.add(10);
+        blinkTimers.add(10);
 
         blinkTimers.add(0);
-        blinkTimers.add(150);
+        blinkTimers.add(10);
         blinkTimers.add(0);
         blinkTimers.add(0);
 
@@ -612,7 +614,7 @@ public abstract class Ghost extends MovingGameObject {
      */
     private void ForceLeftRight()
     {
-        if((int)map.get(loc.getyLoc()).get(loc.getxLoc() - 1) == 0)
+        if((int)map.get(loc.getyLoc()).get(loc.getxLoc() - 1) == 0 || (int)map.get(loc.getyLoc()).get(loc.getxLoc() + 1) == 0)
         {
             if((int)map.get(loc.getyLoc() - 1).get(loc.getxLoc()) > 0) {
                 if ((int) map.get(loc.getyLoc() + 1).get(loc.getxLoc()) > 0) {
@@ -667,6 +669,28 @@ public abstract class Ghost extends MovingGameObject {
         }
     }
 
+    private void updateTimer()
+    {
+        if(timer == 0) {
+            if(timerIndex == 7)
+                timerIndex = 0;
+            else
+                timerIndex++;
+            if (GameData.getInstance().getGamelevel() == 1) {
+                timer = level1behaviors.get(timerIndex);
+
+            } else if (GameData.getInstance().getGamelevel() >= 2 && GameData.getInstance().getGamelevel() < 5) {
+                timer = level2to4Behaviors.get(timerIndex);
+            } else {
+                timer = level5PlusBehaviors.get(timerIndex);
+            }
+            state = levelStates.get(timerIndex);
+        }
+        else
+        {
+            timer--;
+        }
+    }
     //These methods are used for testing.
     public void setDirection(Direction dir)
     {
