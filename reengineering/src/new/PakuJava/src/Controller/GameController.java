@@ -100,27 +100,12 @@ public class GameController
     }
 
 
-
-
     /**
-     * Responsible for setting up the game
-     * TODO: The method for calling update: there is a frame variable in gameData that needs to be updated; the
-     *
-     * TODO: we need a way so that every time frame is updated, update is called, but we cannot use a while loop
-     *
-     * TODO: event listener, so that every time frame changes (the one in game controller), we are going to call update()
-     * frame in gameData needs to be updated (AKA it needs to match the frame value in gameController)
-     *
-     * ToDO:
-     *
-     *
-     * once game has started, keep calling
-     *
-     * TODO:
+     * Responsible for setting up the game, including spawning ghosts, seting game status, and
+     * ininializing fruit array
      */
     public void startGame() {
         Paku paku = gameData.getPaku(); //retrieve singleton Paku Object
-
 
         paku.setGameData(gameData); //giving Paku a reference to gameData
         spawnGhosts();
@@ -239,6 +224,10 @@ public class GameController
         update();
     }
 
+    /**
+     * Sets the fruit array based on the game level so that the screen displays the correct fruits
+     * @param gameLevel
+     */
     private void setUpFruitArray(int gameLevel)
     {
         int[] fruitArray = new int[8];
@@ -451,7 +440,7 @@ public class GameController
     }
 
     /**
-     *
+     * Checks whether Paku has collided with a ghost and handles the event according to the ghost state
      */
     private void collideWithGhostProtocol() {
         boolean death = false;
@@ -459,6 +448,8 @@ public class GameController
         Paku paku = gameData.getPaku();
         Score score = gameData.getScore();
         GameStatus gameStatus;// = gameData.getGameStatus();
+
+        //if ghosts are in their normal chase state, paku loses life
         for(Ghost ghost : ghostList){
             if(!ghost.getState().equals(GhostState.flee) && !ghost.getState().equals(GhostState.eaten)) {
                 if(paku.getLoc().getxLoc() == ghost.getLoc().getxLoc() && paku.getLoc().getyLoc() == ghost.getLoc().getyLoc()) {
@@ -468,6 +459,7 @@ public class GameController
                     }
                 }
             }
+            //paku eats ghost
             else if(ghost.getState().equals(GhostState.flee)) {
                 if(paku.getLoc().getxLoc() == ghost.getLoc().getxLoc() && paku.getLoc().getyLoc() == ghost.getLoc().getyLoc()) {
                     gameData.setBonus(ghost.addScore(score));
@@ -602,7 +594,6 @@ public class GameController
     public JSONObject getHighScoreList() throws Exception {
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
-      //  List<Integer> list = gameData.getScoreList();
         HashMap<String, Integer> scoreMap = gameData.getScoreList();
 
 
