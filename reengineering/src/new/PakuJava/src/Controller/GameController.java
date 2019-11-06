@@ -223,6 +223,7 @@ public class GameController
         gameData.getScore().reset();
 
         gameData.resetDots();
+        LoadMap();
     }
 
     /**
