@@ -357,7 +357,7 @@ public class GameController
         pakuMove(input);
         if(collideWithGhost())
         {
-            collideWithGhostProtocol();
+            //collideWithGhostProtocol();
             if(gameData.getGameStatus() == GameStatus.GameOver)
                 return;
         }
@@ -366,7 +366,7 @@ public class GameController
         }
         if(collideWithGhost())
         {
-            collideWithGhostProtocol();
+            //collideWithGhostProtocol();
             if(gameData.getGameStatus() == GameStatus.GameOver)
                 return;
             else
