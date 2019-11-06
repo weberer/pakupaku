@@ -59,10 +59,13 @@ public class GameData
 
     private int dots;
     private boolean fruitSpawned;
+
     ///DO NOT DO NOT DO NOT MODIFY
+
   //  private final String SAMPLE_CSV_FILE_PATH = "../../../PakuJava/src/asset/map.csv"; //Use this with the Tomcat server
     private final String SAMPLE_CSV_FILE_PATH = "src\\asset\\map.csv"; //Use this string for running test classes
    // private final String SAMPLE_CSV_FILE_PATH = "c:\\users\\weber\\desktop\\firebreathingrubberduckies\\reengineering\\src\\new\\pakujava\\src\\asset\\map.csv";
+
     //private final String SAMPLE_CSV_FILE_PATH = "J:\\CSSE\\se\\se3860\\firebreathingrubberduckies\\reengineering\\src\\new\\PakuJava\\src\\asset\\map.csv";
 
 
@@ -125,7 +128,6 @@ public class GameData
             int scoreToSend = getCurrentScore();
             dataToSend.put("score", scoreToSend);
 
-            dataToSend.put("sound", true);
             //this.correctMap();
             ArrayList<ArrayList> mapToSend = new ArrayList<>();
             for(int i = 0; i < map.size(); i++)
@@ -138,8 +140,10 @@ public class GameData
                 mapToSend.add(row);
             }
             //mapToSend = (ArrayList<ArrayList>) map.clone();
-            mapToSend.remove(mapToSend.size()-1);
-            mapToSend.remove(0);
+            if(mapToSend.size() > 0) {
+                mapToSend.remove(mapToSend.size() - 1);
+                mapToSend.remove(0);
+            }
 
 
 //2 to 0 3 to 1.
@@ -186,6 +190,7 @@ public class GameData
             JSONObject pakuToSend = new JSONObject();
             pakuToSend.put("location", pakuLocationToSend);
             //pakuToSend.put("direction", pakuDir());
+            pakuToSend.put("lives", paku.getRemainingLife());
 
             dataToSend.put("paku", pakuToSend);
 
@@ -301,11 +306,11 @@ public class GameData
     }
 
     public Ghost getHinky() {
-        return ghostList.get(1);
+        return ghostList.get(3);
     }
 
     public Ghost getKinky() {
-        return ghostList.get(3);
+        return ghostList.get(1);
     }
 
     public int getCurrentScore() {

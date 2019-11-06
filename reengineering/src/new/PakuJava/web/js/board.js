@@ -33,6 +33,8 @@ class Board {
 
     static startingLifeCount = 2;
     static visiblePellet = 1; // maps value passed in from backend to the ui visible pellet state.
+    static boardSize = {columns: 26, rows: 29};
+    static pelletStates = {show: "show", hide: "hidden"};
 
     static getpelletElement = (x, y) => {
         return document.getElementById("p" + y + "_" + x);
@@ -46,11 +48,21 @@ class Board {
                 if(pelletEl)
                 {
                     let pelletData = pelletArr[row][0][column]; // 3d array is temporary fix FOR ISSUE SEF2-48
-                    let pelletState = pelletData === this.visiblePellet ? "show" : "hidden";
+                    let pelletState = pelletData === this.visiblePellet ? this.pelletStates.show : this.pelletStates.hide;
                     Util.setAttributeValue(pelletEl, Game.htmlAttrName, pelletState);
                 }
             }
 
+    };
+
+    static resetPellets = () => {
+        for(let row = 0; row < this.boardSize.rows; row++)
+            for(let column = 0; column < this.boardSize.columns; column++)
+            {
+                let pelletEl = this.getpelletElement(column, row);
+                if(pelletEl)
+                    Util.setAttributeValue(pelletEl, Game.htmlAttrName, this.pelletStates.show);
+            }
     };
 
     // numLives specified on from 1 - Board.maxLifeCount
