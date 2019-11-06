@@ -462,8 +462,10 @@ public class GameController
         for(Ghost ghost : ghostList){
             if(!ghost.getState().equals(GhostState.flee) && !ghost.getState().equals(GhostState.eaten)) {
                 if(paku.getLoc().getxLoc() == ghost.getLoc().getxLoc() && paku.getLoc().getyLoc() == ghost.getLoc().getyLoc()) {
-                    paku.substractLife();
-                    death = true;
+                    if(!death) {
+                        paku.substractLife();
+                        death = true;
+                    }
                 }
             }
             else if(ghost.getState().equals(GhostState.flee)) {
