@@ -49,7 +49,6 @@ class Networking {
         let data = {
             type: "start_game"
         };
-        Util.playAudio("eating");
         this._sendRequest(data, () => {}); // no data returned = no callback.
     };
 

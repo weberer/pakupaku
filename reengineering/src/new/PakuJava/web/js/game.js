@@ -62,6 +62,7 @@ class Game {
     static openMenu = () => {
         this.setGameState(this.gameStates.menu);
         Board.resetPellets();
+        Util.stopAllAudio();
         Board.setLifeCount(Board.menuLifeCount);
         Board.updateAllFruits(this.defaultFruit);
         Util.stopAudio();
@@ -90,6 +91,7 @@ class Game {
         let audioDuration = Util.playAudio("ready");
         setTimeout(()=> {
             this.setBoardState(this.boardStates.play);
+            window.paku.startWaka();
             callback();
         }, audioDuration);
     };
@@ -119,9 +121,9 @@ class Game {
             Util.setAttributeValue(el, this.htmlAttrName, state);
 
         this.isSoundOn = state; // update JS sound State.
-
-        if(!state && Util.currentlyPlayingAudio) // if stopping audio, and audio is currently playing, stop playback now
-            Util.stopAudio();
+        Util.setAudioVolume(this.isSoundOn ? 1 : 0); // 1=fullvolume if sound on, 0=mute of sound off
+        //if(!state && Util.currentlyPlayingAudio) // if stopping audio, and audio is currently playing, stop playback now
+        //    Util.stopAudio();
     };
 
     static toggleSound = () => { this.setSound(!this.isSoundOn); };
