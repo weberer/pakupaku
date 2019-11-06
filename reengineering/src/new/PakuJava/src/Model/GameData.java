@@ -81,6 +81,8 @@ public class GameData
     private boolean blaineWarp;
     private boolean pakuWarp;
 
+    private boolean pakuMoved;
+
     JSONObject dataToSend;
 
     private GameData()
@@ -193,6 +195,7 @@ public class GameData
             //pakuToSend.put("direction", pakuDir());
             pakuToSend.put("lives", paku.getRemainingLife());
             pakuToSend.put("warping", pakuWarp);
+            pakuToSend.put("moved", pakuMoved);
 
             dataToSend.put("paku", pakuToSend);
 
@@ -609,6 +612,11 @@ public class GameData
     public void setBlaineWarp(boolean warp)
     {
         this.blaineWarp = warp;
+    }
+
+    public void setPakuMoved(boolean moved)
+    {
+        this.pakuMoved = moved;
     }
 
 }
