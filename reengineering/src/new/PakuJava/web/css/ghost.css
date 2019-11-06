@@ -4,10 +4,6 @@
     opacity: 1;
 }
 
-.ghost[state="warping"]{
-    opacity: 0;
-}
-
 .ghost::after,
 .ghost::before {
     content: "";
