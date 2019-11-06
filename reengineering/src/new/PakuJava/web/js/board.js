@@ -1,7 +1,7 @@
 class Board {
 
     static lifeElPrefix = "life_";
-    static maxLifeCount = 3;
+    static maxLifeCount = 4;
     static startingLifeCount = 3;
     static menuLifeCount = 2;
     static lifeElements = [];
@@ -85,7 +85,7 @@ class Board {
 
     // Call in init function;
     static createLives = () => {
-        for (let lifeNum = 0; lifeNum < 3; lifeNum++)
+        for (let lifeNum = 0; lifeNum < this.maxLifeCount; lifeNum++)
         {
             let elementId = this.lifeElPrefix + lifeNum,
                 el = document.getElementById(elementId);

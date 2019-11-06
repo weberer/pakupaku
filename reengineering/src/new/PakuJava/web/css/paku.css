@@ -15,6 +15,19 @@
     animation: none;
 }
 
+@keyframes lost-life-animation {
+    0% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 0
+    }
+}
+
+#paku[state="lost_life"] {
+    animation: lost-life-animation 1.4s ease-out;
+}
+
 @keyframes waka {
     from {
         stroke-dasharray: 157,100;

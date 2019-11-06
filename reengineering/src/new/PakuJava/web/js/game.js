@@ -151,7 +151,6 @@ class Game {
         console.log(data);
         Board.updateScore(data.score);
         Board.updateAllFruits(data.fruitList);
-        window.paku.update(data.paku);
         Ghost.updateAllGhosts(data.ghosts);
         Board.updatePellets(data.board);
         Board.updateBonusFruit(data.fruit);
@@ -176,14 +175,15 @@ class Game {
             else
                 console.log(state);
         }
+        else
+            window.paku.update(data.paku);
     };
 
     static handleGameOver = () => {
-        Util.stopInterval();
-        Util.playAudio("lost_life");
+        paku.stopWaka();
+        Util.playAudio('lost_life');
         this.gameOver();
         setTimeout(this.openMenu, this.gameOverDuration);
-
     };
 
     static newGame = () => {

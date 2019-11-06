@@ -11,7 +11,7 @@ class Paku extends MovingEntity {
     };
 
     // valid status for paku
-    static states = ["go", "stop", "warping"];
+    static states = ["go", "stop", "lost_life", "warping"];
 
     // updates 'state' of pauk
     changeState = state => this.setAttr(this.constructor.attrNames.state, state);
@@ -40,11 +40,14 @@ class Paku extends MovingEntity {
 
     handleLostLife = () => {
         this.stopWaka();
-        let audioDuration = Util.playAudio('lost_life') || 1.4;
-        this.moveToStartingPos();
-        Ghost.moveToStartingLocations();
-        setTimeout(() => {
-            Game.setGameReady(Util.startInterval);
+        let audioDuration = Util.playAudio('lost_life');
+        this.changeState("lost_life");
+            setTimeout(() => {
+                this.moveToStartingPos();
+                Ghost.moveToStartingLocations();
+                setTimeout(() => {
+                    Game.setGameReady(Util.startInterval);
+                }, 1000); // Timeout helps entities move to new locations without showing it.
         }, audioDuration);
     };
 

@@ -21,6 +21,7 @@
 #game_board[state="lost_life"] #paku,
 #game_board[state="lost_life"] .ghost {
     opacity: 0!important; /* !important overrides before/after states */
+    transition: none;
 }
 
 .ghost[state="warping"],

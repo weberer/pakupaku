@@ -70,12 +70,12 @@
 }
 
 #lives {
-    flex: 3;
+    flex: 4;
     padding-left: 2%;
 }
 
 #bottom_row_spacing {
-    flex: 4;
+    flex: 3;
 }
 
 #fruit {
