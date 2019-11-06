@@ -18,7 +18,7 @@ public enum GameStatus {
             case play: return "play";
             case highScore: return "high_score";
             case staring: return "play";
-            case pakuDiedButStillHasLifeLeft: return "play";
+            case pakuDiedButStillHasLifeLeft: return "lost_life";
             case GameOver: return "game_over";
             case nextLevel: return "new_level";
             case closing: return "play";

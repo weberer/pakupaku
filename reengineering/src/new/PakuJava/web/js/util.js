@@ -92,8 +92,10 @@ class Util {
 
     // stops sending requests to the server at regular intervals. Throws error if no interval exists
     static stopInterval = () => {
-        if(this.intervalId)
+        if(this.intervalId) {
             clearInterval(this.intervalId);
+            this.intervalId = null;
+        }
     };
 
     // plays a sound file associated with an html element. returns the duration of the sound file in ms

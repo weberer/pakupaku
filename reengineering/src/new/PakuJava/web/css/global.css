@@ -32,7 +32,7 @@
     --dialog_margin: calc(var(--screen_height) * 0.04);
     --font_family: 'Press Start 2P', Monospace;
     --linear-gradient: white 0%, white 1%, var(--border_pink) 1%, var(--border_pink) 2%, var(--stinky) 2%, var(--stinky) 3%, black 3%, black 4%;
-    --speed: 0.7s;
+    --speed: 0.5s;
 }
 
 * {

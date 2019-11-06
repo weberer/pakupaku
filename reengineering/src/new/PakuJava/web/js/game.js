@@ -9,7 +9,8 @@ class Game {
     static boardStates = {
         play: "play",
         ready: "ready",
-        gameOver: "game_over"
+        gameOver: "game_over",
+        lostLife: "lost_life"
     };
 
     static defaultFruit = [ // Display Left -> Right
@@ -75,19 +76,26 @@ class Game {
         Ghost.moveToStartingLocations();
         // timeout gives entities time to move to their starting positions
         setTimeout(() => {
-            this.setGameState(this.gameStates.play);
-            this.setBoardState(this.boardStates.ready);
-            let audioDuration = Util.playAudio("ready");
-            setTimeout(this.startGame, audioDuration);
+            this.setGameReady(this.startGame);
             Board.setLifeCount(Board.startingLifeCount);
             Networking.sendGameReadyRequest((data) => {
                 Board.updateHighScore(data.highscore);
             });
-        }, 1000);
+        }, 600);
+    };
+
+    static setGameReady = (callback) => {
+        this.setGameState(this.gameStates.play);
+        this.setBoardState(this.boardStates.ready);
+        let audioDuration = Util.playAudio("ready");
+        console.log(audioDuration);
+        setTimeout(()=> {
+            this.setBoardState(this.boardStates.play);
+            callback();
+        }, audioDuration);
     };
 
     static startGame = () => {
-        this.setBoardState(this.boardStates.play);
         Networking.sendStartGameRequest();
         Util.startInterval();
     };
@@ -146,12 +154,18 @@ class Game {
         Board.updatePellets(data.board);
         if(data.game_state !== this.boardStates.play) {
             Util.stopInterval(); // state has changed, stop requesting new frames and deal with this one.
-
             let state = data.game_state;
-            console.log(state);
 
             if(state === this.boardStates.gameOver)
                 this.handleGameOver();
+            else if (state === this.boardStates.lostLife)
+            {
+                console.log("Lost Life");
+               // this.setBoardState(this.boardStates.lostLife);
+                window.paku.handleLostLife();
+            }
+            else
+                console.log(state);
         }
     };
 

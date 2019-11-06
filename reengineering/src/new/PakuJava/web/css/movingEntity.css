@@ -15,4 +15,10 @@
     transition: transform 0s, /* instantaneous response */
                 margin-left var(--speed),
                 margin-top var(--speed);
+    opacity: 1;
+}
+
+#game_board[state="lost_life"] #paku,
+#game_board[state="lost_life"] .ghost {
+    opacity: 0!important; /* !important overrides before/after states */
 }

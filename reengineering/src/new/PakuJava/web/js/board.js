@@ -67,8 +67,8 @@ class Board {
 
     // numLives specified on from 1 - Board.maxLifeCount
     static setLifeCount(numLives) {
-        if (numLives < 0 || numLives > this.maxLifeCount)
-            throw "Error: " + numLives + " lives were specified. Paku can only have between 0 and " + this.maxLifeCount + " lives";
+        if (numLives < -1 || numLives > this.maxLifeCount)
+            throw "Error: " + numLives + " lives were specified. Paku must have between 0 and " + this.maxLifeCount + " lives";
         else {
             for(let life = 0; life < this.maxLifeCount; life++) {
                 let lifeState = this.liveStatuses.dead;

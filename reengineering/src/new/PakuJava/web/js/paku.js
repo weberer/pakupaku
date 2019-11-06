@@ -31,6 +31,16 @@ class Paku extends MovingEntity {
         Board.setLifeCount(data.lives);
     };
 
+    handleLostLife = () => {
+        let audioDuration = Util.playAudio('lost_life') || 500;
+        this.moveToStartingPos();
+        Ghost.moveToStartingLocations();
+        console.log(audioDuration);
+        setTimeout(() => {
+            Game.setGameReady(Util.startInterval);
+        }, audioDuration);
+    };
+
 
     // call in init method
     static createPaku = () => {
