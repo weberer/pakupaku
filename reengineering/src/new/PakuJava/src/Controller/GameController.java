@@ -481,7 +481,7 @@ public class GameController
      * Calls each ghost's move method, which updates the ghost's position.
      *
      */
-    private void ghostsMove()
+    public void ghostsMove()
     {
         List<Ghost> ghostList = gameData.getGhostList();
         for (Ghost ghost: ghostList) {

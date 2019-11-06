@@ -154,7 +154,22 @@ public class GameControllerTest {
     }
 
     @Test
-    public void collideWithGhostProtocol() {
+    public void collideWithGhostProtocol()
+    {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        gc.spawnGhosts();
+        List<Ghost> ghostList = gameData.getGhostList();
+        Location ghost1Loc = ghostList.get(0).getLoc();
+        Location ghost2Loc = ghostList.get(1).getLoc();
+        Location ghost3Loc = ghostList.get(2).getLoc();
+        Location ghost4Loc = ghostList.get(3).getLoc();
+        gc.ghostsMove();
+        Assert.assertNotSame(ghost1Loc, ghostList.get(0).getLoc());
+        Assert.assertNotSame(ghost1Loc, ghostList.get(1).getLoc());
+        Assert.assertNotSame(ghost1Loc, ghostList.get(2).getLoc());
+        Assert.assertNotSame(ghost1Loc, ghostList.get(3).getLoc());
+
 
     }
 
