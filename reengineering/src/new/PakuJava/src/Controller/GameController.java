@@ -530,7 +530,7 @@ public class GameController
      * checks whether paku collided with ghost
      * @return
      */
-    private boolean collideWithGhost()
+    public boolean collideWithGhost()
     {
         Paku paku = gameData.getPaku();
         List<Ghost> ghostList = gameData.getGhostList();

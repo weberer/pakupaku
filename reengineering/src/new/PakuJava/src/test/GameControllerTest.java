@@ -3,15 +3,13 @@ package test;
 
 import Controller.Controls;
 import Controller.GameController;
-import Model.Direction;
-import Model.GameData;
-import Model.Location;
-import Model.Paku;
+import Model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -171,7 +169,16 @@ public class GameControllerTest {
 
     @Test
     public void collideWithGhost() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Paku paku = gameData.getPaku();
+        List<Ghost> ghostList = gameData.getGhostList();
+        gc.spawnGhosts();
+        Location pakuLoc = paku.getLoc();
+        ghostList.get(0).setState(GhostState.chase);
+        ghostList.get(0).setLoc(pakuLoc); //set ghost location equal to Paku's location
 
+        Assert.assertTrue(gc.collideWithGhost()); //check if the method detects colllison properly
     }
 
     @Test
