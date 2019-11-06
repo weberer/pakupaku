@@ -560,6 +560,7 @@ public class GameData
      */
     public void resetDots()
     {
+        fruit = null;
         dots = startingDots;
         fruitSpawned = false;
     }

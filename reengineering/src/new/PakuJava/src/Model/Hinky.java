@@ -54,6 +54,7 @@ public class Hinky extends Ghost
         } else {
             warp = false;
             alternate = !alternate;
+            jailSkip = false;
             checkWarp();
             setWarpFlag();
             if (state.equals(GhostState.scatter)) {
