@@ -39,14 +39,15 @@ public class Stinky extends Ghost
     @ Override
     public void move()   {
         Location paku = Paku.getInstance().getLoc();
-
-        alternate = !alternate;
         if(inJail())
         {
             jailMove();
         }
         else {
+            warp = false;
+            alternate = !alternate;
             checkWarp();
+            setWarpFlag();
                 jailSkip = false;
             if (state.equals(GhostState.scatter)) {
                 scatterMove(SCATTER_X, SCATTER_Y);
@@ -61,6 +62,11 @@ public class Stinky extends Ghost
             this.calculateMove();
         }
     }
+
+    private void setWarpFlag() {
+        gameData.setStinkyWarp(warp);
+    }
+
     /**
      * See Ghost for details (Line 451)
      */

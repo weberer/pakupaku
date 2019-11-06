@@ -75,6 +75,12 @@ public class GameData
     private boolean hinkyBlink;
     private boolean kinkyBlink;
 
+    private boolean hinkyWarp;
+    private boolean kinkyWarp;
+    private boolean stinkyWarp;
+    private boolean blaineWarp;
+    private boolean pakuWarp;
+
     JSONObject dataToSend;
 
     private GameData()
@@ -188,6 +194,7 @@ public class GameData
             pakuToSend.put("location", pakuLocationToSend);
             //pakuToSend.put("direction", pakuDir());
             pakuToSend.put("lives", paku.getRemainingLife());
+            pakuToSend.put("warping", pakuWarp);
 
             dataToSend.put("paku", pakuToSend);
 
@@ -203,6 +210,7 @@ public class GameData
             stinkyToSend.put("location", stinkyLocationToSend);
             stinkyToSend.put("ghost_state", GhostState.castState(getStinky().getState()));
             stinkyToSend.put("blinking", isStinkyBlink());
+            stinkyToSend.put("warping", stinkyWarp);
 
             JSONObject hinkyLocationToSend = new JSONObject();
             hinkyLocationToSend.put("x", getHinky().getLoc().getxLoc());
@@ -213,6 +221,7 @@ public class GameData
             hinkyToSend.put("location", hinkyLocationToSend);
             hinkyToSend.put("ghost_state", GhostState.castState(getHinky().getState()));
             hinkyToSend.put("blinking", isHinkyBlink());
+            hinkyToSend.put("warping", hinkyWarp);
 
             JSONObject kinkyLocationToSend = new JSONObject();
             kinkyLocationToSend.put("x", getKinky().getLoc().getxLoc());
@@ -223,6 +232,7 @@ public class GameData
             kinkyToSend.put("location", kinkyLocationToSend);
             kinkyToSend.put("ghost_state", GhostState.castState(getKinky().getState()));
             kinkyToSend.put("blinking", isKinkyBlink());
+            kinkyToSend.put("warping", kinkyWarp);
 
             JSONObject blaineLocationToSend = new JSONObject();
             blaineLocationToSend.put("x", getBlaine().getLoc().getxLoc());
@@ -233,6 +243,7 @@ public class GameData
             blaineToSend.put("location", blaineLocationToSend);
             blaineToSend.put("ghost_state", GhostState.castState(getBlaine().getState()));
             blaineToSend.put("blinking", isBlaineBlink());
+            blaineToSend.put("warping", blaineWarp);
 
             JSONObject ghostsToSend = new JSONObject();
             ghostsToSend.put("stinky", stinkyToSend);
@@ -568,4 +579,26 @@ public class GameData
     {
         return startingDots;
     }
+
+    public void setPakuWarp(boolean warp)
+    {
+        this.pakuWarp = warp;
+    }
+    public void setKinkyWarp(boolean warp)
+    {
+        this.kinkyWarp = warp;
+    }
+    public void setStinkyWarp(boolean warp)
+    {
+        this.stinkyWarp = warp;
+    }
+    public void setHinkyWarp(boolean warp)
+    {
+        this.hinkyWarp = warp;
+    }
+    public void setBlaineWarp(boolean warp)
+    {
+        this.blaineWarp = warp;
+    }
+
 }

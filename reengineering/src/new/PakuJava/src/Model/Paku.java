@@ -50,23 +50,30 @@ public class Paku extends MovingGameObject{
      */
     @Override
     public void move() {
+        warp = false;
         switch(this.facingDirection) {
             case left:   //move Paku left a unit
                 if (paku.loc.getxLoc() == 1 && paku.getLoc().getyLoc() == 14)
                 {
                         paku.getLoc().setxLoc(26);
+                        warp = true;
                 }
-                int currentX = loc.getxLoc();
-                if(!checkWall(loc.getxLoc() - MOVE_DIST_PER_TICK, loc.getyLoc()))
-                    loc.setxLoc(loc.getxLoc() - MOVE_DIST_PER_TICK); //move left if not running into wall
+                else {
+                    int currentX = loc.getxLoc();
+                    if (!checkWall(loc.getxLoc() - MOVE_DIST_PER_TICK, loc.getyLoc()))
+                        loc.setxLoc(loc.getxLoc() - MOVE_DIST_PER_TICK); //move left if not running into wall
+                }
                 break;
             case right: //move Paku right a unit unless there's a wall there
                 if (paku.loc.getxLoc() == 26 && paku.getLoc().getyLoc() == 14)
                 {
                     paku.getLoc().setxLoc(1);
+                    warp = true;
                 }
-                if(!checkWall(loc.getxLoc() + MOVE_DIST_PER_TICK, loc.getyLoc()))
-                    loc.setxLoc(loc.getxLoc() + MOVE_DIST_PER_TICK);
+                else {
+                    if (!checkWall(loc.getxLoc() + MOVE_DIST_PER_TICK, loc.getyLoc()))
+                        loc.setxLoc(loc.getxLoc() + MOVE_DIST_PER_TICK);
+                }
                 break;
             case up:  //move Paku up a unit unless theres a wall there
                 if(!checkWall(loc.getxLoc(), loc.getyLoc() - MOVE_DIST_PER_TICK))
@@ -77,6 +84,7 @@ public class Paku extends MovingGameObject{
                     loc.setyLoc(loc.getyLoc() + MOVE_DIST_PER_TICK);
                 break;
         }
+        gameData.setPakuWarp(warp);
     }
 
     /**

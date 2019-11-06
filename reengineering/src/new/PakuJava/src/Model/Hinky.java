@@ -48,12 +48,14 @@ public class Hinky extends Ghost
     public void move()   {
         Location paku = Paku.getInstance().getLoc();
         Direction pakuDir = Paku.getInstance().getFacingDirection();
-        alternate = !alternate;
         if (inJail()) {
             jailMove();
             exitCounter--;
         } else {
+            warp = false;
+            alternate = !alternate;
             checkWarp();
+            setWarpFlag();
             if (state.equals(GhostState.scatter)) {
                 scatterMove(SCATTER_X, SCATTER_Y);
 
@@ -109,5 +111,9 @@ public class Hinky extends Ghost
             gameData.setHinkyBlink(true);
         else if(gameData.isHinkyBlink() && !isBlinking())
             gameData.setHinkyBlink(false);
+    }
+    public void  setWarpFlag()
+    {
+        gameData.setHinkyWarp(warp);
     }
 }

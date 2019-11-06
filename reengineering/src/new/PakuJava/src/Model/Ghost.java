@@ -155,11 +155,13 @@ public abstract class Ghost extends MovingGameObject {
             if (loc.getxLoc() == FAR_RIGHT && loc.getyLoc() == WARP_LEVEL) {
                 loc.setxLoc(1);
                 facingDirection = Direction.right;
+                warp = true;
             }
         } else if (facingDirection.equals(Direction.left)) {
             if (loc.getxLoc() == 1 && loc.getyLoc() == WARP_LEVEL) {
                 loc.setxLoc(FAR_RIGHT);
                 facingDirection = Direction.left;
+                warp = true;
             }
         }
     }
