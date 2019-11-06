@@ -481,7 +481,7 @@ public class GameController
      * Calls each ghost's move method, which updates the ghost's position.
      *
      */
-    private void ghostsMove()
+    public void ghostsMove()
     {
         List<Ghost> ghostList = gameData.getGhostList();
         for (Ghost ghost: ghostList) {
@@ -530,7 +530,7 @@ public class GameController
      * checks whether paku collided with ghost
      * @return
      */
-    private boolean collideWithGhost()
+    public boolean collideWithGhost()
     {
         Paku paku = gameData.getPaku();
         List<Ghost> ghostList = gameData.getGhostList();
@@ -560,7 +560,12 @@ public class GameController
         paku.move(); //tell paku to move in the given direction
 
     }
-    private void spawnFruit()
+
+    /**
+     * Creates the fruit object, the type of which depends on the game level. The fruit code is then inserted into
+     * the map at the proper location
+     */
+    public void spawnFruit()
     {
         Fruit fruit = gameData.getFruit();
         int gamelevel = gameData.getGamelevel();
@@ -569,8 +574,8 @@ public class GameController
         if(fruit == null)
         {
             fruit = new Fruit(gamelevel);
-            ArrayList row = map.get(17);
-            row.set(14, 5);
+            ArrayList row = map.get(17); //row where fruit spawn is to occur
+            row.set(14, gameData.getFRUIT_CODE()); //put fruit into the map
             map.set(17, row);
             gameData.setFruit(fruit);
             gameData.setMap(map);

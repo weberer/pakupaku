@@ -3,15 +3,13 @@ package test;
 
 import Controller.Controls;
 import Controller.GameController;
-import Model.Direction;
-import Model.GameData;
-import Model.Location;
-import Model.Paku;
+import Model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -153,25 +151,58 @@ public class GameControllerTest {
     @Test
     public void pakuUpdate() {
 
+        GameData gd = GameData.getInstance();
+        GameController gc = new GameController();
     }
 
     @Test
-    public void collideWithGhostProtocol() {
+    public void collideWithGhostProtocol()
+    {
+
+        GameData gd = GameData.getInstance();
+        GameController gc = new GameController();
+        List<Ghost> ghostList = gameData.getGhostList();
+
 
     }
 
     @Test
     public void ghostsMove() {
-
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        gc.spawnGhosts();
+        List<Ghost> ghostList = gameData.getGhostList();
+        Location ghost1Loc = ghostList.get(0).getLoc();
+        Location ghost2Loc = ghostList.get(1).getLoc();
+        Location ghost3Loc = ghostList.get(2).getLoc();
+        Location ghost4Loc = ghostList.get(3).getLoc();
+        gc.ghostsMove();
+        Assert.assertNotSame(ghost1Loc, ghostList.get(0).getLoc());
+        Assert.assertNotSame(ghost1Loc, ghostList.get(1).getLoc());
+        Assert.assertNotSame(ghost1Loc, ghostList.get(2).getLoc());
+        Assert.assertNotSame(ghost1Loc, ghostList.get(3).getLoc());
     }
     @Test
-    public void checkFlee() {
+    public void checkFlee()
+    {
+        GameData gd = GameData.getInstance();
+        GameController gc = new GameController();
+        List<Ghost> ghostList = gameData.getGhostList();
 
     }
 
     @Test
     public void collideWithGhost() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        Paku paku = gameData.getPaku();
+        List<Ghost> ghostList = gameData.getGhostList();
+        gc.spawnGhosts();
+        Location pakuLoc = paku.getLoc();
+        ghostList.get(0).setState(GhostState.chase);
+        ghostList.get(0).setLoc(pakuLoc); //set ghost location equal to Paku's location
 
+        Assert.assertTrue(gc.collideWithGhost()); //check if the method detects colllison properly
     }
 
     @Test
@@ -189,8 +220,19 @@ public class GameControllerTest {
         paku.resetLocation();
     }
 
+
     @Test
-    public void spawnFruit() {
+    public void spawnFruit()
+    {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        gameData.setGamelevel(1);
+        gc.spawnFruit();
+        int objCode = (int)gameData.getMap().get(17).get(14); //code value at the coordinates where fruit should spawn
+
+        //Test whether fruit is inserted into the map at the proper location
+        Assert.assertEquals(gameData.getFRUIT_CODE(), objCode);
+
 
     }
 
