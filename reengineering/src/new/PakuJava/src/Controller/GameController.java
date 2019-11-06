@@ -158,6 +158,7 @@ public class GameController
     {
         List<Ghost> ghostList = gameData.getGhostList();
         Paku paku = gameData.getPaku();
+        gameData.setFruit(null);
         paku.resetLocation();
         paku.setDir(Direction.left);
         resetGhosts(ghostList);
@@ -208,7 +209,8 @@ public class GameController
         gameData.setGamelevel(gameLevel);
         gameData.resetDots();
         setUpFruitArray(gameLevel);
-        update();
+        gameData.setGameStatus(GameStatus.play);
+        //update();
     }
 
     /**
@@ -373,7 +375,7 @@ public class GameController
         pakuEatsDots(paku.getLoc());
         if(gameData.getCurrentScore() > (pointsPerLife * gameData.getExtraLives()))
         {
-            gameData.setExtraLives(2);
+            gameData.setExtraLives(gameData.getExtraLives() + 1);
             paku.addLife();
         }
         if(!gameData.dotsRemain()) //if map contains no more dots, go to next level
@@ -422,8 +424,10 @@ public class GameController
         }
         if(tile == gameData.getFRUIT_CODE())  //fruit
         {
-            gameData.getScore().addScore(gameData.getFruit().getScore());
-            gameData.setBonus(gameData.getFruit().getScore());
+            if(gameData.getFruit() != null) {
+                gameData.getScore().addScore(gameData.getFruit().getScore());
+                gameData.setBonus(gameData.getFruit().getScore());
+            }
             row.set(location.getxLoc(), 2);
             map.set(location.getyLoc(), row);
             gameData.setMap(map);

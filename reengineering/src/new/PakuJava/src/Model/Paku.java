@@ -51,12 +51,16 @@ public class Paku extends MovingGameObject{
     @Override
     public void move() {
         warp = false;
+        boolean moved = false;
+        int oldX = loc.getxLoc();
+        int oldY = loc.getyLoc();
         switch(this.facingDirection) {
             case left:   //move Paku left a unit
                 if (paku.loc.getxLoc() == 1 && paku.getLoc().getyLoc() == 14)
                 {
                         paku.getLoc().setxLoc(26);
                         warp = true;
+                        moved = true;
                 }
                 else {
                     int currentX = loc.getxLoc();
@@ -69,6 +73,7 @@ public class Paku extends MovingGameObject{
                 {
                     paku.getLoc().setxLoc(1);
                     warp = true;
+                    moved = true;
                 }
                 else {
                     if (!checkWall(loc.getxLoc() + MOVE_DIST_PER_TICK, loc.getyLoc()))
@@ -85,6 +90,11 @@ public class Paku extends MovingGameObject{
                 break;
         }
         gameData.setPakuWarp(warp);
+        if(loc.getyLoc() == oldY && loc.getxLoc() == oldX)
+            moved = false;
+        else
+            moved = true;
+        gameData.setPakuMoved(moved);
     }
 
     /**
