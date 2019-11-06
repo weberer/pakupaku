@@ -56,8 +56,10 @@ class Ghost extends MovingEntity {
             ghost.setX1(data.location.x - 1); // -1 in x and y accounts for the UI not using game boarders in its calculations
             ghost.setY1(data.location.y - 1);
             ghost.changeDirection(data.location.direction);
-            if(blinking)
+            if(blinking && (data.ghost_state === "scared"))
                 ghost.changeState("scaredExpiring");
+            else if(data.warping)
+                ghost.changeState("warping");
             else
                 ghost.changeState(data.ghost_state);
         });

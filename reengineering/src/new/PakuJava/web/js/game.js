@@ -169,6 +169,7 @@ class Game {
 
     static handleGameOver = () => {
         Util.stopInterval();
+        Util.playAudio("lost_life");
         this.gameOver();
         setTimeout(this.openMenu, this.gameOverDuration);
 

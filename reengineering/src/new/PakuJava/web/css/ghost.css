@@ -1,6 +1,11 @@
 .ghost {
     background-size: cover;
     background-repeat: no-repeat;
+    opacity: 1;
+}
+
+.ghost[state="warping"]{
+    opacity: 0;
 }
 
 .ghost::after,
@@ -33,7 +38,6 @@
 .ghost:not([state="eaten"])::before {
     animation: ghost-movement .5s infinite both reverse;
 }
-
 
 #stinky {
     --x_coord: 0;
