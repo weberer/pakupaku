@@ -209,69 +209,70 @@ public abstract class Ghost extends MovingGameObject {
     protected void calculateMove() {
         int randomInt = random.nextInt(10);
         if (!jailSkip) {//jailSkip is a value only true when a ghost is entering or leaving the jail.
-
-            absoluteX = Math.abs(changeX);
-            absoluteY = Math.abs(changeY);
-            //testAmount is used as an offset for testing the turns
-            if (facingDirection.equals(Direction.up) || facingDirection.equals(Direction.left)) {
-                testAmount = -1;
-            } else {
-                testAmount = 1;
-            }
-            // Up and Down movement testing for turns
-            if (facingDirection.equals(Direction.up) || facingDirection.equals(Direction.down)) {
-                if (randomInt > 1) {
-                    if (loc.getxLoc() == 9 || loc.getxLoc() == 18)//loc.getxLoc() == 19
-                        if (loc.getyLoc() > 9 && loc.getyLoc() < 27)
-                            allowTurn = true;
+            if (!state.equals(GhostState.flee) || !alternate) {
+                absoluteX = Math.abs(changeX);
+                absoluteY = Math.abs(changeY);
+                //testAmount is used as an offset for testing the turns
+                if (facingDirection.equals(Direction.up) || facingDirection.equals(Direction.left)) {
+                    testAmount = -1;
+                } else {
+                    testAmount = 1;
+                }
+                // Up and Down movement testing for turns
+                if (facingDirection.equals(Direction.up) || facingDirection.equals(Direction.down)) {
+                    if (randomInt > 1) {
+                        if (loc.getxLoc() == 9 || loc.getxLoc() == 18)//loc.getxLoc() == 19
+                            if (loc.getyLoc() > 9 && loc.getyLoc() < 27)
+                                allowTurn = true;
+                            else
+                                allowTurn = false;
                         else
                             allowTurn = false;
-                    else
+
+                    } else
                         allowTurn = false;
 
-                } else
-                    allowTurn = false;
 
-
-                if (absoluteX > absoluteY || changeY > 0) {
-                    turnUpDown();
-                } else if ((int) map.get(loc.getyLoc() + testAmount).get(loc.getxLoc()) == 0 || allowTurn) {
-                    turnUpDown();
+                    if (absoluteX > absoluteY || changeY > 0) {
+                        turnUpDown();
+                    } else if ((int) map.get(loc.getyLoc() + testAmount).get(loc.getxLoc()) == 0 || allowTurn) {
+                        turnUpDown();
+                    }
+                    //This is one of the original author's things he added. It's a random chance for the ghosts
+                    //to turn where they don't in the Pacman game.
+                    else if (randomInt > 8) {
+                        turnUpDown();
+                    }
                 }
-                //This is one of the original author's things he added. It's a random chance for the ghosts
-                //to turn where they don't in the Pacman game.
-                else if (randomInt > 8) {
-                    turnUpDown();
-                }
-            }
-            // Left and Right movement testing for turns
-            else if (facingDirection.equals(Direction.left) || facingDirection.equals(Direction.right)) {
-                if (randomInt > 1) {
-                    if ((loc.getxLoc() > 9) && (loc.getxLoc() < 18))//loc.getxLoc() == 19
-                        if ((loc.getyLoc() > 9) || (loc.getyLoc() < 22))
-                            allowTurn = false;
+                // Left and Right movement testing for turns
+                else if (facingDirection.equals(Direction.left) || facingDirection.equals(Direction.right)) {
+                    if (randomInt > 1) {
+                        if ((loc.getxLoc() > 9) && (loc.getxLoc() < 18))//loc.getxLoc() == 19
+                            if ((loc.getyLoc() > 9) || (loc.getyLoc() < 22))
+                                allowTurn = false;
+                            else
+                                allowTurn = true;
                         else
                             allowTurn = true;
-                    else
+
+                    } else
                         allowTurn = true;
+                    if (absoluteX > absoluteY || changeY > 0) {
+                        turnLeftRight();
+                    }
+                    if ((int) map.get(loc.getyLoc()).get(loc.getxLoc() + testAmount) == 0 || randomInt > 8) {
+                        turnLeftRight();
+                    }
+                }
 
-                } else
-                    allowTurn = true;
-                if (absoluteX > absoluteY || changeY > 0) {
-                    turnLeftRight();
-                }
-                if ((int) map.get(loc.getyLoc()).get(loc.getxLoc() + testAmount) == 0 || randomInt > 8) {
-                    turnLeftRight();
-                }
             }
-
         }
         if (!state.equals(GhostState.flee)) {
             moveNotTurn();
         }
         //Fleeing ghosts can only move every other movement call
-        else if (!(loc.getyLoc() == 14)) {
-            if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))//loc.getxLoc() == 22
+        else if (!(loc.getxLoc() < 6 && loc.getxLoc() > 21))//loc.getxLoc() == 22
+        {
                 if (!alternate) {
                     moveNotTurn();
                 }

@@ -49,6 +49,7 @@ public class Kinky extends Ghost {
             jailMove();
             exitCounter--;
         } else {
+            alternate = !alternate;
             checkWarp();
             if (state.equals(GhostState.scatter)) {
                 scatterMove(SCATTER_X, SCATTER_Y);

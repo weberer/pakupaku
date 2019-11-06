@@ -112,7 +112,7 @@ public class Paku extends MovingGameObject{
      * @return
      */
     public boolean isGameOver(){
-        return remainingLife > 0;
+        return remainingLife < 0;
     }
 
     /**
