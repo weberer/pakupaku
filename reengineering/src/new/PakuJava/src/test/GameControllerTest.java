@@ -161,7 +161,7 @@ public class GameControllerTest {
 
         GameData gd = GameData.getInstance();
         GameController gc = new GameController();
-        List<Ghost> ghostList = gameData.getGhostList();
+        List<Ghost> ghostList = gd.getGhostList();
 
 
     }
@@ -187,7 +187,7 @@ public class GameControllerTest {
     {
         GameData gd = GameData.getInstance();
         GameController gc = new GameController();
-        List<Ghost> ghostList = gameData.getGhostList();
+        List<Ghost> ghostList = gd.getGhostList();
 
     }
 
