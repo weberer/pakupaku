@@ -389,24 +389,24 @@ public class GameController
     }
 
     /**
-     * Handles scoring and map modificaiton for the eating of dots and fruit
+     * Handles scoring and map modification for the eating of dots and fruit
      * @param location
      */
-    private void pakuEatsDots(Location location)
+    public void pakuEatsDots(Location location)
     {
-        ArrayList<ArrayList> map = gameData.getMap();
+        ArrayList<ArrayList> map = gameData.getMap(); //get copy of the map array
 
-        ArrayList row = map.get(location.getyLoc());
+        ArrayList row = map.get(location.getyLoc()); //get the row based on Paku's Y location
 
-        List<Ghost> ghostList = gameData.getGhostList();
+        List<Ghost> ghostList = gameData.getGhostList(); //retrieve copy of ghost list
         int tile = (int)row.get(location.getxLoc());
         if(tile == gameData.getDOT_CODE())  //regular dot
         {
             gameData.getScore().addScore(POINTS_PER_DOT); //add score for eating dot to current score
-            row.set(location.getxLoc(), 2);
-            map.set(location.getyLoc(), row);
-            gameData.setMap(map);
-            gameData.setDots(gameData.getDots() - 1);
+            row.set(location.getxLoc(), gameData.getHALL_CODE()); //replace the dot in the map with a blank space
+            map.set(location.getyLoc(), row); //put the updated row back into the map
+            gameData.setMap(map); //update the map with the missing pellet
+            gameData.setDots(gameData.getDots() - 1); //decrement number of dots
         }
         if(tile == gameData.getLARGEDOT_CODE())  //super (large) dot
         {
@@ -420,7 +420,7 @@ public class GameController
             }
             Ghost.startGlobalFleeCounter();
             gameData.getScore().addScore(POINTS_PER_SUPER_DOT);
-            row.set(location.getxLoc(), 2);
+            row.set(location.getxLoc(), gameData.getHALL_CODE());
             map.set(location.getyLoc(), row);
             gameData.setMap(map);
             gameData.setDots(gameData.getDots() - 1);

@@ -4,10 +4,13 @@ package test;
 import Controller.Controls;
 import Controller.GameController;
 import Model.GameData;
+import Model.Location;
 import Model.Paku;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Assert;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -112,8 +115,32 @@ public class GameControllerTest {
 
         Controls keyW = gc.getUserInput();
         Assert.assertEquals("keyW", keyW.toString());
+    }
+
+
+    @Test
+    public void pakuEatsDots() {
+        GameData gameData = GameData.getInstance();
+        GameController gc = new GameController();
+        int initialGameDots = gameData.getDots();
+        Location inedibleDotLoc = new Location(19, 1);
+        gc.pakuEatsDots(inedibleDotLoc);
+        int finalGameDots = gameData.getDots();
+        Assert.assertEquals(initialGameDots - 1, finalGameDots);
+
+        ArrayList<ArrayList> map = gameData.getMap(); //get copy of the map array
+        ArrayList row = map.get(inedibleDotLoc.getyLoc());
+        int newTile = (int)row.get(inedibleDotLoc.getxLoc());
+        Assert.assertEquals(2, newTile);
+
+        int leftTile = (int)row.get(inedibleDotLoc.getxLoc() - 1);
+        Assert.assertEquals(1, leftTile);
 
     }
+
+
+
+
 
     /**
      * testFruit tests to make sure that the gameData method fruitCheck works, and then tests the GameController's
