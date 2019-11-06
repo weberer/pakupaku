@@ -32,6 +32,7 @@ class Paku extends MovingEntity {
     };
 
     handleLostLife = () => {
+        this.stopWaka();
         let audioDuration = Util.playAudio('lost_life') || 1.4;
         this.moveToStartingPos();
         Ghost.moveToStartingLocations();
@@ -40,6 +41,10 @@ class Paku extends MovingEntity {
             Game.setGameReady(Util.startInterval);
         }, audioDuration);
     };
+
+    startWaka = () => { Util.playAudio("eating"); };
+
+    stopWaka = () => { Util.stopAudio("eating"); };
 
 
     // call in init method
