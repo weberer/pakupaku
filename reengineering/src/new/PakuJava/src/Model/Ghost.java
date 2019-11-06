@@ -276,7 +276,8 @@ public abstract class Ghost extends MovingGameObject {
                     moveNotTurn();
                 }
         }
-        updateTimer();
+        if(!state.equals(GhostState.flee) && !state.equals(GhostState.eaten))
+            updateTimer();
     }
 
     /**
