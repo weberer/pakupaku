@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SpaceInvadersButBetter.core;
+using SpaceInvadersButBetter.Controller;
 using System.IO;
+
 
 namespace SpaceInvadersButBetter
 {
@@ -18,6 +20,7 @@ namespace SpaceInvadersButBetter
     public partial class GameView : UserControl
     {
         private GameBoxForm _parent;
+        private GameLogic logic; // Class that should handle all game logic
 
         private int coinCount;
         private int score;
@@ -31,6 +34,7 @@ namespace SpaceInvadersButBetter
         private int alien_count = 66;
 
         private Timer fpsTimer;
+  
         private int TimerCounter = 0;
         private int MenuCount = 0;
         private int blinkCount = 0;
@@ -66,7 +70,11 @@ namespace SpaceInvadersButBetter
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
             _parent = parent;
+
+            logic = new GameLogic();
+         
             scoreUtil = new ScoreUtility();
+
             lblHighScore.Text = scoreUtil.getTopScore().ToString();
             InitializeStartScreen();
             InitializeGameObjects();
@@ -105,7 +113,9 @@ namespace SpaceInvadersButBetter
             lblLevelNumber.Text = level.ToString();
             InitializeObject_Shields();
             InitializeSpaceShip();
-            InitializeAliens(level);
+
+            logic.InitializeAliens(level);
+
             InitializeCredits();
         }
 
@@ -153,16 +163,16 @@ namespace SpaceInvadersButBetter
         /**
          * Creates Aliens for board
          */
-        private void InitializeAliens(int level)
-        {
-            for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-            {
-                for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-                {
-                    alienGroup[i, j] = new Alien(alien_speed_factor, Resources.invader_open, Resources.invader_closed, (2 + i), j);
-                }
-            }
-        }
+        //private void InitializeAliens(int level)
+        //{
+        //    for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
+        //    {
+        //        for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
+        //        {
+        //            alienGroup[i, j] = new Alien(alien_speed_factor, Resources.invader_open, Resources.invader_closed, (2 + i), j);
+        //        }
+        //    }
+        //}
 
         /**
          * Insert coin method, updates label and count
@@ -196,6 +206,7 @@ namespace SpaceInvadersButBetter
         {
             player = new SpaceShip();
             lblLifes.Text = player.getLifes().ToString();
+    
         }
 
         /**
@@ -396,27 +407,27 @@ namespace SpaceInvadersButBetter
         /**
          * Method called when space bar is hit to shoot a bullet or reset game in over
          */
-        private void ShootButton()
-        {
-            if (keydown_shoot == Keys.Space)
-            {
-                if(!gameover)
-                {
-                    int startX = player.Position.X + (Resources.space_ship.Width / 2) - 10;
-                    int startY = player.Position.Y - (Resources.space_ship.Height / 2) + 10;
-                    Bullet bullet = new Bullet(startX, startY, true);
-                    bullets.Add(bullet);
-                } 
-                else
-                {
-                    ResetGameStates();
-                    ResetPlayer();
-                    ResetAliens();
-                    ResetSheilds();
-                    ResetBullets();
-                }
-            }
-        }
+        //private void ShootButton()
+        //{
+        //    if (keydown_shoot == Keys.Space)
+        //    {
+        //        if(!gameover)
+        //        {
+        //            int startX = player.Position.X + (Resources.space_ship.Width / 2) - 10;
+        //            int startY = player.Position.Y - (Resources.space_ship.Height / 2) + 10;
+        //            Bullet bullet = new Bullet(startX, startY, true);
+        //            bullets.Add(bullet);
+        //        } 
+        //        else
+        //        {
+        //            ResetGameStates();
+        //            ResetPlayer();
+        //            ResetAliens();
+        //            ResetSheilds();
+        //            ResetBullets();
+        //        }
+        //    }
+        //}
 
         /**
          * Clears bullet lists
