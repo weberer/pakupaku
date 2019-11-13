@@ -1,0 +1,13 @@
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\bin\Debug\SpaceInvadersButBetter.exe.config
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\bin\Debug\SpaceInvadersButBetter.exe
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\bin\Debug\SpaceInvadersButBetter.pdb
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\obj\Debug\SpaceInvadersButBetter.csprojResolveAssemblyReference.cache
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\obj\Debug\SpaceInvadersButBetter.GameForm.resources
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\obj\Debug\SpaceInvadersButBetter.Resources.resources
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\obj\Debug\SpaceInvadersButBetter.GameBoxForm.resources
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\obj\Debug\SpaceInvadersButBetter.Properties.Resources.resources
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\obj\Debug\SpaceInvadersButBetter.GameView.resources
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\obj\Debug\SpaceInvadersButBetter.csproj.GenerateResource.cache
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\obj\Debug\SpaceInvadersButBetter.csproj.CoreCompileInputs.cache
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\obj\Debug\SpaceInvadersButBetter.exe
+J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\SpaceInvadersButBetter\obj\Debug\SpaceInvadersButBetter.pdb

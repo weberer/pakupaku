@@ -10,8 +10,10 @@ List of issues found that can be worked on
 of the tank to the bottom of the joystick base. 
 2.5: The coins also will clip into the game screen, causing up to half of the coin to be overwritten with the start screen. After hovering 
 the mouse over the game's form the coin will be stuck in place until the mouse is out of the game's form.
+2.6 there is no indication that the space bar needs to be pressed to start the game. //Fixed 11/12 - Evan: added yellow "hit spacebar" label
+2.7 What exactly is the point of having dimes anyways? - Evan
 
-3: Bullets will cause a line of bullets when the space bar is held down, until the left or right arrow keys are pressed.
+3: Bullets will cause a line of bullets when the space bar is held down, until the left or right arrow keys are pressed. //Fixed 11/12 - Evan: now, shot not fired until space bar is released
 3.1: This works while moving. To perform this, hold down a valid directional key and hold space. This does not occur when the space bar is held
 then a directional key is pressed.
 3.2 Bullets are being erased too high, currently the bullets will go behind the text labels at the top.

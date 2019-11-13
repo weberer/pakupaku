@@ -43,6 +43,7 @@
             this.lblYourScore = new System.Windows.Forms.Label();
             this.lblEndScore = new System.Windows.Forms.Label();
             this.lblScoreScroll = new System.Windows.Forms.Label();
+            this.lblHitSpace = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblScoreTitle
@@ -214,11 +215,24 @@
             this.lblScoreScroll.TabIndex = 17;
             this.lblScoreScroll.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // lblHitSpace
+            // 
+            this.lblHitSpace.AutoSize = true;
+            this.lblHitSpace.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHitSpace.ForeColor = System.Drawing.Color.Yellow;
+            this.lblHitSpace.Location = new System.Drawing.Point(172, 362);
+            this.lblHitSpace.Name = "lblHitSpace";
+            this.lblHitSpace.Size = new System.Drawing.Size(189, 31);
+            this.lblHitSpace.TabIndex = 18;
+            this.lblHitSpace.Text = "Hit Space Bar!";
+            this.lblHitSpace.Visible = false;
+            // 
             // GameView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.lblHitSpace);
             this.Controls.Add(this.lblScoreScroll);
             this.Controls.Add(this.lblEndScore);
             this.Controls.Add(this.lblYourScore);
@@ -261,5 +275,6 @@
         private System.Windows.Forms.Label lblYourScore;
         private System.Windows.Forms.Label lblEndScore;
         private System.Windows.Forms.Label lblScoreScroll;
+        private System.Windows.Forms.Label lblHitSpace;
     }
 }

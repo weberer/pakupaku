@@ -147,6 +147,7 @@ namespace SpaceInvadersButBetter
             lblLifes.Visible = true;
             lblLifesLabel.Visible = true;
             lblScoreScroll.Visible = false;
+            lblHitSpace.Visible = false;
         }
 
         /**
@@ -172,6 +173,7 @@ namespace SpaceInvadersButBetter
             {
                 coinCount++;
                 CoinCountLabel.Text = coinCount.ToString();
+                lblHitSpace.Visible = true; //Evan 11/12
             }
         }
 
@@ -348,11 +350,18 @@ namespace SpaceInvadersButBetter
                     this._parent.changeJoystickView(1);
                 }
             }
-            else if (k == Keys.Space && !release)
+
+            //Evan 11/12: changed !release to release so that space 
+            else if (k == Keys.Space && release)
             {
                 keydown_shoot = Keys.Space;
                 ShootButton();
             }
+            //else if (k == Keys.Space && !release)
+            //{
+            //    keydown_shoot = Keys.Space;
+            //    ShootButton();
+            //}
         }
 
         /**
