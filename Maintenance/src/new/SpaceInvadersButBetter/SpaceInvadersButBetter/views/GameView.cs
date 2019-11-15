@@ -59,7 +59,7 @@ namespace SpaceInvadersButBetter
         /**
          * Constructor
          */
-        public GameView(GameBoxForm parent)
+        public GameView(GameBoxForm parent, GameLogic logic)
         {
             InitializeComponent();
 
@@ -71,8 +71,8 @@ namespace SpaceInvadersButBetter
 
             _parent = parent;
 
-            logic = new GameLogic();
-         
+            this.logic = new GameLogic(this);
+        
             scoreUtil = new ScoreUtility();
 
             lblHighScore.Text = scoreUtil.getTopScore().ToString();

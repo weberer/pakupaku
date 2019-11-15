@@ -1,4 +1,5 @@
-﻿using SpaceInvadersButBetter.core;
+﻿using SpaceInvadersButBetter.Controller;
+using SpaceInvadersButBetter.core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +20,7 @@ namespace SpaceInvadersButBetter
         private Joystick joystick;
         private Coin coinPile;
         GameView game;
-
+        private GameLogic logicController;
         private GameBox bg = new GameBox();
 
         /**
@@ -137,4 +138,5 @@ namespace SpaceInvadersButBetter
 
         }
     }
+
 }

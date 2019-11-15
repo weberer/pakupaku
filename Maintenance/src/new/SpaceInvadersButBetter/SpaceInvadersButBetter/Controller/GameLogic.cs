@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using SpaceInvadersButBetter.core;
 
 namespace SpaceInvadersButBetter.Controller
@@ -10,7 +11,7 @@ namespace SpaceInvadersButBetter.Controller
     //---------------------------------------------------------------------
     // The GameLogic class handles game logic and communicates it back to the view
     //---------------------------------------------------------------------
-    class GameLogic
+    public class GameLogic
     {
         private int coinCount;
         private int score;
@@ -36,6 +37,7 @@ namespace SpaceInvadersButBetter.Controller
         private const int CREDIT_BLINK_COUNT = 8;
         private const double SPEEP_INCREASE_FACTOR = 1.25;
 
+        private int credits;
         private List<Shield> Shields = new List<Shield>();
         
         private SpaceShip player;
@@ -44,13 +46,14 @@ namespace SpaceInvadersButBetter.Controller
         private List<Bullet> bullets = new List<Bullet>();
         private List<Bullet> alienbullets = new List<Bullet>();
 
-        public GameLogic()
+        private GameView gameForm;
+        public GameLogic(GameView view)
         {
-
-            
-
+            credits = 0;
+            gameForm = view;
         }
 
+        
         public void InitializeAliens(int level)
         {
             for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
