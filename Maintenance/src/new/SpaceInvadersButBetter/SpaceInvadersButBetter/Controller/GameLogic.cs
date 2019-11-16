@@ -14,11 +14,7 @@ namespace SpaceInvadersButBetter.Controller
     //---------------------------------------------------------------------
     public class GameLogic
     {
-<<<<<<< HEAD
-        private int coinCount;
-=======
-        private int score;
->>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
+
         private bool gameover;
 
 
@@ -49,7 +45,7 @@ namespace SpaceInvadersButBetter.Controller
         private List<Bullet> bullets = new List<Bullet>();
         private List<Bullet> alienbullets = new List<Bullet>();
 
-<<<<<<< HEAD
+
         private GameView gameForm;
         private GameBoxForm gameBox;
         private GameData data;
@@ -65,7 +61,7 @@ namespace SpaceInvadersButBetter.Controller
         /**
          * Creates Aliens for board
          */
-=======
+
         private GameView gameView;
         private GameBoxForm gameBox;
         private bool StartScreenActive = true;
@@ -79,7 +75,7 @@ namespace SpaceInvadersButBetter.Controller
         {
             this.gameView = view;
         }
->>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
+
         public void InitializeAliens(int level)
         {
             for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
@@ -107,7 +103,7 @@ namespace SpaceInvadersButBetter.Controller
                 }
                 else
                 {
-<<<<<<< HEAD
+
                     ResetGameStates();
                     ResetPlayer();
                     ResetAliens();
@@ -256,7 +252,7 @@ namespace SpaceInvadersButBetter.Controller
            }
        }
        */
-=======
+
                     //ResetGameStates();
                     //ResetPlayer();
                     //ResetAliens();
@@ -311,6 +307,6 @@ namespace SpaceInvadersButBetter.Controller
         {
             return credits;
         }
->>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
+
     }
 }
