@@ -58,6 +58,7 @@
     <Compile Include="depreciated\Bad-GameForm.Designer.cs">
       <DependentUpon>Bad-GameForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\GameData.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

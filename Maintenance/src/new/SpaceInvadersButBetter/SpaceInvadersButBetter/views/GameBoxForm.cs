@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SpaceInvadersButBetter.Model;
 
 namespace SpaceInvadersButBetter
 {
@@ -20,7 +21,8 @@ namespace SpaceInvadersButBetter
         private Joystick joystick;
         private Coin coinPile;
         GameView game;
-        private GameLogic logicController;
+        private GameLogic logic;
+        private GameData data;
         private GameBox bg = new GameBox();
 
         /**
@@ -77,7 +79,10 @@ namespace SpaceInvadersButBetter
          */
         public void startGame()
         {
-            game = new GameView(this);
+            logic = new GameLogic(this);
+            data = new GameData();
+            game = new GameView(this, logic, data);
+            
             game.Location = new Point(80, 90);
             this.Controls.Add(game);
         }
@@ -105,7 +110,7 @@ namespace SpaceInvadersButBetter
                     if (coinPile.isQuarter())
                     {
                         coinPile.deleteCoin();
-                        game.CoinInsert();
+                        logic.CoinInsert();
                         //this.startGame();
                     }
                     else

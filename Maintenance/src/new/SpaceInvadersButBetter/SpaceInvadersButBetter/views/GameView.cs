@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SpaceInvadersButBetter.core;
 using SpaceInvadersButBetter.Controller;
+using SpaceInvadersButBetter.Model;
 using System.IO;
 
 
@@ -21,9 +22,9 @@ namespace SpaceInvadersButBetter
     {
         private GameBoxForm _parent;
         private GameLogic logic; // Class that should handle all game logic
+        private GameData data;
 
-        private int coinCount;
-        private int score;
+
         private bool gameover;
         private ScoreUtility scoreUtil;
         private bool StartScreenActive = true;
@@ -52,14 +53,13 @@ namespace SpaceInvadersButBetter
         private List<Label> ShieldHealth = new List<Label>();
         private SpaceShip player;
         private Alien[,] alienGroup = new Alien[NUMBER_OF_ALIEN_ROWS, NUMBER_OF_ALIENS_PER_ROW];
-        private int level;
         private List<Bullet> bullets = new List<Bullet>();
         private List<Bullet> alienbullets = new List<Bullet>();
 
         /**
          * Constructor
          */
-        public GameView(GameBoxForm parent, GameLogic logic)
+        public GameView(GameBoxForm parent, GameLogic logic, GameData data)
         {
             InitializeComponent();
 
@@ -71,7 +71,9 @@ namespace SpaceInvadersButBetter
 
             _parent = parent;
 
-            this.logic = new GameLogic(this);
+            this.logic = logic;
+            this.data = data;
+            this.logic.SetGameView(this);
         
             scoreUtil = new ScoreUtility();
 
@@ -107,14 +109,14 @@ namespace SpaceInvadersButBetter
             fpsTimer = new Timer();
             fpsTimer.Tick += fpsTimer_Tick;
             fpsTimer.Interval = 20;
-            level = 1;
-            score = 0;
-            lblScore.Text = score.ToString();
-            lblLevelNumber.Text = level.ToString();
+            data.resetLevelScore(); //level = 1; score = 0
+          
+            lblScore.Text = data.getScore().ToString();
+            lblLevelNumber.Text = data.getLevel().ToString();
             InitializeObject_Shields();
             InitializeSpaceShip();
 
-            logic.InitializeAliens(level);
+            logic.InitializeAliens(data.getLevel());
 
             InitializeCredits();
         }
@@ -137,7 +139,7 @@ namespace SpaceInvadersButBetter
             lblGameOver.Visible = true;
             lblYourScore.Visible = true;
             lblEndScore.Visible = true;
-            lblEndScore.Text = score.ToString();
+            lblEndScore.Text = data.getScore().ToString();
             lblHighScore.Text = scoreUtil.getTopScore().ToString();
         }
 
@@ -177,27 +179,34 @@ namespace SpaceInvadersButBetter
         /**
          * Insert coin method, updates label and count
          */
+         /*
         public void CoinInsert()
         {
+            int coinCount = data.getCoinCount();
             if (coinCount < 1)
             {
                 coinCount++;
+                data.setCoinCount(coinCount);
                 CoinCountLabel.Text = coinCount.ToString();
                 lblHitSpace.Visible = true; //Evan 11/12
             }
         }
+        */
 
         /**
          * Decrements coint when used for game play
          */
+         /*
         public void CoinDecrement()
         {
+            int coinCount = data.getCoinCount();
             if (coinCount > 0)
             {
-                coinCount--;
+                data.setCoinCount(--coinCount);
                 CoinCountLabel.Text = coinCount.ToString();
             }
         }
+        */
 
         /**
          * Creates player spaceship object
@@ -212,7 +221,8 @@ namespace SpaceInvadersButBetter
         /**
          * Creates 4 sheilds
          */
-        private void InitializeObject_Shields()
+         
+        public void InitializeObject_Shields()
         {
             for (int i = 0; i < NUMBER_OF_SHIELDS; i++)
             {
@@ -232,6 +242,7 @@ namespace SpaceInvadersButBetter
                 this.Controls.Add(ShieldHealth[i]);
             }
         }
+        
 
         /**
          * Draws sheilds
@@ -323,7 +334,7 @@ namespace SpaceInvadersButBetter
                     break;
 
                 case Keys.Space:
-                    if ((coinCount == 1) && StartScreenActive == true)
+                    if ((data.getCoinCount() == 1) && StartScreenActive == true)
                         EraseStartScreen();
                     break;
             }
@@ -366,7 +377,7 @@ namespace SpaceInvadersButBetter
             else if (k == Keys.Space && release)
             {
                 keydown_shoot = Keys.Space;
-                ShootButton();
+                logic.ShootButton(k);
             }
             //else if (k == Keys.Space && !release)
             //{
@@ -423,7 +434,7 @@ namespace SpaceInvadersButBetter
         //            ResetGameStates();
         //            ResetPlayer();
         //            ResetAliens();
-        //            ResetSheilds();
+        //            ResetShields();
         //            ResetBullets();
         //        }
         //    }
@@ -432,24 +443,29 @@ namespace SpaceInvadersButBetter
         /**
          * Clears bullet lists
          */
+         /*
         private void ResetBullets()
         {
             alienbullets.Clear();
             bullets.Clear();
         }
+        */
 
         /**
          * Clears sheilds and resets them
          */
-        private void ResetSheilds()
+         /*
+        private void ResetShields()
         {
             Shields.Clear();
             InitializeObject_Shields();
         }
+        */
 
         /**
          * Clears aliens and resets them
          */
+         /*
         private void ResetAliens()
         {
             Array.Clear(alienGroup, 0, alienGroup.Length);
@@ -461,19 +477,23 @@ namespace SpaceInvadersButBetter
                 }
             }
         }
+        */
 
         /**
          * Resets player and lifes
          */
+         /*
         private void ResetPlayer()
         {
             player.reset();
             lblLifes.Text = player.getLifes().ToString();
         }
+        */
 
         /**
          * Resets game states for logic
          */
+         /*
         private void ResetGameStates()
         {
             gameover = false;
@@ -486,7 +506,7 @@ namespace SpaceInvadersButBetter
             lblLevelNumber.Text = level.ToString();
             lblScore.Text = score.ToString();
         }
-
+        */
         /**
          * Checks for bullet collision with sheild
          */
@@ -588,7 +608,7 @@ namespace SpaceInvadersButBetter
                         alienGroup[r, c].beenHit = true;
                         player.kill();
                         gameover = true;
-                        WriteScore(score);
+                        WriteScore(data.getScore());
                     }
                 }
             }
@@ -607,7 +627,7 @@ namespace SpaceInvadersButBetter
                     {
                         player.kill();
                         gameover = true;
-                        WriteScore(score);
+                        WriteScore(data.getScore());
                     }
                     lblLifes.Text = player.getLifes().ToString();
                     alienbullets.RemoveAt(i);
@@ -631,11 +651,13 @@ namespace SpaceInvadersButBetter
         /**
          * Updates score with given points and displays
          */
+         /*
         private void UpdateScore(int points)
         {
             score += 10;
             lblScore.Text = score.ToString();
         }
+        */
 
         /**
          * Checks bullets hitting aliens, score gained
@@ -650,7 +672,7 @@ namespace SpaceInvadersButBetter
                     {
                         alienGroup[r, c].beenHit = true;
                         alien_count--;
-                        UpdateScore(10);
+                        logic.UpdateScore(10);
                         return true;
                     }
                 }
@@ -695,14 +717,16 @@ namespace SpaceInvadersButBetter
         /**
          * Increments level, speed factor, and resets aliens
          */
+         /*
         private void NextLevel()
         {
             level++;
             lblLevelNumber.Text = level.ToString();
             alien_speed_factor = Convert.ToInt32(alien_speed_factor * SPEEP_INCREASE_FACTOR);
-            ResetAliens();
+            logic.ResetAliens();
             alien_count = 66;
         }
+        */
 
         /**
          * Toggles credits based on parameter
@@ -807,7 +831,7 @@ namespace SpaceInvadersButBetter
 
             if (alien_count == 0)
             {
-                NextLevel();
+                logic.NextLevel();
             }
 
             CreditBlink();
@@ -829,7 +853,7 @@ namespace SpaceInvadersButBetter
 
             if (CheckForLanding())
             {
-                WriteScore(score);
+                WriteScore(data.getScore());
                 gameover = true;
             }
             Invalidate();
@@ -991,5 +1015,43 @@ namespace SpaceInvadersButBetter
                 alienbullets.Add(bullet);
             }
         }
+
+        /**
+         * Updates the level label
+         */
+        public void setLevelLabel(string level)
+        {
+            lblLevelNumber.Text = level;
+        }
+
+        /**
+         * Updates the score label
+         */
+        public void setScoreLabel(string score)
+        {
+            lblScore.Text = score;
+        }
+
+        /**
+         * Updates the lives label
+         */
+        public void setLivesLabel(string lives)
+        {
+            lblLifes.Text = lives;
+        }
+
+        /**
+         * Updates the cointCount label
+         */
+        public void setCoinCountLabel(string count)
+        {
+            CoinCountLabel.Text = count;
+        }
+
+        public void setHitSpaceVisibility(Boolean visibility)
+        {
+            lblHitSpace.Visible = visibility;
+        }
+
     }
 }
