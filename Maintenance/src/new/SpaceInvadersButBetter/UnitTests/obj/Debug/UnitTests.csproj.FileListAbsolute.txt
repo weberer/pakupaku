@@ -45,3 +45,20 @@ J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\s
 J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\obj\Debug\UnitTests.csproj.CopyComplete
 J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\obj\Debug\UnitTests.dll
 J:\Fall2019\Maintenance & Reengineering\firebreathingrubberduckies\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\obj\Debug\UnitTests.pdb
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\UnitTests.dll
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\UnitTests.pdb
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\SpaceInvadersButBetter.exe
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\SpaceInvadersButBetter.pdb
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\SpaceInvadersButBetter.exe.config
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\obj\Debug\UnitTests.csprojResolveAssemblyReference.cache
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\obj\Debug\UnitTests.csproj.CoreCompileInputs.cache
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\obj\Debug\UnitTests.csproj.CopyComplete
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\obj\Debug\UnitTests.dll
+J:\FBRD\Maintenance\src\new\SpaceInvadersButBetter\UnitTests\obj\Debug\UnitTests.pdb
