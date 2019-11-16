@@ -51,3 +51,8 @@ a new level.
 game over is reached.
 
 12: The speed of the ghosts are constant. We could make an adjustable speed. 
+
+The following notes are for new features
+
+1: To make the application pause in c#, we need to use the Thread library's .Sleep method
+2

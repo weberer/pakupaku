@@ -25,9 +25,17 @@ namespace SpaceInvadersButBetter
         private GameData data;
 
 
+<<<<<<< HEAD
+=======
+        private int credits = 0;
+        private int score;
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
         private bool gameover;
         private ScoreUtility scoreUtil;
         private bool StartScreenActive = true;
+        private bool creditFlash = false;
+        private int gameOverFlash = 0;
+        private const int MAX_GAME_OVER_FLASHES = 2;
 
         //increments with higher levels
         private int alien_speed = 6;
@@ -72,8 +80,12 @@ namespace SpaceInvadersButBetter
             _parent = parent;
 
             this.logic = logic;
+<<<<<<< HEAD
             this.data = data;
             this.logic.SetGameView(this);
+=======
+            logic.SetGameView(this);
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
         
             scoreUtil = new ScoreUtility();
 
@@ -116,7 +128,11 @@ namespace SpaceInvadersButBetter
             InitializeObject_Shields();
             InitializeSpaceShip();
 
+<<<<<<< HEAD
             logic.InitializeAliens(data.getLevel());
+=======
+            InitializeAliens(level);
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
 
             InitializeCredits();
         }
@@ -149,7 +165,6 @@ namespace SpaceInvadersButBetter
         public void EraseStartScreen()
         {
             SpaceInvadersLabel.Visible = false;
-            CoinCountLabel.Visible = false;
             InsertCoinLabel.Visible = false;
             StartScreenActive = false;
             lblScore.Visible = true;
@@ -160,8 +175,10 @@ namespace SpaceInvadersButBetter
             lblLifesLabel.Visible = true;
             lblScoreScroll.Visible = false;
             lblHitSpace.Visible = false;
+            CreditFlashTimer.Enabled = false;
         }
 
+<<<<<<< HEAD
         /**
          * Creates Aliens for board
          */
@@ -193,9 +210,28 @@ namespace SpaceInvadersButBetter
         }
         */
 
+=======
+        public void ShowStartScreen()
+        {
+            SpaceInvadersLabel.Visible = true;
+            InsertCoinLabel.Visible = true;
+            StartScreenActive = true;
+            lblScore.Visible = false;
+            lblScoreTitle.Visible = true;
+            lblLevel.Visible = false;
+            lblLevelNumber.Visible = false;
+            lblLifes.Visible = false;
+            lblLifesLabel.Visible = false;
+            lblScoreScroll.Visible = true;
+            if (credits > 0)
+                lblHitSpace.Visible = true;
+            CreditFlashTimer.Enabled = true;
+        }
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
         /**
-         * Decrements coint when used for game play
+         * Creates Aliens for board
          */
+<<<<<<< HEAD
          /*
         public void CoinDecrement()
         {
@@ -204,9 +240,21 @@ namespace SpaceInvadersButBetter
             {
                 data.setCoinCount(--coinCount);
                 CoinCountLabel.Text = coinCount.ToString();
+=======
+        private void InitializeAliens(int level)
+        {
+            for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
+            {
+               for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
+                {
+                    alienGroup[i, j] = new Alien(alien_speed_factor, Resources.invader_open, Resources.invader_closed, (2 + i), j);
+                }
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
             }
         }
         */
+
+        
 
         /**
          * Creates player spaceship object
@@ -247,7 +295,7 @@ namespace SpaceInvadersButBetter
         /**
          * Draws sheilds
          */
-        private void drawShields(Graphics g)
+        private void drawShields(Graphics g, List<Shield> Shields)
         {
             for (int i = 0; i < Shields.Count; i++)
             {
@@ -293,10 +341,10 @@ namespace SpaceInvadersButBetter
             Graphics g = e.Graphics;
 
             // draw player
-            player.draw(g);
+             player.draw(g);
 
             // draw sheilds
-            drawShields(g);
+            drawShields(g, Shields);
 
             // draw/remove bullets
             drawBullets(g);
@@ -334,8 +382,15 @@ namespace SpaceInvadersButBetter
                     break;
 
                 case Keys.Space:
+<<<<<<< HEAD
                     if ((data.getCoinCount() == 1) && StartScreenActive == true)
                         EraseStartScreen();
+=======
+                    if ((credits > 0) && logic.IsStartScreenActive())
+                    {
+                        logic.StartGame();
+                    }  
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
                     break;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -372,12 +427,32 @@ namespace SpaceInvadersButBetter
                     this._parent.changeJoystickView(1);
                 }
             }
-
+            else if (k == Keys.Escape && release)
+            {
+                if (!logic.IsStartScreenActive())
+                {
+                    if (fpsTimer.Enabled == true)
+                    {
+                        lblEndScore.Visible = true;
+                        lblEndScore.Text = "Paused";
+                        fpsTimer.Enabled = false;
+                    }
+                    else
+                    {
+                        lblEndScore.Visible = false;
+                        fpsTimer.Enabled = true;
+                    }
+                }
+            }
             //Evan 11/12: changed !release to release so that space 
             else if (k == Keys.Space && release)
             {
                 keydown_shoot = Keys.Space;
+<<<<<<< HEAD
                 logic.ShootButton(k);
+=======
+                //ShootButton(keydown_shoot);
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
             }
             //else if (k == Keys.Space && !release)
             //{
@@ -418,6 +493,7 @@ namespace SpaceInvadersButBetter
         /**
          * Method called when space bar is hit to shoot a bullet or reset game in over
          */
+<<<<<<< HEAD
         //private void ShootButton()
         //{
         //    if (keydown_shoot == Keys.Space)
@@ -439,6 +515,29 @@ namespace SpaceInvadersButBetter
         //        }
         //    }
         //}
+=======
+        /*private void ShootButton()
+        {
+            if (keydown_shoot == Keys.Space)
+            {
+                if(!gameover)
+                {
+                    int startX = player.Position.X + (Resources.space_ship.Width / 2) - 10;
+                    int startY = player.Position.Y - (Resources.space_ship.Height / 2) + 10;
+                    Bullet bullet = new Bullet(startX, startY, true);
+                    bullets.Add(bullet);
+                } 
+                else
+                {
+                    ResetGameStates();
+                    ResetPlayer();
+                    ResetAliens();
+                    ResetSheilds();
+                    ResetBullets();
+                }
+            }
+        }*/
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
 
         /**
          * Clears bullet lists
@@ -533,7 +632,7 @@ namespace SpaceInvadersButBetter
                             ShieldHealth[shieldIndexHit].Text = Shields[shieldIndexHit].getHealth().ToString();
                             if (Shields[shieldIndexHit].getHealth() <= 0)
                             {
-                                Shields.RemoveAt(shieldIndexHit);
+                                 Shields.RemoveAt(shieldIndexHit);
                                 this.Controls.Remove(ShieldHealth[shieldIndexHit]);
                                 ShieldHealth.RemoveAt(shieldIndexHit);
                             }
@@ -725,6 +824,7 @@ namespace SpaceInvadersButBetter
             alien_speed_factor = Convert.ToInt32(alien_speed_factor * SPEEP_INCREASE_FACTOR);
             logic.ResetAliens();
             alien_count = 66;
+            
         }
         */
 
@@ -756,6 +856,14 @@ namespace SpaceInvadersButBetter
                 if (TimerCounter % 50 == 0 && blinkCount != CREDIT_BLINK_COUNT)
                 {
                     toggleCredit(true);
+                    gameOverFlash++;
+                    if(gameOverFlash == MAX_GAME_OVER_FLASHES)
+                    {
+                        toggleCredit(false);
+                        gameover = false;
+                        gameOverFlash = 0;
+                        logic.EndGame();
+                    }
                 }
             }
         }
@@ -1015,6 +1123,7 @@ namespace SpaceInvadersButBetter
                 alienbullets.Add(bullet);
             }
         }
+<<<<<<< HEAD
 
         /**
          * Updates the level label
@@ -1053,5 +1162,33 @@ namespace SpaceInvadersButBetter
             lblHitSpace.Visible = visibility;
         }
 
+=======
+        public void UpdateCredits(int credits)
+        {
+            this.credits = credits;
+            InsertCoinLabel.Text = "Credits x " + credits.ToString();
+            if (logic.IsStartScreenActive() && credits > 0)
+            {
+                lblHitSpace.Show();
+            }
+            else
+                lblHitSpace.Hide();
+        }
+
+        private void CreditFlashTimer_Tick(object sender, EventArgs e)
+        {
+            if (creditFlash && credits < 9)
+            {
+                InsertCoinLabel.Text = "Insert Coin";
+                creditFlash = false;
+            }
+            else
+            {
+                InsertCoinLabel.Text = "Credits x " + credits.ToString();
+                creditFlash = true;
+            }
+        }
+        
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
     }
 }

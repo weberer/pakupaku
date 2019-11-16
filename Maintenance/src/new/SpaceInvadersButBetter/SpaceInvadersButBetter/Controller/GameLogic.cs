@@ -14,7 +14,11 @@ namespace SpaceInvadersButBetter.Controller
     //---------------------------------------------------------------------
     public class GameLogic
     {
+<<<<<<< HEAD
         private int coinCount;
+=======
+        private int score;
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
         private bool gameover;
 
 
@@ -45,6 +49,7 @@ namespace SpaceInvadersButBetter.Controller
         private List<Bullet> bullets = new List<Bullet>();
         private List<Bullet> alienbullets = new List<Bullet>();
 
+<<<<<<< HEAD
         private GameView gameForm;
         private GameBoxForm gameBox;
         private GameData data;
@@ -60,6 +65,21 @@ namespace SpaceInvadersButBetter.Controller
         /**
          * Creates Aliens for board
          */
+=======
+        private GameView gameView;
+        private GameBoxForm gameBox;
+        private bool StartScreenActive = true;
+        public GameLogic(GameBoxForm boxForm)
+        {
+            credits = 0;
+            this.gameBox = boxForm;
+        }
+
+        public void SetGameView(GameView view)
+        {
+            this.gameView = view;
+        }
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
         public void InitializeAliens(int level)
         {
             for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
@@ -87,6 +107,7 @@ namespace SpaceInvadersButBetter.Controller
                 }
                 else
                 {
+<<<<<<< HEAD
                     ResetGameStates();
                     ResetPlayer();
                     ResetAliens();
@@ -235,5 +256,61 @@ namespace SpaceInvadersButBetter.Controller
            }
        }
        */
+=======
+                    //ResetGameStates();
+                    //ResetPlayer();
+                    //ResetAliens();
+                    //ResetSheilds();
+                    //ResetBullets();
+                }
+            }
+        }
+        public void addCredit()
+        {
+            if (credits < 9)
+                credits++;
+            gameView.UpdateCredits(credits);
+           
+        }
+        public void DecrementCredits()
+        {
+            if (credits > 0)
+            {
+                credits--;
+                gameView.UpdateCredits(credits);
+            }
+        }
+        public bool IsStartScreenActive()
+        {
+            return StartScreenActive;
+        }
+        public void StartGame()
+        {
+            if (credits > 0)
+            {
+                if (StartScreenActive)
+                {
+                    gameView.EraseStartScreen();
+                    DecrementCredits();
+                    StartScreenActive = false;
+                }
+            }
+        }
+        public void EndGame()
+        {
+            //High Score Handling Code here.
+            StartScreenActive = true;
+            gameView.ShowStartScreen();
+           
+        }
+
+        /**
+         * Testing method to fetch the credits int for the test method.
+         */
+        public int GetCredits()
+        {
+            return credits;
+        }
+>>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
     }
 }
