@@ -122,7 +122,7 @@ namespace SpaceInvadersButBetter
             lblScore.Text = data.getScore().ToString();
             lblLevelNumber.Text = data.getLevel().ToString();
             InitializeObject_Shields();
-            InitializeSpaceShip();
+            logic.InitializeSpaceShip();
 
             logic.InitializeAliens(data.getLevel());
 
@@ -158,6 +158,7 @@ namespace SpaceInvadersButBetter
         public void EraseStartScreen()
         {
             SpaceInvadersLabel.Visible = false;
+            CoinCountLabel.Visible = false;
             InsertCoinLabel.Visible = false;
             StartScreenActive = false;
             lblScore.Visible = true;
@@ -252,12 +253,14 @@ namespace SpaceInvadersButBetter
         /**
          * Creates player spaceship object
          */
+         /*
         private void InitializeSpaceShip()
         {
             player = new SpaceShip();
             lblLifes.Text = player.getLifes().ToString();
     
         }
+        */
 
         /**
          * Creates 4 sheilds
@@ -602,6 +605,7 @@ namespace SpaceInvadersButBetter
         /**
          * Checks for bullet collision with sheild
          */
+         /*
         private void ShieldCheck()
         {
             for (int i = 0; i < bullets.Count; i++)
@@ -634,6 +638,7 @@ namespace SpaceInvadersButBetter
                 }
             }
         }
+        */
 
         /**
          * Checks for bullet collision with alien

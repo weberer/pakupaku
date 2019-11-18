@@ -62,19 +62,11 @@ namespace SpaceInvadersButBetter.Controller
          * Creates Aliens for board
          */
 
-        private GameView gameView;
-        private GameBoxForm gameBox;
+       
         private bool StartScreenActive = true;
-        public GameLogic(GameBoxForm boxForm)
-        {
-            credits = 0;
-            this.gameBox = boxForm;
-        }
+        
 
-        public void SetGameView(GameView view)
-        {
-            this.gameView = view;
-        }
+       
 
         public void InitializeAliens(int level)
         {
@@ -258,14 +250,14 @@ namespace SpaceInvadersButBetter.Controller
                     //ResetAliens();
                     //ResetSheilds();
                     //ResetBullets();
-                }
-            }
-        }
+         //       }
+        //    }
+        
         public void addCredit()
         {
             if (credits < 9)
                 credits++;
-            gameView.UpdateCredits(credits);
+            gameForm.UpdateCredits(credits);
            
         }
         public void DecrementCredits()
@@ -273,7 +265,7 @@ namespace SpaceInvadersButBetter.Controller
             if (credits > 0)
             {
                 credits--;
-                gameView.UpdateCredits(credits);
+                gameForm.UpdateCredits(credits);
             }
         }
         public bool IsStartScreenActive()
@@ -286,7 +278,7 @@ namespace SpaceInvadersButBetter.Controller
             {
                 if (StartScreenActive)
                 {
-                    gameView.EraseStartScreen();
+                    gameForm.EraseStartScreen();
                     DecrementCredits();
                     StartScreenActive = false;
                 }
@@ -296,7 +288,7 @@ namespace SpaceInvadersButBetter.Controller
         {
             //High Score Handling Code here.
             StartScreenActive = true;
-            gameView.ShowStartScreen();
+            gameForm.ShowStartScreen();
            
         }
 
@@ -307,6 +299,54 @@ namespace SpaceInvadersButBetter.Controller
         {
             return credits;
         }
+
+        /**
+         * Creates player spaceship object
+         */
+        public void InitializeSpaceShip()
+        {
+            player = new SpaceShip();
+            gameForm.setLivesLabel(player.getLifes().ToString());
+           
+ 
+        }
+
+        /**
+         * Checks for bullet collision with sheild
+         */
+        private void ShieldCheck()
+        {
+            for (int i = 0; i < bullets.Count; i++)
+            {
+                if (Shields.Count > 0) //Shield Check
+                {
+                    if (bullets[i].Position.Y < Shields[0].Position.Y)
+                    {
+                        bool delete = false;
+                        int shieldIndexHit = -1;
+                        for (int j = 0; j < Shields.Count; j++)
+                            if (Shields[j].Position.X < bullets[i].Position.X && (Shields[j].Position.X + Resources.shield.Width - 20) > bullets[i].Position.X)
+                            {
+                                delete = true;
+                                shieldIndexHit = j;
+                            }
+                        if (delete && shieldIndexHit != -1)
+                        {
+                            bullets.RemoveAt(i);
+                            Shields[shieldIndexHit].healthHit();
+                            ShieldHealth[shieldIndexHit].Text = Shields[shieldIndexHit].getHealth().ToString();
+                            if (Shields[shieldIndexHit].getHealth() <= 0)
+                            {
+                                Shields.RemoveAt(shieldIndexHit);
+                                this.Controls.Remove(ShieldHealth[shieldIndexHit]);
+                                ShieldHealth.RemoveAt(shieldIndexHit);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
     }
 }
