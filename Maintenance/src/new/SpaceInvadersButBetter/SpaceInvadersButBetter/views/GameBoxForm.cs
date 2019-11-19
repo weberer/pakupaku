@@ -21,13 +21,12 @@ namespace SpaceInvadersButBetter
         private Joystick joystick;
         private Coin coinPile;
         GameView game;
-<<<<<<< HEAD
+
         private GameLogic logic;
         private GameData data;
-=======
->>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
+
         private GameBox bg = new GameBox();
-        private GameLogic logic;
+  
 
         /**
          * Constructor
@@ -84,13 +83,10 @@ namespace SpaceInvadersButBetter
         public void startGame()
         {
             logic = new GameLogic(this);
-<<<<<<< HEAD
+
             data = new GameData();
             game = new GameView(this, logic, data);
-=======
-            game = new GameView(this, logic);
->>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
-            
+
             game.Location = new Point(80, 90);
             this.Controls.Add(game);
         }
@@ -118,12 +114,12 @@ namespace SpaceInvadersButBetter
                     if (coinPile.isQuarter())
                     {
                         coinPile.deleteCoin();
-<<<<<<< HEAD
+
                         logic.CoinInsert();
                         //this.startGame();
-=======
+
                         logic.addCredit();
->>>>>>> ee8172e10df73f47937bba277ab2042e3d9a93ff
+
                     }
                     else
                     {

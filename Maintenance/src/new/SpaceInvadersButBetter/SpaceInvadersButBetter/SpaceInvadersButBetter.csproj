@@ -82,11 +82,7 @@
     <Compile Include="views\GameView.Designer.cs">
       <DependentUpon>GameView.cs</DependentUpon>
     </Compile>
-    <Compile Include="views\GameView1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GameView.resx</DependentUpon>
-    </Compile>
+  
     <EmbeddedResource Include="depreciated\Bad-GameForm.resx">
       <DependentUpon>Bad-GameForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,7 +105,7 @@
     <EmbeddedResource Include="views\GameView.resx">
       <DependentUpon>GameView.cs</DependentUpon>
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>GameView1.Designer.cs</LastGenOutput>
+      
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
