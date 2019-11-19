@@ -111,7 +111,7 @@ namespace SpaceInvadersButBetter
         /**
          * Initializes game essentials and calls methods to create game objects
          */
-        private void InitializeGameObjects()
+        public void InitializeGameObjects()
         {
             gameover = false;
             fpsTimer = new Timer();
@@ -121,15 +121,27 @@ namespace SpaceInvadersButBetter
           
             lblScore.Text = data.getScore().ToString();
             lblLevelNumber.Text = data.getLevel().ToString();
-            InitializeObject_Shields();
-            logic.InitializeSpaceShip();
+            Shields = logic.InitializeObject_Shields();
+            player = logic.InitializeSpaceShip();
 
-            logic.InitializeAliens(data.getLevel());
+            alienGroup = logic.InitializeAliens(data.getLevel());
 
 
             InitializeCredits();
         }
 
+        public void ResetGameObjects()
+        {
+            lblScore.Text = data.getScore().ToString();
+            lblLevelNumber.Text = data.getLevel().ToString();
+
+            Shields = logic.InitializeObject_Shields();
+            player = logic.InitializeSpaceShip();
+            
+            alienGroup = logic.InitializeAliens(data.getLevel());
+            bullets.Clear();
+            alienbullets.Clear();
+        }
         /**
          * Hides credit screen elements
          */
@@ -158,7 +170,6 @@ namespace SpaceInvadersButBetter
         public void EraseStartScreen()
         {
             SpaceInvadersLabel.Visible = false;
-            CoinCountLabel.Visible = false;
             InsertCoinLabel.Visible = false;
             StartScreenActive = false;
             lblScore.Visible = true;
@@ -226,7 +237,8 @@ namespace SpaceInvadersButBetter
          * Creates Aliens for board
          */
 
-         /*
+         /* Code is removed from the Gamelogic for CoinDecrement because new Credit methods implement it's functionality
+          * 
         public void CoinDecrement()
         {
             int coinCount = data.getCoinCount();
@@ -287,7 +299,23 @@ namespace SpaceInvadersButBetter
             }
         }
         
+        public int GetShieldBottom(Shield shield)
+        {
+            return (ClientRectangle.Bottom - (shield.GetBounds().Height + 100));
+        }
 
+        public void SetupShieldLabel(Shield shield, int shieldX, int shieldY)
+        {
+            Label label = new Label();
+            
+            ShieldHealth.Add(label);
+            int i = ShieldHealth.Count - 1;
+            ShieldHealth[i].Text = shield.getHealth().ToString();
+            ShieldHealth[i].Location = new Point(shieldX - 17, shieldY + 8);
+            ShieldHealth[i].BackColor = Color.Transparent;
+            ShieldHealth[i].TextAlign = ContentAlignment.MiddleCenter;
+            this.Controls.Add(ShieldHealth[i]);
+        }
         /**
          * Draws sheilds
          */
@@ -337,7 +365,7 @@ namespace SpaceInvadersButBetter
             Graphics g = e.Graphics;
 
             // draw player
-             player.draw(g);
+            player.draw(g);
 
             // draw sheilds
             drawShields(g, Shields);
@@ -378,11 +406,7 @@ namespace SpaceInvadersButBetter
                     break;
 
                 case Keys.Space:
-
-                    if ((data.getCoinCount() == 1) && StartScreenActive == true)
-                        EraseStartScreen();
-
-                    if ((credits > 0) && logic.IsStartScreenActive())
+                    if (logic.IsStartScreenActive())
                     {
                         logic.StartGame();
                     }  
@@ -657,7 +681,7 @@ namespace SpaceInvadersButBetter
         /**
          * Checks for alien bullet hiting shield
          */
-        private void AlienHitSheild()
+        /*private void AlienHitSheild()
         {
             for (int i = 0; i < alienbullets.Count; i++) // alien shot hit sheild
             {
@@ -688,7 +712,7 @@ namespace SpaceInvadersButBetter
                     }
                 }
             }
-        }
+        }*/
 
         /**
          * Check alien hit person, this ends the game (ABDUCTION)
@@ -737,9 +761,9 @@ namespace SpaceInvadersButBetter
          */
         private void CollisionCheck()
         {
-            ShieldCheck();
+            //ShieldCheck();
             AlienCheck();
-            AlienHitSheild();
+            //AlienHitSheild();
             AlienHitPersonCheck();
             AlienBulletsCheck();
             checkShieldHitByAlien();
@@ -932,7 +956,8 @@ namespace SpaceInvadersButBetter
         private void GameRunningTickLogic()
         {
             Movement();
-            CollisionCheck();
+            logic.CollisionCheck();
+            CollisionCheck(); //Note: Delete this once it is fully implemented in GameLogic.
             TimerCounter++;
 
             if (alien_count == 0)
@@ -944,7 +969,7 @@ namespace SpaceInvadersButBetter
 
             if (TimerCounter % 100 == 0 && gameover == false)
             {
-                generateAlienBullet();
+                alienbullets = logic.GenerateAlienBullet();
             }
 
             // Flap the images to give them a moving look
@@ -1082,7 +1107,7 @@ namespace SpaceInvadersButBetter
         /**
          * Display alien bullets, only from the bottom most aliens in each colummn
          */
-        private void generateAlienBullet()
+        /*private void generateAlienBullet()
         {
             List<Tuple<Alien, int>> bottomAliens = new List<Tuple<Alien, int>>();
             Alien nearest = null;
@@ -1120,7 +1145,7 @@ namespace SpaceInvadersButBetter
                 Bullet bullet = new Bullet(startX, startY, false);
                 alienbullets.Add(bullet);
             }
-        }
+        }*/
 
 
         /**
@@ -1150,10 +1175,7 @@ namespace SpaceInvadersButBetter
         /**
          * Updates the cointCount label
          */
-        public void setCoinCountLabel(string count)
-        {
-            CoinCountLabel.Text = count;
-        }
+        
 
         public void setHitSpaceVisibility(Boolean visibility)
         {
@@ -1187,6 +1209,30 @@ namespace SpaceInvadersButBetter
             }
         }
         
+        public void RemoveShield(int index)
+        {
+            this.Controls.Remove(ShieldHealth[index]);
+            ShieldHealth.RemoveAt(index);
+        }
 
+        public void UpdateShield(int health, int index)
+        {
+            ShieldHealth[index].Text = health.ToString();
+        }
+
+        public void UpdatePlayer(SpaceShip spaceShip)
+        {
+            this.player = spaceShip;
+        }
+
+        public void UpdateAlienList(Alien[,] alienGroup)
+        {
+            this.alienGroup = alienGroup;
+        }
+
+        public void UpdateAlienBullets(List<Bullet> bullets)
+        {
+            alienbullets = bullets;
+        }
     }
 }

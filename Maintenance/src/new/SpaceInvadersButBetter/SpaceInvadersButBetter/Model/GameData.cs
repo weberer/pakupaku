@@ -10,11 +10,13 @@ namespace SpaceInvadersButBetter.Model
     {
         private int score;
         private int level;
-        private int cointCount;
+        private int credits;
 
         public GameData()
         {
-
+            level = 1;
+            score = 0;
+            credits = 0;
         }
 
         public void resetLevelScore()
@@ -43,15 +45,20 @@ namespace SpaceInvadersButBetter.Model
             this.level = level;
         }
 
-        public int getCoinCount()
+
+        public int GetCredits()
         {
-            return cointCount;
+            return credits;
         }
 
-        public void setCoinCount(int count)
+        public void AddCredit()
         {
-            this.cointCount = count;
+            credits++;
         }
 
+        public void DecrementCredits()
+        {
+            credits--;
+        }
     }
 }
