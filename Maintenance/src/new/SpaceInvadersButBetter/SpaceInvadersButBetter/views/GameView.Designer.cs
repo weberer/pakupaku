@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.lblScoreTitle = new System.Windows.Forms.Label();
             this.lblHighScoreTitle = new System.Windows.Forms.Label();
             this.lblHighScore = new System.Windows.Forms.Label();
             this.lblScore = new System.Windows.Forms.Label();
             this.SpaceInvadersLabel = new System.Windows.Forms.Label();
             this.InsertCoinLabel = new System.Windows.Forms.Label();
+            this.CoinCountLabel = new System.Windows.Forms.Label();
             this.lblLevel = new System.Windows.Forms.Label();
             this.lblLevelNumber = new System.Windows.Forms.Label();
             this.lblLifes = new System.Windows.Forms.Label();
@@ -43,8 +43,6 @@
             this.lblYourScore = new System.Windows.Forms.Label();
             this.lblEndScore = new System.Windows.Forms.Label();
             this.lblScoreScroll = new System.Windows.Forms.Label();
-            this.lblHitSpace = new System.Windows.Forms.Label();
-            this.CreditFlashTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // lblScoreTitle
@@ -106,13 +104,26 @@
             this.InsertCoinLabel.AutoSize = true;
             this.InsertCoinLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
             this.InsertCoinLabel.ForeColor = System.Drawing.Color.White;
-            this.InsertCoinLabel.Location = new System.Drawing.Point(192, 331);
+            this.InsertCoinLabel.Location = new System.Drawing.Point(171, 321);
             this.InsertCoinLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.InsertCoinLabel.Name = "InsertCoinLabel";
-            this.InsertCoinLabel.Size = new System.Drawing.Size(146, 31);
+            this.InsertCoinLabel.Size = new System.Drawing.Size(166, 31);
             this.InsertCoinLabel.TabIndex = 7;
-            this.InsertCoinLabel.Text = "Insert Coin";
+            this.InsertCoinLabel.Text = "Insert Coin x";
             this.InsertCoinLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // CoinCountLabel
+            // 
+            this.CoinCountLabel.AutoSize = true;
+            this.CoinCountLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.CoinCountLabel.ForeColor = System.Drawing.Color.White;
+            this.CoinCountLabel.Location = new System.Drawing.Point(332, 321);
+            this.CoinCountLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.CoinCountLabel.Name = "CoinCountLabel";
+            this.CoinCountLabel.Size = new System.Drawing.Size(29, 31);
+            this.CoinCountLabel.TabIndex = 8;
+            this.CoinCountLabel.Text = "0";
+            this.CoinCountLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblLevel
             // 
@@ -203,30 +214,11 @@
             this.lblScoreScroll.TabIndex = 17;
             this.lblScoreScroll.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblHitSpace
-            // 
-            this.lblHitSpace.AutoSize = true;
-            this.lblHitSpace.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHitSpace.ForeColor = System.Drawing.Color.Yellow;
-            this.lblHitSpace.Location = new System.Drawing.Point(172, 362);
-            this.lblHitSpace.Name = "lblHitSpace";
-            this.lblHitSpace.Size = new System.Drawing.Size(189, 31);
-            this.lblHitSpace.TabIndex = 18;
-            this.lblHitSpace.Text = "Hit Space Bar!";
-            this.lblHitSpace.Visible = false;
-            // 
-            // CreditFlashTimer
-            // 
-            this.CreditFlashTimer.Enabled = true;
-            this.CreditFlashTimer.Interval = 1000;
-            this.CreditFlashTimer.Tick += new System.EventHandler(this.CreditFlashTimer_Tick);
-            // 
             // GameView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.lblHitSpace);
             this.Controls.Add(this.lblScoreScroll);
             this.Controls.Add(this.lblEndScore);
             this.Controls.Add(this.lblYourScore);
@@ -234,6 +226,7 @@
             this.Controls.Add(this.lblLifes);
             this.Controls.Add(this.lblLevelNumber);
             this.Controls.Add(this.lblLevel);
+            this.Controls.Add(this.CoinCountLabel);
             this.Controls.Add(this.InsertCoinLabel);
             this.Controls.Add(this.SpaceInvadersLabel);
             this.Controls.Add(this.lblScore);
@@ -259,6 +252,7 @@
         private System.Windows.Forms.Label lblScore;
         private System.Windows.Forms.Label SpaceInvadersLabel;
         private System.Windows.Forms.Label InsertCoinLabel;
+        private System.Windows.Forms.Label CoinCountLabel;
         private System.Windows.Forms.Label lblLevel;
         private System.Windows.Forms.Label lblLevelNumber;
         private System.Windows.Forms.Label lblLifes;
@@ -267,7 +261,5 @@
         private System.Windows.Forms.Label lblYourScore;
         private System.Windows.Forms.Label lblEndScore;
         private System.Windows.Forms.Label lblScoreScroll;
-        private System.Windows.Forms.Label lblHitSpace;
-        private System.Windows.Forms.Timer CreditFlashTimer;
     }
 }
