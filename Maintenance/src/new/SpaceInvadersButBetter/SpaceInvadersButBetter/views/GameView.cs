@@ -81,13 +81,14 @@ namespace SpaceInvadersButBetter
 
             this.data = data;
             this.logic.SetGameView(this);
-
+            
         
             scoreUtil = new ScoreUtility();
 
             lblHighScore.Text = scoreUtil.getTopScore().ToString();
             InitializeStartScreen();
             InitializeGameObjects();
+            this.logic.SetupCollisionHandler();
             fpsTimer.Start();
         }
 
@@ -135,6 +136,7 @@ namespace SpaceInvadersButBetter
             lblScore.Text = data.getScore().ToString();
             lblLevelNumber.Text = data.getLevel().ToString();
 
+            ResetShieldLabels();
             Shields = logic.InitializeObject_Shields();
             player = logic.InitializeSpaceShip();
             
@@ -303,7 +305,10 @@ namespace SpaceInvadersButBetter
         {
             return (ClientRectangle.Bottom - (shield.GetBounds().Height + 100));
         }
-
+        public void ResetShieldLabels()
+        {
+            ShieldHealth.Clear();
+        }
         public void SetupShieldLabel(Shield shield, int shieldX, int shieldY)
         {
             Label label = new Label();
@@ -406,10 +411,10 @@ namespace SpaceInvadersButBetter
                     break;
 
                 case Keys.Space:
-                    if (logic.IsStartScreenActive())
+                    /*if (logic.IsStartScreenActive())
                     {
                         logic.StartGame();
-                    }  
+                    }  */
 
                     break;
             }
@@ -486,7 +491,7 @@ namespace SpaceInvadersButBetter
          */
         private void Movement()
         {
-            if (keydown_joystick == Keys.Left)
+            /*if (keydown_joystick == Keys.Left)
             {
                 player.MoveLeft();
                 Invalidate(player.GetBounds());
@@ -495,7 +500,8 @@ namespace SpaceInvadersButBetter
             {
                 player.MoveRight(ClientRectangle.Right);
                 Invalidate(player.GetBounds());
-            }
+            }*/
+            logic.MovementHandlerPlayer(keydown_joystick, ClientRectangle.Right);
             logic.MovementHandlerBullets();
             /*for (int i = 0; i < bullets.Count; i++)
             {
@@ -738,7 +744,7 @@ namespace SpaceInvadersButBetter
         /**
          * Check Alien bullets hit player, this ends the game (KILLED)
          */
-        private void AlienBulletsCheck()
+        /*private void AlienBulletsCheck()
         {
             for (int i = 0; i < alienbullets.Count; i++)
             {
@@ -754,7 +760,7 @@ namespace SpaceInvadersButBetter
                     alienbullets.RemoveAt(i);
                 }
             }
-        }
+        }*/
 
         /**
          * Collision check method to check all collision items
@@ -820,7 +826,7 @@ namespace SpaceInvadersButBetter
         /**
          * Checks if shield is hit by alien, sheild destroyed
          */
-        private bool checkShieldHit(Shield s)
+        /*private bool checkShieldHit(Shield s)
         {
             for (int r = 0; r < NUMBER_OF_ALIEN_ROWS; r++)
             {
@@ -833,7 +839,7 @@ namespace SpaceInvadersButBetter
                 }
             }
             return false;
-        }
+        }*/
 
         /**
          * Increments level, speed factor, and resets aliens
@@ -865,7 +871,7 @@ namespace SpaceInvadersButBetter
          */
         private void CreditBlink()
         {
-            if (gameover)
+            if (logic.IsGameOver())
             {
                 if (TimerCounter % 25 == 0)
                 {
@@ -974,20 +980,21 @@ namespace SpaceInvadersButBetter
             }
 
             // Flap the images to give them a moving look
-            AnimateAliens();
+            alienGroup = logic.AnimateAliens(TimerCounter);
             Invalidate();
 
-            if (gameover == false)
+            if (logic.IsGameOver() == false)
             {
                 //move by factor of speed
-                MoveAlienByFactorAndDirection();
+                logic.MoveAlienByFactorAndDirection(ClientRectangle.Width, TimerCounter);
             }
+            logic.CheckForLanding(ClientRectangle.Bottom);
 
-            if (logic.CheckForLanding())
+            /*if (logic.CheckForLanding(ClientRectangle.Bottom))
             {
                 WriteScore(data.getScore());
                 gameover = true;
-            }
+            }*/
             Invalidate();
         }
 
@@ -1185,7 +1192,7 @@ namespace SpaceInvadersButBetter
 
 
         public void UpdateCredits(int credits)
-        {
+         {
             this.credits = credits;
             InsertCoinLabel.Text = "Credits x " + credits.ToString();
             if (logic.IsStartScreenActive() && credits > 0)
@@ -1223,17 +1230,18 @@ namespace SpaceInvadersButBetter
 
         public void UpdatePlayer(SpaceShip spaceShip)
         {
-            this.player = spaceShip;
+            //this.player = spaceShip;
+            Invalidate(player.GetBounds());
         }
 
         public void UpdateAlienList(Alien[,] alienGroup)
         {
-            this.alienGroup = alienGroup;
+            //this.alienGroup = alienGroup;
         }
 
         public void UpdateAlienBullets(List<Bullet> bullets)
         {
-            alienbullets = bullets;
+            //alienbullets = bullets;
          for (int i = 0; i < this.alienbullets.Count; i++)
          {
             Invalidate(this.alienbullets[i].GetBounds());
