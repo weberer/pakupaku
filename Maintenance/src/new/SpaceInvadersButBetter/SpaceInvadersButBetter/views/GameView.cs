@@ -278,7 +278,7 @@ namespace SpaceInvadersButBetter
          * Creates 4 sheilds
          */
          
-        public void InitializeObject_Shields()
+        /*public void InitializeObject_Shields()
         {
             for (int i = 0; i < NUMBER_OF_SHIELDS; i++)
             {
@@ -297,7 +297,7 @@ namespace SpaceInvadersButBetter
                 ShieldHealth[i].TextAlign = ContentAlignment.MiddleCenter;
                 this.Controls.Add(ShieldHealth[i]);
             }
-        }
+        }*/
         
         public int GetShieldBottom(Shield shield)
         {
@@ -496,18 +496,18 @@ namespace SpaceInvadersButBetter
                 player.MoveRight(ClientRectangle.Right);
                 Invalidate(player.GetBounds());
             }
-
-            for (int i = 0; i < bullets.Count; i++)
+            logic.MovementHandlerBullets();
+            /*for (int i = 0; i < bullets.Count; i++)
             {
                 bullets[i].Move();
-                Invalidate(bullets[i].GetBounds());
+                //Invalidate(bullets[i].GetBounds());
             }
 
             for (int i = 0; i < alienbullets.Count; i++)
             {
                 alienbullets[i].Move();
-                Invalidate(alienbullets[i].GetBounds());
-            }
+                //Invalidate(alienbullets[i].GetBounds());
+            }*/
         }
 
         /**
@@ -667,7 +667,7 @@ namespace SpaceInvadersButBetter
         /**
          * Checks for bullet collision with alien
          */
-        private void AlienCheck()
+        /*private void AlienCheck()
         {
             for (int i = 0; i < bullets.Count; i++) //Alien Check
             {
@@ -676,7 +676,7 @@ namespace SpaceInvadersButBetter
                     bullets.RemoveAt(i);
                 }
             }
-        }
+        }*/
 
         /**
          * Checks for alien bullet hiting shield
@@ -717,7 +717,7 @@ namespace SpaceInvadersButBetter
         /**
          * Check alien hit person, this ends the game (ABDUCTION)
          */
-        private void AlienHitPersonCheck()
+        /*private void AlienHitPersonCheck()
         {
             for (int r = 0; r < NUMBER_OF_ALIEN_ROWS; r++) //person hit  by alien check
             {
@@ -733,7 +733,7 @@ namespace SpaceInvadersButBetter
                     }
                 }
             }
-        }
+        }*/
 
         /**
          * Check Alien bullets hit player, this ends the game (KILLED)
@@ -762,11 +762,11 @@ namespace SpaceInvadersButBetter
         private void CollisionCheck()
         {
             //ShieldCheck();
-            AlienCheck();
+            //AlienCheck();
             //AlienHitSheild();
-            AlienHitPersonCheck();
-            AlienBulletsCheck();
-            checkShieldHitByAlien();
+            //AlienHitPersonCheck();
+            //AlienBulletsCheck();
+            //checkShieldHitByAlien();
         }
 
         /**
@@ -783,7 +783,7 @@ namespace SpaceInvadersButBetter
         /**
          * Checks bullets hitting aliens, score gained
          */
-        private bool checkBulletHit(Bullet b)
+        /*private bool checkBulletHit(Bullet b)
         {
             for (int r = 0; r < NUMBER_OF_ALIEN_ROWS; r++)
             {
@@ -799,12 +799,12 @@ namespace SpaceInvadersButBetter
                 }
             }
             return false;
-        }
+        }*/
 
         /**
          * Check if shield is hit by alien, remove shield  (DESTROYED HOUSE)
          */
-        private void checkShieldHitByAlien()
+        /*private void checkShieldHitByAlien()
         {
             for(int i = 0; i < Shields.Count; i++)
             {
@@ -815,7 +815,7 @@ namespace SpaceInvadersButBetter
                     ShieldHealth.RemoveAt(i);
                 }
             }
-        }
+        }*/
 
         /**
          * Checks if shield is hit by alien, sheild destroyed
@@ -895,16 +895,17 @@ namespace SpaceInvadersButBetter
          */
         private void AnimateAliens()
         {
-            if (TimerCounter % 6 == 0)
-            {
-                for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-                {
-                    for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-                    {
-                        alienGroup[i, j].MoveInPlace();
-                    }
-                }
-            }
+         /*if (TimerCounter % 6 == 0)
+         {
+             for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
+             {
+                 for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
+                 {
+                     alienGroup[i, j].MoveInPlace();
+                 }
+             }
+         }*/
+         alienGroup = logic.AnimateAliens(TimerCounter);
         }
 
         /**
@@ -957,7 +958,7 @@ namespace SpaceInvadersButBetter
         {
             Movement();
             logic.CollisionCheck();
-            CollisionCheck(); //Note: Delete this once it is fully implemented in GameLogic.
+            //CollisionCheck(); //Note: Delete this once it is fully implemented in GameLogic.
             TimerCounter++;
 
             if (alien_count == 0)
@@ -982,7 +983,7 @@ namespace SpaceInvadersButBetter
                 MoveAlienByFactorAndDirection();
             }
 
-            if (CheckForLanding())
+            if (logic.CheckForLanding())
             {
                 WriteScore(data.getScore());
                 gameover = true;
@@ -1079,7 +1080,7 @@ namespace SpaceInvadersButBetter
         /**
          * Checks if alien hits the ground
          */
-        private bool CheckForLanding()
+        /*private bool CheckForLanding()
         {
             for (int r = 0; r < NUMBER_OF_ALIEN_ROWS; r++)
             {
@@ -1093,12 +1094,12 @@ namespace SpaceInvadersButBetter
                 }
             }
             return false;
-        }
+        }*/
 
         /**
          * Updates score to file and displays credits
          */
-        private void WriteScore(int Score)
+        public void WriteScore(int Score)
         {
             scoreUtil.Write(Score);
             DisplayCredits();
@@ -1233,6 +1234,20 @@ namespace SpaceInvadersButBetter
         public void UpdateAlienBullets(List<Bullet> bullets)
         {
             alienbullets = bullets;
-        }
+         for (int i = 0; i < this.alienbullets.Count; i++)
+         {
+            Invalidate(this.alienbullets[i].GetBounds());
+         }
+      }
+      public void UpdateBullets(List<Bullet> bullets)
+      {
+         this.bullets = bullets;
+         for(int i = 0; i < this.bullets.Count; i++)
+         {
+            Invalidate(this.bullets[i].GetBounds());
+         }
+      }
+      
+     
     }
 }
