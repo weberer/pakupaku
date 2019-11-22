@@ -169,14 +169,17 @@ namespace SpaceInvadersButBetter.Controller
          */
         public void NextLevel()
         {
-            int level = data.getLevel();
-            data.setLevel(++level); //level++
-            gameForm.setLevelLabel(level.ToString()); //update level on screen
+            if (alien_count == 0)
+            {
+                int level = data.getLevel();
+                data.setLevel(++level); //level++
+                gameForm.setLevelLabel(level.ToString()); //update level on screen
 
 
-            alien_speed_factor = Convert.ToInt32(alien_speed_factor * SPEEP_INCREASE_FACTOR);
-            ResetAliens();
-            alien_count = MAX_ALIENS;
+                alien_speed_factor = Convert.ToInt32(alien_speed_factor * SPEEP_INCREASE_FACTOR);
+                ResetAliens();
+                alien_count = MAX_ALIENS;
+            }
         }
 
         /**

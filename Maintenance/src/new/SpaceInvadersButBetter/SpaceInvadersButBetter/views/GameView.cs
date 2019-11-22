@@ -541,10 +541,7 @@ namespace SpaceInvadersButBetter
             logic.CollisionCheck();
             TimerCounter++;
 
-            if (alien_count == 0)
-            {
-                logic.NextLevel();
-            }
+            logic.NextLevel();
 
             CreditBlink();
 
