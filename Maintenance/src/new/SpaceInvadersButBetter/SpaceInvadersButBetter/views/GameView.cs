@@ -35,11 +35,6 @@ namespace SpaceInvadersButBetter
         private int gameOverFlash = 0;
         private const int MAX_GAME_OVER_FLASHES = 2;
 
-        //increments with higher levels
-        private int alien_speed = 6;
-        private int alien_speed_factor = 1;
-        private int alien_count = 66;
-
         private Timer fpsTimer;
 
         private int TimerCounter = 0;
@@ -47,13 +42,10 @@ namespace SpaceInvadersButBetter
         private int blinkCount = 0;
         private int scoreScrollCount = 0;
         private Keys keydown_joystick;
-        private Keys keydown_shoot;
 
-        private const int NUMBER_OF_SHIELDS = 4;
         private const int NUMBER_OF_ALIEN_ROWS = 6;
         private const int NUMBER_OF_ALIENS_PER_ROW = 11;
         private const int CREDIT_BLINK_COUNT = 8;
-        private const double SPEEP_INCREASE_FACTOR = 1.25;
 
         private List<Shield> Shields = new List<Shield>();
         private List<Label> ShieldHealth = new List<Label>();
@@ -127,7 +119,6 @@ namespace SpaceInvadersButBetter
 
             alienGroup = logic.InitializeAliens(data.getLevel());
 
-
             InitializeCredits();
         }
 
@@ -184,39 +175,6 @@ namespace SpaceInvadersButBetter
             lblHitSpace.Visible = false;
             CreditFlashTimer.Enabled = false;
         }
-
-
-        /**
-         * Creates Aliens for board
-         */
-        //private void InitializeAliens(int level)
-        //{
-        //    for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-        //    {
-        //        for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-        //        {
-        //            alienGroup[i, j] = new Alien(alien_speed_factor, Resources.invader_open, Resources.invader_closed, (2 + i), j);
-        //        }
-        //    }
-        //}
-
-        /**
-         * Insert coin method, updates label and count
-         */
-        /*
-       public void CoinInsert()
-       {
-           int coinCount = data.getCoinCount();
-           if (coinCount < 1)
-           {
-               coinCount++;
-               data.setCoinCount(coinCount);
-               CoinCountLabel.Text = coinCount.ToString();
-               lblHitSpace.Visible = true; //Evan 11/12
-           }
-       }
-       */
-
 
         public void ShowStartScreen()
         {
@@ -398,18 +356,8 @@ namespace SpaceInvadersButBetter
             //Evan 11/12: changed !release to release so that space 
             else if (k == Keys.Space && release)
             {
-                keydown_shoot = Keys.Space;
-
                 logic.ShootButton(k);
-
-                //ShootButton(keydown_shoot);
-
             }
-            //else if (k == Keys.Space && !release)
-            //{
-            //    keydown_shoot = Keys.Space;
-            //    ShootButton();
-            //}
         }
 
         /**
@@ -417,29 +365,8 @@ namespace SpaceInvadersButBetter
          */
         private void Movement()
         {
-            /*if (keydown_joystick == Keys.Left)
-            {
-                player.MoveLeft();
-                Invalidate(player.GetBounds());
-            }
-            else if (keydown_joystick == Keys.Right)
-            {
-                player.MoveRight(ClientRectangle.Right);
-                Invalidate(player.GetBounds());
-            }*/
             logic.MovementHandlerPlayer(keydown_joystick, ClientRectangle.Right);
             logic.MovementHandlerBullets();
-            /*for (int i = 0; i < bullets.Count; i++)
-            {
-                bullets[i].Move();
-                //Invalidate(bullets[i].GetBounds());
-            }
-
-            for (int i = 0; i < alienbullets.Count; i++)
-            {
-                alienbullets[i].Move();
-                //Invalidate(alienbullets[i].GetBounds());
-            }*/
         }
         /**
          * Toggles credits based on parameter
@@ -458,6 +385,7 @@ namespace SpaceInvadersButBetter
         {
             if (logic.IsGameOver())
             {
+                bullets.Clear();
                 if (TimerCounter % 25 == 0)
                 {
                     if (blinkCount != CREDIT_BLINK_COUNT)
@@ -476,57 +404,6 @@ namespace SpaceInvadersButBetter
                         gameover = false;
                         gameOverFlash = 0;
                         logic.EndGame();
-                    }
-                }
-            }
-        }
-
-        /**
-         * Animates aliens to give them a floating look
-         */
-        private void AnimateAliens()
-        {
-            alienGroup = logic.AnimateAliens(TimerCounter);
-        }
-
-        /**
-         * Move aliens by factor and down if hit wall
-         */
-        private void MoveAlienByFactorAndDirection()
-        {
-            if (TimerCounter % alien_speed == 0)
-            {
-                for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-                {
-                    for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-                    {
-                        alienGroup[i, j].Move();
-                    }
-                }
-
-                //get alien furthest to the right
-                if (GetFarRightAlien() > ClientRectangle.Width - alienGroup[4, 0].GetWidth())
-                {
-                    SetAllDirections(false);
-                    for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-                    {
-                        for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-                        {
-                            alienGroup[i, j].MoveDown();
-                        }
-                    }
-                }
-
-                //get alien furthest to the left
-                if (GetFarLeftAlien() < alienGroup[4, 0].GetWidth() / 3)
-                {
-                    SetAllDirections(true);
-                    for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-                    {
-                        for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-                        {
-                            alienGroup[i, j].MoveDown();
-                        }
                     }
                 }
             }
@@ -600,56 +477,6 @@ namespace SpaceInvadersButBetter
         }
 
         /**
-         * Set direction of all aliens (if moving right = true) (if moving left = false)
-         */
-        private void SetAllDirections(bool movingRight)
-        {
-            for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-            {
-                for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-                {
-                    alienGroup[i, j].movingRight = movingRight;
-                }
-            }
-        }
-
-        /**
-         * Get furthest alien to the right
-         */
-        private int GetFarRightAlien()
-        {
-            int max = 0;
-            for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-            {
-                for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-                {
-                    int lastPos = alienGroup[i, j].Position.X;
-                    if (lastPos > max)
-                        max = lastPos;
-                }
-            }
-            return max;
-        }
-
-        /**
-         * Get furthest alien to the left
-         */
-        private int GetFarLeftAlien()
-        {
-            int min = int.MaxValue;
-            for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-            {
-                for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-                {
-                    int firstPos = alienGroup[i, j].Position.X;
-                    if (firstPos < min)
-                        min = firstPos;
-                }
-            }
-            return min;
-        }
-
-        /**
          * Updates score to file and displays credits
          */
         public void WriteScore(int Score)
@@ -681,16 +508,6 @@ namespace SpaceInvadersButBetter
         {
             lblLifes.Text = lives;
         }
-
-        /**
-         * Updates the cointCount label
-         */
-
-        public void setHitSpaceVisibility(Boolean visibility)
-        {
-            lblHitSpace.Visible = visibility;
-        }
-
 
         public void UpdateCredits(int credits)
         {
@@ -729,24 +546,6 @@ namespace SpaceInvadersButBetter
             ShieldHealth[index].Text = health.ToString();
         }
 
-        public void UpdatePlayer(SpaceShip spaceShip)
-        {
-            //this.player = spaceShip;
-            Invalidate(player.GetBounds());
-        }
-
-        public void UpdateAlienList(Alien[,] alienGroup)
-        {
-            //this.alienGroup = alienGroup;
-        }
-
-        public void UpdateAlienBullets(List<Bullet> bullets)
-        {
-            for (int i = 0; i < this.alienbullets.Count; i++)
-            {
-                Invalidate(this.alienbullets[i].GetBounds());
-            }
-        }
         public void UpdateBullets(List<Bullet> bullets)
         {
             this.bullets = bullets;
@@ -754,10 +553,6 @@ namespace SpaceInvadersButBetter
             {
                 Invalidate(this.bullets[i].GetBounds());
             }
-        }
-        public void ResetTimerCounter()
-        {
-            TimerCounter = 1;
         }
 
     }

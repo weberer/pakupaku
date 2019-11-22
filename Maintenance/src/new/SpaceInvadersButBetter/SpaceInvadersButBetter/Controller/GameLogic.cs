@@ -125,7 +125,6 @@ namespace SpaceInvadersButBetter.Controller
         {
             player.reset();
             gameForm.setLivesLabel(player.getLifes().ToString());
-            gameForm.UpdatePlayer(player);
         }
 
         /**
@@ -141,7 +140,6 @@ namespace SpaceInvadersButBetter.Controller
                     alienGroup[i, j] = new Alien(alien_speed_factor, Resources.invader_open, Resources.invader_closed, (2 + i + 0), j);
                 }
             }
-            gameForm.UpdateAlienList(alienGroup);
         }
 
         /**
@@ -229,9 +227,10 @@ namespace SpaceInvadersButBetter.Controller
             {
                 if (StartScreenActive)
                 {
-                    gameForm.EraseStartScreen();
+                    
                     data.DecrementCredits();
                     gameForm.UpdateCredits(data.GetCredits());
+                    gameForm.EraseStartScreen();
                     StartScreenActive = false;
                     ResetBullets();
 

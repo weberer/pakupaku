@@ -124,7 +124,6 @@ namespace SpaceInvadersButBetter.core
                             {
                                 Shields.RemoveAt(shieldIndexHit);
                                 gameForm.RemoveShield(shieldIndexHit);
-                                gameForm.UpdateAlienBullets(alienBullets);
                             }
                         }
                     }
@@ -213,7 +212,6 @@ namespace SpaceInvadersButBetter.core
                     }
                     gameForm.setLivesLabel(player.getLifes().ToString());
                     alienBullets.RemoveAt(i);
-                    gameForm.UpdateAlienBullets(alienBullets);
                 }
             }
         }
