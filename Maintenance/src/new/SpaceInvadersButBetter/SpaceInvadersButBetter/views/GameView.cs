@@ -26,7 +26,7 @@ namespace SpaceInvadersButBetter
 
 
         private int credits = 0;
-  
+
 
         private bool gameover;
         private ScoreUtility scoreUtil;
@@ -41,7 +41,7 @@ namespace SpaceInvadersButBetter
         private int alien_count = 66;
 
         private Timer fpsTimer;
-  
+
         private int TimerCounter = 0;
         private int MenuCount = 0;
         private int blinkCount = 0;
@@ -81,8 +81,8 @@ namespace SpaceInvadersButBetter
 
             this.data = data;
             this.logic.SetGameView(this);
-            
-        
+
+
             scoreUtil = new ScoreUtility();
 
             lblHighScore.Text = scoreUtil.getTopScore().ToString();
@@ -119,7 +119,7 @@ namespace SpaceInvadersButBetter
             fpsTimer.Tick += fpsTimer_Tick;
             fpsTimer.Interval = 20;
             data.resetLevelScore(); //level = 1; score = 0
-          
+
             lblScore.Text = data.getScore().ToString();
             lblLevelNumber.Text = data.getLevel().ToString();
             Shields = logic.InitializeObject_Shields();
@@ -138,8 +138,8 @@ namespace SpaceInvadersButBetter
 
             ResetShieldLabels();
             Shields = logic.InitializeObject_Shields();
-            player = logic.InitializeSpaceShip();
-            
+
+
             alienGroup = logic.InitializeAliens(data.getLevel());
             bullets.Clear();
             alienbullets.Clear();
@@ -203,19 +203,19 @@ namespace SpaceInvadersButBetter
         /**
          * Insert coin method, updates label and count
          */
-         /*
-        public void CoinInsert()
-        {
-            int coinCount = data.getCoinCount();
-            if (coinCount < 1)
-            {
-                coinCount++;
-                data.setCoinCount(coinCount);
-                CoinCountLabel.Text = coinCount.ToString();
-                lblHitSpace.Visible = true; //Evan 11/12
-            }
-        }
-        */
+        /*
+       public void CoinInsert()
+       {
+           int coinCount = data.getCoinCount();
+           if (coinCount < 1)
+           {
+               coinCount++;
+               data.setCoinCount(coinCount);
+               CoinCountLabel.Text = coinCount.ToString();
+               lblHitSpace.Visible = true; //Evan 11/12
+           }
+       }
+       */
 
 
         public void ShowStartScreen()
@@ -235,72 +235,6 @@ namespace SpaceInvadersButBetter
             CreditFlashTimer.Enabled = true;
         }
 
-        /**
-         * Creates Aliens for board
-         */
-
-         /* Code is removed from the Gamelogic for CoinDecrement because new Credit methods implement it's functionality
-          * 
-        public void CoinDecrement()
-        {
-            int coinCount = data.getCoinCount();
-            if (coinCount > 0)
-            {
-                data.setCoinCount(--coinCount);
-                CoinCountLabel.Text = coinCount.ToString();
-
-        private void InitializeAliens(int level)
-        {
-            for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-            {
-               for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-                {
-                    alienGroup[i, j] = new Alien(alien_speed_factor, Resources.invader_open, Resources.invader_closed, (2 + i), j);
-                }
-
-            }
-        }
-        */
-
-        
-
-        /**
-         * Creates player spaceship object
-         */
-         /*
-        private void InitializeSpaceShip()
-        {
-            player = new SpaceShip();
-            lblLifes.Text = player.getLifes().ToString();
-    
-        }
-        */
-
-        /**
-         * Creates 4 sheilds
-         */
-         
-        /*public void InitializeObject_Shields()
-        {
-            for (int i = 0; i < NUMBER_OF_SHIELDS; i++)
-            {
-                Shield shield = new Shield();
-                Shields.Add(shield);
-                int shieldX = Shields[i].GetBounds().Width + 30 + (i * 135);
-                int shieldY = ClientRectangle.Bottom - (Shields[i].GetBounds().Height + 100);
-                Shields[i].Position.X = shieldX;
-                Shields[i].Position.Y = shieldY;
-
-                Label label = new Label();
-                ShieldHealth.Add(label);
-                ShieldHealth[i].Text = Shields[i].getHealth().ToString();
-                ShieldHealth[i].Location = new Point(shieldX - 17, shieldY + 8);
-                ShieldHealth[i].BackColor = Color.Transparent;
-                ShieldHealth[i].TextAlign = ContentAlignment.MiddleCenter;
-                this.Controls.Add(ShieldHealth[i]);
-            }
-        }*/
-        
         public int GetShieldBottom(Shield shield)
         {
             return (ClientRectangle.Bottom - (shield.GetBounds().Height + 100));
@@ -312,7 +246,7 @@ namespace SpaceInvadersButBetter
         public void SetupShieldLabel(Shield shield, int shieldX, int shieldY)
         {
             Label label = new Label();
-            
+
             ShieldHealth.Add(label);
             int i = ShieldHealth.Count - 1;
             ShieldHealth[i].Text = shield.getHealth().ToString();
@@ -408,14 +342,6 @@ namespace SpaceInvadersButBetter
 
                 case Keys.Right: // right arrow key
                     determineOperation(Keys.Right, false);
-                    break;
-
-                case Keys.Space:
-                    /*if (logic.IsStartScreenActive())
-                    {
-                        logic.StartGame();
-                    }  */
-
                     break;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -515,347 +441,6 @@ namespace SpaceInvadersButBetter
                 //Invalidate(alienbullets[i].GetBounds());
             }*/
         }
-
-        /**
-         * Method called when space bar is hit to shoot a bullet or reset game in over
-         */
-
-        //private void ShootButton()
-        //{
-        //    if (keydown_shoot == Keys.Space)
-        //    {
-        //        if(!gameover)
-        //        {
-        //            int startX = player.Position.X + (Resources.space_ship.Width / 2) - 10;
-        //            int startY = player.Position.Y - (Resources.space_ship.Height / 2) + 10;
-        //            Bullet bullet = new Bullet(startX, startY, true);
-        //            bullets.Add(bullet);
-        //        } 
-        //        else
-        //        {
-        //            ResetGameStates();
-        //            ResetPlayer();
-        //            ResetAliens();
-        //            ResetShields();
-        //            ResetBullets();
-        //        }
-        //    }
-        //}
-
-        /*private void ShootButton()
-        {
-            if (keydown_shoot == Keys.Space)
-            {
-                if(!gameover)
-                {
-                    int startX = player.Position.X + (Resources.space_ship.Width / 2) - 10;
-                    int startY = player.Position.Y - (Resources.space_ship.Height / 2) + 10;
-                    Bullet bullet = new Bullet(startX, startY, true);
-                    bullets.Add(bullet);
-                } 
-                else
-                {
-                    ResetGameStates();
-                    ResetPlayer();
-                    ResetAliens();
-                    ResetSheilds();
-                    ResetBullets();
-                }
-            }
-        }*/
-
-
-        /**
-         * Clears bullet lists
-         */
-         /*
-        private void ResetBullets()
-        {
-            alienbullets.Clear();
-            bullets.Clear();
-        }
-        */
-
-        /**
-         * Clears sheilds and resets them
-         */
-         /*
-        private void ResetShields()
-        {
-            Shields.Clear();
-            InitializeObject_Shields();
-        }
-        */
-
-        /**
-         * Clears aliens and resets them
-         */
-         /*
-        private void ResetAliens()
-        {
-            Array.Clear(alienGroup, 0, alienGroup.Length);
-            for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-            {
-                for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-                {
-                    alienGroup[i, j] = new Alien(alien_speed_factor, Resources.invader_open, Resources.invader_closed, (2 + i + 0), j);
-                }
-            }
-        }
-        */
-
-        /**
-         * Resets player and lifes
-         */
-         /*
-        private void ResetPlayer()
-        {
-            player.reset();
-            lblLifes.Text = player.getLifes().ToString();
-        }
-        */
-
-        /**
-         * Resets game states for logic
-         */
-         /*
-        private void ResetGameStates()
-        {
-            gameover = false;
-            toggleCredit(false);
-            alien_speed = 6;
-            alien_speed_factor = 1;
-            alien_count = 66;
-            level = 0;
-            score = 0;
-            lblLevelNumber.Text = level.ToString();
-            lblScore.Text = score.ToString();
-        }
-        */
-        /**
-         * Checks for bullet collision with sheild
-         */
-         /*
-        private void ShieldCheck()
-        {
-            for (int i = 0; i < bullets.Count; i++)
-            {
-                if (Shields.Count > 0) //Shield Check
-                {
-                    if (bullets[i].Position.Y < Shields[0].Position.Y)
-                    {
-                        bool delete = false;
-                        int shieldIndexHit = -1;
-                        for (int j = 0; j < Shields.Count; j++)
-                            if (Shields[j].Position.X < bullets[i].Position.X && (Shields[j].Position.X + Resources.shield.Width - 20) > bullets[i].Position.X)
-                            {
-                                delete = true;
-                                shieldIndexHit = j;
-                            }
-                        if (delete && shieldIndexHit != -1)
-                        {
-                            bullets.RemoveAt(i);
-                            Shields[shieldIndexHit].healthHit();
-                            ShieldHealth[shieldIndexHit].Text = Shields[shieldIndexHit].getHealth().ToString();
-                            if (Shields[shieldIndexHit].getHealth() <= 0)
-                            {
-                                 Shields.RemoveAt(shieldIndexHit);
-                                this.Controls.Remove(ShieldHealth[shieldIndexHit]);
-                                ShieldHealth.RemoveAt(shieldIndexHit);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        */
-
-        /**
-         * Checks for bullet collision with alien
-         */
-        /*private void AlienCheck()
-        {
-            for (int i = 0; i < bullets.Count; i++) //Alien Check
-            {
-                if (checkBulletHit(bullets[i]))
-                {
-                    bullets.RemoveAt(i);
-                }
-            }
-        }*/
-
-        /**
-         * Checks for alien bullet hiting shield
-         */
-        /*private void AlienHitSheild()
-        {
-            for (int i = 0; i < alienbullets.Count; i++) // alien shot hit sheild
-            {
-                if (Shields.Count > 0) //Shield Check
-                {
-                    if (alienbullets[i].Position.Y > Shields[0].Position.Y)
-                    {
-                        bool delete = false;
-                        int shieldIndexHit = -1;
-                        for (int j = 0; j < Shields.Count; j++)
-                            if (Shields[j].Position.X < alienbullets[i].Position.X && (Shields[j].Position.X + Resources.shield.Width - 20) > alienbullets[i].Position.X)
-                            {
-                                delete = true;
-                                shieldIndexHit = j;
-                            }
-                        if (delete && shieldIndexHit != -1)
-                        {
-                            alienbullets.RemoveAt(i);
-                            Shields[shieldIndexHit].alienHealthHit();
-                            ShieldHealth[shieldIndexHit].Text = Shields[shieldIndexHit].getHealth().ToString();
-                            if (Shields[shieldIndexHit].getHealth() <= 0)
-                            {
-                                Shields.RemoveAt(shieldIndexHit);
-                                this.Controls.Remove(ShieldHealth[shieldIndexHit]);
-                                ShieldHealth.RemoveAt(shieldIndexHit);
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
-
-        /**
-         * Check alien hit person, this ends the game (ABDUCTION)
-         */
-        /*private void AlienHitPersonCheck()
-        {
-            for (int r = 0; r < NUMBER_OF_ALIEN_ROWS; r++) //person hit  by alien check
-            {
-                for (int c = 0; c < NUMBER_OF_ALIENS_PER_ROW; c++)
-                {
-                    if ((alienGroup[r, c].beenHit == false) && alienGroup[r, c].GetBounds().IntersectsWith(player.GetBounds()))
-                    {
-                        //hit
-                        alienGroup[r, c].beenHit = true;
-                        player.kill();
-                        gameover = true;
-                        WriteScore(data.getScore());
-                    }
-                }
-            }
-        }*/
-
-        /**
-         * Check Alien bullets hit player, this ends the game (KILLED)
-         */
-        /*private void AlienBulletsCheck()
-        {
-            for (int i = 0; i < alienbullets.Count; i++)
-            {
-                if (player.GetBounds().IntersectsWith(alienbullets[i].GetBounds()))
-                {
-                    if (!player.hitAndIsAlive())
-                    {
-                        player.kill();
-                        gameover = true;
-                        WriteScore(data.getScore());
-                    }
-                    lblLifes.Text = player.getLifes().ToString();
-                    alienbullets.RemoveAt(i);
-                }
-            }
-        }*/
-
-        /**
-         * Collision check method to check all collision items
-         */
-        private void CollisionCheck()
-        {
-            //ShieldCheck();
-            //AlienCheck();
-            //AlienHitSheild();
-            //AlienHitPersonCheck();
-            //AlienBulletsCheck();
-            //checkShieldHitByAlien();
-        }
-
-        /**
-         * Updates score with given points and displays
-         */
-         /*
-        private void UpdateScore(int points)
-        {
-            score += 10;
-            lblScore.Text = score.ToString();
-        }
-        */
-
-        /**
-         * Checks bullets hitting aliens, score gained
-         */
-        /*private bool checkBulletHit(Bullet b)
-        {
-            for (int r = 0; r < NUMBER_OF_ALIEN_ROWS; r++)
-            {
-                for (int c = 0; c < NUMBER_OF_ALIENS_PER_ROW; c++)
-                {
-                    if ((alienGroup[r, c].beenHit == false) && alienGroup[r, c].GetBounds().IntersectsWith(b.GetBounds()))
-                    {
-                        alienGroup[r, c].beenHit = true;
-                        alien_count--;
-                        logic.UpdateScore(10);
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }*/
-
-        /**
-         * Check if shield is hit by alien, remove shield  (DESTROYED HOUSE)
-         */
-        /*private void checkShieldHitByAlien()
-        {
-            for(int i = 0; i < Shields.Count; i++)
-            {
-                if(checkShieldHit(Shields[i]))
-                {
-                    Shields.RemoveAt(i);
-                    this.Controls.Remove(ShieldHealth[i]);
-                    ShieldHealth.RemoveAt(i);
-                }
-            }
-        }*/
-
-        /**
-         * Checks if shield is hit by alien, sheild destroyed
-         */
-        /*private bool checkShieldHit(Shield s)
-        {
-            for (int r = 0; r < NUMBER_OF_ALIEN_ROWS; r++)
-            {
-                for (int c = 0; c < NUMBER_OF_ALIENS_PER_ROW; c++)
-                {
-                    if ((alienGroup[r, c].beenHit == false) && alienGroup[r, c].GetBounds().IntersectsWith(s.GetBounds()) && s.getHealth() > 0)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }*/
-
-        /**
-         * Increments level, speed factor, and resets aliens
-         */
-         /*
-        private void NextLevel()
-        {
-            level++;
-            lblLevelNumber.Text = level.ToString();
-            alien_speed_factor = Convert.ToInt32(alien_speed_factor * SPEEP_INCREASE_FACTOR);
-            logic.ResetAliens();
-            alien_count = 66;
-            
-        }
-        */
-
         /**
          * Toggles credits based on parameter
          */
@@ -885,7 +470,7 @@ namespace SpaceInvadersButBetter
                 {
                     toggleCredit(true);
                     gameOverFlash++;
-                    if(gameOverFlash == MAX_GAME_OVER_FLASHES)
+                    if (gameOverFlash == MAX_GAME_OVER_FLASHES)
                     {
                         toggleCredit(false);
                         gameover = false;
@@ -901,17 +486,7 @@ namespace SpaceInvadersButBetter
          */
         private void AnimateAliens()
         {
-         /*if (TimerCounter % 6 == 0)
-         {
-             for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
-             {
-                 for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
-                 {
-                     alienGroup[i, j].MoveInPlace();
-                 }
-             }
-         }*/
-         alienGroup = logic.AnimateAliens(TimerCounter);
+            alienGroup = logic.AnimateAliens(TimerCounter);
         }
 
         /**
@@ -964,7 +539,6 @@ namespace SpaceInvadersButBetter
         {
             Movement();
             logic.CollisionCheck();
-            //CollisionCheck(); //Note: Delete this once it is fully implemented in GameLogic.
             TimerCounter++;
 
             if (alien_count == 0)
@@ -989,12 +563,6 @@ namespace SpaceInvadersButBetter
                 logic.MoveAlienByFactorAndDirection(ClientRectangle.Width, TimerCounter);
             }
             logic.CheckForLanding(ClientRectangle.Bottom);
-
-            /*if (logic.CheckForLanding(ClientRectangle.Bottom))
-            {
-                WriteScore(data.getScore());
-                gameover = true;
-            }*/
             Invalidate();
         }
 
@@ -1085,25 +653,6 @@ namespace SpaceInvadersButBetter
         }
 
         /**
-         * Checks if alien hits the ground
-         */
-        /*private bool CheckForLanding()
-        {
-            for (int r = 0; r < NUMBER_OF_ALIEN_ROWS; r++)
-            {
-                for (int c = 0; c < NUMBER_OF_ALIENS_PER_ROW; c++)
-                {
-                    if ((alienGroup[r, c].beenHit == false) && alienGroup[r, c].GetBounds().Bottom >= ClientRectangle.Bottom)
-                    {
-                        alienGroup[r, c].beenHit = true;
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }*/
-
-        /**
          * Updates score to file and displays credits
          */
         public void WriteScore(int Score)
@@ -1111,50 +660,6 @@ namespace SpaceInvadersButBetter
             scoreUtil.Write(Score);
             DisplayCredits();
         }
-
-        /**
-         * Display alien bullets, only from the bottom most aliens in each colummn
-         */
-        /*private void generateAlienBullet()
-        {
-            List<Tuple<Alien, int>> bottomAliens = new List<Tuple<Alien, int>>();
-            Alien nearest = null;
-            for (int i = 0; i < 11; i++)
-            {
-                for (int k = 5; k > -1; k--)
-                    if (!alienGroup[k, i].beenHit)
-                    {
-                        int posDiff = Math.Abs(alienGroup[k, i].Position.X - player.Position.X);
-                        Tuple<Alien, int> pair = new Tuple<Alien, int>(alienGroup[k, i], posDiff);
-                        bottomAliens.Add(pair);
-                        break;
-                    }
-            }
-
-            if (bottomAliens.Count != 0)
-            {
-                int finalDiff = bottomAliens[0].Item2;
-                nearest = bottomAliens[0].Item1;
-                foreach (Tuple<Alien, int> pair in bottomAliens)
-                {
-                    if (finalDiff > pair.Item2)
-                    {
-                        finalDiff = pair.Item2;
-                        nearest = pair.Item1;
-                    }
-                }
-            }
-
-            if (nearest != null)
-            {
-
-                int startX = nearest.Position.X + 10;
-                int startY = nearest.Position.Y + 30;
-                Bullet bullet = new Bullet(startX, startY, false);
-                alienbullets.Add(bullet);
-            }
-        }*/
-
 
         /**
          * Updates the level label
@@ -1183,7 +688,6 @@ namespace SpaceInvadersButBetter
         /**
          * Updates the cointCount label
          */
-        
 
         public void setHitSpaceVisibility(Boolean visibility)
         {
@@ -1192,7 +696,7 @@ namespace SpaceInvadersButBetter
 
 
         public void UpdateCredits(int credits)
-         {
+        {
             this.credits = credits;
             InsertCoinLabel.Text = "Credits x " + credits.ToString();
             if (logic.IsStartScreenActive() && credits > 0)
@@ -1216,7 +720,7 @@ namespace SpaceInvadersButBetter
                 creditFlash = true;
             }
         }
-        
+
         public void RemoveShield(int index)
         {
             this.Controls.Remove(ShieldHealth[index]);
@@ -1241,21 +745,23 @@ namespace SpaceInvadersButBetter
 
         public void UpdateAlienBullets(List<Bullet> bullets)
         {
-            //alienbullets = bullets;
-         for (int i = 0; i < this.alienbullets.Count; i++)
-         {
-            Invalidate(this.alienbullets[i].GetBounds());
-         }
-      }
-      public void UpdateBullets(List<Bullet> bullets)
-      {
-         this.bullets = bullets;
-         for(int i = 0; i < this.bullets.Count; i++)
-         {
-            Invalidate(this.bullets[i].GetBounds());
-         }
-      }
-      
-     
+            for (int i = 0; i < this.alienbullets.Count; i++)
+            {
+                Invalidate(this.alienbullets[i].GetBounds());
+            }
+        }
+        public void UpdateBullets(List<Bullet> bullets)
+        {
+            this.bullets = bullets;
+            for (int i = 0; i < this.bullets.Count; i++)
+            {
+                Invalidate(this.bullets[i].GetBounds());
+            }
+        }
+        public void ResetTimerCounter()
+        {
+            TimerCounter = 1;
+        }
+
     }
 }

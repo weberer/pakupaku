@@ -25,12 +25,6 @@ namespace SpaceInvadersButBetter.Controller
         private int alien_count = 66;
         private const int MAX_ALIENS = 66;
 
-        private int TimerCounter = 0;
-        private int MenuCount = 0;
-        private int blinkCount = 0;
-        private int scoreScrollCount = 0;
-
-
         private const int NUMBER_OF_SHIELDS = 4;
         private const int NUMBER_OF_ALIEN_ROWS = 6;
         private const int NUMBER_OF_ALIENS_PER_ROW = 11;
@@ -110,15 +104,6 @@ namespace SpaceInvadersButBetter.Controller
                         StartGame();
                     }
                 }
-                /*else //This is handled in EndGame now -Michael 11/19
-                {
-
-                    //ResetGameStates();
-                    //ResetPlayer();
-                    //ResetAliens();
-                    //ResetShields();
-                    //ResetBullets();
-                }*/
             }
         }
 
@@ -161,15 +146,6 @@ namespace SpaceInvadersButBetter.Controller
             }
             gameForm.UpdateAlienList(alienGroup);
         }
-
-        /**
-         * Clears sheilds and resets them
-         */
-        /*private void ResetShields()
-        {
-            Shields.Clear();
-            gameForm.InitializeObject_Shields();
-        }*/
 
         /**
         * Clears bullet lists
@@ -227,15 +203,6 @@ namespace SpaceInvadersButBetter.Controller
             return Shields;
         }
 
-
-        //ResetGameStates();
-        //ResetPlayer();
-        //ResetAliens();
-        //ResetSheilds();
-        //ResetBullets();
-        //       }
-        //    }
-
         public void addCredit()
         {
             if (data.GetCredits() < 9)
@@ -265,6 +232,8 @@ namespace SpaceInvadersButBetter.Controller
                     data.DecrementCredits();
                     gameForm.UpdateCredits(data.GetCredits());
                     StartScreenActive = false;
+                    ResetBullets();
+
                 }
             }
         }
@@ -273,7 +242,8 @@ namespace SpaceInvadersButBetter.Controller
             //High Score Handling Code here.
             gameForm.ResetGameObjects();
             ResetGameStates();
-            //ResetPlayer();
+            player.reset();
+            gameForm.setLivesLabel(player.getLifes().ToString());
             ResetBullets();
             StartScreenActive = true;
             gameover = false;
@@ -521,8 +491,6 @@ namespace SpaceInvadersButBetter.Controller
             alien_count--;
             UpdateScore(10);
         }
-
-
     }
 }
 

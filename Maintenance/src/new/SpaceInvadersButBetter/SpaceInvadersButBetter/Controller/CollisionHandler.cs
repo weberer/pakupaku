@@ -253,6 +253,5 @@ namespace SpaceInvadersButBetter.core
             }
             return false;
         }
-
-    }
+    } 
 }
