@@ -14,10 +14,7 @@ namespace SpaceInvadersButBetter.Controller
     //---------------------------------------------------------------------
     public class GameLogic
     {
-
         private bool gameover;
-
-
 
         //increments with higher levels
         private int alien_speed = 6; // 6
