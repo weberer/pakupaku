@@ -18,7 +18,7 @@ namespace SpaceInvadersButBetter.Controller
 
         //increments with higher levels
         private int alien_speed = 6; // 6
-        private int alien_speed_factor = 1;
+        private double alien_speed_factor = 1;
         private int alien_count = 66;
         private const int MAX_ALIENS = 66;
 
@@ -26,7 +26,7 @@ namespace SpaceInvadersButBetter.Controller
         private const int NUMBER_OF_ALIEN_ROWS = 6;
         private const int NUMBER_OF_ALIENS_PER_ROW = 11;
         private const int CREDIT_BLINK_COUNT = 8;
-        private const double SPEEP_INCREASE_FACTOR = 1.25;
+        private const double SPEEP_INCREASE_FACTOR = 1.5;
 
         private int credits;
         private List<Shield> Shields = new List<Shield>();
@@ -93,7 +93,8 @@ namespace SpaceInvadersButBetter.Controller
                         int startX = player.Position.X + (Resources.space_ship.Width / 2) - 10;
                         int startY = player.Position.Y - (Resources.space_ship.Height / 2) + 10;
                         Bullet bullet = new Bullet(startX, startY, true);
-                        bullets.Add(bullet);
+                        if(bullets.Count==0)
+                            bullets.Add(bullet);
                         gameForm.UpdateBullets(bullets);
                     }
                     else
@@ -141,6 +142,7 @@ namespace SpaceInvadersButBetter.Controller
                 }
             }
         }
+
 
         /**
         * Clears bullet lists

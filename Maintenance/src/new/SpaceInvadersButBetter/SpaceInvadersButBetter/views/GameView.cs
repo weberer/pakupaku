@@ -237,12 +237,21 @@ namespace SpaceInvadersButBetter
          */
         private void drawBullets(Graphics g)
         {
+            //for (int i = 0; i < bullets.Count; i++)
+            //{
+            //    if (bullets[i].getY() < 0)
+            //        bullets.RemoveAt(i);
+            //    else
+            //        bullets[i].Draw(g);
+            //}
+
             for (int i = 0; i < bullets.Count; i++)
             {
                 if (bullets[i].getY() < 0)
                     bullets.RemoveAt(i);
                 else
                     bullets[i].Draw(g);
+                break;
             }
 
             for (int i = 0; i < alienbullets.Count; i++)
