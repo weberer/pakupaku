@@ -53,12 +53,6 @@
     <Compile Include="Controller\CollisionHandler.cs" />
     <Compile Include="core\ScoreUtility.cs" />
     <Compile Include="core\SpaceShip.cs" />
-    <Compile Include="depreciated\Bad-GameForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="depreciated\Bad-GameForm.Designer.cs">
-      <DependentUpon>Bad-GameForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Model\GameData.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -83,9 +77,12 @@
     <Compile Include="views\GameView.Designer.cs">
       <DependentUpon>GameView.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="depreciated\Bad-GameForm.resx">
-      <DependentUpon>Bad-GameForm.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="views\HighScoreForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="views\HighScoreForm.Designer.cs">
+      <DependentUpon>HighScoreForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -104,6 +101,9 @@
     </Compile>
     <EmbeddedResource Include="views\GameView.resx">
       <DependentUpon>GameView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\HighScoreForm.resx">
+      <DependentUpon>HighScoreForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
