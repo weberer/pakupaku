@@ -49,6 +49,7 @@
     <Compile Include="core\Alien.cs" />
     <Compile Include="core\Bullet.cs" />
     <Compile Include="core\Coin.cs" />
+    <Compile Include="Controller\CollisionHandler.cs" />
     <Compile Include="core\ScoreUtility.cs" />
     <Compile Include="core\SpaceShip.cs" />
     <Compile Include="depreciated\Bad-GameForm.cs">
