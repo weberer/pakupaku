@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SpaceInvadersButBetter.Model;
+using SpaceInvadersButBetter.views;
 
 namespace SpaceInvadersButBetter
 {
@@ -24,7 +25,8 @@ namespace SpaceInvadersButBetter
         private GameData data;
         private GameBox bg = new GameBox();
         private GameLogic logic;
-
+        private HighScoreForm highScoreForm;
+        private Boolean isGame = true;
         /**
          * Constructor
          */
@@ -85,6 +87,12 @@ namespace SpaceInvadersButBetter
             
             game.Location = new Point(80, 90);
             this.Controls.Add(game);
+
+            highScoreForm = new HighScoreForm(this);
+            
+            highScoreForm.Location = new Point(80, 90);
+            this.Controls.Add(highScoreForm);
+            highScoreForm.Visible = false;
         }
 
         /**
@@ -145,6 +153,31 @@ namespace SpaceInvadersButBetter
         public GameLogic getLogic()
         {
             return logic;
+        }
+
+        public void SwitchForms()
+        {
+            if(isGame)
+            {
+                isGame = false;
+                game.Visible = false;
+                highScoreForm.Visible = true;
+            }
+            else
+            {
+                isGame = true;
+                highScoreForm.Visible = false;
+                game.Visible = true;
+            }
+        }
+        public void UpdateCredits(int credits)
+        {
+            highScoreForm.UpdateCredits(credits);
+        }
+        public void BeginNewGame()
+        {
+            SwitchForms();
+            game.StartGameFromHighScore();
         }
     }
 
