@@ -53,6 +53,7 @@
     <Compile Include="Controller\CollisionHandler.cs" />
     <Compile Include="core\ScoreUtility.cs" />
     <Compile Include="core\SpaceShip.cs" />
+    <Compile Include="core\UFO.cs" />
     <Compile Include="Model\GameData.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -162,6 +163,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\bullet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UFO.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
