@@ -46,9 +46,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoinTests.cs" />
+    <Compile Include="GameLogicTest.cs" />
     <Compile Include="JoystickTests.cs" />
     <Compile Include="ScoreUtilityTests.cs" />
     <Compile Include="SpaceShipTests.cs" />
