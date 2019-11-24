@@ -46,11 +46,15 @@ namespace SpaceInvadersButBetter.Model
         }
 
 
+        //credit stuff moved to class CreditSystem 11/23 - Evan
+        /*
         public int GetCredits()
         {
             return credits;
         }
+        */
 
+        /*
         public void AddCredit()
         {
             credits++;
@@ -60,5 +64,6 @@ namespace SpaceInvadersButBetter.Model
         {
             credits--;
         }
+        */
     }
 }

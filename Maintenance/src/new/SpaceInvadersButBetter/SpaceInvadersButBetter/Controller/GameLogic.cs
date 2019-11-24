@@ -25,10 +25,8 @@ namespace SpaceInvadersButBetter.Controller
         private const int NUMBER_OF_SHIELDS = 4;
         private const int NUMBER_OF_ALIEN_ROWS = 6;
         private const int NUMBER_OF_ALIENS_PER_ROW = 11;
-        private const int CREDIT_BLINK_COUNT = 8;
         private const double SPEEP_INCREASE_FACTOR = 1.25;
 
-        private int credits;
         private List<Shield> Shields = new List<Shield>();
 
         private SpaceShip player;
@@ -37,16 +35,17 @@ namespace SpaceInvadersButBetter.Controller
         private List<Bullet> alienbullets = new List<Bullet>();
 
 
-
-
         private GameView gameForm;
         private GameBoxForm gameBox;
         private GameData data;
+        private CreditSystem credit;
         private CollisionHandler collisionHandler;
+
+
         public GameLogic(GameBoxForm boxForm)
         {
-            credits = 0;
             gameBox = boxForm;
+            credit = new CreditSystem();
             data = new GameData();
         }
         public void SetGameView(GameView view)
@@ -204,17 +203,17 @@ namespace SpaceInvadersButBetter.Controller
 
         public void addCredit()
         {
-            if (data.GetCredits() < 9)
-                data.AddCredit();
-            gameForm.UpdateCredits(data.GetCredits());
+            if (credit.GetCredits() < 9)
+                credit.AddCredit();
+            gameForm.UpdateCredits(credit.GetCredits());
 
         }
         public void DecrementCredits()
         {
-            if (credits >= 0)
+            if (credit.GetCredits() >= 0)
             {
-                data.DecrementCredits();
-                gameForm.UpdateCredits(data.GetCredits());
+                credit.DecrementCredits();
+                gameForm.UpdateCredits(credit.GetCredits());
             }
         }
         public bool IsStartScreenActive()
@@ -223,13 +222,13 @@ namespace SpaceInvadersButBetter.Controller
         }
         public void StartGame()
         {
-            if (data.GetCredits() > 0)
+            if (credit.GetCredits() > 0)
             {
                 if (StartScreenActive)
                 {
                     
-                    data.DecrementCredits();
-                    gameForm.UpdateCredits(data.GetCredits());
+                    credit.DecrementCredits();
+                    gameForm.UpdateCredits(credit.GetCredits());
                     gameForm.EraseStartScreen();
                     StartScreenActive = false;
                     ResetBullets();
@@ -256,7 +255,7 @@ namespace SpaceInvadersButBetter.Controller
          */
         public int GetCredits()
         {
-            return data.GetCredits();
+            return credit.GetCredits();
         }
 
         /**
