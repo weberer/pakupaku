@@ -12,7 +12,6 @@ using SpaceInvadersButBetter.Controller;
 using SpaceInvadersButBetter.Model;
 using System.IO;
 
-
 namespace SpaceInvadersButBetter
 {
     /**
@@ -23,7 +22,6 @@ namespace SpaceInvadersButBetter
         private GameBoxForm _parent;
         private GameLogic logic; // Class that should handle all game logic
         private GameData data;
-
 
         private int credits = 0;
 
@@ -162,6 +160,8 @@ namespace SpaceInvadersButBetter
          */
         public void EraseStartScreen()
         {
+            if (this.Visible == false)
+                _parent.SwitchForms();
             SpaceInvadersLabel.Visible = false;
             InsertCoinLabel.Visible = false;
             StartScreenActive = false;
@@ -174,6 +174,7 @@ namespace SpaceInvadersButBetter
             lblScoreScroll.Visible = false;
             lblHitSpace.Visible = false;
             CreditFlashTimer.Enabled = false;
+            ChangeTimer.Stop();
         }
 
         public void ShowStartScreen()
@@ -191,6 +192,7 @@ namespace SpaceInvadersButBetter
             if (credits > 0)
                 lblHitSpace.Visible = true;
             CreditFlashTimer.Enabled = true;
+            ChangeTimer.Start();
         }
 
         public int GetShieldBottom(Shield shield)
@@ -519,6 +521,7 @@ namespace SpaceInvadersButBetter
             }
             else
                 lblHitSpace.Hide();
+            _parent.UpdateCredits(credits);
         }
 
         private void CreditFlashTimer_Tick(object sender, EventArgs e)
@@ -555,5 +558,31 @@ namespace SpaceInvadersButBetter
             }
         }
 
+        private void ChangeTimer_Tick(object sender, EventArgs e)
+        {
+            _parent.SwitchForms();
+        }
+
+        private void GameView_VisibleChanged(object sender, EventArgs e)
+        {
+            if(this.Visible == true)
+            {
+                ChangeTimer.Start();
+                fpsTimer.Start();
+                CreditFlashTimer.Start();
+                this.Focus();
+            }
+            else
+            {
+                ChangeTimer.Stop();
+                fpsTimer.Stop();
+                CreditFlashTimer.Stop();
+            }
+        }
+        public void StartGameFromHighScore()
+        {
+            logic.ShootButton(Keys.Space);
+        }
     }
+
 }
