@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpaceInvadersButBetter.Controller
 {
-    class CreditSystem
+    public class CreditSystem
     {
         private int credits;
 
@@ -15,20 +15,43 @@ namespace SpaceInvadersButBetter.Controller
             credits = 0;
         }
 
+        /**
+         * Returns number of credits
+         */
         public int GetCredits()
         {
             return credits;
         }
 
-        public void AddCredit()
+        public void SetCredits(int credits)
         {
-            credits++;
+            this.credits = credits;
         }
 
+        /**
+         * Increments credits
+         */
+        public void AddCredit()
+        {
+            if (credits < 9)
+                credits++;
+        
+
+        }
+
+
+        /**
+         * Decrements Credits  (NOTE: this method isn't even used)
+         */
         public void DecrementCredits()
         {
-            credits--;
+            if (credits >= 0)
+            {
+                credits--;
+               // gameForm.UpdateCredits(credit.GetCredits());
+            }
         }
+        
     }
 
     

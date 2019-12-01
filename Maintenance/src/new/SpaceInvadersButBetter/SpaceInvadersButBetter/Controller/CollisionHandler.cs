@@ -189,6 +189,7 @@ namespace SpaceInvadersButBetter.core
                         alienGroup[r, c].beenHit = true;
                         player.kill();
                         logic.GameOver();
+                       
                     }
                 }
             }

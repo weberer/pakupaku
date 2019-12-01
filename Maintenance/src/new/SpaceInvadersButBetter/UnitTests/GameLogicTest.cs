@@ -15,8 +15,9 @@ namespace UnitTests
         public void TestStartGameWithCredit()
         {
             GameBoxForm box = new GameBoxForm();
-            GameLogic gameLogic = box.getLogic();
-            gameLogic.addCredit();
+            GameLogic gameLogic = box.GetLogic();
+            CreditSystem credit = box.GetCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 1);
             gameLogic.StartGame();
             Assert.AreEqual(gameLogic.GetCredits(), 0);
@@ -30,7 +31,7 @@ namespace UnitTests
         public void TestStartGameWithNoCredits()
         {
             GameBoxForm box = new GameBoxForm();
-            GameLogic gameLogic = box.getLogic();
+            GameLogic gameLogic = box.GetLogic();
             gameLogic.StartGame();
             Assert.AreEqual(gameLogic.GetCredits(), 0);
             Assert.IsTrue(gameLogic.IsStartScreenActive());
@@ -42,26 +43,27 @@ namespace UnitTests
         public void TestMaxCredit()
         {
             GameBoxForm box = new GameBoxForm();
-            GameLogic gameLogic = box.getLogic();
-            gameLogic.addCredit();
+            GameLogic gameLogic = box.GetLogic();
+            CreditSystem credit = box.GetCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 1);
-            gameLogic.addCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 2);
-            gameLogic.addCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 3);
-            gameLogic.addCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 4);
-            gameLogic.addCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 5);
-            gameLogic.addCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 6);
-            gameLogic.addCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 7);
-            gameLogic.addCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 8);
-            gameLogic.addCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 9);
-            gameLogic.addCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 9);
         }
         /**
@@ -73,8 +75,9 @@ namespace UnitTests
         public void TestStartGameMultipleStartsZeroCredits()
         {
             GameBoxForm box = new GameBoxForm();
-            GameLogic gameLogic = box.getLogic();
-            gameLogic.addCredit();
+            GameLogic gameLogic = box.GetLogic();
+            CreditSystem credit = box.GetCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 1);
             gameLogic.StartGame();
             Assert.AreEqual(gameLogic.GetCredits(), 0);
@@ -90,10 +93,11 @@ namespace UnitTests
         public void TestStartGameMultipleStartsMultipleCredits()
         {
             GameBoxForm box = new GameBoxForm();
-            GameLogic gameLogic = box.getLogic();
-            gameLogic.addCredit();
+            GameLogic gameLogic = box.GetLogic();
+            CreditSystem credit = box.GetCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 1);
-            gameLogic.addCredit();
+            credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 2);
             gameLogic.StartGame();
             Assert.AreEqual(gameLogic.GetCredits(), 1);

@@ -14,7 +14,7 @@ namespace SpaceInvadersButBetter.Controller
     //---------------------------------------------------------------------
     public class GameLogic
     {
-        private bool gameover;
+        private bool gameOver;
 
         //increments with higher levels
         private int alien_speed = 6; // 6
@@ -85,7 +85,7 @@ namespace SpaceInvadersButBetter.Controller
         {
             if (keydown_shoot == Keys.Space)
             {
-                if (!gameover)
+                if (!gameOver)
                 {
                     if (!StartScreenActive)
                     {
@@ -108,7 +108,7 @@ namespace SpaceInvadersButBetter.Controller
          */
         private void ResetGameStates()
         {
-            gameover = false;
+            GameReset();
             alien_speed = 6;
             alien_speed_factor = 1;
             alien_count = MAX_ALIENS;
@@ -201,13 +201,16 @@ namespace SpaceInvadersButBetter.Controller
             return Shields;
         }
 
-        public void addCredit()
+        /*
+        public void AddCredit()
         {
             if (credit.GetCredits() < 9)
                 credit.AddCredit();
             gameForm.UpdateCredits(credit.GetCredits());
 
         }
+        */
+        /*
         public void DecrementCredits()
         {
             if (credit.GetCredits() >= 0)
@@ -216,6 +219,7 @@ namespace SpaceInvadersButBetter.Controller
                 gameForm.UpdateCredits(credit.GetCredits());
             }
         }
+        */
         public bool IsStartScreenActive()
         {
             return StartScreenActive;
@@ -245,9 +249,17 @@ namespace SpaceInvadersButBetter.Controller
             gameForm.setLivesLabel(player.getLifes().ToString());
             ResetBullets();
             StartScreenActive = true;
-            gameover = false;
+            GameReset();
             gameForm.ShowStartScreen();
 
+        }
+
+        /**
+         * Sets the gameOver boolean to false
+         */
+        public void GameReset()
+        {
+            gameOver = false;
         }
 
         /**
@@ -378,7 +390,7 @@ namespace SpaceInvadersButBetter.Controller
                     {
                         alienGroup[r, c].beenHit = true;
                         gameForm.WriteScore(data.getScore());
-                        gameover = true;
+                        gameOver = true;
                     }
                 }
             }
@@ -474,16 +486,34 @@ namespace SpaceInvadersButBetter.Controller
                 }
             }
         }
+
+        /**
+         * Returns the gameOver boolean
+         */
         public bool IsGameOver()
         {
-            return gameover;
+            return gameOver;
         }
 
+        
+        /**
+         * Makes calls to set gameOver to true and write the final game score to the screen
+         */
         public void GameOver()
         {
-            gameover = true;
+            SetGameOver();
             gameForm.WriteScore(data.getScore());
         }
+
+        /**
+         * Sets gameover boolean to true
+         */
+        public void SetGameOver()
+        {
+            gameOver = true;
+        }
+
+
 
         public void KillAlien()
         {

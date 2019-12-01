@@ -24,6 +24,7 @@ namespace SpaceInvadersButBetter
         private GameData data;
         private GameBox bg = new GameBox();
         private GameLogic logic;
+        private CreditSystem credit;
 
         /**
          * Constructor
@@ -81,7 +82,8 @@ namespace SpaceInvadersButBetter
         {
             logic = new GameLogic(this);
             data = new GameData();
-            game = new GameView(this, logic, data);
+            credit = new CreditSystem();
+            game = new GameView(this, logic, data, credit);
             
             game.Location = new Point(80, 90);
             this.Controls.Add(game);
@@ -110,7 +112,8 @@ namespace SpaceInvadersButBetter
                     if (coinPile.isQuarter())
                     {
                         coinPile.deleteCoin();
-                        logic.addCredit();
+                        credit.AddCredit();
+                        game.UpdateCredits(credit.GetCredits());
                     }
                     else
                     {
@@ -142,9 +145,14 @@ namespace SpaceInvadersButBetter
 
         }
 
-        public GameLogic getLogic()
+        public GameLogic GetLogic()
         {
             return logic;
+        }
+
+        public CreditSystem GetCredit()
+        {
+            return credit;
         }
     }
 

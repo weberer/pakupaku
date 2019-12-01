@@ -23,12 +23,8 @@ namespace SpaceInvadersButBetter
         private GameBoxForm _parent;
         private GameLogic logic; // Class that should handle all game logic
         private GameData data;
+        private CreditSystem credit;
 
-
-        private int credits = 0;
-
-
-        private bool gameover;
         private ScoreUtility scoreUtil;
         private bool StartScreenActive = true;
         private bool creditFlash = false;
@@ -57,7 +53,7 @@ namespace SpaceInvadersButBetter
         /**
          * Constructor
          */
-        public GameView(GameBoxForm parent, GameLogic logic, GameData data)
+        public GameView(GameBoxForm parent, GameLogic logic, GameData data, CreditSystem credit)
         {
             InitializeComponent();
 
@@ -70,7 +66,7 @@ namespace SpaceInvadersButBetter
             _parent = parent;
 
             this.logic = logic;
-
+            this.credit = credit;
             this.data = data;
             this.logic.SetGameView(this);
 
@@ -106,7 +102,7 @@ namespace SpaceInvadersButBetter
          */
         public void InitializeGameObjects()
         {
-            gameover = false;
+            logic.GameReset();
             fpsTimer = new Timer();
             fpsTimer.Tick += fpsTimer_Tick;
             fpsTimer.Interval = 20;
@@ -188,7 +184,7 @@ namespace SpaceInvadersButBetter
             lblLifes.Visible = false;
             lblLifesLabel.Visible = false;
             lblScoreScroll.Visible = true;
-            if (credits > 0)
+            if (credit.GetCredits() > 0)
                 lblHitSpace.Visible = true;
             CreditFlashTimer.Enabled = true;
         }
@@ -401,7 +397,7 @@ namespace SpaceInvadersButBetter
                     if (gameOverFlash == MAX_GAME_OVER_FLASHES)
                     {
                         toggleCredit(false);
-                        gameover = false;
+                        logic.GameReset();
                         gameOverFlash = 0;
                         logic.EndGame();
                     }
@@ -422,7 +418,7 @@ namespace SpaceInvadersButBetter
 
             CreditBlink();
 
-            if (TimerCounter % 100 == 0 && gameover == false)
+            if (TimerCounter % 100 == 0 && logic.IsGameOver() == false)
             {
                 alienbullets = logic.GenerateAlienBullet();
             }
@@ -511,7 +507,7 @@ namespace SpaceInvadersButBetter
 
         public void UpdateCredits(int credits)
         {
-            this.credits = credits;
+            credit.SetCredits(credits);
             InsertCoinLabel.Text = "Credits x " + credits.ToString();
             if (logic.IsStartScreenActive() && credits > 0)
             {
@@ -523,14 +519,14 @@ namespace SpaceInvadersButBetter
 
         private void CreditFlashTimer_Tick(object sender, EventArgs e)
         {
-            if (creditFlash && credits < 9)
+            if (creditFlash && credit.GetCredits() < 9)
             {
                 InsertCoinLabel.Text = "Insert Coin";
                 creditFlash = false;
             }
             else
             {
-                InsertCoinLabel.Text = "Credits x " + credits.ToString();
+                InsertCoinLabel.Text = "Credits x " + credit.GetCredits().ToString();
                 creditFlash = true;
             }
         }
