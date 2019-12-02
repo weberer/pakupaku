@@ -521,6 +521,18 @@ namespace SpaceInvadersButBetter.Controller
             UpdateScore(10);
         }
 
+
+        private void LoopAliens(Func<>)
+        {
+            for (int i = 0; i < gameForm.GetNumberOfAlienRows(); i++)
+            {
+                for (int j = 0; j < gameForm.GetNumberOfAliensPerRow(); j++)
+                {
+                    alienGroup[i, j].MoveDown();
+                }
+            }
+        }
+
         
     }
 
