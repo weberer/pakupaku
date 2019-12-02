@@ -10,7 +10,9 @@ namespace SpaceInvadersButBetter.Model
     {
         private int score;
         private int level;
-       
+
+        
+ 
 
         public GameData()
         {
@@ -34,16 +36,17 @@ namespace SpaceInvadersButBetter.Model
             this.score = score;
         }
 
-        public int getLevel()
+        public int GetLevel()
         {
             return level;
         }
 
-        public void setLevel(int level)
+        public void SetLevel(int level)
         {
             this.level = level;
         }
 
+      
 
         //credit stuff moved to class CreditSystem 11/23 - Evan
         /*

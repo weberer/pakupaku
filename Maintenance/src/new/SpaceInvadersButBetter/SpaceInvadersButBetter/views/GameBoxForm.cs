@@ -80,11 +80,17 @@ namespace SpaceInvadersButBetter
          */
         public void startGame()
         {
-            logic = new GameLogic(this);
             data = new GameData();
             credit = new CreditSystem();
-            game = new GameView(this, logic, data, credit);
-            
+            logic = new GameLogic(this);
+            logic.SetCreditSystem(credit);
+            logic.SetGameData(data);
+            game = new GameView(this);
+            game.SetGameLogic(logic);
+            game.SetGameData(data);
+            game.SetCreditSystem(credit);
+            logic.SetGameView(game);
+
             game.Location = new Point(80, 90);
             this.Controls.Add(game);
         }

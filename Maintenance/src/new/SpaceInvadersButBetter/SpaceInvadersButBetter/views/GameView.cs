@@ -20,6 +20,10 @@ namespace SpaceInvadersButBetter
      */
     public partial class GameView : UserControl
     {
+        private const int NUMBER_OF_ALIEN_ROWS = 6;
+        private const int NUMBER_OF_ALIENS_PER_ROW = 11;
+        private const int CREDIT_BLINK_COUNT = 8;
+
         private GameBoxForm _parent;
         private GameLogic logic; // Class that should handle all game logic
         private GameData data;
@@ -39,21 +43,18 @@ namespace SpaceInvadersButBetter
         private int scoreScrollCount = 0;
         private Keys keydown_joystick;
 
-        private const int NUMBER_OF_ALIEN_ROWS = 6;
-        private const int NUMBER_OF_ALIENS_PER_ROW = 11;
-        private const int CREDIT_BLINK_COUNT = 8;
-
+        
         private List<Shield> Shields = new List<Shield>();
         private List<Label> ShieldHealth = new List<Label>();
         private SpaceShip player;
-        private Alien[,] alienGroup = new Alien[NUMBER_OF_ALIEN_ROWS, NUMBER_OF_ALIENS_PER_ROW];
-        private List<Bullet> bullets = new List<Bullet>();
-        private List<Bullet> alienbullets = new List<Bullet>();
+        private Alien[,] alienGroup;
+        private List<Bullet> bullets;
+        private List<Bullet> alienbullets;
 
         /**
          * Constructor
          */
-        public GameView(GameBoxForm parent, GameLogic logic, GameData data, CreditSystem credit)
+        public GameView(GameBoxForm parent)
         {
             InitializeComponent();
 
@@ -65,10 +66,14 @@ namespace SpaceInvadersButBetter
 
             _parent = parent;
 
-            this.logic = logic;
-            this.credit = credit;
-            this.data = data;
-            this.logic.SetGameView(this);
+            //this.logic = logic;
+            //this.credit = credit;
+            //this.data = data;
+            //this.logic.SetGameView(this);
+
+            alienGroup = new Alien[NUMBER_OF_ALIEN_ROWS, NUMBER_OF_ALIENS_PER_ROW];
+            bullets = new List<Bullet>();
+            alienbullets = new List<Bullet>();
 
 
             scoreUtil = new ScoreUtility();
@@ -79,6 +84,40 @@ namespace SpaceInvadersButBetter
             this.logic.SetupCollisionHandler();
             fpsTimer.Start();
         }
+
+        public void SetGameData(GameData data)
+        {
+            this.data = data;
+        }
+
+        public void SetCreditSystem(CreditSystem credit)
+        {
+            this.credit = credit;
+        }
+
+        public void SetGameLogic(GameLogic logic)
+        {
+            this.logic = logic;
+        }
+
+ 
+
+        public Alien[,] GetAlienGroup()
+        {
+            return alienGroup;
+        }
+
+        public List<Bullet> GetBullets()
+        {
+            return bullets;
+        }
+
+        public List<Bullet> GetAlienBullets()
+        {
+            return alienbullets;
+        }
+        
+
 
         /**
          * Displays start screen elements
@@ -109,11 +148,11 @@ namespace SpaceInvadersButBetter
             data.resetLevelScore(); //level = 1; score = 0
 
             lblScore.Text = data.getScore().ToString();
-            lblLevelNumber.Text = data.getLevel().ToString();
+            lblLevelNumber.Text = data.GetLevel().ToString();
             Shields = logic.InitializeObject_Shields();
             player = logic.InitializeSpaceShip();
 
-            alienGroup = logic.InitializeAliens(data.getLevel());
+            alienGroup = logic.InitializeAliens(data.GetLevel());
 
             InitializeCredits();
         }
@@ -121,13 +160,13 @@ namespace SpaceInvadersButBetter
         public void ResetGameObjects()
         {
             lblScore.Text = data.getScore().ToString();
-            lblLevelNumber.Text = data.getLevel().ToString();
+            lblLevelNumber.Text = data.GetLevel().ToString();
 
             ResetShieldLabels();
             Shields = logic.InitializeObject_Shields();
 
 
-            alienGroup = logic.InitializeAliens(data.getLevel());
+            alienGroup = logic.InitializeAliens(data.GetLevel());
             bullets.Clear();
             alienbullets.Clear();
         }
@@ -492,7 +531,7 @@ namespace SpaceInvadersButBetter
         /**
          * Updates the score label
          */
-        public void setScoreLabel(string score)
+        public void SetScoreLabel(string score)
         {
             lblScore.Text = score;
         }
@@ -500,11 +539,14 @@ namespace SpaceInvadersButBetter
         /**
          * Updates the lives label
          */
-        public void setLivesLabel(string lives)
+        public void SetLivesLabel(string lives)
         {
             lblLifes.Text = lives;
         }
 
+        /**
+         * Updates the number of credits inserted
+         */
         public void UpdateCredits(int credits)
         {
             credit.SetCredits(credits);
@@ -531,17 +573,26 @@ namespace SpaceInvadersButBetter
             }
         }
 
+        /*
+         * Removes shield from screen
+         */
         public void RemoveShield(int index)
         {
             this.Controls.Remove(ShieldHealth[index]);
             ShieldHealth.RemoveAt(index);
         }
 
+        /*
+         * Updates the shield health on the screen
+         */
         public void UpdateShield(int health, int index)
         {
             ShieldHealth[index].Text = health.ToString();
         }
 
+        /**
+         * Redraws the bullets in their new locations
+         */
         public void UpdateBullets(List<Bullet> bullets)
         {
             this.bullets = bullets;
@@ -565,6 +616,8 @@ namespace SpaceInvadersButBetter
         {
             return GetNumberOfShields();
         }
+
+
 
     }
 }
