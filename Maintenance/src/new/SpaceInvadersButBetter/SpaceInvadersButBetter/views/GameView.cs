@@ -551,5 +551,20 @@ namespace SpaceInvadersButBetter
             }
         }
 
+        public int GetNumberOfAlienRows()
+        {
+            return NUMBER_OF_ALIEN_ROWS;
+        }
+
+        public int GetNumberOfAliensPerRow()
+        {
+            return NUMBER_OF_ALIENS_PER_ROW;
+        }
+
+        public int GetNumberOfShields()
+        {
+            return GetNumberOfShields();
+        }
+
     }
 }
