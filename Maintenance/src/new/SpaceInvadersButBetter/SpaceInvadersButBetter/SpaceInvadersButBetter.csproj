@@ -83,6 +83,12 @@
     <Compile Include="views\HighScoreForm.Designer.cs">
       <DependentUpon>HighScoreForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="views\InitalsForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="views\InitalsForm.Designer.cs">
+      <DependentUpon>InitalsForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -104,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="views\HighScoreForm.resx">
       <DependentUpon>HighScoreForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\InitalsForm.resx">
+      <DependentUpon>InitalsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
