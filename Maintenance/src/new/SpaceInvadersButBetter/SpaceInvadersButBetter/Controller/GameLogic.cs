@@ -114,8 +114,8 @@ namespace SpaceInvadersButBetter.Controller
             alien_speed_factor = 1;
             alien_count = MAX_ALIENS;
             data.resetLevelScore();
-            gameForm.setLevelLabel(data.getLevel().ToString());
-            gameForm.setScoreLabel(data.getScore().ToString());
+            gameForm.setLevelLabel(data.Level.ToString());
+            gameForm.setScoreLabel(data.Score.ToString());
         }
 
         /**
@@ -156,9 +156,9 @@ namespace SpaceInvadersButBetter.Controller
          */
         public void UpdateScore(int points)
         {
-            int score = data.getScore();
+            int score = data.Score;
             score += 10;
-            data.setScore(score);
+            data.Score = score;
             gameForm.setScoreLabel(score.ToString());
         }
 
@@ -169,8 +169,8 @@ namespace SpaceInvadersButBetter.Controller
         {
             if (alien_count == 0)
             {
-                int level = data.getLevel();
-                data.setLevel(++level); //level++
+                int level = data.Level;
+                data.Level++;
                 gameForm.setLevelLabel(level.ToString()); //update level on screen
                 
 
@@ -204,17 +204,18 @@ namespace SpaceInvadersButBetter.Controller
 
         public void addCredit()
         {
-            if (data.GetCredits() < 9)
-                data.AddCredit();
-            gameForm.UpdateCredits(data.GetCredits());
+            if (data.Credits < 9)
+                data.Credits++;
+
+            gameForm.UpdateCredits(data.Credits);
 
         }
         public void DecrementCredits()
         {
             if (credits >= 0)
             {
-                data.DecrementCredits();
-                gameForm.UpdateCredits(data.GetCredits());
+                data.Credits--;
+                gameForm.UpdateCredits(data.Credits);
             }
         }
         public bool IsStartScreenActive()
@@ -223,13 +224,13 @@ namespace SpaceInvadersButBetter.Controller
         }
         public void StartGame()
         {
-            if (data.GetCredits() > 0)
+            if (data.Credits > 0)
             {
                 if (StartScreenActive)
                 {
                     
-                    data.DecrementCredits();
-                    gameForm.UpdateCredits(data.GetCredits());
+                    data.Credits--;
+                    gameForm.UpdateCredits(data.Credits);
                     gameForm.EraseStartScreen();
                     StartScreenActive = false;
                     ResetBullets();
@@ -256,7 +257,7 @@ namespace SpaceInvadersButBetter.Controller
          */
         public int GetCredits()
         {
-            return data.GetCredits();
+            return data.Credits;
         }
 
         /**
@@ -378,7 +379,7 @@ namespace SpaceInvadersButBetter.Controller
                     if ((alienGroup[r, c].beenHit == false) && alienGroup[r, c].GetBounds().Bottom >= bottom)
                     {
                         alienGroup[r, c].beenHit = true;
-                        gameForm.WriteScore(data.getScore());
+                        gameForm.WriteScore(data.Score);
                         gameover = true;
                     }
                 }
@@ -483,7 +484,7 @@ namespace SpaceInvadersButBetter.Controller
         public void GameOver()
         {
             gameover = true;
-            gameForm.WriteScore(data.getScore());
+            gameForm.WriteScore(data.Score);
         }
 
         public void KillAlien()
