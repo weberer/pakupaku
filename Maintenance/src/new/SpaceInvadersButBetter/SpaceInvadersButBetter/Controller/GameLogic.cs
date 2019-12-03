@@ -90,8 +90,8 @@ namespace SpaceInvadersButBetter.Controller
                 {
                     if (!StartScreenActive)
                     {
-                        int startX = player.Position.X + (Resources.space_ship.Width / 2) - 10;
-                        int startY = player.Position.Y - (Resources.space_ship.Height / 2) + 10;
+                        int startX = player.X + (Resources.space_ship.Width / 2) - 10;
+                        int startY = player.Y - (Resources.space_ship.Height / 2) + 10;
                         Bullet bullet = new Bullet(startX, startY, true);
                         bullets.Add(bullet);
                         gameForm.UpdateBullets(bullets);
@@ -194,8 +194,8 @@ namespace SpaceInvadersButBetter.Controller
                 Shields.Add(shield);
                 int shieldX = Shields[i].GetBounds().Width + 30 + (i * 135);
                 int shieldY = gameForm.GetShieldBottom(shield);
-                Shields[i].Position.X = shieldX;
-                Shields[i].Position.Y = shieldY;
+                Shields[i].X = shieldX;
+                Shields[i].Y = shieldY;
 
                 gameForm.SetupShieldLabel(shield, shieldX, shieldY);
             }
@@ -293,7 +293,7 @@ namespace SpaceInvadersButBetter.Controller
                 for (int k = 5; k > -1; k--)
                     if (!alienGroup[k, i].beenHit)
                     {
-                        int posDiff = Math.Abs(alienGroup[k, i].Position.X - player.Position.X);
+                        int posDiff = Math.Abs(alienGroup[k, i].X - player.X);
                         Tuple<Alien, int> pair = new Tuple<Alien, int>(alienGroup[k, i], posDiff);
                         bottomAliens.Add(pair);
                         break;
@@ -315,8 +315,8 @@ namespace SpaceInvadersButBetter.Controller
             if (nearest != null)
             {
 
-                int startX = nearest.Position.X + 10;
-                int startY = nearest.Position.Y + 30;
+                int startX = nearest.X + 10;
+                int startY = nearest.Y + 30;
                 Bullet bullet = new Bullet(startX, startY, false);
                 alienbullets.Add(bullet);
             }
@@ -399,7 +399,7 @@ namespace SpaceInvadersButBetter.Controller
                 }
 
                 //get alien furthest to the right
-                if (GetFarRightAlien() > width - alienGroup[4, 0].GetWidth())
+                if (GetFarRightAlien() > width - alienGroup[4, 0].Width))
                 {
                     SetAllDirections(false);
                     for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
@@ -412,7 +412,7 @@ namespace SpaceInvadersButBetter.Controller
                 }
 
                 //get alien furthest to the left
-                if (GetFarLeftAlien() < alienGroup[4, 0].GetWidth() / 3)
+                if (GetFarLeftAlien() < alienGroup[4, 0].Width / 3)
                 {
                     SetAllDirections(true);
                     for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
@@ -436,7 +436,7 @@ namespace SpaceInvadersButBetter.Controller
             {
                 for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
                 {
-                    int lastPos = alienGroup[i, j].Position.X;
+                    int lastPos = alienGroup[i, j].X;
                     if (lastPos > max)
                         max = lastPos;
                 }
@@ -455,7 +455,7 @@ namespace SpaceInvadersButBetter.Controller
             {
                 for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
                 {
-                    int firstPos = alienGroup[i, j].Position.X;
+                    int firstPos = alienGroup[i, j].X;
                     if (firstPos < min)
                         min = firstPos;
                 }

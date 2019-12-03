@@ -68,12 +68,12 @@ namespace SpaceInvadersButBetter.core
             {
                 if (Shields.Count > 0) //Shield Check
                 {
-                    if (bullets[i].Position.Y < Shields[0].Position.Y)
+                    if (bullets[i].Y < Shields[0].Y)
                     {
                         bool delete = false;
                         int shieldIndexHit = -1;
                         for (int j = 0; j < Shields.Count; j++)
-                            if (Shields[j].Position.X < bullets[i].Position.X && (Shields[j].Position.X + Resources.shield.Width - 20) > bullets[i].Position.X)
+                            if (Shields[j].X < bullets[i].X && (Shields[j].X + Resources.shield.Width - 20) > bullets[i].X)
                             {
                                 delete = true;
                                 shieldIndexHit = j;
@@ -105,12 +105,12 @@ namespace SpaceInvadersButBetter.core
             {
                 if (Shields.Count > 0) //Shield Check
                 {
-                    if (alienBullets[i].Position.Y > Shields[0].Position.Y)
+                    if (alienBullets[i].Y > Shields[0].Y)
                     {
                         bool delete = false;
                         int shieldIndexHit = -1;
                         for (int j = 0; j < Shields.Count; j++)
-                            if (Shields[j].Position.X < alienBullets[i].Position.X && (Shields[j].Position.X + Resources.shield.Width - 20) > alienBullets[i].Position.X)
+                            if (Shields[j].X < alienBullets[i].X && (Shields[j].X + Resources.shield.Width - 20) > alienBullets[i].X)
                             {
                                 delete = true;
                                 shieldIndexHit = j;

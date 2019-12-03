@@ -11,9 +11,15 @@ namespace SpaceInvadersButBetter
     public class GameObject
     {
         protected Image MainImage = null;
-        public Point Position = new Point(50, 50);
+
+        private Point Position = new Point(50, 50);
+
         protected Rectangle ImageBounds = new Rectangle(0, 0, 10, 10);
         protected Rectangle MovingBounds = new Rectangle();
+
+        public int X { get { return Position.X; } set { Position.X = value; } }
+        public int Y { get { return Position.Y; } set { Position.Y = value; } }
+        public int Width { get { return ImageBounds.Width; } }
 
         /**
          * Constructor
@@ -36,18 +42,7 @@ namespace SpaceInvadersButBetter
         /**
          * Returns the boundary of the image
          */
-        public virtual Rectangle GetBounds()
-        {
-            return MovingBounds;
-        }
-
-        /**
-         * Returns the width of the image
-         */
-        public virtual int GetWidth()
-        {
-            return ImageBounds.Width;
-        }
+        public virtual Rectangle GetBounds() {  return MovingBounds; }
 
         /**
          * Updates the moving bounds with the image and offset
