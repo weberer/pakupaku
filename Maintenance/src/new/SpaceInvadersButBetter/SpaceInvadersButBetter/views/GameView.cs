@@ -49,6 +49,7 @@ namespace SpaceInvadersButBetter
         private List<Label> ShieldHealth = new List<Label>();
         private SpaceShip player;
         private Alien[,] alienGroup = new Alien[NUMBER_OF_ALIEN_ROWS, NUMBER_OF_ALIENS_PER_ROW];
+        private UFO UFO;
         private List<Bullet> bullets = new List<Bullet>();
         private List<Bullet> alienbullets = new List<Bullet>();
 
@@ -116,6 +117,7 @@ namespace SpaceInvadersButBetter
             player = logic.InitializeSpaceShip();
 
             alienGroup = logic.InitializeAliens(data.getLevel());
+            UFO = logic.InitializeUFO(data.getLevel());
 
             InitializeCredits();
         }
@@ -130,6 +132,7 @@ namespace SpaceInvadersButBetter
 
 
             alienGroup = logic.InitializeAliens(data.getLevel());
+            UFO = logic.InitializeUFO(data.getLevel());
             bullets.Clear();
             alienbullets.Clear();
         }

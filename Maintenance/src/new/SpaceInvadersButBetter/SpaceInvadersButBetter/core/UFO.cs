@@ -7,29 +7,59 @@ namespace SpaceInvadersButBetter.core
         private const int FLIP_FACTOR = 3;
         private const int JUMP_DISTANCE = 5;
         private const int FALL_DISTANCE_FACTOR = 4;
+        private const int STARTING_X = 36;
+        private const int STARTING_Y = 36;
 
         private Image secondImg;
-        private int Counter = 0;
-        public bool movingRight;
-        public bool beenHit;
-        public bool dead;
+        private bool beenHit;
         private double speed = 1;
 
-        public UFO(double speedFactor, Bitmap image, int row, int column) : base(image)
+        public bool getBeenHit()
         {
-            Position.X = 20;
-            Position.Y = 10;
-            UpdateBounds();
+            return beenHit;
+        }
 
-            secondImg = (Image)img2;
-            movingRight = true;
+        public void setBeenHit(bool beenHit)
+        {
+            this.beenHit = beenHit;
+        }
+
+        /// <summary>
+        /// Sets the movement speed, starts at the top right corner of the screen.
+        /// </summary>
+        public UFO(double speedFactor, Bitmap image) : base(image)
+        {
+            Position.X = STARTING_X;
+            Position.Y = STARTING_Y;
+            UpdateBounds();
+            
             beenHit = false;
-            dead = false;
-            Position.X = GetBounds().Width * column + 5;
-            Position.Y = GetBounds().Height * row + 10;
-            SetCounter(column * 50);
             speed = speedFactor;
             UpdateBounds();
+        }
+
+        /// <summary>
+        /// Draws UFO
+        /// </summary>
+        /// <param name="g"></param>
+        public override void Draw(Graphics UFO)
+        {
+            UpdateBounds();
+            if (beenHit)
+                return;
+            UFO.DrawImage(MainImage, MovingBounds, 0, 0, ImageBounds.Width, ImageBounds.Height, GraphicsUnit.Point);
+        }
+
+
+        /// <summary>
+        /// Moves UFO across the screen
+        /// </summary>
+        public void Move()
+        {
+            if (beenHit)
+                return;
+          
+            Position.X -= JUMP_DISTANCE * (int)speed;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace SpaceInvadersButBetter.Controller
         //increments with higher levels
         private int alien_speed = 6; // 6
         private double alien_speed_factor = 1;
+        private double UFO_speed_factor = 2;
         private int alien_count = 66;
         private const int MAX_ALIENS = 66;
 
@@ -67,7 +68,7 @@ namespace SpaceInvadersButBetter.Controller
         /**
          * Creates Aliens for board
          */
-        public Alien[,] InitializeAliens(int level)
+        public Alien[,] InitializeAliens(int level)//parameter is never used.
         {
             for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
             {
@@ -77,6 +78,14 @@ namespace SpaceInvadersButBetter.Controller
                 }
             }
             return alienGroup;
+        }
+
+        /**
+        * Creates UFO for board
+        */
+        public UFO InitializeUFO(int level)
+        {
+            return new UFO(UFO_speed_factor, Resources.UFO);
         }
 
         /**
@@ -141,6 +150,14 @@ namespace SpaceInvadersButBetter.Controller
                     alienGroup[i, j] = new Alien(alien_speed_factor, Resources.invader_open, Resources.invader_closed, (2 + i + 0), j);
                 }
             }
+        }
+
+        /**
+        * Reset UFO
+        */
+        public void ResetUFO()
+        {
+
         }
 
 
