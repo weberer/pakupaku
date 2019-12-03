@@ -158,10 +158,7 @@ namespace SpaceInvadersButBetter
 
         }
 
-        public GameLogic getLogic()
-        {
-            return logic;
-        }
+        public GameLogic getLogic() { return logic; }
 
         public void SwitchForms()
         {

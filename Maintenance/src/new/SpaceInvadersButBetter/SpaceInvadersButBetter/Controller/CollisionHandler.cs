@@ -65,13 +65,13 @@ namespace SpaceInvadersButBetter.core
         private void ShieldCheck()
         {
             for (int i = 0; i < bullets.Count; i++)
-                if ((shields.Count > 0) && bullets[i].Position.Y < shields[0].Position.Y)
+                if ((shields.Count > 0) && bullets[i].Y < shields[0].Y)
                 {
                     bool delete = false;
                     int shieldIndexHit = -1;
 
                     for (int j = 0; j < shields.Count; j++)
-                        if (shields[j].Position.X < bullets[i].Position.X && (shields[j].Position.X + Resources.shield.Width - SHIELD_WIDTH_ADJUST) > bullets[i].Position.X)
+                        if (shields[j].X < bullets[i].X && (shields[j].X + Resources.shield.Width - SHIELD_WIDTH_ADJUST) > bullets[i].X)
                         {
                             delete = true;
                             shieldIndexHit = j;
@@ -100,13 +100,13 @@ namespace SpaceInvadersButBetter.core
         private void AlienHitSheild()
         {
             for (int i = 0; i < alienBullets.Count; i++) // alien shot hit sheild
-                if ((shields.Count > 0) && alienBullets[i].Position.Y > shields[0].Position.Y)
+                if ((shields.Count > 0) && alienBullets[i].Y > shields[0].Y)
                 {
                     bool delete = false;
                     int shieldIndexHit = -1;
 
                     for (int j = 0; j < shields.Count; j++)
-                        if (shields[j].Position.X < alienBullets[i].Position.X && (shields[j].Position.X + Resources.shield.Width - SHIELD_WIDTH_ADJUST) > alienBullets[i].Position.X)
+                        if (shields[j].X < alienBullets[i].X && (shields[j].X + Resources.shield.Width - SHIELD_WIDTH_ADJUST) > alienBullets[i].X)
                         {
                             delete = true;
                             shieldIndexHit = j;

@@ -24,8 +24,8 @@ namespace SpaceInvadersButBetter.core
         // friendly: is theis an alien bullet or not.
         public Bullet(int start_position_x, int start_position_y, bool friendly) : base(Resources.Bullet)
       {
-          Position.X = start_position_x;
-          Position.Y = start_position_y;
+          X = start_position_x;
+          Y = start_position_y;
           isFriendly = friendly;
           if(!friendly)
                 MainImage = Resources.alien_bullet;
@@ -35,15 +35,15 @@ namespace SpaceInvadersButBetter.core
       public void Move()
       {
           if (isFriendly)
-              Position.Y -= bulletSpeed;
+              Y -= bulletSpeed;
           else
-              Position.Y += bulletSpeed;
+              Y += bulletSpeed;
       }
 
         // Returns the y position of the bullet.
       public int getY()
       {
-          return Position.Y;
+          return Y;
       }
     }
 }

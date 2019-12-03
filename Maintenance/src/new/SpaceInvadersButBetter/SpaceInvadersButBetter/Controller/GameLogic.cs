@@ -90,8 +90,8 @@ namespace SpaceInvadersButBetter.Controller
                 {
                     if (!StartScreenActive)
                     {
-                        int startX = player.Position.X + (Resources.space_ship.Width / 2) - 10;
-                        int startY = player.Position.Y - (Resources.space_ship.Height / 2) + 10;
+                        int startX = player.X + (Resources.space_ship.Width / 2) - 10;
+                        int startY = player.Y - (Resources.space_ship.Height / 2) + 10;
                         Bullet bullet = new Bullet(startX, startY, true);
                         bullets.Add(bullet);
                         gameForm.UpdateBullets(bullets);
@@ -114,8 +114,8 @@ namespace SpaceInvadersButBetter.Controller
             alien_speed_factor = 1;
             alien_count = MAX_ALIENS;
             data.resetLevelScore();
-            gameForm.setLevelLabel(data.getLevel().ToString());
-            gameForm.setScoreLabel(data.getScore().ToString());
+            gameForm.setLevelLabel(data.Level.ToString());
+            gameForm.setScoreLabel(data.Score.ToString());
         }
 
         /**
@@ -156,9 +156,9 @@ namespace SpaceInvadersButBetter.Controller
          */
         public void UpdateScore(int points)
         {
-            int score = data.getScore();
+            int score = data.Score;
             score += 10;
-            data.setScore(score);
+            data.Score = score;
             gameForm.setScoreLabel(score.ToString());
         }
 
@@ -169,8 +169,8 @@ namespace SpaceInvadersButBetter.Controller
         {
             if (alien_count == 0)
             {
-                int level = data.getLevel();
-                data.setLevel(++level); //level++
+                int level = data.Level;
+                data.Level++;
                 gameForm.setLevelLabel(level.ToString()); //update level on screen
                 
 
@@ -194,8 +194,8 @@ namespace SpaceInvadersButBetter.Controller
                 Shields.Add(shield);
                 int shieldX = Shields[i].GetBounds().Width + 30 + (i * 135);
                 int shieldY = gameForm.GetShieldBottom(shield);
-                Shields[i].Position.X = shieldX;
-                Shields[i].Position.Y = shieldY;
+                Shields[i].X = shieldX;
+                Shields[i].Y = shieldY;
 
                 gameForm.SetupShieldLabel(shield, shieldX, shieldY);
             }
@@ -204,17 +204,18 @@ namespace SpaceInvadersButBetter.Controller
 
         public void addCredit()
         {
-            if (data.GetCredits() < 9)
-                data.AddCredit();
-            gameForm.UpdateCredits(data.GetCredits());
+            if (data.Credits < 9)
+                data.Credits++;
+
+            gameForm.UpdateCredits(data.Credits);
 
         }
         public void DecrementCredits()
         {
             if (credits >= 0)
             {
-                data.DecrementCredits();
-                gameForm.UpdateCredits(data.GetCredits());
+                data.Credits--;
+                gameForm.UpdateCredits(data.Credits);
             }
         }
         public bool IsStartScreenActive()
@@ -223,13 +224,13 @@ namespace SpaceInvadersButBetter.Controller
         }
         public void StartGame()
         {
-            if (data.GetCredits() > 0)
+            if (data.Credits > 0)
             {
                 if (StartScreenActive)
                 {
                     
-                    data.DecrementCredits();
-                    gameForm.UpdateCredits(data.GetCredits());
+                    data.Credits--;
+                    gameForm.UpdateCredits(data.Credits);
                     gameForm.EraseStartScreen();
                     StartScreenActive = false;
                     ResetBullets();
@@ -256,7 +257,7 @@ namespace SpaceInvadersButBetter.Controller
          */
         public int GetCredits()
         {
-            return data.GetCredits();
+            return data.Credits;
         }
 
         /**
@@ -292,7 +293,7 @@ namespace SpaceInvadersButBetter.Controller
                 for (int k = 5; k > -1; k--)
                     if (!alienGroup[k, i].beenHit)
                     {
-                        int posDiff = Math.Abs(alienGroup[k, i].Position.X - player.Position.X);
+                        int posDiff = Math.Abs(alienGroup[k, i].X - player.X);
                         Tuple<Alien, int> pair = new Tuple<Alien, int>(alienGroup[k, i], posDiff);
                         bottomAliens.Add(pair);
                         break;
@@ -314,8 +315,8 @@ namespace SpaceInvadersButBetter.Controller
             if (nearest != null)
             {
 
-                int startX = nearest.Position.X + 10;
-                int startY = nearest.Position.Y + 30;
+                int startX = nearest.X + 10;
+                int startY = nearest.Y + 30;
                 Bullet bullet = new Bullet(startX, startY, false);
                 alienbullets.Add(bullet);
             }
@@ -378,7 +379,7 @@ namespace SpaceInvadersButBetter.Controller
                     if ((alienGroup[r, c].beenHit == false) && alienGroup[r, c].GetBounds().Bottom >= bottom)
                     {
                         alienGroup[r, c].beenHit = true;
-                        gameForm.WriteScore(data.getScore());
+                        gameForm.WriteScore(data.Score);
                         gameover = true;
                     }
                 }
@@ -398,7 +399,7 @@ namespace SpaceInvadersButBetter.Controller
                 }
 
                 //get alien furthest to the right
-                if (GetFarRightAlien() > width - alienGroup[4, 0].GetWidth())
+                if (GetFarRightAlien() > width - alienGroup[4, 0].Width)
                 {
                     SetAllDirections(false);
                     for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
@@ -411,7 +412,7 @@ namespace SpaceInvadersButBetter.Controller
                 }
 
                 //get alien furthest to the left
-                if (GetFarLeftAlien() < alienGroup[4, 0].GetWidth() / 3)
+                if (GetFarLeftAlien() < alienGroup[4, 0].Width / 3)
                 {
                     SetAllDirections(true);
                     for (int i = 0; i < NUMBER_OF_ALIEN_ROWS; i++)
@@ -435,7 +436,7 @@ namespace SpaceInvadersButBetter.Controller
             {
                 for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
                 {
-                    int lastPos = alienGroup[i, j].Position.X;
+                    int lastPos = alienGroup[i, j].X;
                     if (lastPos > max)
                         max = lastPos;
                 }
@@ -454,7 +455,7 @@ namespace SpaceInvadersButBetter.Controller
             {
                 for (int j = 0; j < NUMBER_OF_ALIENS_PER_ROW; j++)
                 {
-                    int firstPos = alienGroup[i, j].Position.X;
+                    int firstPos = alienGroup[i, j].X;
                     if (firstPos < min)
                         min = firstPos;
                 }
@@ -483,7 +484,7 @@ namespace SpaceInvadersButBetter.Controller
         public void GameOver()
         {
             gameover = true;
-            gameForm.WriteScore(data.getScore());
+            gameForm.WriteScore(data.Score);
         }
 
         public void KillAlien()

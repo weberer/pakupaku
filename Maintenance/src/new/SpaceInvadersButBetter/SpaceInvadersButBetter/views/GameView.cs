@@ -110,26 +110,26 @@ namespace SpaceInvadersButBetter
             fpsTimer.Interval = 20;
             data.resetLevelScore(); //level = 1; score = 0
 
-            lblScore.Text = data.getScore().ToString();
-            lblLevelNumber.Text = data.getLevel().ToString();
+            lblScore.Text = data.Score.ToString();
+            lblLevelNumber.Text = data.Level.ToString();
             Shields = logic.InitializeObject_Shields();
             player = logic.InitializeSpaceShip();
 
-            alienGroup = logic.InitializeAliens(data.getLevel());
+            alienGroup = logic.InitializeAliens(data.Level);
 
             InitializeCredits();
         }
 
         public void ResetGameObjects()
         {
-            lblScore.Text = data.getScore().ToString();
-            lblLevelNumber.Text = data.getLevel().ToString();
+            lblScore.Text = data.Score.ToString();
+            lblLevelNumber.Text = data.Level.ToString();
 
             ResetShieldLabels();
             Shields = logic.InitializeObject_Shields();
 
 
-            alienGroup = logic.InitializeAliens(data.getLevel());
+            alienGroup = logic.InitializeAliens(data.Level);
             bullets.Clear();
             alienbullets.Clear();
         }
@@ -151,7 +151,7 @@ namespace SpaceInvadersButBetter
             lblGameOver.Visible = true;
             lblYourScore.Visible = true;
             lblEndScore.Visible = true;
-            lblEndScore.Text = data.getScore().ToString();
+            lblEndScore.Text = data.Score.ToString();
             lblHighScore.Text = scoreUtil.getTopScore().ToString();
         }
 
