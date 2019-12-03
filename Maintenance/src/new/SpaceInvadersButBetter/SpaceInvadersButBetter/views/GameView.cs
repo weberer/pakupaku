@@ -241,7 +241,7 @@ namespace SpaceInvadersButBetter
         {
             for (int i = 0; i < bullets.Count; i++)
             {
-                if (bullets[i].getY() < 0)
+                if (bullets[i].Y < 0)
                     bullets.RemoveAt(i);
                 else
                     bullets[i].Draw(g);
@@ -249,7 +249,7 @@ namespace SpaceInvadersButBetter
 
             for (int i = 0; i < alienbullets.Count; i++)
             {
-                if (alienbullets[i].getY() < 0)
+                if (alienbullets[i].Y < 0)
                     alienbullets.RemoveAt(i);
                 else
                     alienbullets[i].Draw(g);

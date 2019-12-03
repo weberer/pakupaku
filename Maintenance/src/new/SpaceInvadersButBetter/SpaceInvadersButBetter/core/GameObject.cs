@@ -1,24 +1,18 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+﻿using System.Drawing;
 
-namespace SpaceInvadersButBetter
+namespace SpaceInvadersButBetter.core
 {
     //---------------------------------------------------------------------
     // Base class of all objects on the screen that we need to know 
     // its positioning and image details
     //---------------------------------------------------------------------
-    public class GameObject
+    public class GameObject : GameEntity
     {
         protected Image MainImage = null;
-
-        private Point Position = new Point(50, 50);
 
         protected Rectangle ImageBounds = new Rectangle(0, 0, 10, 10);
         protected Rectangle MovingBounds = new Rectangle();
 
-        public int X { get { return Position.X; } set { Position.X = value; } }
-        public int Y { get { return Position.Y; } set { Position.Y = value; } }
         public int Width { get { return ImageBounds.Width; } }
 
         /**
@@ -26,6 +20,7 @@ namespace SpaceInvadersButBetter
          */
         public GameObject(Bitmap image)
         {
+            Position = new Point(50, 50);
             MainImage = (Image)image;
             ImageBounds.Width = MainImage.Width;
             ImageBounds.Height = MainImage.Height;
@@ -34,10 +29,7 @@ namespace SpaceInvadersButBetter
         /**
          * Default Constructor
          */
-        public GameObject()
-        {
-            MainImage = null;
-        }
+        public GameObject() { MainImage = null; }
 
         /**
          * Returns the boundary of the image
@@ -56,7 +48,8 @@ namespace SpaceInvadersButBetter
         /**
          * Draws the images
          */
-        public virtual void Draw(Graphics g)
+        override
+        public void Draw(Graphics g) // was virtual
         {
             UpdateBounds();
             g.DrawImage(MainImage, MovingBounds, 0, 0, ImageBounds.Width, ImageBounds.Height, GraphicsUnit.Point);

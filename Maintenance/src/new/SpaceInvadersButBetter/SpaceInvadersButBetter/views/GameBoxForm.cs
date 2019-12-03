@@ -65,7 +65,7 @@ namespace SpaceInvadersButBetter
             Graphics g = e.Graphics;
             bg.Draw(g);
             joystick.draw(g);
-            coinPile.draw(g);
+            coinPile.Draw(g);
         }
 
         /**
@@ -104,38 +104,38 @@ namespace SpaceInvadersButBetter
          */
         private void GameBoxForm_MouseDown(object sender, MouseEventArgs e)
         {
-            coinPile.updateCoinLocation(e.X, e.Y);
-            if (coinPile.checkPileClicked(e.X, e.Y))
+            coinPile.UpdateCoinLocation(e.X, e.Y);
+            if (coinPile.CheckPileClicked(e.X, e.Y))
             {
-                if (coinPile.checkCoinHeld())
-                    coinPile.deleteCoin();
+                if (coinPile.CheckCoinHeld())
+                    coinPile.DeleteCoin();
                 else
-                    coinPile.createCoin();
+                    coinPile.CreateCoin();
                 this.Refresh();
             }
 
 
-            if (coinPile.checkSlotClicked(e.X, e.Y) != -1)
+            if (coinPile.CheckSlotClicked(e.X, e.Y) != -1)
             {
-                if (coinPile.checkCoinHeld())
+                if (coinPile.CheckCoinHeld())
                 {
-                    if (coinPile.isQuarter())
+                    if (coinPile.IsQuarter())
                     {
-                        coinPile.deleteCoin();
+                        coinPile.DeleteCoin();
                         logic.addCredit();
                     }
                     else
                     {
-                        coinPile.deleteCoin();
-                        coinPile.badCoinInserted(coinPile.checkSlotClicked(e.X, e.Y));
+                        coinPile.DeleteCoin();
+                        coinPile.BadCoinInserted(coinPile.CheckSlotClicked(e.X, e.Y));
                     }
                 }
                 this.Refresh();
             }
 
-            if (coinPile.checkGivebackClicked(e.X, e.Y) != -1 && !coinPile.checkCoinHeld())
+            if (coinPile.CheckGivebackClicked(e.X, e.Y) != -1 && !coinPile.CheckCoinHeld())
             {
-                coinPile.takeReturned(coinPile.checkGivebackClicked(e.X, e.Y));
+                coinPile.TakeReturned(coinPile.CheckGivebackClicked(e.X, e.Y));
                 this.Refresh();
             }
         }
@@ -149,9 +149,9 @@ namespace SpaceInvadersButBetter
             long currentTicks = DateTime.Now.Ticks;
             long ticksSinceLastRender = currentTicks - previousRenderTicks;
 
-            if ((ticksSinceLastRender > MIN_RENDER_TICKS) && coinPile.checkCoinHeld())
+            if ((ticksSinceLastRender > MIN_RENDER_TICKS) && coinPile.CheckCoinHeld())
             {
-                coinPile.updateCoinLocation(e.X, e.Y);
+                coinPile.UpdateCoinLocation(e.X, e.Y);
                 this.Refresh();
                 previousRenderTicks = currentTicks;
             }
