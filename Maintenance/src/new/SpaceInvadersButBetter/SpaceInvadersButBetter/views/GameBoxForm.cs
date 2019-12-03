@@ -19,6 +19,8 @@ namespace SpaceInvadersButBetter
      */
     public partial class GameBoxForm : Form
     {
+        const long MIN_RENDER_TICKS = 750000; // Minimum # of ticks between render cycles. Equal to 75 miliseconds 
+
         private Joystick joystick;
         private Coin coinPile;
         GameView game;
@@ -27,11 +29,13 @@ namespace SpaceInvadersButBetter
         private GameLogic logic;
         private HighScoreForm highScoreForm;
         private Boolean isGame = true;
+        private long previousRenderTicks;
         /**
          * Constructor
          */
         public GameBoxForm()
         {
+            previousRenderTicks = DateTime.Now.Ticks;
             InitializeComponent();
 
             SetStyle(ControlStyles.UserPaint, true);
@@ -41,7 +45,7 @@ namespace SpaceInvadersButBetter
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
             InitializeGameBoxObjects();
-            this.startGame();
+            startGame();
         }
 
         /**
@@ -142,10 +146,14 @@ namespace SpaceInvadersButBetter
          */
         private void GameBoxForm_MouseMove(object sender, MouseEventArgs e)
         {
-            if (coinPile.checkCoinHeld())
+            long currentTicks = DateTime.Now.Ticks;
+            long ticksSinceLastRender = currentTicks - previousRenderTicks;
+
+            if ((ticksSinceLastRender > MIN_RENDER_TICKS) && coinPile.checkCoinHeld())
             {
                 coinPile.updateCoinLocation(e.X, e.Y);
                 this.Refresh();
+                previousRenderTicks = currentTicks;
             }
 
         }
