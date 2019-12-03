@@ -1,0 +1,58 @@
+List of issues found that can be worked on
+
+1: GameView.cs has too much logic and should be restructured.
+
+2: Dimes are spawing when the coin slots are empty, even if the game is freshly launched. 
+2.1: Coin slots allow for both to have dimes in them.
+2.2: You can still get quarters and dimes and insert them when there is a dime in the coin return.
+2.3: Inserting a quarter will only count the first quarter inserted, afterwards the "Insert Coin" label will be stuck at "Insert Coin X1"
+2.4: Bounding box on coins is a tad bit too large, spanning from the left corner of the screen to the center of the joystick, and fom the base
+of the tank to the bottom of the joystick base. 
+2.5: The coins also will clip into the game screen, causing up to half of the coin to be overwritten with the start screen. After hovering 
+the mouse over the game's form the coin will be stuck in place until the mouse is out of the game's form.
+2.6 there is no indication that the space bar needs to be pressed to start the game. //Fixed 11/12 - Evan: added yellow "hit spacebar" label
+2.7 What exactly is the point of having dimes anyways? - Evan
+
+3: Bullets will cause a line of bullets when the space bar is held down, until the left or right arrow keys are pressed. //Fixed 11/12 - Evan: now, shot not fired until space bar is released
+3.1: This works while moving. To perform this, hold down a valid directional key and hold space. This does not occur when the space bar is held
+then a directional key is pressed.
+3.2 Bullets are being erased too high, currently the bullets will go behind the text labels at the top.
+
+4: Score on the main screen seems to be high scores, but isn't noted as such.
+
+5: Once you are in the game you cannot exit the game unless you restart the game, regardless on the number of credits in the machine.
+5.1: High scores are getting added to the system, but they aren't visable until the game is restarted due to this.
+5.2: They have a timer to blink the game over message, but after the message is finished the game is stuck on the ghosts.
+
+6: Only valid controls are left arrow, right arrow, and space. This could be expanded on.
+
+7: We can expand on some of the tests. Currently some of the classes are not tested fully. These are: Bullet.cs and SpaceShip.cs. Bullet.cs is
+missing a test to check that each bullet type is working properly, and SpaceShip.cs is missing a test for the initial construction of the
+ship.
+7.1: JoyStickTests seems to be completely arbitrary, with it only consisting of setters and getters being tested.
+
+8: The alien bullets can graze through the side of the shield without the bullet being caught by the shield. This has been seen on the left side 
+of the shields
+
+9: Holding a coin will cause the ship and aliens to freeze when a direction is held down. The length of how far they will move varies, but
+it's within the range of 1/8 to 1/4 of the screen This issue is worsened when the mouse pointer is moving with the coin, as new issues will 
+arise. The effects below will be noted on wheater they occur when the cursor is moving with the coin or not.
+9.2: Only affects the left or right movements when pointer is still with coin.
+9.3: Bullets and all movements will freeze if pointer is moving with coin, but the joystick will still update properly.
+9.4: The coin will lag following the cursor when there is a held movement key.
+9.5: The above effects with the moving cursor (10.3, 10.4) do not occur when the cursor is over the game form, even if there is a coin drawn.
+9.6: Sometimes 10 will occur even after the held coin is inserted into the slot, in this case the game will lag until restarted.
+
+10: The aliens, space ship, and bullets are never reset upon reaching a new level. This causes the last level's bullets to kill the current 
+level's aliens upon the aliens spawning, the space ship to never be recentered upon reaching a new level, and no time break between entering
+a new level.
+
+11: There is no notification of the space ship being hit by a bullet other than the lives counter at the top being reduced by 1 until a
+game over is reached.
+
+12: The speed of the ghosts are constant. We could make an adjustable speed. 
+
+The following notes are for new features
+
+1: To make the application pause in c#, we need to use the Thread library's .Sleep method
+2

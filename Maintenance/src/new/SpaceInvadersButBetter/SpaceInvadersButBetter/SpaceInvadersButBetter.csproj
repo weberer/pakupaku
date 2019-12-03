@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F6F7918B-9F80-4E10-AC9C-59EEDE8AA502}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SpaceInvadersButBetter</RootNamespace>
+    <AssemblyName>SpaceInvadersButBetter</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controller\GameLogic.cs" />
+    <Compile Include="core\Alien.cs" />
+    <Compile Include="core\Bullet.cs" />
+    <Compile Include="core\Coin.cs" />
+    <Compile Include="Controller\CollisionHandler.cs" />
+    <Compile Include="core\ScoreUtility.cs" />
+    <Compile Include="core\SpaceShip.cs" />
+    <Compile Include="Model\GameData.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="views\GameBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\GameBoxForm.Designer.cs">
+      <DependentUpon>GameBoxForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="core\GameBox.cs" />
+    <Compile Include="core\GameObject.cs" />
+    <Compile Include="core\Joystick.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="core\Shield.cs" />
+    <Compile Include="views\GameView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="views\GameView.Designer.cs">
+      <DependentUpon>GameView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\HighScoreForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="views\HighScoreForm.Designer.cs">
+      <DependentUpon>HighScoreForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\InitalsForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="views\InitalsForm.Designer.cs">
+      <DependentUpon>InitalsForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\GameBoxForm.resx">
+      <DependentUpon>GameBoxForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="views\GameView.resx">
+      <DependentUpon>GameView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\HighScoreForm.resx">
+      <DependentUpon>HighScoreForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\InitalsForm.resx">
+      <DependentUpon>InitalsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\10Cent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\25Cent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoinPile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\joystick-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\joystick-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\joystick-up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shield.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\space-ship.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\box.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bullet2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invader-closed.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invader-open.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\alien_bullet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bullet.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
