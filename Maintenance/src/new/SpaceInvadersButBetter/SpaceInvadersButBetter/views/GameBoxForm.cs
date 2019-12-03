@@ -28,6 +28,7 @@ namespace SpaceInvadersButBetter
         private GameBox bg = new GameBox();
         private GameLogic logic;
         private HighScoreForm highScoreForm;
+        private InitalsForm initalsForm;
         private Boolean isGame = true;
         private long previousRenderTicks;
         /**
@@ -87,12 +88,16 @@ namespace SpaceInvadersButBetter
         {
             logic = new GameLogic(this);
             data = new GameData();
+            highScoreForm = new HighScoreForm(logic);
             game = new GameView(this, logic, data);
             
             game.Location = new Point(80, 90);
             this.Controls.Add(game);
 
-            highScoreForm = new HighScoreForm(this);
+            initalsForm = new InitalsForm(logic);
+            initalsForm.Location = new Point(80, 90);
+            this.Controls.Add(initalsForm);
+            initalsForm.Visible = false;
             
             highScoreForm.Location = new Point(80, 90);
             this.Controls.Add(highScoreForm);
@@ -174,15 +179,6 @@ namespace SpaceInvadersButBetter
                 highScoreForm.Visible = false;
                 game.Visible = true;
             }
-        }
-        public void UpdateCredits(int credits)
-        {
-            highScoreForm.UpdateCredits(credits);
-        }
-        public void BeginNewGame()
-        {
-            SwitchForms();
-            game.StartGameFromHighScore();
         }
     }
 

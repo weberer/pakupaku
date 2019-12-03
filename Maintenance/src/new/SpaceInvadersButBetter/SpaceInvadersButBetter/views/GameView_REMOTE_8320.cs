@@ -12,6 +12,7 @@ using SpaceInvadersButBetter.Controller;
 using SpaceInvadersButBetter.Model;
 using System.IO;
 
+
 namespace SpaceInvadersButBetter
 {
     /**
@@ -22,6 +23,7 @@ namespace SpaceInvadersButBetter
         private GameBoxForm _parent;
         private GameLogic logic; // Class that should handle all game logic
         private GameData data;
+
 
         private int credits = 0;
 
@@ -75,8 +77,6 @@ namespace SpaceInvadersButBetter
 
             scoreUtil = new ScoreUtility();
 
-            logic.SetScoreUtil(scoreUtil);
-
             lblHighScore.Text = scoreUtil.getTopScore().ToString();
             InitializeStartScreen();
             InitializeGameObjects();
@@ -112,26 +112,26 @@ namespace SpaceInvadersButBetter
             fpsTimer.Interval = 20;
             data.resetLevelScore(); //level = 1; score = 0
 
-            lblScore.Text = data.Score.ToString();
-            lblLevelNumber.Text = data.Level.ToString();
+            lblScore.Text = data.getScore().ToString();
+            lblLevelNumber.Text = data.getLevel().ToString();
             Shields = logic.InitializeObject_Shields();
             player = logic.InitializeSpaceShip();
 
-            alienGroup = logic.InitializeAliens(data.Level);
+            alienGroup = logic.InitializeAliens(data.getLevel());
 
             InitializeCredits();
         }
 
         public void ResetGameObjects()
         {
-            lblScore.Text = data.Score.ToString();
-            lblLevelNumber.Text = data.Level.ToString();
+            lblScore.Text = data.getScore().ToString();
+            lblLevelNumber.Text = data.getLevel().ToString();
 
             ResetShieldLabels();
             Shields = logic.InitializeObject_Shields();
 
 
-            alienGroup = logic.InitializeAliens(data.Level);
+            alienGroup = logic.InitializeAliens(data.getLevel());
             bullets.Clear();
             alienbullets.Clear();
         }
@@ -148,13 +148,13 @@ namespace SpaceInvadersButBetter
         /**
          * Displays credit screen elements with top score
          */
-        private void DisplayCredits(int score)
+        private void DisplayCredits()
         {
             lblGameOver.Visible = true;
             lblYourScore.Visible = true;
             lblEndScore.Visible = true;
-            lblEndScore.Text = score.ToString();
-            
+            lblEndScore.Text = data.getScore().ToString();
+            lblHighScore.Text = scoreUtil.getTopScore().ToString();
         }
 
         /**
@@ -162,8 +162,6 @@ namespace SpaceInvadersButBetter
          */
         public void EraseStartScreen()
         {
-            if (this.Visible == false)
-                logic.SwitchForms();
             SpaceInvadersLabel.Visible = false;
             InsertCoinLabel.Visible = false;
             StartScreenActive = false;
@@ -176,7 +174,6 @@ namespace SpaceInvadersButBetter
             lblScoreScroll.Visible = false;
             lblHitSpace.Visible = false;
             CreditFlashTimer.Enabled = false;
-            ChangeTimer.Stop();
         }
 
         public void ShowStartScreen()
@@ -194,7 +191,6 @@ namespace SpaceInvadersButBetter
             if (credits > 0)
                 lblHitSpace.Visible = true;
             CreditFlashTimer.Enabled = true;
-            ChangeTimer.Start();
         }
 
         public int GetShieldBottom(Shield shield)
@@ -243,7 +239,7 @@ namespace SpaceInvadersButBetter
         {
             for (int i = 0; i < bullets.Count; i++)
             {
-                if (bullets[i].Y < 0)
+                if (bullets[i].getY() < 0)
                     bullets.RemoveAt(i);
                 else
                     bullets[i].Draw(g);
@@ -251,7 +247,7 @@ namespace SpaceInvadersButBetter
 
             for (int i = 0; i < alienbullets.Count; i++)
             {
-                if (alienbullets[i].Y < 0)
+                if (alienbullets[i].getY() < 0)
                     alienbullets.RemoveAt(i);
                 else
                     alienbullets[i].Draw(g);
@@ -447,9 +443,9 @@ namespace SpaceInvadersButBetter
         /**
          * Tick logic for game over state
          */
-        private void GameNotRunningTickLogic() //Remove me once high scores are done
+        private void GameNotRunningTickLogic()
         {
-            /*if (MenuCount % 50 == 0)
+            if (MenuCount % 50 == 0)
             {
                 if (scoreScrollCount < 10)
                 {
@@ -461,7 +457,7 @@ namespace SpaceInvadersButBetter
                     scoreScrollCount = 0;
                     lblScoreScroll.Text = (scoreScrollCount + 1).ToString() + ") " + scoreUtil.getScoreAt(scoreScrollCount);
                 }
-            }*/
+            }
         }
 
         /**
@@ -485,7 +481,8 @@ namespace SpaceInvadersButBetter
          */
         public void WriteScore(int Score)
         {
-            DisplayCredits(Score);
+            scoreUtil.Write(Score);
+            DisplayCredits();
         }
 
         /**
@@ -558,32 +555,5 @@ namespace SpaceInvadersButBetter
             }
         }
 
-        private void ChangeTimer_Tick(object sender, EventArgs e)
-        {
-            logic.SwitchForms();
-        }
-
-        private void GameView_VisibleChanged(object sender, EventArgs e)
-        {
-            if(this.Visible == true)
-            {
-                ChangeTimer.Start();
-                fpsTimer.Start();
-                CreditFlashTimer.Start();
-                lblHighScore.Text = scoreUtil.getTopScore().ToString();
-                this.Focus();
-            }
-            else
-            {
-                ChangeTimer.Stop();
-                fpsTimer.Stop();
-                CreditFlashTimer.Stop();
-            }
-        }
-        public void StartGameFromHighScore()
-        {
-            logic.ShootButton(Keys.Space);
-        }
     }
-
 }

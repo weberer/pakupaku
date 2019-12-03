@@ -11,9 +11,13 @@ namespace UnitTests
         private void clearTextFile()
         {
             System.IO.StreamWriter sw = new System.IO.StreamWriter("highscore.txt", false);
-            for (int i = 0; i < 10; i++)
+            int index = 0;
+            while(index < 5)
             {
+                sw.WriteLine("AAA");
                 sw.WriteLine(0);
+                index++;
+                
             }
             sw.Close();
         }
@@ -23,7 +27,7 @@ namespace UnitTests
         {
             clearTextFile();
             int score = 10;
-            scoreUtil.Write(score);
+            scoreUtil.Write(score, "AAA");
             scoreUtil.Read();
             int result = scoreUtil.getTopScore();
             
@@ -40,12 +44,12 @@ namespace UnitTests
         {
             clearTextFile();
             int prevScore = 10;
-            scoreUtil.Write(prevScore);
+            scoreUtil.Write(prevScore, "AAA");
             int score = 50;
-            scoreUtil.Write(score);
+            scoreUtil.Write(score, "AAA");
             scoreUtil.Read();
             int result = scoreUtil.getTopScore();
-
+            
             //top Score
             Assert.IsTrue(result == score);
 
@@ -65,7 +69,7 @@ namespace UnitTests
             //list is entered in accending order
             for (int i = 0; i < 10; i++)
             {
-                scoreUtil.Write(i * 10);
+                scoreUtil.Write(i * 10, "AAA");
             }
 
             int scoreAtIndex4 = 50;
