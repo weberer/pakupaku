@@ -50,6 +50,7 @@
     <Compile Include="core\Alien.cs" />
     <Compile Include="core\Bullet.cs" />
     <Compile Include="core\Coin.cs" />
+    <Compile Include="core\GameEntity.cs" />
     <Compile Include="core\ScoreUtility.cs" />
     <Compile Include="core\SpaceShip.cs" />
     <Compile Include="depreciated\Bad-GameForm.cs">
@@ -82,7 +83,6 @@
     <Compile Include="views\GameView.Designer.cs">
       <DependentUpon>GameView.cs</DependentUpon>
     </Compile>
-  
     <EmbeddedResource Include="depreciated\Bad-GameForm.resx">
       <DependentUpon>Bad-GameForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -105,7 +105,6 @@
     <EmbeddedResource Include="views\GameView.resx">
       <DependentUpon>GameView.cs</DependentUpon>
       <Generator>PublicResXFileCodeGenerator</Generator>
-      
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
