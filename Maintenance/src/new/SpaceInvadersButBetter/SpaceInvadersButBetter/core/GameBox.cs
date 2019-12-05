@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace SpaceInvadersButBetter
 {
@@ -18,17 +13,11 @@ namespace SpaceInvadersButBetter
         /**
          * Constructor
          */
-        public GameBox()
-        {
-            MainImage = (Image)Resources.box;
-        }
+        public GameBox() { MainImage = (Image)Resources.box; }
 
         /**
          * Draws image
          */
-        public void Draw(Graphics g)
-        {
-            g.DrawImage(MainImage, 0, 0);
-        }
+        public void Draw(Graphics g) { g.DrawImage(MainImage, 0, 0); }
     }
 }

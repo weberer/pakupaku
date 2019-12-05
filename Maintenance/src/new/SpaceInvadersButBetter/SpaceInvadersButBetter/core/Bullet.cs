@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SpaceInvadersButBetter.core
+﻿namespace SpaceInvadersButBetter.core
 {
     //---------------------------------------------------------------------
     // The Bullet class creates and specifies the characteristics of a
@@ -13,7 +6,8 @@ namespace SpaceInvadersButBetter.core
     //---------------------------------------------------------------------
     public class Bullet : GameObject
    {
-      private const int bulletSpeed = 7;
+      private const int BULLET_SPEED = 7;
+
       private bool isFriendly;
 
         // Bullet constructor. Initializes x and y coordinates and sets
@@ -24,8 +18,8 @@ namespace SpaceInvadersButBetter.core
         // friendly: is theis an alien bullet or not.
         public Bullet(int start_position_x, int start_position_y, bool friendly) : base(Resources.Bullet)
       {
-          Position.X = start_position_x;
-          Position.Y = start_position_y;
+          X = start_position_x;
+          Y = start_position_y;
           isFriendly = friendly;
           if(!friendly)
                 MainImage = Resources.alien_bullet;
@@ -35,15 +29,9 @@ namespace SpaceInvadersButBetter.core
       public void Move()
       {
           if (isFriendly)
-              Position.Y -= bulletSpeed;
+              Y -= BULLET_SPEED;
           else
-              Position.Y += bulletSpeed;
-      }
-
-        // Returns the y position of the bullet.
-      public int getY()
-      {
-          return Position.Y;
+              Y += BULLET_SPEED;
       }
     }
 }
