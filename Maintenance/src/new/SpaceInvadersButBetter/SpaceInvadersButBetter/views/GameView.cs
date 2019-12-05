@@ -242,13 +242,6 @@ namespace SpaceInvadersButBetter
          */
         private void drawBullets(Graphics g)
         {
-            //for (int i = 0; i < bullets.Count; i++)
-            //{
-            //    if (bullets[i].getY() < 0)
-            //        bullets.RemoveAt(i);
-            //    else
-            //        bullets[i].Draw(g);
-            //}
 
             for (int i = 0; i < bullets.Count; i++)
             {
@@ -269,6 +262,14 @@ namespace SpaceInvadersButBetter
         }
 
         /**
+        * Draws bullets
+        */
+        private void drawUFO(Graphics g)
+        {
+            UFO.Draw(g);
+        }
+
+        /**
          * Paint method for the form to draw elements
          */
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -283,6 +284,7 @@ namespace SpaceInvadersButBetter
 
             // draw/remove bullets
             drawBullets(g);
+            drawUFO(g);
         }
 
         /**
@@ -441,6 +443,11 @@ namespace SpaceInvadersButBetter
                 alienbullets = logic.GenerateAlienBullet();
             }
 
+            if (TimerCounter % 400 == 0 && gameover == false)
+            {
+                alienbullets = logic.GenerateAlienBullet();
+            }
+
             // Flap the images to give them a moving look
             alienGroup = logic.AnimateAliens(TimerCounter);
             Invalidate();
@@ -449,6 +456,7 @@ namespace SpaceInvadersButBetter
             {
                 //move by factor of speed
                 logic.MoveAlienByFactorAndDirection(ClientRectangle.Width, TimerCounter);
+                logic.moveUFO();
             }
             logic.CheckForLanding(ClientRectangle.Bottom);
             Invalidate();

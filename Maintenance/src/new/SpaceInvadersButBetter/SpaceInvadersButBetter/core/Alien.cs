@@ -56,7 +56,6 @@ namespace SpaceInvadersButBetter.core
 
             if(beenHit)
             {
-                //expolsion
                 return;
             }
 
