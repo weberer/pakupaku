@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpaceInvadersButBetter;
 using SpaceInvadersButBetter.Controller;
+using SpaceInvadersButBetter.views;
 
 namespace UnitTests
 {

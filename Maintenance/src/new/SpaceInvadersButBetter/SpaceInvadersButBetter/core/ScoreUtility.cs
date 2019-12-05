@@ -13,14 +13,16 @@ namespace SpaceInvadersButBetter.core
      */
     public class ScoreUtility
     {
-        int[] top10;
+        int[] top5;
+        string[] initials;
 
         /**
          * Constructor, reads in right away
          */
         public ScoreUtility()
         {
-            top10 = new int[10];
+            top5 = new int[5];
+            initials = new string[5];
             Read();
         }
 
@@ -29,7 +31,7 @@ namespace SpaceInvadersButBetter.core
          */
         public int getTopScore()
         {
-            return top10[0];
+            return top5[0];
         }
 
         /**
@@ -37,28 +39,40 @@ namespace SpaceInvadersButBetter.core
          */
         public int getScoreAt(int index)
         {
-            return top10[index];
+            return top5[index];
+        }
+
+        public int[] GetScores()
+        {
+            return top5;
+        }
+
+        public string[] GetInitials()
+        {
+            return initials;
         }
 
         /**
          * Writes score to file if it is a new high score in the list
          */
-        public void Write(int Score)
+        public void Write(int Score, string initial)
         {
             Read();
-            for(int i = 0; i < top10.Length; i++)
+            for(int i = 0; i < top5.Length; i++)
             {
-                if(top10[i] < Score)
+                if(top5[i] < Score)
                 {
-                    int[] newList = new int[top10.Length];
-                    AddScoreAtIndex(i, Score);
+                    int[] newList = new int[top5.Length];
+                    AddScoreAtIndex(i, Score, initial);
                     break;
                 }
             }
             StreamWriter sw = new StreamWriter("highscore.txt", false);
-            for (int i = 0; i < top10.Length; i++)
+            for (int i = 0; i < top5.Length; i++)
             {
-                sw.WriteLine(top10[i].ToString());
+                sw.WriteLine(initials[i]);
+                sw.WriteLine(top5[i].ToString());
+
             }
             sw.Close();
         }
@@ -66,28 +80,38 @@ namespace SpaceInvadersButBetter.core
         /**
          * Adds score at index in sorted array, shifting others down
          */
-        private void AddScoreAtIndex(int index, int score)
+        private void AddScoreAtIndex(int index, int score, string initial)
         {
-            int[] newList = new int[top10.Length];
-            int save = 0;
-            for(int i = 0; i < top10.Length;  i++)
+            int[] newScores = new int[top5.Length];
+            string[] newInitials = new string[initials.Length];
+            int saveScore = 0;
+            string saveInitial = "";
+            for(int i = 0; i < top5.Length;  i++)
             {
                 if(i < index)
                 {
-                    newList[i] = top10[i];
+                    newInitials[i] = initials[i];
+                    newScores[i] = top5[i];
                 }
                 else if(i == index)
                 {
-                    save = top10[i];
-                    newList[i] = score;
+                    saveInitial = initials[i];
+                    newInitials[i] = initial;
+
+                    saveScore = top5[i];
+                    newScores[i] = score;
                 }
                 else
                 {
-                    newList[i] = save;
-                    save = top10[i];
+                    newInitials[i] = saveInitial;
+                    saveInitial = initials[i];
+
+                    newScores[i] = saveScore;
+                    saveScore = top5[i];
                 }
             }
-            top10 = newList;
+            top5 = newScores;
+            initials = newInitials;
         }
 
         /**
@@ -104,15 +128,43 @@ namespace SpaceInvadersButBetter.core
                 line = sr.ReadLine();
                 while (line != null)
                 {
+                    string initial = Convert.ToString(line);
+                    initials[count] = initial;
+                    line = sr.ReadLine();
                     int score = Convert.ToInt32(line);
-                    top10[count] = score;
+                    top5[count] = score;
                     count++;
                     line = sr.ReadLine();
                 }
                 sr.Close();
-                Array.Sort(top10);
-                Array.Reverse(top10);
+                //Array.Sort(top5);
+                //Array.Reverse(top5);
             }
+        }
+
+        public bool IsHighScore(int score)
+        {
+            for(int i = 0; i < top5.Length; i++)
+            {
+                if(score > top5[i])
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public int DeterminePosition(int score)
+        {
+            for(int i = 0; i < top5.Length; i++)
+            {
+                if(score > top5[i])
+                {
+                    return i + 1;
+                }
+            }
+            return -1;
         }
     }
 }

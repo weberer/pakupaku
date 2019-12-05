@@ -9,33 +9,33 @@ namespace SpaceInvadersButBetter.core
 {
     class CollisionHandler
     {
-        private const int NUMBER_OF_SHIELDS = 4;
         private const int NUMBER_OF_ALIEN_ROWS = 6;
         private const int NUMBER_OF_ALIENS_PER_ROW = 11;
-
-
-        private SpaceShip player;
-        private Alien[,] alienGroup = new Alien[NUMBER_OF_ALIEN_ROWS, NUMBER_OF_ALIENS_PER_ROW];
-        private List<Bullet> bullets = new List<Bullet>();
-        private List<Bullet> alienBullets = new List<Bullet>();
-        private List<Shield> Shields = new List<Shield>();
-
+        private const int SHIELD_WIDTH_ADJUST = 10;
+        
+        private Alien[,] alienGroup;
         private GameLogic logic;
         private GameView gameForm;
+        private List<Bullet> bullets = new List<Bullet>();
+        private List<Bullet> alienBullets = new List<Bullet>();
+        private List<Shield> shields = new List<Shield>();
+        private SpaceShip player;
+
         public CollisionHandler(GameLogic logic, GameView view)
         {
+            alienGroup = new Alien[NUMBER_OF_ALIEN_ROWS, NUMBER_OF_ALIENS_PER_ROW];
             this.logic = logic;
             gameForm = view;
         }
 
-        public void SetUpObjects(List<Bullet> bullets, List<Bullet> alienBullets, SpaceShip Player,
-            Alien[,] alienList, List<Shield> shields)
+        public void SetUpObjects(List<Bullet> bullets, List<Bullet> alienBullets, SpaceShip player,
+            Alien[,] alienGroup, List<Shield> shields)
         {
             this.bullets = bullets;
             this.alienBullets = alienBullets;
-            this.player = Player;
-            this.alienGroup = alienList;
-            this.Shields = shields;
+            this.player = player;
+            this.alienGroup = alienGroup;
+            this.shields = shields;
         }
         /*
          * CheckCollisions is the main handler for CollisionHandler. When called, it calls all of
@@ -65,33 +65,31 @@ namespace SpaceInvadersButBetter.core
         private void ShieldCheck()
         {
             for (int i = 0; i < bullets.Count; i++)
-            {
-                if (Shields.Count > 0) //Shield Check
+                if ((shields.Count > 0) && bullets[i].Y < shields[0].Y)
                 {
-                    if (bullets[i].Position.Y < Shields[0].Position.Y)
-                    {
-                        bool delete = false;
-                        int shieldIndexHit = -1;
-                        for (int j = 0; j < Shields.Count; j++)
-                            if (Shields[j].Position.X < bullets[i].Position.X && (Shields[j].Position.X + Resources.shield.Width - 20) > bullets[i].Position.X)
-                            {
-                                delete = true;
-                                shieldIndexHit = j;
-                            }
-                        if (delete && shieldIndexHit != -1)
+                    bool delete = false;
+                    int shieldIndexHit = -1;
+
+                    for (int j = 0; j < shields.Count; j++)
+                        if (shields[j].X < bullets[i].X && (shields[j].X + Resources.shield.Width - SHIELD_WIDTH_ADJUST) > bullets[i].X)
                         {
-                            bullets.RemoveAt(i);
-                            Shields[shieldIndexHit].healthHit();
-                            gameForm.UpdateShield(Shields[shieldIndexHit].getHealth(), shieldIndexHit);
-                            if (Shields[shieldIndexHit].getHealth() <= 0)
-                            {
-                                 Shields.RemoveAt(shieldIndexHit);
-                                gameForm.RemoveShield(shieldIndexHit);
-                            }
+                            delete = true;
+                            shieldIndexHit = j;
+                        }
+
+                    if (delete && shieldIndexHit != -1)
+                    {
+                        bullets.RemoveAt(i);
+                        shields[shieldIndexHit].healthHit();
+                        gameForm.UpdateShield(shields[shieldIndexHit].getHealth(), shieldIndexHit);
+
+                        if (shields[shieldIndexHit].getHealth() <= 0)
+                        {
+                            shields.RemoveAt(shieldIndexHit);
+                            gameForm.RemoveShield(shieldIndexHit);
                         }
                     }
                 }
-            }
         }
 
         /**
@@ -102,34 +100,31 @@ namespace SpaceInvadersButBetter.core
         private void AlienHitSheild()
         {
             for (int i = 0; i < alienBullets.Count; i++) // alien shot hit sheild
-            {
-                if (Shields.Count > 0) //Shield Check
+                if ((shields.Count > 0) && alienBullets[i].Y > shields[0].Y)
                 {
-                    if (alienBullets[i].Position.Y > Shields[0].Position.Y)
-                    {
-                        bool delete = false;
-                        int shieldIndexHit = -1;
-                        for (int j = 0; j < Shields.Count; j++)
-                            if (Shields[j].Position.X < alienBullets[i].Position.X && (Shields[j].Position.X + Resources.shield.Width - 20) > alienBullets[i].Position.X)
-                            {
-                                delete = true;
-                                shieldIndexHit = j;
-                            }
-                        if (delete && shieldIndexHit != -1)
+                    bool delete = false;
+                    int shieldIndexHit = -1;
+
+                    for (int j = 0; j < shields.Count; j++)
+                        if (shields[j].X < alienBullets[i].X && (shields[j].X + Resources.shield.Width - SHIELD_WIDTH_ADJUST) > alienBullets[i].X)
                         {
-                            alienBullets.RemoveAt(i);
-                            Shields[shieldIndexHit].alienHealthHit();
-                            gameForm.UpdateShield(Shields[shieldIndexHit].getHealth(), shieldIndexHit);
-                             if (Shields[shieldIndexHit].getHealth() <= 0)
-                            {
-                                Shields.RemoveAt(shieldIndexHit);
-                                gameForm.RemoveShield(shieldIndexHit);
-                            }
+                            delete = true;
+                            shieldIndexHit = j;
+                        }
+
+                    if (delete && shieldIndexHit != -1)
+                    {
+                        alienBullets.RemoveAt(i);
+                        shields[shieldIndexHit].alienHealthHit();
+                        gameForm.UpdateShield(shields[shieldIndexHit].getHealth(), shieldIndexHit);
+
+                        if (shields[shieldIndexHit].getHealth() <= 0)
+                        {
+                            shields.RemoveAt(shieldIndexHit);
+                            gameForm.RemoveShield(shieldIndexHit);
                         }
                     }
-
                 }
-            }
         }
         /**
          * AlienCheck tests to see if an alien has been hit by a player's Bullet object, using
@@ -139,13 +134,11 @@ namespace SpaceInvadersButBetter.core
         public void AlienCheck()
         {
             for (int i = 0; i < bullets.Count; i++) //Alien Check
-            {
                 if (checkBulletHit(bullets[i]))
                 {
                     bullets.RemoveAt(i);
                     gameForm.UpdateBullets(bullets);
                 }
-            }
         }
 
         /**
@@ -155,20 +148,17 @@ namespace SpaceInvadersButBetter.core
          * beenHit value is set to true and the score is increased by 10 points, then returns true. If the 
          * Bullet does not overlap an Alien or the Alien's beenHit value is true this method returns false.
          */
-        private bool checkBulletHit(Bullet b)
+        private bool checkBulletHit(Bullet bullet)
         {
-            for (int r = 0; r < NUMBER_OF_ALIEN_ROWS; r++)
-            {
-                for (int c = 0; c < NUMBER_OF_ALIENS_PER_ROW; c++)
-                {
-                    if ((alienGroup[r, c].beenHit == false) && alienGroup[r, c].GetBounds().IntersectsWith(b.GetBounds()))
+            for (int row = 0; row < NUMBER_OF_ALIEN_ROWS; row++)
+                for (int column = 0; column < NUMBER_OF_ALIENS_PER_ROW; column++)
+                    if ((alienGroup[row, column].beenHit == false) && alienGroup[row, column].GetBounds().IntersectsWith(bullet.GetBounds()))
                     {
-                        alienGroup[r, c].beenHit = true;
+                        alienGroup[row, column].beenHit = true;
                         logic.KillAlien();
                         return true;
                     }
-                }
-            }
+
             return false;
         }
 
@@ -179,20 +169,16 @@ namespace SpaceInvadersButBetter.core
          */
         private void AlienHitPersonCheck()
         {
-            for (int r = 0; r < NUMBER_OF_ALIEN_ROWS; r++) //person hit  by alien check
-            {
-                for (int c = 0; c < NUMBER_OF_ALIENS_PER_ROW; c++)
-                {
-                    if ((alienGroup[r, c].beenHit == false) && alienGroup[r, c].GetBounds().IntersectsWith(player.GetBounds()))
+            for (int row = 0; row < NUMBER_OF_ALIEN_ROWS; row++) //person hit  by alien check
+                for (int column = 0; column < NUMBER_OF_ALIENS_PER_ROW; column++)
+                    if ((alienGroup[row, column].beenHit == false) && alienGroup[row, column].GetBounds().IntersectsWith(player.GetBounds()))
                     {
                         //hit
-                        alienGroup[r, c].beenHit = true;
+                        alienGroup[row, column].beenHit = true;
                         player.kill();
                         logic.GameOver();
                        
                     }
-                }
-            }
         }
         /**
          * AlienBulletsCheck tests if a bullet fired by an Alien object overlaps with the player's
@@ -203,7 +189,6 @@ namespace SpaceInvadersButBetter.core
         private void AlienBulletsCheck()
         {
             for (int i = 0; i < alienBullets.Count; i++)
-            {
                 if (player.GetBounds().IntersectsWith(alienBullets[i].GetBounds()))
                 {
                     if (!player.hitAndIsAlive())
@@ -214,7 +199,6 @@ namespace SpaceInvadersButBetter.core
                     gameForm.SetLivesLabel(player.getLifes().ToString());
                     alienBullets.RemoveAt(i);
                 }
-            }
         }
 
         /**
@@ -224,32 +208,25 @@ namespace SpaceInvadersButBetter.core
            */
         private void checkShieldHitByAlien()
         {
-            for (int i = 0; i < Shields.Count; i++)
-            {
-                if (checkShieldHit(Shields[i]))
+            for (int i = 0; i < shields.Count; i++)
+                if (checkShieldHit(shields[i]))
                 {
-                    Shields.RemoveAt(i);
+                    shields.RemoveAt(i);
                     gameForm.RemoveShield(i);
                 }
-            }
         }
 
         /**
            * Helper method for checkShieldHitByAlien. Checks if an alien object's location overlaps with a shield 
            * object's location on the GameView. returns true if there is an overlap, otherwise false.
            */
-        private bool checkShieldHit(Shield s)
+        private bool checkShieldHit(Shield shield)
         {
-            for (int r = 0; r < NUMBER_OF_ALIEN_ROWS; r++)
-            {
-                for (int c = 0; c < NUMBER_OF_ALIENS_PER_ROW; c++)
-                {
-                    if ((alienGroup[r, c].beenHit == false) && alienGroup[r, c].GetBounds().IntersectsWith(s.GetBounds()) && s.getHealth() > 0)
-                    {
+            for (int row = 0; row < NUMBER_OF_ALIEN_ROWS; row++)
+                for (int column = 0; column < NUMBER_OF_ALIENS_PER_ROW; column++)
+                    if ((alienGroup[row, column].beenHit == false) && alienGroup[row, column].GetBounds().IntersectsWith(shield.GetBounds()) && shield.getHealth() > 0)
                         return true;
-                    }
-                }
-            }
+
             return false;
         }
     } 

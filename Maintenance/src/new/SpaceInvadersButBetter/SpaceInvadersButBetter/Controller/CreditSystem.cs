@@ -8,33 +8,26 @@ namespace SpaceInvadersButBetter.Controller
 {
     public class CreditSystem
     {
-        private int credits;
+     
+        public int Credits { get; set; }
 
         public CreditSystem()
         {
-            credits = 0;
+            Credits = 0;
         }
 
         /**
          * Returns number of credits
          */
-        public int GetCredits()
-        {
-            return credits;
-        }
-
-        public void SetCredits(int credits)
-        {
-            this.credits = credits;
-        }
+      
 
         /**
          * Increments credits
          */
         public void AddCredit()
         {
-            if (credits < 9)
-                credits++;
+            if (Credits < 9)
+                Credits++;
         
 
         }
@@ -45,9 +38,9 @@ namespace SpaceInvadersButBetter.Controller
          */
         public void DecrementCredits()
         {
-            if (credits >= 0)
+            if (Credits >= 0)
             {
-                credits--;
+                Credits--;
                // gameForm.UpdateCredits(credit.GetCredits());
             }
         }

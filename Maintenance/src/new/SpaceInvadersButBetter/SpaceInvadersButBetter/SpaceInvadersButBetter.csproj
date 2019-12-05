@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -52,14 +54,9 @@
     <Compile Include="core\Bullet.cs" />
     <Compile Include="core\Coin.cs" />
     <Compile Include="Controller\CollisionHandler.cs" />
+    <Compile Include="core\GameEntity.cs" />
     <Compile Include="core\ScoreUtility.cs" />
     <Compile Include="core\SpaceShip.cs" />
-    <Compile Include="depreciated\Bad-GameForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="depreciated\Bad-GameForm.Designer.cs">
-      <DependentUpon>Bad-GameForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Model\GameData.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -84,9 +81,18 @@
     <Compile Include="views\GameView.Designer.cs">
       <DependentUpon>GameView.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="depreciated\Bad-GameForm.resx">
-      <DependentUpon>Bad-GameForm.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="views\HighScoreForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="views\HighScoreForm.Designer.cs">
+      <DependentUpon>HighScoreForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\InitalsForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="views\InitalsForm.Designer.cs">
+      <DependentUpon>InitalsForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -105,8 +111,12 @@
     </Compile>
     <EmbeddedResource Include="views\GameView.resx">
       <DependentUpon>GameView.cs</DependentUpon>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>GameView1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\HighScoreForm.resx">
+      <DependentUpon>HighScoreForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\InitalsForm.resx">
+      <DependentUpon>InitalsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

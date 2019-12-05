@@ -25,8 +25,8 @@ namespace SpaceInvadersButBetter.core
          */
         public SpaceShip() : base(Resources.space_ship)
         {
-            Position.X = START_POSITION_X;
-            Position.Y = START_POSITION_Y;
+            X = START_POSITION_X;
+            Y = START_POSITION_Y;
             dead = false;
             lifes = 3;
         }
@@ -79,9 +79,9 @@ namespace SpaceInvadersButBetter.core
          */
         public void MoveLeft()
         {
-            Position.X -= MOVE_INTERVAL;
-            if (Position.X < 0)
-                Position.X = 0;
+            X -= MOVE_INTERVAL;
+            if (X < 0)
+                X = 0;
         }
 
         /**
@@ -89,9 +89,9 @@ namespace SpaceInvadersButBetter.core
          */
         public void MoveRight(int screenLimit)
         {
-            Position.X += MOVE_INTERVAL;
-            if (Position.X > screenLimit - ImageBounds.Width + 10)
-                Position.X = screenLimit - ImageBounds.Width + 10;
+            X += MOVE_INTERVAL;
+            if (X > screenLimit - ImageBounds.Width + 10)
+                X = screenLimit - ImageBounds.Width + 10;
         }
 
         /**
@@ -101,8 +101,8 @@ namespace SpaceInvadersButBetter.core
         {
             lifes = 3;
             dead = false;
-            Position.X = 245;
-            Position.Y = 380;
+            X = 245;
+            Y = 380;
         }
 
         /**

@@ -34,16 +34,16 @@ namespace SpaceInvadersButBetter.core
         /// <param name="column"></param>
         public Alien(int speedFactor, Bitmap img1, Bitmap img2, int row, int column) : base(img1)
         {
-            Position.X = 20;
-            Position.Y = 10;
+            X = 20;
+            Y = 10;
             UpdateBounds();
             
             secondImg = (Image)img2;
             movingRight = true;
             beenHit = false;
             dead = false;
-            Position.X = GetBounds().Width * column +  5;
-            Position.Y = GetBounds().Height * row + 10;
+            X = GetBounds().Width * column +  5;
+            Y = GetBounds().Height * row + 10;
             SetCounter(column * 50);
             speed = speedFactor;
             UpdateBounds();
@@ -89,11 +89,11 @@ namespace SpaceInvadersButBetter.core
         {
             if(movingRight)
             {
-                Position.X += JUMP_DISTANCE*speed;
+                X += JUMP_DISTANCE*speed;
             }
             else
             {
-                Position.X -= JUMP_DISTANCE;
+                X -= JUMP_DISTANCE;
             }
         }
 
@@ -102,7 +102,7 @@ namespace SpaceInvadersButBetter.core
         /// </summary>
         public void MoveDown()
         {
-            Position.Y += GetBounds().Height / FALL_DISTANCE_FACTOR;
+            Y += GetBounds().Height / FALL_DISTANCE_FACTOR;
             UpdateBounds();
         }
 

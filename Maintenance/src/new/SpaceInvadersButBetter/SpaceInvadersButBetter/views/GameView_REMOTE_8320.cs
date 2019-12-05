@@ -12,6 +12,7 @@ using SpaceInvadersButBetter.Controller;
 using SpaceInvadersButBetter.Model;
 using System.IO;
 
+
 namespace SpaceInvadersButBetter
 {
     /**
@@ -19,21 +20,15 @@ namespace SpaceInvadersButBetter
      */
     public partial class GameView : UserControl
     {
-        private const int NUMBER_OF_ALIEN_ROWS = 6;
-        private const int NUMBER_OF_ALIENS_PER_ROW = 11;
-        private const int CREDIT_BLINK_COUNT = 8;
-
         private GameBoxForm _parent;
         private GameLogic logic; // Class that should handle all game logic
         private GameData data;
-        private CreditSystem credit;
 
 
-       // private int credits = 0;
+        private int credits = 0;
 
-    
+
         private bool gameover;
-
         private ScoreUtility scoreUtil;
         private bool StartScreenActive = true;
         private bool creditFlash = false;
@@ -48,18 +43,21 @@ namespace SpaceInvadersButBetter
         private int scoreScrollCount = 0;
         private Keys keydown_joystick;
 
-        
+        private const int NUMBER_OF_ALIEN_ROWS = 6;
+        private const int NUMBER_OF_ALIENS_PER_ROW = 11;
+        private const int CREDIT_BLINK_COUNT = 8;
+
         private List<Shield> Shields = new List<Shield>();
         private List<Label> ShieldHealth = new List<Label>();
         private SpaceShip player;
-        private Alien[,] alienGroup;
-        private List<Bullet> bullets;
-        private List<Bullet> alienbullets;
+        private Alien[,] alienGroup = new Alien[NUMBER_OF_ALIEN_ROWS, NUMBER_OF_ALIENS_PER_ROW];
+        private List<Bullet> bullets = new List<Bullet>();
+        private List<Bullet> alienbullets = new List<Bullet>();
 
         /**
          * Constructor
          */
-        public GameView(GameBoxForm parent, GameLogic logic, GameData data, CreditSystem credit)
+        public GameView(GameBoxForm parent, GameLogic logic, GameData data)
         {
             InitializeComponent();
 
@@ -71,10 +69,6 @@ namespace SpaceInvadersButBetter
 
             _parent = parent;
 
-            bullets = new List<Bullet>();
-            alienbullets = new List<Bullet>();
-            this.credit = credit;
-
             this.logic = logic;
 
             this.data = data;
@@ -83,50 +77,12 @@ namespace SpaceInvadersButBetter
 
             scoreUtil = new ScoreUtility();
 
-            logic.SetScoreUtil(scoreUtil);
-
             lblHighScore.Text = scoreUtil.getTopScore().ToString();
             InitializeStartScreen();
             InitializeGameObjects();
             this.logic.SetupCollisionHandler();
             fpsTimer.Start();
-
-            
         }
-
-        public void SetGameData(GameData data)
-        {
-            this.data = data;
-        }
-
-        public void SetCreditSystem(CreditSystem credit)
-        {
-            this.credit = credit;
-        }
-
-        public void SetGameLogic(GameLogic logic)
-        {
-            this.logic = logic;
-        }
-
- 
-
-        public Alien[,] GetAlienGroup()
-        {
-            return alienGroup;
-        }
-
-        public List<Bullet> GetBullets()
-        {
-            return bullets;
-        }
-
-        public List<Bullet> GetAlienBullets()
-        {
-            return alienbullets;
-        }
-        
-
 
         /**
          * Displays start screen elements
@@ -150,36 +106,32 @@ namespace SpaceInvadersButBetter
          */
         public void InitializeGameObjects()
         {
-            logic.GameReset();
+            gameover = false;
             fpsTimer = new Timer();
             fpsTimer.Tick += fpsTimer_Tick;
             fpsTimer.Interval = 20;
             data.resetLevelScore(); //level = 1; score = 0
 
-            lblScore.Text = data.Score.ToString();
-            lblLevelNumber.Text = data.Level.ToString();
+            lblScore.Text = data.getScore().ToString();
+            lblLevelNumber.Text = data.getLevel().ToString();
             Shields = logic.InitializeObject_Shields();
             player = logic.InitializeSpaceShip();
 
-            alienGroup = logic.InitializeAliens(data.Level);
-
+            alienGroup = logic.InitializeAliens(data.getLevel());
 
             InitializeCredits();
         }
 
         public void ResetGameObjects()
         {
-
-            lblScore.Text = data.Score.ToString();
-            lblLevelNumber.Text = data.Level.ToString();
-
+            lblScore.Text = data.getScore().ToString();
+            lblLevelNumber.Text = data.getLevel().ToString();
 
             ResetShieldLabels();
             Shields = logic.InitializeObject_Shields();
 
-        
-            alienGroup = logic.InitializeAliens(data.Level);
 
+            alienGroup = logic.InitializeAliens(data.getLevel());
             bullets.Clear();
             alienbullets.Clear();
         }
@@ -196,13 +148,13 @@ namespace SpaceInvadersButBetter
         /**
          * Displays credit screen elements with top score
          */
-        private void DisplayCredits(int score)
+        private void DisplayCredits()
         {
             lblGameOver.Visible = true;
             lblYourScore.Visible = true;
             lblEndScore.Visible = true;
-            lblEndScore.Text = score.ToString();
-            
+            lblEndScore.Text = data.getScore().ToString();
+            lblHighScore.Text = scoreUtil.getTopScore().ToString();
         }
 
         /**
@@ -210,8 +162,6 @@ namespace SpaceInvadersButBetter
          */
         public void EraseStartScreen()
         {
-            if (this.Visible == false)
-                logic.SwitchForms();
             SpaceInvadersLabel.Visible = false;
             InsertCoinLabel.Visible = false;
             StartScreenActive = false;
@@ -224,7 +174,6 @@ namespace SpaceInvadersButBetter
             lblScoreScroll.Visible = false;
             lblHitSpace.Visible = false;
             CreditFlashTimer.Enabled = false;
-            ChangeTimer.Stop();
         }
 
         public void ShowStartScreen()
@@ -239,10 +188,9 @@ namespace SpaceInvadersButBetter
             lblLifes.Visible = false;
             lblLifesLabel.Visible = false;
             lblScoreScroll.Visible = true;
-            if (credit.Credits > 0)
+            if (credits > 0)
                 lblHitSpace.Visible = true;
             CreditFlashTimer.Enabled = true;
-            ChangeTimer.Start();
         }
 
         public int GetShieldBottom(Shield shield)
@@ -291,7 +239,7 @@ namespace SpaceInvadersButBetter
         {
             for (int i = 0; i < bullets.Count; i++)
             {
-                if (bullets[i].Y < 0)
+                if (bullets[i].getY() < 0)
                     bullets.RemoveAt(i);
                 else
                     bullets[i].Draw(g);
@@ -299,7 +247,7 @@ namespace SpaceInvadersButBetter
 
             for (int i = 0; i < alienbullets.Count; i++)
             {
-                if (alienbullets[i].Y < 0)
+                if (alienbullets[i].getY() < 0)
                     alienbullets.RemoveAt(i);
                 else
                     alienbullets[i].Draw(g);
@@ -453,7 +401,7 @@ namespace SpaceInvadersButBetter
                     if (gameOverFlash == MAX_GAME_OVER_FLASHES)
                     {
                         toggleCredit(false);
-                        logic.GameReset();
+                        gameover = false;
                         gameOverFlash = 0;
                         logic.EndGame();
                     }
@@ -474,7 +422,7 @@ namespace SpaceInvadersButBetter
 
             CreditBlink();
 
-            if (TimerCounter % 100 == 0 && logic.IsGameOver() == false)
+            if (TimerCounter % 100 == 0 && gameover == false)
             {
                 alienbullets = logic.GenerateAlienBullet();
             }
@@ -493,6 +441,26 @@ namespace SpaceInvadersButBetter
         }
 
         /**
+         * Tick logic for game over state
+         */
+        private void GameNotRunningTickLogic()
+        {
+            if (MenuCount % 50 == 0)
+            {
+                if (scoreScrollCount < 10)
+                {
+                    lblScoreScroll.Text = (scoreScrollCount + 1).ToString() + ") " + scoreUtil.getScoreAt(scoreScrollCount);
+                    scoreScrollCount++;
+                }
+                else
+                {
+                    scoreScrollCount = 0;
+                    lblScoreScroll.Text = (scoreScrollCount + 1).ToString() + ") " + scoreUtil.getScoreAt(scoreScrollCount);
+                }
+            }
+        }
+
+        /**
          * Timer Tick
          */
         private void fpsTimer_Tick(object sender, System.EventArgs e)
@@ -502,6 +470,10 @@ namespace SpaceInvadersButBetter
             {
                 GameRunningTickLogic();
             }
+            else
+            {
+                GameNotRunningTickLogic();
+            }
         }
 
         /**
@@ -509,7 +481,8 @@ namespace SpaceInvadersButBetter
          */
         public void WriteScore(int Score)
         {
-            DisplayCredits(Score);
+            scoreUtil.Write(Score);
+            DisplayCredits();
         }
 
         /**
@@ -523,7 +496,7 @@ namespace SpaceInvadersButBetter
         /**
          * Updates the score label
          */
-        public void SetScoreLabel(string score)
+        public void setScoreLabel(string score)
         {
             lblScore.Text = score;
         }
@@ -531,17 +504,14 @@ namespace SpaceInvadersButBetter
         /**
          * Updates the lives label
          */
-        public void SetLivesLabel(string lives)
+        public void setLivesLabel(string lives)
         {
             lblLifes.Text = lives;
         }
 
-        /**
-         * Updates the number of credits inserted
-         */
         public void UpdateCredits(int credits)
         {
-            credit.Credits = credits;
+            this.credits = credits;
             InsertCoinLabel.Text = "Credits x " + credits.ToString();
             if (logic.IsStartScreenActive() && credits > 0)
             {
@@ -553,38 +523,29 @@ namespace SpaceInvadersButBetter
 
         private void CreditFlashTimer_Tick(object sender, EventArgs e)
         {
-            if (creditFlash && credit.Credits < 9)
+            if (creditFlash && credits < 9)
             {
                 InsertCoinLabel.Text = "Insert Coin";
                 creditFlash = false;
             }
             else
             {
-                InsertCoinLabel.Text = "Credits x " + credit.Credits.ToString();
+                InsertCoinLabel.Text = "Credits x " + credits.ToString();
                 creditFlash = true;
             }
         }
 
-        /*
-         * Removes shield from screen
-         */
         public void RemoveShield(int index)
         {
             this.Controls.Remove(ShieldHealth[index]);
             ShieldHealth.RemoveAt(index);
         }
 
-        /*
-         * Updates the shield health on the screen
-         */
         public void UpdateShield(int health, int index)
         {
             ShieldHealth[index].Text = health.ToString();
         }
 
-        /**
-         * Redraws the bullets in their new locations
-         */
         public void UpdateBullets(List<Bullet> bullets)
         {
             this.bullets = bullets;
@@ -594,39 +555,5 @@ namespace SpaceInvadersButBetter
             }
         }
 
-
-        public int GetNumberOfAlienRows()
-        {
-            return NUMBER_OF_ALIEN_ROWS;
-        }
-
-        public int GetNumberOfAliensPerRow()
-        {
-            return NUMBER_OF_ALIENS_PER_ROW;
-        }
-
-        private void ChangeTimer_Tick(object sender, EventArgs e)
-        {
-            logic.SwitchForms();
-        }
-
-        private void GameView_VisibleChanged(object sender, EventArgs e)
-        {
-            if(this.Visible == true)
-            {
-                ChangeTimer.Start();
-                fpsTimer.Start();
-                CreditFlashTimer.Start();
-                lblHighScore.Text = scoreUtil.getTopScore().ToString();
-                this.Focus();
-            }
-            else
-            {
-                ChangeTimer.Stop();
-                fpsTimer.Stop();
-                CreditFlashTimer.Stop();
-            }
-        }
     }
-
 }
