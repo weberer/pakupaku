@@ -177,6 +177,7 @@ namespace SpaceInvadersButBetter.core
                         alienGroup[row, column].beenHit = true;
                         player.kill();
                         logic.GameOver();
+                       
                     }
         }
         /**
@@ -195,8 +196,7 @@ namespace SpaceInvadersButBetter.core
                         player.kill();
                         logic.GameOver();
                     }
-
-                    gameForm.setLivesLabel(player.getLifes().ToString());
+                    gameForm.SetLivesLabel(player.getLifes().ToString());
                     alienBullets.RemoveAt(i);
                 }
         }

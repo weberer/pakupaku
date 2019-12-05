@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\CreditSystem.cs" />
     <Compile Include="Controller\GameLogic.cs" />
     <Compile Include="core\Alien.cs" />
     <Compile Include="core\Bullet.cs" />

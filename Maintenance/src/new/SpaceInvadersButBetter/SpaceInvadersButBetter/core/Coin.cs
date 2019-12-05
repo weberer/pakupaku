@@ -12,7 +12,6 @@ namespace SpaceInvadersButBetter.core
         private bool slot2error;
         private bool hasCoin;
         private int cointype = 0;
-
         private Image[] view = new Image[3];
         private Random rand = new Random(System.DateTime.Now.Second);
 
