@@ -525,7 +525,7 @@ namespace SpaceInvadersButBetter.Controller
             {
                 SwitchForms();
             }
-            StartGame();
+            //StartGame();
         }
 
         public void SwitchForms()
@@ -567,6 +567,7 @@ namespace SpaceInvadersButBetter.Controller
             initalsForm.Hide();
             gameForm.ShowStartScreen();
             gameForm.Show();
+            isGame = true;
         }
 
         public int GetScore()

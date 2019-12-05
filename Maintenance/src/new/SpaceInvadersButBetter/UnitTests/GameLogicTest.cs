@@ -102,5 +102,6 @@ namespace UnitTests
             gameLogic.StartGame();
             Assert.AreEqual(gameLogic.GetCredits(), 1);
         }
+
     }
 }
