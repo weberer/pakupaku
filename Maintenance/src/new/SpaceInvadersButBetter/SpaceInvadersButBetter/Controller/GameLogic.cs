@@ -36,6 +36,7 @@ namespace SpaceInvadersButBetter.Controller
         private Alien[,] alienGroup = new Alien[NUMBER_OF_ALIEN_ROWS, NUMBER_OF_ALIENS_PER_ROW];
         private List<Bullet> bullets = new List<Bullet>();
         private List<Bullet> alienbullets = new List<Bullet>();
+        private UFO actualUFO;
 
 
 
@@ -85,7 +86,8 @@ namespace SpaceInvadersButBetter.Controller
         */
         public UFO InitializeUFO(int level)
         {
-            return new UFO(UFO_speed_factor, Resources.UFO);
+            actualUFO = new UFO(UFO_speed_factor, Resources.UFO);
+            return actualUFO;
         }
 
         /**
@@ -406,7 +408,7 @@ namespace SpaceInvadersButBetter.Controller
 
         public void moveUFO()
         {
-            
+            actualUFO.Move();
         }
 
         public void MoveAlienByFactorAndDirection(int width, int timerCounter)

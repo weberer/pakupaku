@@ -5,10 +5,10 @@ namespace SpaceInvadersButBetter.core
     public class UFO : GameObject
     {
         private const int FLIP_FACTOR = 3;
-        private const int JUMP_DISTANCE = 5;
+        private const int JUMP_DISTANCE = 1;
         private const int FALL_DISTANCE_FACTOR = 4;
-        private const int STARTING_X = 36;
-        private const int STARTING_Y = 36;
+        private const int STARTING_X = 500;
+        private const int STARTING_Y = 50;
 
         private Image secondImg;
         private bool beenHit;
@@ -47,7 +47,7 @@ namespace SpaceInvadersButBetter.core
             UpdateBounds();
             if (beenHit)
                 return;
-            UFO.DrawImage(MainImage, MovingBounds, 0, 0, ImageBounds.Width, ImageBounds.Height, GraphicsUnit.Point);
+            UFO.DrawImage(MainImage, Position.X, Position.Y);
         }
 
 
