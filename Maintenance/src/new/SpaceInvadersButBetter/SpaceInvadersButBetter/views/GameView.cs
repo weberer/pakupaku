@@ -44,7 +44,7 @@ namespace SpaceInvadersButBetter
 
         private int TimerCounter = 0;
         private int MenuCount = 0;
-        private int blinkCount = 0;
+        //private int blinkCount = 0;
         private int scoreScrollCount = 0;
         private Keys keydown_joystick;
 
@@ -440,13 +440,10 @@ namespace SpaceInvadersButBetter
                 bullets.Clear();
                 if (TimerCounter % 25 == 0)
                 {
-                    if (blinkCount != CREDIT_BLINK_COUNT)
-                    {
-                        blinkCount++;
+                        //blinkCount++;
                         toggleCredit(false);
-                    }
                 }
-                if (TimerCounter % 50 == 0 && blinkCount != CREDIT_BLINK_COUNT)
+                if (TimerCounter % 50 == 0)
                 {
                     toggleCredit(true);
                     gameOverFlash++;
