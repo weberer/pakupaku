@@ -237,24 +237,7 @@ namespace SpaceInvadersButBetter.Controller
         }
 
 
-        //public void AddCredit()
-        //{
-        //    if (credit.GetCredits() < 9)
-        //        credit.AddCredit();
-        //    gameForm.UpdateCredits(credit.GetCredits());
-
-        //}
-        
-        
-        //public void DecrementCredits()
-        //{
-        //    if (credit.GetCredits() >= 0)
-        //    {
-        //        credit.DecrementCredits();
-        //        gameForm.UpdateCredits(credit.GetCredits());
-        //    }
-        //}
-
+       
        
         public bool IsStartScreenActive()
         {
@@ -271,7 +254,7 @@ namespace SpaceInvadersButBetter.Controller
                     
 
                     credit.DecrementCredits();
-                    gameForm.UpdateCredits(credit.Credits);
+                    gameForm.UpdateCredits();
 
                     highScore.UpdateCredits(credit.Credits);
 
@@ -313,14 +296,14 @@ namespace SpaceInvadersButBetter.Controller
             gameOver = false;
         }
 
+       
+
         /**
          * Testing method to fetch the credits int for the test method.
          */
         public int GetCredits()
         {
-
             return credit.Credits;
-
         }
 
         /**

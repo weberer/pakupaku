@@ -157,6 +157,7 @@
     <None Include="Resources\shield.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\space-ship-destroyed.png" />
     <None Include="Resources\space-ship.png" />
   </ItemGroup>
   <ItemGroup>
@@ -176,9 +177,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\bullet.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\space-ship-destroyed.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\spaceShipDestroyed.png" />

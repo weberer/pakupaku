@@ -31,10 +31,7 @@ namespace SpaceInvadersButBetter.core
             lifes = 3;
         }
 
-        public void  DestroySpaceShip() 
-        {
-            SetMainImage(Resources.);
-        }
+
 
         /**
          * Return lifes left
@@ -51,7 +48,7 @@ namespace SpaceInvadersButBetter.core
          */
         public bool hitAndIsAlive()
         {
-            DestroySpaceShip(); ////////////
+         
             lifes -= 1;
             if (lifes == 0)
             {

@@ -16,7 +16,7 @@ namespace UnitTests
         public void TestStartGameWithCredit()
         {
             GameBoxForm box = new GameBoxForm();
-          //GameLogic gameLogic = box.GetLogic();
+            GameLogic gameLogic = box.GetLogic();
             CreditSystem credit = box.GetCredit();
             credit.AddCredit();
             Assert.AreEqual(gameLogic.GetCredits(), 1);

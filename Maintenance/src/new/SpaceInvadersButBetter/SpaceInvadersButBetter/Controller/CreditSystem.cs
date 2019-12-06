@@ -38,7 +38,7 @@ namespace SpaceInvadersButBetter.Controller
          */
         public void DecrementCredits()
         {
-            if (Credits >= 0)
+            if (Credits > 0)
             {
                 Credits--;
                // gameForm.UpdateCredits(credit.GetCredits());

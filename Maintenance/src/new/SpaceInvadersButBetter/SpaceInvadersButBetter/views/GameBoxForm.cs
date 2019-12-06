@@ -147,7 +147,7 @@ namespace SpaceInvadersButBetter
 
                         coinPile.DeleteCoin();
                         credit.AddCredit();
-                        game.UpdateCredits(credit.Credits);
+                        game.UpdateCredits();
 
                     }
                     else
@@ -184,7 +184,7 @@ namespace SpaceInvadersButBetter
 
         }
 
-        public GameLogic getLogic() { return logic; }
+        public GameLogic GetLogic() { return logic; }
 
         public void SwitchForms()
 

@@ -539,9 +539,9 @@ namespace SpaceInvadersButBetter
         /**
          * Updates the number of credits inserted
          */
-        public void UpdateCredits(int credits)
+        public void UpdateCredits()
         {
-            credit.Credits = credits;
+            int credits = credit.Credits;
             InsertCoinLabel.Text = "Credits x " + credits.ToString();
             if (logic.IsStartScreenActive() && credits > 0)
             {
@@ -550,6 +550,17 @@ namespace SpaceInvadersButBetter
             else
                 lblHitSpace.Hide();
         }
+        //public void UpdateCredits(int credits)
+        //{
+        //    credit.Credits = credits;
+        //    InsertCoinLabel.Text = "Credits x " + credits.ToString();
+        //    if (logic.IsStartScreenActive() && credits > 0)
+        //    {
+        //        lblHitSpace.Show();
+        //    }
+        //    else
+        //        lblHitSpace.Hide();
+        //}
 
         private void CreditFlashTimer_Tick(object sender, EventArgs e)
         {

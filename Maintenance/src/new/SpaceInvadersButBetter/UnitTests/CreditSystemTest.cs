@@ -36,9 +36,49 @@ namespace UnitTests
         #endregion
 
         [TestMethod]
-        public void CreateCreditSystem()
+        public void TestCreateCreditSystem()
         {
             CreditSystem credit = new CreditSystem();
+            Assert.AreEqual(0, credit.Credits);
+        }
+
+        [TestMethod]
+        public void TestAddDecrementCredit()
+        {
+            CreditSystem credit = new CreditSystem();
+            credit.AddCredit();
+            Assert.AreEqual(1, credit.Credits);
+            credit.DecrementCredits();
+            Assert.AreEqual(0, credit.Credits);
+        }
+
+        [TestMethod]
+        public void TestCreditLimits()
+        {
+            CreditSystem credit = new CreditSystem();
+            credit.AddCredit();
+            credit.AddCredit();
+            credit.AddCredit();
+            credit.AddCredit();
+            credit.AddCredit();
+            credit.AddCredit();
+            credit.AddCredit();
+            credit.AddCredit();
+            credit.AddCredit();
+            Assert.AreEqual(9, credit.Credits);
+            credit.AddCredit();
+            Assert.AreEqual(9, credit.Credits);
+            credit.DecrementCredits();
+            credit.DecrementCredits();
+            credit.DecrementCredits();
+            credit.DecrementCredits();
+            credit.DecrementCredits();
+            credit.DecrementCredits();
+            credit.DecrementCredits();
+            credit.DecrementCredits();
+            credit.DecrementCredits();
+            Assert.AreEqual(0, credit.Credits);
+            credit.DecrementCredits();
             Assert.AreEqual(0, credit.Credits);
         }
     }
