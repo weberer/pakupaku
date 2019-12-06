@@ -12,12 +12,12 @@ namespace UnitTests
         {
             System.IO.StreamWriter sw = new System.IO.StreamWriter("highscore.txt", false);
             int index = 0;
-            while(index < 5)
+            while (index < 5)
             {
                 sw.WriteLine("AAA");
                 sw.WriteLine(0);
                 index++;
-                
+
             }
             sw.Close();
         }
@@ -30,7 +30,7 @@ namespace UnitTests
             scoreUtil.Write(score, "AAA");
             scoreUtil.Read();
             int result = scoreUtil.getTopScore();
-            
+
             Assert.AreEqual(score, result);
 
         }
@@ -49,7 +49,7 @@ namespace UnitTests
             scoreUtil.Write(score, "AAA");
             scoreUtil.Read();
             int result = scoreUtil.getTopScore();
-            
+
             //top Score
             Assert.IsTrue(result == score);
 
@@ -87,8 +87,8 @@ namespace UnitTests
          * levels should return the desired position. for a score > 500 1 should be returned, but a score >100 should
          * recieve a -1 value.
          */
-         [TestMethod]
-         public void TestDeterminePosition()
+        [TestMethod]
+        public void TestDeterminePosition()
         {
             clearTextFile();
             scoreUtil.Write(500, "AAA");
@@ -123,8 +123,8 @@ namespace UnitTests
          * scores of zero and initials of "AAA". this method makes sure that the "AAA" values
          * are properly updated when a new score is written.
          */
-         [TestMethod]
-         public void TestInitialChanging()
+        [TestMethod]
+        public void TestInitialChanging()
         {
             clearTextFile();
             scoreUtil.Write(500, "AAA");
@@ -139,6 +139,66 @@ namespace UnitTests
             Assert.AreEqual("DDD", initials[3]);
             Assert.AreEqual("EEE", initials[4]);
 
+        }
+        /**
+         * TestNegativeScoreInsertation tests to make sure that a negative score will
+         * not be written to the high score document, and the initials and scores are not
+         * in the document after the score was attempted to be inserted.
+         */
+        [TestMethod]
+        public void TestNegativeScoreInsertation()
+        {
+            clearTextFile();
+            scoreUtil.Write(-10, "BAD");
+            int[] scores = scoreUtil.GetScores();
+            string[] initials = scoreUtil.GetInitials();
+            for(int i = 0; i < 5; i++)
+            {
+                Assert.IsFalse(scores[i] == -10);
+                Assert.IsFalse(initials[i].Equals("BAD"));
+            }
+        }
+        /**
+         * TestNegativeScorePosition tests to make sure that a negative
+         * score always returns -1 for position. -1 means the score is not
+         * a high score.
+         */
+        [TestMethod]
+        public void TestNegativeScorePosition()
+        {
+            clearTextFile();
+            int test = scoreUtil.DeterminePosition(-10);
+            Assert.AreEqual(-1, test);
+        }
+
+        /**
+         * TestNegativeScoreInsertation tests to make sure that a score of 0 will
+         * not be written to the high score document, and the initials and scores are not
+         * in the document after the score was attempted to be inserted.
+         */
+        [TestMethod]
+        public void TestZeroScoreInsertation()
+        {
+            clearTextFile();
+            scoreUtil.Write(-0, "BAD");
+            int[] scores = scoreUtil.GetScores();
+            string[] initials = scoreUtil.GetInitials();
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.IsFalse(scores[i] == -10);
+                Assert.IsFalse(initials[i].Equals("BAD"));
+            }
+        }
+        /**
+         * TestNegativeScorePosition tests to make sure that a score of 0
+         * always returns -1 for position. -1 means the score is not a high score.
+         */
+        [TestMethod]
+        public void TestZeroScorePosition()
+        {
+            clearTextFile();
+            int test = scoreUtil.DeterminePosition(0);
+            Assert.AreEqual(-1, test);
         }
     }
 }

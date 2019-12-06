@@ -148,6 +148,7 @@ namespace SpaceInvadersButBetter
                         coinPile.DeleteCoin();
                         credit.AddCredit();
                         game.UpdateCredits();
+                        highScoreForm.UpdateCredits(credit.Credits);
 
                     }
                     else

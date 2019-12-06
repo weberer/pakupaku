@@ -53,13 +53,14 @@ namespace SpaceInvadersButBetter.views
                 }
                 
             }
-            else
+            else if(Char.IsLetter(e.KeyChar))
             {
                 if (initialSize < 3)
                 {
                     KeysConverter kc = new KeysConverter();
                     string text = txtInitials.Text;
                     text += kc.ConvertToString(e.KeyChar);
+                    text = text.ToUpper();
                     txtInitials.Text = text;
                     lblHitEnter.Visible = true;
                     initialSize++;
@@ -82,5 +83,6 @@ namespace SpaceInvadersButBetter.views
             lblScore.Text = score;
             lblPlace.Text = place;
         }
+
     }
 }

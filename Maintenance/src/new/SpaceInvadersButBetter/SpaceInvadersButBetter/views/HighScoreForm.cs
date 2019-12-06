@@ -198,11 +198,6 @@ namespace SpaceInvadersButBetter.views
             }
         }
 
-      private void label3_Click(object sender, EventArgs e)
-      {
-
-      }
-
         public void SetScoreUtil(ScoreUtility util)
         {
             this.score = util;
