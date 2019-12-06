@@ -119,53 +119,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\box.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\10Cent.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\25Cent.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CoinPile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\joystick-left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\joystick-right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\joystick-up.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\shield.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\space-ship.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\box.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\bullet2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\invader-closed.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\invader-open.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\alien_bullet.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\bullet.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\UFO.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

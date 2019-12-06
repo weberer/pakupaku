@@ -85,7 +85,7 @@ namespace SpaceInvadersButBetter.Controller
         */
         public UFO InitializeUFO(int level)
         {
-            return new UFO(UFO_speed_factor, Resources.invader_open);
+            return new UFO(UFO_speed_factor, Resources.UFO);
         }
 
         /**
