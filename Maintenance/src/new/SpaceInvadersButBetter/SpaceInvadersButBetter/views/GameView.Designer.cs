@@ -45,6 +45,7 @@
             this.lblScoreScroll = new System.Windows.Forms.Label();
             this.lblHitSpace = new System.Windows.Forms.Label();
             this.CreditFlashTimer = new System.Windows.Forms.Timer(this.components);
+            this.ChangeTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // lblScoreTitle
@@ -221,6 +222,12 @@
             this.CreditFlashTimer.Interval = 1000;
             this.CreditFlashTimer.Tick += new System.EventHandler(this.CreditFlashTimer_Tick);
             // 
+            // ChangeTimer
+            // 
+            this.ChangeTimer.Enabled = true;
+            this.ChangeTimer.Interval = 30000;
+            this.ChangeTimer.Tick += new System.EventHandler(this.ChangeTimer_Tick);
+            // 
             // GameView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -243,6 +250,7 @@
             this.Controls.Add(this.lblGameOver);
             this.Name = "GameView";
             this.Size = new System.Drawing.Size(540, 410);
+            this.VisibleChanged += new System.EventHandler(this.GameView_VisibleChanged);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GameControlObject_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GameControlObject_KeyUp);
@@ -269,5 +277,6 @@
         private System.Windows.Forms.Label lblScoreScroll;
         private System.Windows.Forms.Label lblHitSpace;
         private System.Windows.Forms.Timer CreditFlashTimer;
+        private System.Windows.Forms.Timer ChangeTimer;
     }
 }

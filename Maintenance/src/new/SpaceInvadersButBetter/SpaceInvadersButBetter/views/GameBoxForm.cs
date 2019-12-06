@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SpaceInvadersButBetter.Model;
+using SpaceInvadersButBetter.views;
 
 namespace SpaceInvadersButBetter
 {
@@ -18,21 +19,31 @@ namespace SpaceInvadersButBetter
      */
     public partial class GameBoxForm : Form
     {
+        const long MIN_RENDER_TICKS = 750000; // Minimum # of ticks between render cycles. Equal to 75 miliseconds 
+
         private Joystick joystick;
         private Coin coinPile;
         GameView game;
 
         private GameLogic logic;
         private GameData data;
-
         private GameBox bg = new GameBox();
   
+
+        private CreditSystem credit;
+
+
+        private HighScoreForm highScoreForm;
+        private InitalsForm initalsForm;
+        private Boolean isGame = true;
+        private long previousRenderTicks;
 
         /**
          * Constructor
          */
         public GameBoxForm()
         {
+            previousRenderTicks = DateTime.Now.Ticks;
             InitializeComponent();
 
             SetStyle(ControlStyles.UserPaint, true);
@@ -42,7 +53,7 @@ namespace SpaceInvadersButBetter
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
             InitializeGameBoxObjects();
-            this.startGame();
+            startGame();
         }
 
         /**
@@ -62,7 +73,7 @@ namespace SpaceInvadersButBetter
             Graphics g = e.Graphics;
             bg.Draw(g);
             joystick.draw(g);
-            coinPile.draw(g);
+            coinPile.Draw(g);
         }
 
         /**
@@ -82,13 +93,33 @@ namespace SpaceInvadersButBetter
          */
         public void startGame()
         {
-            logic = new GameLogic(this);
-
             data = new GameData();
-            game = new GameView(this, logic, data);
+            credit = new CreditSystem();
+            logic = new GameLogic(this);
+            logic.SetCreditSystem(credit);
+            logic.SetGameData(data);
+        
+            /*game.SetGameLogic(logic);
+            game.SetGameData(data);
+            game.SetCreditSystem(credit);
+            logic.SetGameView(game);*/
+
+
+            highScoreForm = new HighScoreForm(logic);
+            game = new GameView(this, logic, data, credit);
+            
 
             game.Location = new Point(80, 90);
             this.Controls.Add(game);
+
+            initalsForm = new InitalsForm(logic);
+            initalsForm.Location = new Point(80, 90);
+            this.Controls.Add(initalsForm);
+            initalsForm.Visible = false;
+            
+            highScoreForm.Location = new Point(80, 90);
+            this.Controls.Add(highScoreForm);
+            highScoreForm.Visible = false;
         }
 
         /**
@@ -96,43 +127,41 @@ namespace SpaceInvadersButBetter
          */
         private void GameBoxForm_MouseDown(object sender, MouseEventArgs e)
         {
-            coinPile.updateCoinLocation(e.X, e.Y);
-            if (coinPile.checkPileClicked(e.X, e.Y))
+            coinPile.UpdateCoinLocation(e.X, e.Y);
+            if (coinPile.CheckPileClicked(e.X, e.Y))
             {
-                if (coinPile.checkCoinHeld())
-                    coinPile.deleteCoin();
+                if (coinPile.CheckCoinHeld())
+                    coinPile.DeleteCoin();
                 else
-                    coinPile.createCoin();
+                    coinPile.CreateCoin();
                 this.Refresh();
             }
 
 
-            if (coinPile.checkSlotClicked(e.X, e.Y) != -1)
+            if (coinPile.CheckSlotClicked(e.X, e.Y) != -1)
             {
-                if (coinPile.checkCoinHeld())
+                if (coinPile.CheckCoinHeld())
                 {
-                    if (coinPile.isQuarter())
+                    if (coinPile.IsQuarter())
                     {
-                        coinPile.deleteCoin();
 
-                        logic.CoinInsert();
-                        //this.startGame();
-
-                        logic.addCredit();
+                        coinPile.DeleteCoin();
+                        credit.AddCredit();
+                        game.UpdateCredits(credit.Credits);
 
                     }
                     else
                     {
-                        coinPile.deleteCoin();
-                        coinPile.badCoinInserted(coinPile.checkSlotClicked(e.X, e.Y));
+                        coinPile.DeleteCoin();
+                        coinPile.BadCoinInserted(coinPile.CheckSlotClicked(e.X, e.Y));
                     }
                 }
                 this.Refresh();
             }
 
-            if (coinPile.checkGivebackClicked(e.X, e.Y) != -1 && !coinPile.checkCoinHeld())
+            if (coinPile.CheckGivebackClicked(e.X, e.Y) != -1 && !coinPile.CheckCoinHeld())
             {
-                coinPile.takeReturned(coinPile.checkGivebackClicked(e.X, e.Y));
+                coinPile.TakeReturned(coinPile.CheckGivebackClicked(e.X, e.Y));
                 this.Refresh();
             }
         }
@@ -143,17 +172,40 @@ namespace SpaceInvadersButBetter
          */
         private void GameBoxForm_MouseMove(object sender, MouseEventArgs e)
         {
-            if (coinPile.checkCoinHeld())
+            long currentTicks = DateTime.Now.Ticks;
+            long ticksSinceLastRender = currentTicks - previousRenderTicks;
+
+            if ((ticksSinceLastRender > MIN_RENDER_TICKS) && coinPile.CheckCoinHeld())
             {
-                coinPile.updateCoinLocation(e.X, e.Y);
+                coinPile.UpdateCoinLocation(e.X, e.Y);
                 this.Refresh();
+                previousRenderTicks = currentTicks;
             }
 
         }
 
-        public GameLogic getLogic()
+        public GameLogic getLogic() { return logic; }
+
+        public void SwitchForms()
+
         {
-            return logic;
+            if(isGame)
+            {
+                isGame = false;
+                game.Visible = false;
+                highScoreForm.Visible = true;
+            }
+            else
+            {
+                isGame = true;
+                highScoreForm.Visible = false;
+                game.Visible = true;
+            }
+        }
+
+        public CreditSystem GetCredit()
+        {
+            return credit;
         }
     }
 
