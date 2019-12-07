@@ -51,7 +51,7 @@
     <Compile Include="Controller\GameLogic.cs" />
     <Compile Include="core\Alien.cs" />
     <Compile Include="core\Bullet.cs" />
-    <Compile Include="core\Coin.cs" />
+    <Compile Include="core\CoinDisplayManager.cs" />
     <Compile Include="Controller\CollisionHandler.cs" />
     <Compile Include="core\GameEntity.cs" />
     <Compile Include="core\ScoreUtility.cs" />

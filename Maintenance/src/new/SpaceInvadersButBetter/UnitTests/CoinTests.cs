@@ -10,7 +10,7 @@ namespace UnitTests
         [TestMethod]
         public void CoinTypeTest()
         {
-            Coin testCoin = new Coin();
+            CoinDisplayManager testCoin = new CoinDisplayManager();
             testCoin.CreateCoin();
             while(testCoin.IsQuarter())
             {
@@ -29,18 +29,18 @@ namespace UnitTests
         [TestMethod]
         public void AssetsClickedTest()
         {
-            Coin testCoin = new Coin();
+            CoinDisplayManager testCoin = new CoinDisplayManager();
 
             Assert.IsTrue(testCoin.CheckPileClicked(100, 500));
             Assert.IsFalse(testCoin.CheckPileClicked(50, 200));
 
-            Assert.IsTrue(testCoin.CheckSlotClicked(500, 650) == 1);
-            Assert.IsTrue(testCoin.CheckSlotClicked(520, 650) == 2);
-            Assert.IsTrue(testCoin.CheckSlotClicked(100, 500)  == -1);
+            Assert.IsTrue(testCoin.CheckCoinSlotClicked(500, 650) == 1);
+            Assert.IsTrue(testCoin.CheckCoinSlotClicked(520, 650) == 2);
+            Assert.IsTrue(testCoin.CheckCoinSlotClicked(100, 500)  == -1);
 
-            Assert.IsTrue(testCoin.CheckGivebackClicked(490, 680) == 1);
-            Assert.IsTrue(testCoin.CheckGivebackClicked(520, 680) == 2);
-            Assert.IsTrue(testCoin.CheckGivebackClicked(100, 500) == -1);
+            Assert.IsTrue(testCoin.CheckCoinReturnClicked(490, 680) == 1);
+            Assert.IsTrue(testCoin.CheckCoinReturnClicked(520, 680) == 2);
+            Assert.IsTrue(testCoin.CheckCoinReturnClicked(100, 500) == -1);
 
         }
 

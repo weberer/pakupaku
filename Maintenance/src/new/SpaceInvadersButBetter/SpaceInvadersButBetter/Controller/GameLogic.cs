@@ -217,10 +217,12 @@ namespace SpaceInvadersButBetter.Controller
             return Shields;
         }
 
-        public void addCredit()
+        public void addCredit(int creditsReceived)
         {
-            if (data.Credits < 9)
-                data.Credits++;
+            data.Credits += creditsReceived;
+
+            if (data.Credits > 9)
+                data.Credits = 9;
 
             gameForm.UpdateCredits(data.Credits);
             highScore.UpdateCredits(data.Credits);

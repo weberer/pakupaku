@@ -1,13 +1,7 @@
 ﻿using SpaceInvadersButBetter.Controller;
 using SpaceInvadersButBetter.core;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SpaceInvadersButBetter.Model;
 using SpaceInvadersButBetter.views;
@@ -22,7 +16,8 @@ namespace SpaceInvadersButBetter
         const long MIN_RENDER_TICKS = 750000; // Minimum # of ticks between render cycles. Equal to 75 miliseconds 
 
         private Joystick joystick;
-        private Coin coinPile;
+        private CoinDisplayManager coinManager;
+        private Type coinMech = typeof(CoinDisplayManager.CoinMechs);
         GameView game;
         private GameData data;
         private GameBox bg = new GameBox();
@@ -50,12 +45,12 @@ namespace SpaceInvadersButBetter
         }
 
         /**
-         * Creates joystick and coinpile
+         * Creates joystick and coinDisplaymanager
          */
         private void InitializeGameBoxObjects()
         {
             joystick = new Joystick();
-            coinPile = new Coin();
+            coinManager = CoinDisplayManager.getCoinDisplaymanager();
         }
 
         /**
@@ -66,7 +61,8 @@ namespace SpaceInvadersButBetter
             Graphics g = e.Graphics;
             bg.Draw(g);
             joystick.draw(g);
-            coinPile.Draw(g);
+            coinManager.DrawCoins(g);
+
         }
 
         /**
@@ -109,40 +105,18 @@ namespace SpaceInvadersButBetter
          */
         private void GameBoxForm_MouseDown(object sender, MouseEventArgs e)
         {
-            coinPile.UpdateCoinLocation(e.X, e.Y);
-            if (coinPile.CheckPileClicked(e.X, e.Y))
-            {
-                if (coinPile.CheckCoinHeld())
-                    coinPile.DeleteCoin();
-                else
-                    coinPile.CreateCoin();
-                this.Refresh();
-            }
 
+            if(coinManager.IsOverCoinPile(e.X, e.Y))
+                coinManager.ProcessPileClicked();
 
-            if (coinPile.CheckSlotClicked(e.X, e.Y) != -1)
-            {
-                if (coinPile.CheckCoinHeld())
-                {
-                    if (coinPile.IsQuarter())
-                    {
-                        coinPile.DeleteCoin();
-                        logic.addCredit();
-                    }
-                    else
-                    {
-                        coinPile.DeleteCoin();
-                        coinPile.BadCoinInserted(coinPile.CheckSlotClicked(e.X, e.Y));
-                    }
-                }
-                this.Refresh();
-            }
+            CoinDisplayManager.CoinMechs slotClicked = coinManager.GetCoinSlotIsOver(e.X, e.Y);
+            int creditsReceived = coinManager.InsertCoin(slotClicked);
+            logic.addCredit(creditsReceived);
 
-            if (coinPile.CheckGivebackClicked(e.X, e.Y) != -1 && !coinPile.CheckCoinHeld())
-            {
-                coinPile.TakeReturned(coinPile.CheckGivebackClicked(e.X, e.Y));
-                this.Refresh();
-            }
+            CoinDisplayManager.CoinMechs coinReturnClicked = coinManager.GetCoinReturnIsOver(e.X, e.Y);
+            coinManager.ProcessCoinReturnClick(coinReturnClicked);
+
+            Refresh();
         }
 
 
@@ -154,12 +128,18 @@ namespace SpaceInvadersButBetter
             long currentTicks = DateTime.Now.Ticks;
             long ticksSinceLastRender = currentTicks - previousRenderTicks;
 
-            if ((ticksSinceLastRender > MIN_RENDER_TICKS) && coinPile.CheckCoinHeld())
+            if (coinManager.IsOverCoinPile(e.X, e.Y) || coinManager.IsOverCoinMech(e.X, e.Y))
+                Cursor.Current = Cursors.Hand;
+            else
+                Cursor.Current = Cursors.Default;
+
+            if ((ticksSinceLastRender > MIN_RENDER_TICKS) && coinManager.CheckCoinHeld())
             {
-                coinPile.UpdateCoinLocation(e.X, e.Y);
+                coinManager.MovePlayersCoin(e.X, e.Y);
                 this.Refresh();
                 previousRenderTicks = currentTicks;
             }
+
 
         }
 

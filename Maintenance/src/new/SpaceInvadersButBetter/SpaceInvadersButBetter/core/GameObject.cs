@@ -18,9 +18,10 @@ namespace SpaceInvadersButBetter.core
         /**
          * Constructor
          */
-        public GameObject(Bitmap image)
+        public GameObject(Bitmap image) : base()
         {
-            Position = new Point(50, 50);
+            X = 50;
+            Y = 50;
             MainImage = (Image)image;
             ImageBounds.Width = MainImage.Width;
             ImageBounds.Height = MainImage.Height;
