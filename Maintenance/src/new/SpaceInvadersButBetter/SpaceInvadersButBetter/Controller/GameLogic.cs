@@ -28,15 +28,19 @@ namespace SpaceInvadersButBetter.Controller
 
         //increments with higher levels
         private int alien_speed = 6; // 6
-        private int alien_speed_factor = 1;
+        private double alien_speed_factor = 1;
+        private double UFO_speed_factor = 2;
         private int alien_count = 66;
         private const int MAX_ALIENS = 66;
 
         private const double SPEEP_INCREASE_FACTOR = 1.25;
 
+
         private List<Shield> Shields = new List<Shield>();
 
         private SpaceShip player;
+        private UFO actualUFO;
+
         private Alien[,] alienGroup;
         //private List<Bullet> bullets;
         //private List<Bullet> alienbullets;
@@ -85,7 +89,7 @@ namespace SpaceInvadersButBetter.Controller
         public void SetupCollisionHandler()
         {
             collisionHandler = new CollisionHandler(this, gameForm);
-            collisionHandler.SetUpObjects(gameForm.GetBullets(), gameForm.GetAlienBullets(), player, gameForm.GetAlienGroup(), Shields);
+            collisionHandler.SetUpObjects(gameForm.GetBullets(), gameForm.GetAlienBullets(), player, gameForm.GetAlienGroup(), Shields, actualUFO);
         }
 
         private bool StartScreenActive = true;
@@ -95,7 +99,7 @@ namespace SpaceInvadersButBetter.Controller
         /**
          * Creates Aliens for board
          */
-        public Alien[,] InitializeAliens(int level)
+        public Alien[,] InitializeAliens(int level)//parameter is never used.
         {
             for (int i = 0; i < gameForm.GetNumberOfAlienRows(); i++)
             {
@@ -105,6 +109,15 @@ namespace SpaceInvadersButBetter.Controller
                 }
             }
             return alienGroup;
+        }
+
+        /**
+        * Creates UFO for board
+        */
+        public UFO InitializeUFO(int level)
+        {
+            actualUFO = new UFO(UFO_speed_factor, Resources.UFO);
+            return actualUFO;
         }
 
         /**
@@ -121,6 +134,7 @@ namespace SpaceInvadersButBetter.Controller
                         int startX = player.X + (Resources.space_ship.Width / 2) - 10;
                         int startY = player.Y - (Resources.space_ship.Height / 2) + 10;
                         Bullet bullet = new Bullet(startX, startY, true);
+
                         gameForm.GetBullets().Add(bullet);
                         gameForm.UpdateBullets(gameForm.GetBullets());
                     }
@@ -172,6 +186,16 @@ namespace SpaceInvadersButBetter.Controller
         }
 
         /**
+        * Reset UFO
+        */
+        public void ResetUFO()
+        {
+            actualUFO.reset();
+            UpdateScoreForUFO();
+        }
+
+
+        /**
         * Clears bullet lists
         */
         private void ResetBullets()
@@ -190,7 +214,15 @@ namespace SpaceInvadersButBetter.Controller
 
             data.Score = score;
             gameForm.SetScoreLabel(score.ToString());
+        }
 
+        /**
+        * Updates score with given points and displays
+        */
+        public void UpdateScoreForUFO()
+        {
+            data.Score = data.Score+100;
+            gameForm.SetScoreLabel(data.Score.ToString());
         }
 
 
@@ -434,6 +466,11 @@ namespace SpaceInvadersButBetter.Controller
             }
         }
 
+        public void moveUFO()
+        {
+            actualUFO.Move();
+        }
+
         public void MoveAlienByFactorAndDirection(int width, int timerCounter)
         {
             if (timerCounter % alien_speed == 0)
@@ -472,6 +509,12 @@ namespace SpaceInvadersButBetter.Controller
                     }
                 }
             }
+        }
+
+        public bool UFOOutOfBound()
+        {
+
+            return actualUFO.isOutOfBound();
         }
 
         /**

@@ -8,12 +8,6 @@ namespace SpaceInvadersButBetter.Model
 {
     public class GameData
     {
-
-
-        
- 
-
-
         public int Score { get; set; }
         public int Level { get; set; }
        
@@ -22,8 +16,6 @@ namespace SpaceInvadersButBetter.Model
         {
             Level = 1;
             Score = 0;
-         
-
         }
 
         public void resetLevelScore()
@@ -32,10 +24,6 @@ namespace SpaceInvadersButBetter.Model
             Level = 1;
             Score = 0;
         }
-
-       
-
-      
 
     }
 }
