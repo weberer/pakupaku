@@ -187,6 +187,7 @@ namespace SpaceInvadersButBetter.core
                     if ((alienGroup[row, column].beenHit == false) && alienGroup[row, column].GetBounds().IntersectsWith(player.GetBounds()))
                     {
                         //hit
+             
                         alienGroup[row, column].beenHit = true;
                         player.kill();
                         logic.GameOver();
@@ -204,6 +205,7 @@ namespace SpaceInvadersButBetter.core
             for (int i = 0; i < alienBullets.Count; i++)
                 if (player.GetBounds().IntersectsWith(alienBullets[i].GetBounds()))
                 {
+                    player.SpaceShipCrash(); //shows ship crash
                     if (!player.hitAndIsAlive())
                     {
                         player.kill();

@@ -183,6 +183,7 @@
   <ItemGroup>
     <None Include="Resources\spaceShipDestroyed.png" />
     <None Include="Resources\space-ship-destroyed.bmp" />
+    <None Include="Resources\space-ship_dead.gif" />
     <Content Include="Resources\space-ship_destroyed.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

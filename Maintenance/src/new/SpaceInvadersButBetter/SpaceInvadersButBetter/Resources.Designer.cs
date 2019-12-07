@@ -203,6 +203,16 @@ namespace SpaceInvadersButBetter {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap space_ship_dead {
+            get {
+                object obj = ResourceManager.GetObject("space_ship_dead", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap space_ship_destroyed {
             get {
                 object obj = ResourceManager.GetObject("space_ship_destroyed", resourceCulture);

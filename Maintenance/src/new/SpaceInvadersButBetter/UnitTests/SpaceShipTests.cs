@@ -14,7 +14,7 @@ namespace UnitTests
 
             player.kill();
 
-            Assert.IsFalse(!player.isAlive());
+            Assert.IsFalse(player.isAlive());
         }
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace UnitTests
             player.hitAndIsAlive();
             player.hitAndIsAlive();
             player.reset();
-            Assert.IsFalse(player.isAlive());
+            Assert.IsTrue(player.isAlive());
             Assert.IsTrue(player.getLifes() == 3);
         }
     }
