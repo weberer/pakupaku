@@ -200,7 +200,6 @@
             this.lblIni3.TabIndex = 29;
             this.lblIni3.Text = "Initials";
             this.lblIni3.Visible = false;
-            this.lblIni3.Click += new System.EventHandler(this.label3_Click);
             // 
             // lblIni4
             // 

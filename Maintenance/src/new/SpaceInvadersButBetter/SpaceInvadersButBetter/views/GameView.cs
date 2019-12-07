@@ -38,13 +38,13 @@ namespace SpaceInvadersButBetter
         private bool StartScreenActive = true;
         private bool creditFlash = false;
         private int gameOverFlash = 0;
-        private const int MAX_GAME_OVER_FLASHES = 2;
+        private const int MAX_GAME_OVER_FLASHES = 3;
 
         private Timer fpsTimer;
 
         private int TimerCounter = 0;
         private int MenuCount = 0;
-        private int blinkCount = 0;
+        //private int blinkCount = 0;
         private int scoreScrollCount = 0;
         private Keys keydown_joystick;
 
@@ -440,13 +440,9 @@ namespace SpaceInvadersButBetter
                 bullets.Clear();
                 if (TimerCounter % 25 == 0)
                 {
-                    if (blinkCount != CREDIT_BLINK_COUNT)
-                    {
-                        blinkCount++;
                         toggleCredit(false);
-                    }
                 }
-                if (TimerCounter % 50 == 0 && blinkCount != CREDIT_BLINK_COUNT)
+                if (TimerCounter % 50 == 0)
                 {
                     toggleCredit(true);
                     gameOverFlash++;
@@ -550,17 +546,6 @@ namespace SpaceInvadersButBetter
             else
                 lblHitSpace.Hide();
         }
-        //public void UpdateCredits(int credits)
-        //{
-        //    credit.Credits = credits;
-        //    InsertCoinLabel.Text = "Credits x " + credits.ToString();
-        //    if (logic.IsStartScreenActive() && credits > 0)
-        //    {
-        //        lblHitSpace.Show();
-        //    }
-        //    else
-        //        lblHitSpace.Hide();
-        //}
 
         private void CreditFlashTimer_Tick(object sender, EventArgs e)
         {

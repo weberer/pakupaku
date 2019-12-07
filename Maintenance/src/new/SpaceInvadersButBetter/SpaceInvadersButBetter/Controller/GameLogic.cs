@@ -405,7 +405,7 @@ namespace SpaceInvadersButBetter.Controller
                 {
                     for (int j = 0; j < gameForm.GetNumberOfAliensPerRow(); j++)
                     {
-                        alienGroup[i, j].MoveInPlace();
+                         alienGroup[i, j].MoveInPlace();
                     }
                 }
             }
