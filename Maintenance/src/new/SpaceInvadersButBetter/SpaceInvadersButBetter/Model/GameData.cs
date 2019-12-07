@@ -8,57 +8,22 @@ namespace SpaceInvadersButBetter.Model
 {
     public class GameData
     {
-        private int score;
-        private int level;
-        private int credits;
+        public int Score { get; set; }
+        public int Level { get; set; }
+       
 
         public GameData()
         {
-            level = 1;
-            score = 0;
-            credits = 0;
+            Level = 1;
+            Score = 0;
         }
 
         public void resetLevelScore()
         {
-            level = 1;
-            score = 0;
+
+            Level = 1;
+            Score = 0;
         }
 
-        public int getScore()
-        {
-            return score;
-        }
-
-        public void setScore(int score)
-        {
-            this.score = score;
-        }
-
-        public int getLevel()
-        {
-            return level;
-        }
-
-        public void setLevel(int level)
-        {
-            this.level = level;
-        }
-
-
-        public int GetCredits()
-        {
-            return credits;
-        }
-
-        public void AddCredit()
-        {
-            credits++;
-        }
-
-        public void DecrementCredits()
-        {
-            credits--;
-        }
     }
 }

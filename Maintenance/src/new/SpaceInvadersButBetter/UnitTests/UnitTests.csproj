@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoinTests.cs" />
+    <Compile Include="CreditSystemTest.cs" />
     <Compile Include="GameLogicTest.cs" />
     <Compile Include="JoystickTests.cs" />
     <Compile Include="ScoreUtilityTests.cs" />

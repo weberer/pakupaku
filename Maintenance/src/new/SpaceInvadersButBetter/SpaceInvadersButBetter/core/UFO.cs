@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace SpaceInvadersButBetter.core
 {
@@ -60,6 +61,17 @@ namespace SpaceInvadersButBetter.core
                 return;
           
             Position.X -= JUMP_DISTANCE * (int)speed;
+        }
+
+        public void reset()
+        {
+            Position.X = STARTING_X;
+            Position.Y = STARTING_Y;
+        }
+
+        public bool isOutOfBound()
+        {
+            return (Position.X < 0);
         }
     }
 }

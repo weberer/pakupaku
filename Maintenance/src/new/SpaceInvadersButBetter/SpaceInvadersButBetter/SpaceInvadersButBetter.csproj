@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -46,11 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\CreditSystem.cs" />
     <Compile Include="Controller\GameLogic.cs" />
     <Compile Include="core\Alien.cs" />
     <Compile Include="core\Bullet.cs" />
     <Compile Include="core\Coin.cs" />
     <Compile Include="Controller\CollisionHandler.cs" />
+    <Compile Include="core\GameEntity.cs" />
     <Compile Include="core\ScoreUtility.cs" />
     <Compile Include="core\SpaceShip.cs" />
     <Compile Include="core\UFO.cs" />
@@ -84,27 +88,38 @@
     <Compile Include="views\HighScoreForm.Designer.cs">
       <DependentUpon>HighScoreForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="views\InitalsForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="views\InitalsForm.Designer.cs">
+      <DependentUpon>InitalsForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="views\GameBoxForm.resx">
       <DependentUpon>GameBoxForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="views\GameView.resx">
       <DependentUpon>GameView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="views\HighScoreForm.resx">
       <DependentUpon>HighScoreForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\InitalsForm.resx">
+      <DependentUpon>InitalsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -118,6 +133,57 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\10Cent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\25Cent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoinPile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\joystick-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\joystick-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\joystick-up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shield.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\space-ship-destroyed.png" />
+    <None Include="Resources\space-ship.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\box.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bullet2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invader-closed.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invader-open.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\alien_bullet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bullet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\spaceShipDestroyed.png" />
+    <None Include="Resources\space-ship-destroyed.bmp" />
+    <Content Include="Resources\space-ship_destroyed.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

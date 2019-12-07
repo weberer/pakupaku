@@ -11,19 +11,19 @@ namespace UnitTests
         public void CoinTypeTest()
         {
             Coin testCoin = new Coin();
-            testCoin.createCoin();
-            while(testCoin.isQuarter())
+            testCoin.CreateCoin();
+            while(testCoin.IsQuarter())
             {
-                testCoin.deleteCoin();
-                testCoin.createCoin();
+                testCoin.DeleteCoin();
+                testCoin.CreateCoin();
             }
-            Assert.IsFalse(testCoin.isQuarter());
-            while(!testCoin.isQuarter())
+            Assert.IsFalse(testCoin.IsQuarter());
+            while(!testCoin.IsQuarter())
             {
-                testCoin.deleteCoin();
-                testCoin.createCoin();
+                testCoin.DeleteCoin();
+                testCoin.CreateCoin();
             }
-            Assert.IsTrue(testCoin.isQuarter());
+            Assert.IsTrue(testCoin.IsQuarter());
         }
 
         [TestMethod]
@@ -31,16 +31,16 @@ namespace UnitTests
         {
             Coin testCoin = new Coin();
 
-            Assert.IsTrue(testCoin.checkPileClicked(100, 500));
-            Assert.IsFalse(testCoin.checkPileClicked(50, 200));
+            Assert.IsTrue(testCoin.CheckPileClicked(100, 500));
+            Assert.IsFalse(testCoin.CheckPileClicked(50, 200));
 
-            Assert.IsTrue(testCoin.checkSlotClicked(500, 650) == 1);
-            Assert.IsTrue(testCoin.checkSlotClicked(520, 650) == 2);
-            Assert.IsTrue(testCoin.checkSlotClicked(100, 500)  == -1);
+            Assert.IsTrue(testCoin.CheckSlotClicked(500, 650) == 1);
+            Assert.IsTrue(testCoin.CheckSlotClicked(520, 650) == 2);
+            Assert.IsTrue(testCoin.CheckSlotClicked(100, 500)  == -1);
 
-            Assert.IsTrue(testCoin.checkGivebackClicked(490, 680) == 1);
-            Assert.IsTrue(testCoin.checkGivebackClicked(520, 680) == 2);
-            Assert.IsTrue(testCoin.checkGivebackClicked(100, 500) == -1);
+            Assert.IsTrue(testCoin.CheckGivebackClicked(490, 680) == 1);
+            Assert.IsTrue(testCoin.CheckGivebackClicked(520, 680) == 2);
+            Assert.IsTrue(testCoin.CheckGivebackClicked(100, 500) == -1);
 
         }
 
