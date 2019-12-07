@@ -53,9 +53,13 @@ namespace SpaceInvadersButBetter
         private List<Shield> Shields = new List<Shield>();
         private List<Label> ShieldHealth = new List<Label>();
         private SpaceShip player;
-        private Alien[,] alienGroup;
+
+        private Alien[,] alienGroup = new Alien[NUMBER_OF_ALIEN_ROWS, NUMBER_OF_ALIENS_PER_ROW];
+        private UFO actualUFO;
+
         private List<Bullet> bullets;
         private List<Bullet> alienbullets;
+
 
         /**
          * Constructor
@@ -164,6 +168,7 @@ namespace SpaceInvadersButBetter
             player = logic.InitializeSpaceShip();
 
             alienGroup = logic.InitializeAliens(data.Level);
+            actualUFO = logic.InitializeUFO(data.Level);
 
 
             InitializeCredits();
@@ -181,6 +186,9 @@ namespace SpaceInvadersButBetter
 
         
             alienGroup = logic.InitializeAliens(data.Level);
+
+            alienGroup = logic.InitializeAliens(data.Level);
+            actualUFO = logic.InitializeUFO(data.Level);
 
             bullets.Clear();
             alienbullets.Clear();
@@ -291,6 +299,7 @@ namespace SpaceInvadersButBetter
          */
         private void drawBullets(Graphics g)
         {
+
             for (int i = 0; i < bullets.Count; i++)
             {
                 if (bullets[i].Y < 0)
@@ -309,6 +318,14 @@ namespace SpaceInvadersButBetter
         }
 
         /**
+        * Draws bullets
+        */
+        private void drawUFO(Graphics g)
+        {
+            actualUFO.Draw(g);
+        }
+
+        /**
          * Paint method for the form to draw elements
          */
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -323,6 +340,7 @@ namespace SpaceInvadersButBetter
 
             // draw/remove bullets
             drawBullets(g);
+            drawUFO(g);
         }
 
         /**
@@ -477,6 +495,11 @@ namespace SpaceInvadersButBetter
                 alienbullets = logic.GenerateAlienBullet();
             }
 
+            if (TimerCounter % 400 == 0 && gameover == false)
+            {
+                alienbullets = logic.GenerateAlienBullet();
+            }
+
             // Flap the images to give them a moving look
             alienGroup = logic.AnimateAliens(TimerCounter);
             Invalidate();
@@ -485,8 +508,11 @@ namespace SpaceInvadersButBetter
             {
                 //move by factor of speed
                 logic.MoveAlienByFactorAndDirection(ClientRectangle.Width, TimerCounter);
+                logic.moveUFO();
             }
             logic.CheckForLanding(ClientRectangle.Bottom);
+            if (logic.UFOOutOfBound())
+                logic.ResetUFO();
             Invalidate();
         }
 

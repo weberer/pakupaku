@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace SpaceInvadersButBetter.core
 {
@@ -21,7 +16,7 @@ namespace SpaceInvadersButBetter.core
         public bool movingRight;
         public bool beenHit;
         public bool dead;
-        private int speed = 1;
+        private double speed = 1;
 
         /// <summary>
         /// Sets the movement speed, takes two images to switch between for animation, and position in the alien fleet
@@ -32,7 +27,7 @@ namespace SpaceInvadersButBetter.core
         /// <param name="img2"></param>
         /// <param name="row"></param>
         /// <param name="column"></param>
-        public Alien(int speedFactor, Bitmap img1, Bitmap img2, int row, int column) : base(img1)
+        public Alien(double speedFactor, Bitmap img1, Bitmap img2, int row, int column) : base(img1)
         {
             X = 20;
             Y = 10;
@@ -49,14 +44,7 @@ namespace SpaceInvadersButBetter.core
             UpdateBounds();
         }
 
-        /// <summary>
-        /// Allows for movement speed to change with level progress
-        /// </summary>
-        /// <param name="s"></param>
-        public void updateSpeed(int s)
-        {
-            speed = s;
-        }
+
 
         /// <summary>
         /// Draws aliens that are still alive, decides which image to display based on counter
@@ -68,7 +56,6 @@ namespace SpaceInvadersButBetter.core
 
             if(beenHit)
             {
-                //expolsion
                 return;
             }
 
@@ -89,11 +76,11 @@ namespace SpaceInvadersButBetter.core
         {
             if(movingRight)
             {
-                X += JUMP_DISTANCE*speed;
+                X += System.Convert.ToInt32(JUMP_DISTANCE * speed);
             }
             else
             {
-                X -= JUMP_DISTANCE;
+                X -= System.Convert.ToInt32(JUMP_DISTANCE * speed);
             }
         }
 
