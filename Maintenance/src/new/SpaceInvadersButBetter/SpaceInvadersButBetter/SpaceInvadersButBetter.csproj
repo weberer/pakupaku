@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\CreditSystem.cs" />
     <Compile Include="Controller\GameLogic.cs" />
     <Compile Include="core\Alien.cs" />
     <Compile Include="core\Bullet.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="core\GameEntity.cs" />
     <Compile Include="core\ScoreUtility.cs" />
     <Compile Include="core\SpaceShip.cs" />
+    <Compile Include="core\UFO.cs" />
     <Compile Include="Model\GameData.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -95,18 +97,20 @@
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="views\GameBoxForm.resx">
       <DependentUpon>GameBoxForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="views\GameView.resx">
       <DependentUpon>GameView.cs</DependentUpon>
@@ -155,6 +159,7 @@
     <None Include="Resources\shield.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\space-ship-destroyed.png" />
     <None Include="Resources\space-ship.png" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +179,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\bullet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\spaceShipDestroyed.png" />
+    <None Include="Resources\space-ship-destroyed.bmp" />
+    <None Include="Resources\space-ship_dead.gif" />
+    <Content Include="Resources\space-ship_destroyed.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

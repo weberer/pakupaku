@@ -19,13 +19,20 @@ namespace SpaceInvadersButBetter
         private CoinDisplayManager coinManager;
         private Type coinMech = typeof(CoinDisplayManager.CoinMechs);
         GameView game;
+
+        private GameLogic logic;
         private GameData data;
         private GameBox bg = new GameBox();
-        private GameLogic logic;
+  
+
+        private CreditSystem credit;
+
+
         private HighScoreForm highScoreForm;
         private InitalsForm initalsForm;
         private Boolean isGame = true;
         private long previousRenderTicks;
+
         /**
          * Constructor
          */
@@ -82,11 +89,22 @@ namespace SpaceInvadersButBetter
          */
         public void startGame()
         {
-            logic = new GameLogic(this);
             data = new GameData();
+            credit = new CreditSystem();
+            logic = new GameLogic(this);
+            logic.SetCreditSystem(credit);
+            logic.SetGameData(data);
+        
+            /*game.SetGameLogic(logic);
+            game.SetGameData(data);
+            game.SetCreditSystem(credit);
+            logic.SetGameView(game);*/
+
+
             highScoreForm = new HighScoreForm(logic);
-            game = new GameView(this, logic, data);
+            game = new GameView(this, logic, data, credit);
             
+
             game.Location = new Point(80, 90);
             this.Controls.Add(game);
 
@@ -111,7 +129,7 @@ namespace SpaceInvadersButBetter
 
             CoinDisplayManager.CoinMechs slotClicked = coinManager.GetCoinSlotIsOver(e.X, e.Y);
             int creditsReceived = coinManager.InsertCoin(slotClicked);
-            logic.addCredit(creditsReceived);
+            credit.AddCredit(creditsReceived);
 
             CoinDisplayManager.CoinMechs coinReturnClicked = coinManager.GetCoinReturnIsOver(e.X, e.Y);
             coinManager.ProcessCoinReturnClick(coinReturnClicked);
@@ -143,9 +161,10 @@ namespace SpaceInvadersButBetter
 
         }
 
-        public GameLogic getLogic() { return logic; }
+        public GameLogic GetLogic() { return logic; }
 
         public void SwitchForms()
+
         {
             if(isGame)
             {
@@ -159,6 +178,11 @@ namespace SpaceInvadersButBetter
                 highScoreForm.Visible = false;
                 game.Visible = true;
             }
+        }
+
+        public CreditSystem GetCredit()
+        {
+            return credit;
         }
     }
 

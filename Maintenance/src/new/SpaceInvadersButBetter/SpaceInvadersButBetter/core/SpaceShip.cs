@@ -18,7 +18,7 @@ namespace SpaceInvadersButBetter.core
         private const int MOVE_INTERVAL = 5;
 
         private int lifes;
-        private bool dead;
+        private bool isDead;
 
         /**
          * Constructor, start in middle of screen, 3 lifes, not dead
@@ -27,9 +27,18 @@ namespace SpaceInvadersButBetter.core
         {
             X = START_POSITION_X;
             Y = START_POSITION_Y;
-            dead = false;
+            isDead = false;
             lifes = 3;
         }
+
+
+        public void SpaceShipCrash()
+        {
+            SetMainImage(Resources.space_ship_dead);
+            X = START_POSITION_X;
+            Y = START_POSITION_Y;
+        }
+
 
         /**
          * Return lifes left
@@ -48,14 +57,9 @@ namespace SpaceInvadersButBetter.core
         {
             lifes -= 1;
             if (lifes == 0)
-            {
                 kill();
-                return !isAlive();
-            }
-            else
-            {
-                return !isAlive();
-            }
+            return !isDead;
+            
         }
 
         /**
@@ -63,7 +67,7 @@ namespace SpaceInvadersButBetter.core
          */
         public bool isAlive()
         {
-            return dead;
+            return !isDead;
         }
 
         /**
@@ -71,7 +75,7 @@ namespace SpaceInvadersButBetter.core
          */
         public void kill()
         {
-            dead = true;
+            isDead = true;
         }
 
         /**
@@ -100,7 +104,7 @@ namespace SpaceInvadersButBetter.core
         public void reset()
         {
             lifes = 3;
-            dead = false;
+            isDead = false;
             X = 245;
             Y = 380;
         }
@@ -110,7 +114,7 @@ namespace SpaceInvadersButBetter.core
          */
         public void draw(Graphics g)
         {
-            if(!dead)
+            if(!isDead)
                 base.Draw(g);
         }
     }

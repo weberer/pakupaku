@@ -145,7 +145,20 @@ namespace SpaceInvadersButBetter.views
             lbl3.Visible = false;
             lbl4.Visible = false;
             lbl5.Visible = false;
-        }
+
+            lblIni1.Visible = false;
+            lblIni2.Visible = false;
+            lblIni3.Visible = false;
+            lblIni4.Visible = false;
+            lblIni5.Visible = false;
+
+         lblScore1.Visible = false;
+         lblScore2.Visible = false;
+         lblScore3.Visible = false;
+         lblScore4.Visible = false;
+         lblScore5.Visible = false;
+
+      }
 
         private void CreditFlashTimer_Tick(object sender, EventArgs e)
         {
@@ -184,11 +197,6 @@ namespace SpaceInvadersButBetter.views
                 }
             }
         }
-
-      private void label3_Click(object sender, EventArgs e)
-      {
-
-      }
 
         public void SetScoreUtil(ScoreUtility util)
         {

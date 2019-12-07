@@ -118,14 +118,14 @@
             // 
             // txtInitials
             // 
-            this.txtInitials.AutoSize = true;
             this.txtInitials.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtInitials.ForeColor = System.Drawing.Color.White;
-            this.txtInitials.Location = new System.Drawing.Point(236, 196);
+            this.txtInitials.Location = new System.Drawing.Point(201, 196);
             this.txtInitials.Name = "txtInitials";
-            this.txtInitials.Size = new System.Drawing.Size(39, 42);
+            this.txtInitials.Size = new System.Drawing.Size(100, 42);
             this.txtInitials.TabIndex = 47;
-            this.txtInitials.Text = "1";
+            this.txtInitials.Text = "aaa";
+            this.txtInitials.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // InitalsForm
             // 

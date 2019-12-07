@@ -20,6 +20,7 @@ namespace SpaceInvadersButBetter.core
         private List<Bullet> alienBullets = new List<Bullet>();
         private List<Shield> shields = new List<Shield>();
         private SpaceShip player;
+        private UFO actualUFO;
 
         public CollisionHandler(GameLogic logic, GameView view)
         {
@@ -29,13 +30,14 @@ namespace SpaceInvadersButBetter.core
         }
 
         public void SetUpObjects(List<Bullet> bullets, List<Bullet> alienBullets, SpaceShip player,
-            Alien[,] alienGroup, List<Shield> shields)
+            Alien[,] alienGroup, List<Shield> shields, UFO actualUFO)
         {
             this.bullets = bullets;
             this.alienBullets = alienBullets;
             this.player = player;
             this.alienGroup = alienGroup;
             this.shields = shields;
+            this.actualUFO = actualUFO;
         }
         /*
          * CheckCollisions is the main handler for CollisionHandler. When called, it calls all of
@@ -55,6 +57,18 @@ namespace SpaceInvadersButBetter.core
             AlienHitPersonCheck();
             AlienBulletsCheck();
             checkShieldHitByAlien();
+            for (int i = 0; i < bullets.Count; i++) 
+                if (UFOHitCheck(bullets[i]))
+                {
+                    bullets.RemoveAt(i);
+                    gameForm.UpdateBullets(bullets);
+                    actualUFO.reset();
+                }
+        }
+
+        private bool UFOHitCheck(Bullet bullet)
+        {
+            return actualUFO.GetBounds().IntersectsWith(bullet.GetBounds());
         }
 
         /**
@@ -158,7 +172,6 @@ namespace SpaceInvadersButBetter.core
                         logic.KillAlien();
                         return true;
                     }
-
             return false;
         }
 
@@ -174,9 +187,11 @@ namespace SpaceInvadersButBetter.core
                     if ((alienGroup[row, column].beenHit == false) && alienGroup[row, column].GetBounds().IntersectsWith(player.GetBounds()))
                     {
                         //hit
+             
                         alienGroup[row, column].beenHit = true;
                         player.kill();
                         logic.GameOver();
+                       
                     }
         }
         /**
@@ -190,13 +205,13 @@ namespace SpaceInvadersButBetter.core
             for (int i = 0; i < alienBullets.Count; i++)
                 if (player.GetBounds().IntersectsWith(alienBullets[i].GetBounds()))
                 {
+                    player.SpaceShipCrash(); //shows ship crash
                     if (!player.hitAndIsAlive())
                     {
                         player.kill();
                         logic.GameOver();
                     }
-
-                    gameForm.setLivesLabel(player.getLifes().ToString());
+                    gameForm.SetLivesLabel(player.getLifes().ToString());
                     alienBullets.RemoveAt(i);
                 }
         }

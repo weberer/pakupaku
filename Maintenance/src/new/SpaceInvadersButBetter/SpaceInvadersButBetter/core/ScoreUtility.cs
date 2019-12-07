@@ -23,6 +23,8 @@ namespace SpaceInvadersButBetter.core
         {
             top5 = new int[5];
             initials = new string[5];
+            for (int i = 0; i < initials.Length; i++)
+                initials[i] = "AAA";
             Read();
         }
 
@@ -62,7 +64,6 @@ namespace SpaceInvadersButBetter.core
             {
                 if(top5[i] < Score)
                 {
-                    int[] newList = new int[top5.Length];
                     AddScoreAtIndex(i, Score, initial);
                     break;
                 }

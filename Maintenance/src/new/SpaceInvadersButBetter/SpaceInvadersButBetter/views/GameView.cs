@@ -19,43 +19,51 @@ namespace SpaceInvadersButBetter
      */
     public partial class GameView : UserControl
     {
+        private const int NUMBER_OF_ALIEN_ROWS = 6;
+        private const int NUMBER_OF_ALIENS_PER_ROW = 11;
+        private const int CREDIT_BLINK_COUNT = 8;
+
         private GameBoxForm _parent;
         private GameLogic logic; // Class that should handle all game logic
         private GameData data;
+        private CreditSystem credit;
 
-        private int credits = 0;
 
+       // private int credits = 0;
 
+    
         private bool gameover;
+
         private ScoreUtility scoreUtil;
         private bool StartScreenActive = true;
         private bool creditFlash = false;
         private int gameOverFlash = 0;
-        private const int MAX_GAME_OVER_FLASHES = 2;
+        private const int MAX_GAME_OVER_FLASHES = 3;
 
         private Timer fpsTimer;
 
         private int TimerCounter = 0;
         private int MenuCount = 0;
-        private int blinkCount = 0;
+        //private int blinkCount = 0;
         private int scoreScrollCount = 0;
         private Keys keydown_joystick;
 
-        private const int NUMBER_OF_ALIEN_ROWS = 6;
-        private const int NUMBER_OF_ALIENS_PER_ROW = 11;
-        private const int CREDIT_BLINK_COUNT = 8;
-
+        
         private List<Shield> Shields = new List<Shield>();
         private List<Label> ShieldHealth = new List<Label>();
         private SpaceShip player;
+
         private Alien[,] alienGroup = new Alien[NUMBER_OF_ALIEN_ROWS, NUMBER_OF_ALIENS_PER_ROW];
-        private List<Bullet> bullets = new List<Bullet>();
-        private List<Bullet> alienbullets = new List<Bullet>();
+        private UFO actualUFO;
+
+        private List<Bullet> bullets;
+        private List<Bullet> alienbullets;
+
 
         /**
          * Constructor
          */
-        public GameView(GameBoxForm parent, GameLogic logic, GameData data)
+        public GameView(GameBoxForm parent, GameLogic logic, GameData data, CreditSystem credit)
         {
             InitializeComponent();
 
@@ -66,6 +74,10 @@ namespace SpaceInvadersButBetter
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
             _parent = parent;
+
+            bullets = new List<Bullet>();
+            alienbullets = new List<Bullet>();
+            this.credit = credit;
 
             this.logic = logic;
 
@@ -82,7 +94,43 @@ namespace SpaceInvadersButBetter
             InitializeGameObjects();
             this.logic.SetupCollisionHandler();
             fpsTimer.Start();
+
+            
         }
+
+        public void SetGameData(GameData data)
+        {
+            this.data = data;
+        }
+
+        public void SetCreditSystem(CreditSystem credit)
+        {
+            this.credit = credit;
+        }
+
+        public void SetGameLogic(GameLogic logic)
+        {
+            this.logic = logic;
+        }
+
+ 
+
+        public Alien[,] GetAlienGroup()
+        {
+            return alienGroup;
+        }
+
+        public List<Bullet> GetBullets()
+        {
+            return bullets;
+        }
+
+        public List<Bullet> GetAlienBullets()
+        {
+            return alienbullets;
+        }
+        
+
 
         /**
          * Displays start screen elements
@@ -106,7 +154,7 @@ namespace SpaceInvadersButBetter
          */
         public void InitializeGameObjects()
         {
-            gameover = false;
+            logic.GameReset();
             fpsTimer = new Timer();
             fpsTimer.Tick += fpsTimer_Tick;
             fpsTimer.Interval = 20;
@@ -118,20 +166,28 @@ namespace SpaceInvadersButBetter
             player = logic.InitializeSpaceShip();
 
             alienGroup = logic.InitializeAliens(data.Level);
+            actualUFO = logic.InitializeUFO(data.Level);
+
 
             InitializeCredits();
         }
 
         public void ResetGameObjects()
         {
+
             lblScore.Text = data.Score.ToString();
             lblLevelNumber.Text = data.Level.ToString();
+
 
             ResetShieldLabels();
             Shields = logic.InitializeObject_Shields();
 
+        
+            alienGroup = logic.InitializeAliens(data.Level);
 
             alienGroup = logic.InitializeAliens(data.Level);
+            actualUFO = logic.InitializeUFO(data.Level);
+
             bullets.Clear();
             alienbullets.Clear();
         }
@@ -191,7 +247,7 @@ namespace SpaceInvadersButBetter
             lblLifes.Visible = false;
             lblLifesLabel.Visible = false;
             lblScoreScroll.Visible = true;
-            if (credits > 0)
+            if (credit.Credits > 0)
                 lblHitSpace.Visible = true;
             CreditFlashTimer.Enabled = true;
             ChangeTimer.Start();
@@ -241,6 +297,7 @@ namespace SpaceInvadersButBetter
          */
         private void drawBullets(Graphics g)
         {
+
             for (int i = 0; i < bullets.Count; i++)
             {
                 if (bullets[i].Y < 0)
@@ -259,6 +316,14 @@ namespace SpaceInvadersButBetter
         }
 
         /**
+        * Draws bullets
+        */
+        private void drawUFO(Graphics g)
+        {
+            actualUFO.Draw(g);
+        }
+
+        /**
          * Paint method for the form to draw elements
          */
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -273,6 +338,7 @@ namespace SpaceInvadersButBetter
 
             // draw/remove bullets
             drawBullets(g);
+            drawUFO(g);
         }
 
         /**
@@ -392,20 +458,16 @@ namespace SpaceInvadersButBetter
                 bullets.Clear();
                 if (TimerCounter % 25 == 0)
                 {
-                    if (blinkCount != CREDIT_BLINK_COUNT)
-                    {
-                        blinkCount++;
                         toggleCredit(false);
-                    }
                 }
-                if (TimerCounter % 50 == 0 && blinkCount != CREDIT_BLINK_COUNT)
+                if (TimerCounter % 50 == 0)
                 {
                     toggleCredit(true);
                     gameOverFlash++;
                     if (gameOverFlash == MAX_GAME_OVER_FLASHES)
                     {
                         toggleCredit(false);
-                        gameover = false;
+                        logic.GameReset();
                         gameOverFlash = 0;
                         logic.EndGame();
                     }
@@ -426,7 +488,12 @@ namespace SpaceInvadersButBetter
 
             CreditBlink();
 
-            if (TimerCounter % 100 == 0 && gameover == false)
+            if (TimerCounter % 100 == 0 && logic.IsGameOver() == false)
+            {
+                alienbullets = logic.GenerateAlienBullet();
+            }
+
+            if (TimerCounter % 400 == 0 && gameover == false)
             {
                 alienbullets = logic.GenerateAlienBullet();
             }
@@ -439,29 +506,12 @@ namespace SpaceInvadersButBetter
             {
                 //move by factor of speed
                 logic.MoveAlienByFactorAndDirection(ClientRectangle.Width, TimerCounter);
+                logic.moveUFO();
             }
             logic.CheckForLanding(ClientRectangle.Bottom);
+            if (logic.UFOOutOfBound())
+                logic.ResetUFO();
             Invalidate();
-        }
-
-        /**
-         * Tick logic for game over state
-         */
-        private void GameNotRunningTickLogic() //Remove me once high scores are done
-        {
-            /*if (MenuCount % 50 == 0)
-            {
-                if (scoreScrollCount < 10)
-                {
-                    lblScoreScroll.Text = (scoreScrollCount + 1).ToString() + ") " + scoreUtil.getScoreAt(scoreScrollCount);
-                    scoreScrollCount++;
-                }
-                else
-                {
-                    scoreScrollCount = 0;
-                    lblScoreScroll.Text = (scoreScrollCount + 1).ToString() + ") " + scoreUtil.getScoreAt(scoreScrollCount);
-                }
-            }*/
         }
 
         /**
@@ -473,10 +523,6 @@ namespace SpaceInvadersButBetter
             if (StartScreenActive == false)
             {
                 GameRunningTickLogic();
-            }
-            else
-            {
-                GameNotRunningTickLogic();
             }
         }
 
@@ -499,7 +545,7 @@ namespace SpaceInvadersButBetter
         /**
          * Updates the score label
          */
-        public void setScoreLabel(string score)
+        public void SetScoreLabel(string score)
         {
             lblScore.Text = score;
         }
@@ -507,14 +553,17 @@ namespace SpaceInvadersButBetter
         /**
          * Updates the lives label
          */
-        public void setLivesLabel(string lives)
+        public void SetLivesLabel(string lives)
         {
             lblLifes.Text = lives;
         }
 
-        public void UpdateCredits(int credits)
+        /**
+         * Updates the number of credits inserted
+         */
+        public void UpdateCredits()
         {
-            this.credits = credits;
+            int credits = credit.Credits;
             InsertCoinLabel.Text = "Credits x " + credits.ToString();
             if (logic.IsStartScreenActive() && credits > 0)
             {
@@ -526,29 +575,38 @@ namespace SpaceInvadersButBetter
 
         private void CreditFlashTimer_Tick(object sender, EventArgs e)
         {
-            if (creditFlash && credits < 9)
+            if (creditFlash && credit.Credits < 9)
             {
                 InsertCoinLabel.Text = "Insert Coin";
                 creditFlash = false;
             }
             else
             {
-                InsertCoinLabel.Text = "Credits x " + credits.ToString();
+                InsertCoinLabel.Text = "Credits x " + credit.Credits.ToString();
                 creditFlash = true;
             }
         }
 
+        /*
+         * Removes shield from screen
+         */
         public void RemoveShield(int index)
         {
             this.Controls.Remove(ShieldHealth[index]);
             ShieldHealth.RemoveAt(index);
         }
 
+        /*
+         * Updates the shield health on the screen
+         */
         public void UpdateShield(int health, int index)
         {
             ShieldHealth[index].Text = health.ToString();
         }
 
+        /**
+         * Redraws the bullets in their new locations
+         */
         public void UpdateBullets(List<Bullet> bullets)
         {
             this.bullets = bullets;
@@ -556,6 +614,17 @@ namespace SpaceInvadersButBetter
             {
                 Invalidate(this.bullets[i].GetBounds());
             }
+        }
+
+
+        public int GetNumberOfAlienRows()
+        {
+            return NUMBER_OF_ALIEN_ROWS;
+        }
+
+        public int GetNumberOfAliensPerRow()
+        {
+            return NUMBER_OF_ALIENS_PER_ROW;
         }
 
         private void ChangeTimer_Tick(object sender, EventArgs e)
@@ -579,10 +648,6 @@ namespace SpaceInvadersButBetter
                 fpsTimer.Stop();
                 CreditFlashTimer.Stop();
             }
-        }
-        public void StartGameFromHighScore()
-        {
-            logic.ShootButton(Keys.Space);
         }
     }
 

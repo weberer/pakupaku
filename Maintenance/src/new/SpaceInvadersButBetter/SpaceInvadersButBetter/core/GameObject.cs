@@ -28,6 +28,18 @@ namespace SpaceInvadersButBetter.core
         }
 
         /**
+         * Changes the object image
+         */
+        public void SetMainImage(Bitmap image)
+        {
+            X = 50;
+            Y = 50;
+            MainImage = (Image)image;
+            ImageBounds.Width = MainImage.Width;
+            ImageBounds.Height = MainImage.Height;
+        }
+
+        /**
          * Default Constructor
          */
         public GameObject() { MainImage = null; }
