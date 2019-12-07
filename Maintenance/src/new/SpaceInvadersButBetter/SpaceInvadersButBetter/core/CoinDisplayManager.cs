@@ -81,7 +81,7 @@ namespace SpaceInvadersButBetter.core
         private const int COIN_MECH_2_LEFT = 510;
         private const int COIN_SLOT_TOP = 650;
         private const int COIN_RETURN_TOP = 670;
-        private const int COIN_RETURN_RENDER_OFFSET = (COIN_MECH_WIDTH / 2);
+        private const int COIN_RETURN_RENDER_OFFSET = (COIN_MECH_WIDTH / 2); // Coins renderd in the coin return need the provided point at the center of the box
 
         // rectangles representing coin mechs and coin pile
         private static readonly Rectangle COIN_SLOT_1 = new Rectangle(COIN_MECH_1_LEFT, COIN_SLOT_TOP, COIN_MECH_HEIGHT, COIN_MECH_WIDTH);
@@ -189,7 +189,7 @@ namespace SpaceInvadersButBetter.core
             if (CheckCoinHeld())
                 DropCoin();
             else
-                GrabCoinFromPile();
+                CreateNewRandomCoin();
         }
 
         /**
@@ -222,9 +222,9 @@ namespace SpaceInvadersButBetter.core
         }
 
         /**
-            * Checks if user click was in a coin return and that the player is not currently holding a coin. If both are true,
-            *  the coin from the clicked return mechanism is picked up.
-            */
+        * Checks if user click was in a coin return and that the player is not currently holding a coin. If both are true,
+        *  the coin from the clicked return mechanism is picked up.
+        */
         public void ProcessCoinReturnClick(CoinMechs coinReturn)
         {
             if (!CheckCoinHeld() && coinReturn != CoinMechs.None) // coin cant be grabbed if already holding one
@@ -234,7 +234,7 @@ namespace SpaceInvadersButBetter.core
                     GrabReturnedCoin(CoinMechs.Mech2);
         }
 
-        public void GrabCoinFromPile()
+        public void CreateNewRandomCoin()
         {
             // Calculate center of coin pile
             int coinPileCenterX = COIN_PILE.X + (COIN_PILE.Top / 2);
@@ -253,9 +253,31 @@ namespace SpaceInvadersButBetter.core
         /**
         * Moves the players coin to a new location on screen, and re-draws it.
         */
-        public void MovePlayersCoin(int xpos, int ypos) { playersCoin.UpdatePosition(xpos, ypos); }
+        public void MovePlayersCoin(int xpos, int ypos) 
+        { 
+            if(CheckCoinHeld())
+                playersCoin.UpdatePosition(xpos, ypos); 
+        }
 
-        /* Entity Draw Methods */ 
+        /** Get Point representing the X,Y location of the coin*/
+        public Point getPlayerCoinLocation() 
+        { 
+            if(CheckCoinHeld())
+                return new Point(playersCoin.X, playersCoin.Y);
+
+            return new Point();
+        }
+        
+        public bool isPlayerCoinAQuarter() 
+        { 
+            if(CheckCoinHeld())
+                return playersCoin.CoinType == Coin.CoinTypes.Quarter;
+            return false;
+        }
+
+        public int getNumberCoinsInReturn(CoinMechs mech) { return COIN_RETURN_COIN_XREF[mech].Count; }
+
+        /*------ Entity Draw Methods ------ */ 
 
         private void DrawCoinPile(Graphics g) { g.DrawImage(COIN_PILE_IMAGE, COIN_PILE); }
 
@@ -270,7 +292,7 @@ namespace SpaceInvadersButBetter.core
 
         private void DrawPlayersCoin(Graphics g)
         {
-            if (playersCoin != null)
+            if (CheckCoinHeld())
                 playersCoin.Draw(g);
         }
 

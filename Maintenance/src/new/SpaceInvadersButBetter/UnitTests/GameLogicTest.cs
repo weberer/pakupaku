@@ -17,7 +17,7 @@ namespace UnitTests
         {
             GameBoxForm box = new GameBoxForm();
             GameLogic gameLogic = box.getLogic();
-            gameLogic.addCredit();
+            gameLogic.addCredit(1);
             Assert.AreEqual(gameLogic.GetCredits(), 1);
             gameLogic.StartGame();
             Assert.AreEqual(gameLogic.GetCredits(), 0);
@@ -44,26 +44,14 @@ namespace UnitTests
         {
             GameBoxForm box = new GameBoxForm();
             GameLogic gameLogic = box.getLogic();
-            gameLogic.addCredit();
+            gameLogic.addCredit(1);
             Assert.AreEqual(gameLogic.GetCredits(), 1);
-            gameLogic.addCredit();
-            Assert.AreEqual(gameLogic.GetCredits(), 2);
-            gameLogic.addCredit();
-            Assert.AreEqual(gameLogic.GetCredits(), 3);
-            gameLogic.addCredit();
-            Assert.AreEqual(gameLogic.GetCredits(), 4);
-            gameLogic.addCredit();
-            Assert.AreEqual(gameLogic.GetCredits(), 5);
-            gameLogic.addCredit();
-            Assert.AreEqual(gameLogic.GetCredits(), 6);
-            gameLogic.addCredit();
-            Assert.AreEqual(gameLogic.GetCredits(), 7);
-            gameLogic.addCredit();
+            gameLogic.addCredit(8);
+            Assert.AreEqual(gameLogic.GetCredits(), 9);
+            gameLogic.addCredit(10);
+            Assert.AreEqual(gameLogic.GetCredits(), 9);
+            gameLogic.addCredit(-1);
             Assert.AreEqual(gameLogic.GetCredits(), 8);
-            gameLogic.addCredit();
-            Assert.AreEqual(gameLogic.GetCredits(), 9);
-            gameLogic.addCredit();
-            Assert.AreEqual(gameLogic.GetCredits(), 9);
         }
         /**
          * Tests to ensure that the game does not allow multiple StartGame calls while the
@@ -75,7 +63,7 @@ namespace UnitTests
         {
             GameBoxForm box = new GameBoxForm();
             GameLogic gameLogic = box.getLogic();
-            gameLogic.addCredit();
+            gameLogic.addCredit(1);
             Assert.AreEqual(gameLogic.GetCredits(), 1);
             gameLogic.StartGame();
             Assert.AreEqual(gameLogic.GetCredits(), 0);
@@ -92,9 +80,9 @@ namespace UnitTests
         {
             GameBoxForm box = new GameBoxForm();
             GameLogic gameLogic = box.getLogic();
-            gameLogic.addCredit();
+            gameLogic.addCredit(1);
             Assert.AreEqual(gameLogic.GetCredits(), 1);
-            gameLogic.addCredit();
+            gameLogic.addCredit(1);
             Assert.AreEqual(gameLogic.GetCredits(), 2);
             gameLogic.StartGame();
             Assert.AreEqual(gameLogic.GetCredits(), 1);
