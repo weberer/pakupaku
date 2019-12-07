@@ -41,6 +41,7 @@ namespace SpaceInvadersButBetter
         private const int MAX_GAME_OVER_FLASHES = 3;
 
         private Timer fpsTimer;
+        private Timer pauseTimer;
 
         private int TimerCounter = 0;
         private int MenuCount = 0;
@@ -151,6 +152,7 @@ namespace SpaceInvadersButBetter
         public void InitializeGameObjects()
         {
             logic.GameReset();
+            pauseTimer = new Timer();
             fpsTimer = new Timer();
             fpsTimer.Tick += fpsTimer_Tick;
             fpsTimer.Interval = 20;
@@ -622,6 +624,39 @@ namespace SpaceInvadersButBetter
                 fpsTimer.Stop();
                 CreditFlashTimer.Stop();
             }
+        }
+
+        /**
+         * Pauses FPs timer for 3 seconds
+         */ 
+        public void PauseTimers()
+        {
+            pauseTimer.Tick += pauseTimer_Tick;
+            pauseTimer.Interval = 3000;   
+            pauseTimer.Enabled = true;
+            pauseTimer.Start();      
+            fpsTimer.Enabled = false;
+            
+        }
+
+        /**
+         * Rests teh game timer after 3 seconds
+         */
+        private void pauseTimer_Tick(object sender, System.EventArgs e)
+        {
+            fpsTimer.Enabled = true;
+            fpsTimer.Start();
+            pauseTimer.Enabled = false;
+            ResetPlayer();
+        }
+
+        /**
+         * Rests player's position and image
+         */
+        private void ResetPlayer()
+        {
+            player.ResetPosition();
+            player.ResetImage();
         }
     }
 

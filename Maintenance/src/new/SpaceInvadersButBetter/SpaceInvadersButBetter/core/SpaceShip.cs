@@ -31,12 +31,30 @@ namespace SpaceInvadersButBetter.core
             lifes = 3;
         }
 
-
+        /**
+         * Shows the ship has been hit
+         */
         public void SpaceShipCrash()
         {
             SetMainImage(Resources.space_ship_dead);
+           
+        }
+
+        /**
+         * Puts the ship back into the starting position
+         */ 
+        public void ResetPosition()
+        {
             X = START_POSITION_X;
             Y = START_POSITION_Y;
+        }
+
+        /**
+         * Resets the ship image to the original
+         */
+        public void ResetImage()
+        {
+            SetMainImage(Resources.space_ship);
         }
 
 
