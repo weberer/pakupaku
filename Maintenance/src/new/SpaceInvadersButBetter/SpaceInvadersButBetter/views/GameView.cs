@@ -304,7 +304,6 @@ namespace SpaceInvadersButBetter
                     bullets.RemoveAt(i);
                 else
                     bullets[i].Draw(g);
-                break;
             }
 
             for (int i = 0; i < alienbullets.Count; i++)
