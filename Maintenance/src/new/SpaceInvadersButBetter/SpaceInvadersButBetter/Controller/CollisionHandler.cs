@@ -205,7 +205,7 @@ namespace SpaceInvadersButBetter.core
             for (int i = 0; i < alienBullets.Count; i++)
                 if (player.GetBounds().IntersectsWith(alienBullets[i].GetBounds()))
                 {
-                    player.SpaceShipCrash(); //shows ship crash
+                    HitReset();
                     if (!player.hitAndIsAlive())
                     {
                         player.kill();
@@ -214,6 +214,16 @@ namespace SpaceInvadersButBetter.core
                     gameForm.SetLivesLabel(player.getLifes().ToString());
                     alienBullets.RemoveAt(i);
                 }
+        }
+
+        /**
+         * Briefly pauses the game and shows animation after the ship has been hit by a bullet
+         */
+        private void HitReset()
+        {
+            player.SpaceShipCrash(); //shows ship crash
+            gameForm.PauseTimers();
+            
         }
 
         /**
